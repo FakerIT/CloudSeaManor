@@ -31,6 +31,7 @@
 // ============================================================================
 
 #include <string>
+#include <cstdint>
 
 namespace CloudSeamanor::domain {
 
@@ -127,6 +128,14 @@ public:
     void SetStates(CloudState current_state, CloudState forecast_state);
 
     // ========================================================================
+    // 【TideCountdownDays】查询距离下一次大潮的天数
+    // ========================================================================
+    // @param day 当前游戏天数
+    // @return 0 表示今天就是大潮；1 表示明天；若在未来 7 天内未预测到大潮，则返回 7
+    // @note 该值用于 UI 预报展示（进度条最大 7 天），使用与天气生成一致的确定性抽样规则
+    [[nodiscard]] int TideCountdownDays(int day) const noexcept;
+
+    // ========================================================================
     // 【状态查询接口】
     // ========================================================================
     [[nodiscard]] CloudState CurrentState() const noexcept { return current_state_; }
@@ -217,6 +226,12 @@ private:
         int spirit_energy,
         int player_influence
     ) const noexcept;
+
+    [[nodiscard]] static float Random01For(
+        int day,
+        int spirit_energy,
+        int player_influence,
+        std::uint32_t salt) noexcept;
 
     // ========================================================================
     // 【ToText】天气状态转可读文本

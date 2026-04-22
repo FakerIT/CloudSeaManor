@@ -18,8 +18,10 @@
 #include "CloudSeamanor/engine/systems/SpiritBeastSystem.hpp"
 #include "CloudSeamanor/engine/systems/TutorialSystem.hpp"
 #include "CloudSeamanor/engine/systems/WorkshopSystemRuntime.hpp"
+#include "CloudSeamanor/engine/BattleUI.hpp"
 
 #include <cmath>
+#include <array>
 #include <cstdint>
 #include <fstream>
 #include <optional>
@@ -77,6 +79,56 @@ std::vector<PriceTableEntry> LoadPriceTable_(const std::string& path) {
     return entries;
 }
 
+std::vector<PriceTableEntry> LoadPriceTableFromRoots_(
+    const std::vector<std::filesystem::path>& data_roots) {
+    std::unordered_map<std::string, PriceTableEntry> merged;
+    for (const auto& root : data_roots) {
+        const auto path = root / "PriceTable.csv";
+        const auto entries = LoadPriceTable_(path.string());
+        for (const auto& entry : entries) {
+            merged[entry.item_id] = entry;
+        }
+    }
+    std::vector<PriceTableEntry> out;
+    out.reserve(merged.size());
+    for (const auto& kv : merged) {
+        out.push_back(kv.second);
+    }
+    return out;
+}
+
+std::string ResolveDataFileFromRoots_(
+    const std::vector<std::filesystem::path>& data_roots,
+    const std::string& relative_file,
+    const std::string& fallback_path) {
+    std::string selected = fallback_path;
+    for (const auto& root : data_roots) {
+        const auto candidate = root / relative_file;
+        std::error_code ec;
+        if (std::filesystem::exists(candidate, ec) && std::filesystem::is_regular_file(candidate, ec)) {
+            selected = candidate.string();
+        }
+    }
+    return selected;
+}
+
+std::string ResolveMapFromMods_(
+    const CloudSeamanor::engine::ModLoader& mod_loader,
+    const std::string& requested_map_path) {
+    std::string resolved_map_path = requested_map_path;
+    std::error_code ec;
+    for (const auto& mod : mod_loader.LoadedMods()) {
+        const auto mod_map = std::filesystem::path("mods")
+            / mod.id
+            / "maps"
+            / std::filesystem::path(requested_map_path).filename();
+        if (std::filesystem::exists(mod_map, ec) && std::filesystem::is_regular_file(mod_map, ec)) {
+            resolved_map_path = mod_map.string();
+        }
+    }
+    return resolved_map_path;
+}
+
 std::string CurrentSeasonTag_(CloudSeamanor::domain::Season season) {
     using CloudSeamanor::domain::Season;
     switch (season) {
@@ -101,6 +153,26 @@ void GameRuntime::Initialize(
     const GameRuntimeCallbacks& callbacks
 ) {
     callbacks_ = callbacks;
+    (void)mod_loader_.LoadAll("mods");
+    world_state_.GetModHooks() = mod_loader_.Hooks();
+    const auto data_roots = mod_loader_.BuildDataRoots("assets/data");
+    const std::string resolved_schedule_path = ResolveDataFileFromRoots_(
+        data_roots, "Schedule_Data.csv", schedule_path);
+    const std::string resolved_gift_path = ResolveDataFileFromRoots_(
+        data_roots, "Gift_Preference.json", gift_path);
+    const std::string resolved_npc_text_path = ResolveDataFileFromRoots_(
+        data_roots, "NPC_Texts.json", npc_text_path);
+    const std::string resolved_quest_path = ResolveDataFileFromRoots_(
+        data_roots, "QuestTable.csv", "assets/data/QuestTable.csv");
+    const std::string resolved_delivery_path = ResolveDataFileFromRoots_(
+        data_roots, "NpcDeliveryTable.csv", "assets/data/NpcDeliveryTable.csv");
+    const std::string resolved_crop_table_path = ResolveDataFileFromRoots_(
+        data_roots, "CropTable.csv", "assets/data/CropTable.csv");
+    std::string resolved_map_path = ResolveMapFromMods_(mod_loader_, map_path);
+    dialogue_data_root_ = std::filesystem::path(resolved_schedule_path).parent_path().string();
+    if (dialogue_data_root_.empty()) {
+        dialogue_data_root_ = "assets/data";
+    }
 
     // 日志初始化
     const bool config_loaded = config_.LoadFromFile(config_path);
@@ -113,13 +185,13 @@ void GameRuntime::Initialize(
         config_.GetFloat("dialogue_typing_speed_ms", 45.0f));
 
     // 验证数据资产
-    ValidateDataAsset(schedule_path, "Schedule_Data.csv",
+    ValidateDataAsset(resolved_schedule_path, "Schedule_Data.csv",
         &CloudSeamanor::infrastructure::Logger::Error,
         &CloudSeamanor::infrastructure::Logger::Info);
-    ValidateDataAsset(gift_path, "Gift_Preference.json",
+    ValidateDataAsset(resolved_gift_path, "Gift_Preference.json",
         &CloudSeamanor::infrastructure::Logger::Error,
         &CloudSeamanor::infrastructure::Logger::Info);
-    ValidateDataAsset(npc_text_path, "NPC_Texts.json",
+    ValidateDataAsset(resolved_npc_text_path, "NPC_Texts.json",
         &CloudSeamanor::infrastructure::Logger::Error,
         &CloudSeamanor::infrastructure::Logger::Info);
 
@@ -147,9 +219,11 @@ void GameRuntime::Initialize(
         world_state_.GetInteractables(),
         world_state_.GetPickups(),
         world_config.world_bounds,
-        map_path,
+        resolved_map_path,
         &CloudSeamanor::infrastructure::Logger::Info,
         CloudSeamanor::infrastructure::Logger::Warning);
+    map_root_override_ = std::filesystem::path(resolved_map_path).parent_path().string();
+    SetCropTableDataPath(resolved_crop_table_path);
 
     // 初始化农业系统
     auto farming_callbacks = CreateDefaultPlotCallbacks(
@@ -182,10 +256,11 @@ void GameRuntime::Initialize(
                     world_state_.GetInteraction().spirit_beast_highlighted);
 
     // 初始化 NPC
-    LoadNpcTextMappings(npc_text_path, npc_text_mappings_);
-    BuildNpcs(schedule_path, gift_path, npc_text_mappings_, world_state_.GetNpcs());
+    LoadNpcTextMappings(resolved_npc_text_path, npc_text_mappings_);
+    BuildNpcs(resolved_schedule_path, resolved_gift_path, npc_text_mappings_, world_state_.GetNpcs());
 
-    // 初始化 NPC 对话管理器
+    // 初始化 NPC 对话管理器（支持 mod 覆盖的数据根）
+    dialogue_manager_ = NpcDialogueManager(dialogue_data_root_);
     dialogue_manager_.InitializeHeartEvents();
     for (const auto& npc : world_state_.GetNpcs()) {
         dialogue_manager_.LoadDailyDialogue(npc.id);
@@ -213,6 +288,22 @@ void GameRuntime::Initialize(
         [this](const std::string& msg, float dur) { callbacks_.push_hint(msg, dur); });
 
     SyncTeaMachineFromWorkshop_();
+    battle_manager_.Initialize(&systems_.GetCloud());
+    battle_manager_.SetRewardCallbacks(BattleManager::RewardCallbacks{
+        .on_item_reward = [this](const std::string& item_id, int count) {
+            world_state_.GetInventory().AddItem(item_id, count);
+        },
+        .on_exp_reward = [this](float exp) {
+            (void)systems_.GetSkills().AddExp(
+                CloudSeamanor::domain::SkillType::SpiritForage, exp, systems_.GetCloud().CurrentSpiritDensity());
+        },
+        .on_partner_favor_reward = [this](const std::string&, int favor_delta) {
+            world_state_.GetSpiritBeast().favor += favor_delta;
+        },
+        .on_notice = [this](const std::string& message) {
+            callbacks_.push_hint(message, 2.8f);
+        }
+    });
 
     // 初始化世界
     world_state_.InitializeWorld(world_config);
@@ -237,9 +328,71 @@ void GameRuntime::Initialize(
     world_state_.GetInventory().AddItem("ToolSickle", 60);
     world_state_.GetInventory().AddItem("SprinklerItem", 2);
     world_state_.GetInventory().AddItem("FertilizerItem", 4);
-    world_state_.GetPriceTable() = LoadPriceTable_("assets/data/PriceTable.csv");
-    (void)quest_manager_.LoadFromCsv("assets/data/QuestTable.csv", world_state_.GetRuntimeQuests());
-    (void)npc_delivery_.LoadFromCsv("assets/data/NpcDeliveryTable.csv");
+    world_state_.GetPriceTable() = LoadPriceTableFromRoots_(data_roots);
+    const auto grant_achievement_reward = [this](const std::string& achievement_id) {
+        if (achievement_id == "first_crop") {
+            world_state_.GetGold() += 100;
+            callbacks_.push_hint("成就奖励：金币 +100", 1.8f);
+        } else if (achievement_id == "ten_crops") {
+            world_state_.GetGold() += 500;
+            callbacks_.push_hint("成就奖励：金币 +500", 1.8f);
+        } else if (achievement_id == "gift_expert") {
+            world_state_.GetInventory().AddItem("TeaPack", 1);
+            callbacks_.push_hint("成就奖励：茶包 x1", 1.8f);
+        } else if (achievement_id == "master_builder") {
+            world_state_.GetInventory().AddItem("Wood", 5);
+            callbacks_.push_hint("成就奖励：木材 x5", 1.8f);
+        } else if (achievement_id == "home_designer") {
+            world_state_.GetGold() += 200;
+            callbacks_.push_hint("成就奖励：金币 +200", 1.8f);
+        } else if (achievement_id == "beast_bond") {
+            world_state_.GetInventory().AddItem("Feed", 1);
+            callbacks_.push_hint("成就奖励：饲料 x1", 1.8f);
+        } else if (achievement_id == "beast_bond_max") {
+            world_state_.GetGold() += 300;
+            callbacks_.push_hint("成就奖励：金币 +300", 1.8f);
+        } else if (achievement_id == "beast_all_types") {
+            world_state_.GetInventory().AddItem("star_fragment", 1);
+            callbacks_.push_hint("成就奖励：星辰碎片 x1", 1.8f);
+        }
+    };
+    GlobalEventBus().Subscribe("harvest", [this, grant_achievement_reward](const Event& event) {
+        achievement_system_.HandleEvent(
+            world_state_.GetAchievements(),
+            event,
+            [this](const std::string& msg) { callbacks_.push_hint(msg, 2.2f); },
+            grant_achievement_reward);
+    });
+    GlobalEventBus().Subscribe("gift", [this, grant_achievement_reward](const Event& event) {
+        achievement_system_.HandleEvent(
+            world_state_.GetAchievements(),
+            event,
+            [this](const std::string& msg) { callbacks_.push_hint(msg, 2.2f); },
+            grant_achievement_reward);
+    });
+    GlobalEventBus().Subscribe("build", [this, grant_achievement_reward](const Event& event) {
+        achievement_system_.HandleEvent(
+            world_state_.GetAchievements(),
+            event,
+            [this](const std::string& msg) { callbacks_.push_hint(msg, 2.2f); },
+            grant_achievement_reward);
+    });
+    GlobalEventBus().Subscribe("beast_bond", [this, grant_achievement_reward](const Event& event) {
+        achievement_system_.HandleEvent(
+            world_state_.GetAchievements(),
+            event,
+            [this](const std::string& msg) { callbacks_.push_hint(msg, 2.2f); },
+            grant_achievement_reward);
+    });
+    GlobalEventBus().Subscribe("beast_type_collected", [this, grant_achievement_reward](const Event& event) {
+        achievement_system_.HandleEvent(
+            world_state_.GetAchievements(),
+            event,
+            [this](const std::string& msg) { callbacks_.push_hint(msg, 2.2f); },
+            grant_achievement_reward);
+    });
+    (void)quest_manager_.LoadFromCsv(resolved_quest_path, world_state_.GetRuntimeQuests());
+    (void)npc_delivery_.LoadFromCsv(resolved_delivery_path);
     npc_delivery_.SetHintCallback([this](const std::string& msg, float dur) { callbacks_.push_hint(msg, dur); });
 
     // 节日系统
@@ -252,7 +405,7 @@ void GameRuntime::Initialize(
     }
 
     // 主线剧情系统
-    plot_system_.Initialize("assets/data");
+    plot_system_.Initialize(dialogue_data_root_);
     plot_system_.SetGameClock(&world_state_.GetClock());
     plot_system_.SetCloudSystem(&systems_.GetCloud());
     plot_system_.SetNpcHeartGetter([this](const std::string& npc_id) -> int {
@@ -321,6 +474,10 @@ float GameRuntime::CloudMultiplier() const {
 // 【GameRuntime::OnDayChanged】日期变化
 // ============================================================================
 void GameRuntime::OnDayChanged() {
+    const int spirit_realm_daily_max = std::max(1, static_cast<int>(config_.GetFloat("spirit_realm_daily_max", 5.0f)));
+    world_state_.SetSpiritRealmDailyMax(spirit_realm_daily_max);
+    world_state_.SetSpiritRealmDailyRemaining(spirit_realm_daily_max);
+
     const float sprinkler_radius = config_.GetFloat("sprinkler_radius", 80.0f);
     const auto current_season = world_state_.GetClock().Season();
     const auto season_changed_event = world_state_.GetClock().ConsumeSeasonChangedEvent();
@@ -363,6 +520,8 @@ void GameRuntime::OnDayChanged() {
             + " -> " + CloudSeamanor::domain::GameClock::SeasonName(season_changed_event.to),
             2.4f);
     }
+    // B4-033: 独立灵界管理器负责稀有节点刷新。
+    spirit_realm_manager_.RefreshDailyNodes(world_state_, systems_.GetCloud());
     // A-11 洒水器：对附近地块提供晨间自动浇水
     ApplySprinklerAutoWater(world_state_.GetTeaPlots(), sprinkler_radius);
     for (auto& p : world_state_.GetTeaPlots()) {
@@ -374,26 +533,42 @@ void GameRuntime::OnDayChanged() {
     // A-30/B-2 委托面板：每日 6:00 后自动接取委托类任务。
     quest_manager_.RefreshByTimeslot(world_state_.GetRuntimeQuests(), world_state_.GetClock().Hour());
 
-    // C-9 畜棚：若昨日已投喂，次日产出基础畜产。
-    if (world_state_.GetCoopFedToday() > 0) {
-        world_state_.GetInventory().AddItem("Egg", world_state_.GetCoopFedToday());
-        world_state_.GetInventory().AddItem("Milk", std::max(1, world_state_.GetCoopFedToday() / 2));
-        callbacks_.push_hint("畜棚产出已送达：鸡蛋/牛奶。", 2.2f);
-        world_state_.GetCoopFedToday() = 0;
+    // C-9/C-10：交由独立系统负责每日结算。
+    coop_system_.DailyUpdate(world_state_);
+    barn_system_.DailyUpdate(world_state_);
+    inn_system_.DailySettlement(world_state_, world_state_.GetMainHouseRepair().level);
+    {
+        // BE-064: 舒适度影响体力恢复速度（以每日额外恢复量实现）。
+        const float comfort_bonus = std::clamp(
+            static_cast<float>(world_state_.GetDecorationScore()) * 0.15f,
+            0.0f,
+            12.0f);
+        if (comfort_bonus > 0.0f) {
+            world_state_.GetStamina().Recover(comfort_bonus);
+            callbacks_.push_hint(
+                "家居舒适度恢复体力 +" + std::to_string(static_cast<int>(comfort_bonus)),
+                1.8f);
+        }
     }
-    // C-10 客栈：按预存资金结算收益。
-    if (world_state_.GetInnGoldReserve() > 0) {
-        const int income = world_state_.GetInnGoldReserve() * 12 / 10;
-        world_state_.GetGold() += income;
-        world_state_.GetInnGoldReserve() = 0;
-        callbacks_.push_hint("客栈结算完成，获得 " + std::to_string(income) + " 金。", 2.4f);
-    }
+    const auto grant_achievement_reward = [this](const std::string& achievement_id) {
+        if (achievement_id == "home_designer") {
+            world_state_.GetGold() += 200;
+            callbacks_.push_hint("成就奖励：金币 +200", 1.8f);
+        } else if (achievement_id == "small_tycoon") {
+            world_state_.GetInventory().AddItem("TeaPack", 2);
+            callbacks_.push_hint("成就奖励：茶包 x2", 1.8f);
+        } else if (achievement_id == "beast_bond_max") {
+            world_state_.GetGold() += 300;
+            callbacks_.push_hint("成就奖励：金币 +300", 1.8f);
+        }
+    };
     achievement_system_.EvaluateDaily(
         world_state_.GetAchievements(),
         world_state_.GetDecorationScore(),
         world_state_.GetGold(),
         world_state_.GetSpiritBeast(),
-        [this](const std::string& text) { callbacks_.push_hint(text, 2.4f); });
+        [this](const std::string& text) { callbacks_.push_hint(text, 2.4f); },
+        grant_achievement_reward);
     if (!world_state_.GetModHooks().empty()) {
         callbacks_.push_hint("Mod Hook 触发: OnDayChanged x"
             + std::to_string(world_state_.GetModHooks().size()), 1.4f);
@@ -427,6 +602,16 @@ void GameRuntime::OnDayChanged() {
         world_state_.GetInventory(),
         systems_.GetSkills().GetLevel(CloudSeamanor::domain::SkillType::SpiritFarm),
         world_state_.GetGold(),
+        &world_state_.GetStamina(),
+        [this](const std::string& item_id, int count) {
+            world_state_.GetInventory().AddItem(item_id, count);
+        },
+        [this](int favor_delta) {
+            auto& npcs = world_state_.GetNpcs();
+            if (!npcs.empty()) {
+                npcs.front().favor += favor_delta;
+            }
+        },
         [this](const std::string& text) {
             callbacks_.push_hint(text, 2.2f);
         });
@@ -561,6 +746,15 @@ void GameRuntime::OnPlayerInteracted(const CloudSeamanor::domain::Interactable& 
 // 【GameRuntime::Update】每帧更新
 // ============================================================================
 void GameRuntime::Update(float delta_seconds) {
+    if (in_battle_mode_) {
+        const auto player_pos = world_state_.GetPlayer().GetPosition();
+        battle_manager_.Update(delta_seconds, player_pos.x, player_pos.y);
+        if (!battle_manager_.IsInBattle()) {
+            in_battle_mode_ = false;
+        }
+        return;
+    }
+
     CSM_ZONE_SCOPED;
     const int previous_day = world_state_.GetClock().Day();
     world_state_.GetClock().Tick(delta_seconds);
@@ -654,9 +848,97 @@ void GameRuntime::Update(float delta_seconds) {
     }
     UpdateNpcs(delta_seconds);
     UpdateSpiritBeast(delta_seconds);
+    pet_system_.Update(world_state_, delta_seconds);
     UpdateParticles(delta_seconds);
     UpdateHighlightedInteractable();
     UpdateUi(delta_seconds);
+}
+
+void GameRuntime::RenderBattle(sf::RenderWindow& window) {
+    if (!in_battle_mode_) {
+        return;
+    }
+    sf::RectangleShape bg;
+    bg.setPosition({0.0f, 0.0f});
+    bg.setSize({1280.0f, 720.0f});
+    bg.setFillColor(sf::Color(18, 20, 34));
+    window.draw(bg);
+    for (const auto& spirit : battle_manager_.GetField().GetSpirits()) {
+        if (spirit.is_defeated) {
+            continue;
+        }
+        sf::CircleShape spirit_shape(16.0f);
+        spirit_shape.setFillColor(sf::Color(180, 70, 90));
+        spirit_shape.setPosition({spirit.pos_x - 16.0f, spirit.pos_y - 16.0f});
+        window.draw(spirit_shape);
+    }
+    battle_manager_.GetUI().Draw(window);
+}
+
+bool GameRuntime::HandleBattleKey(int skill_slot) {
+    if (!in_battle_mode_) {
+        return false;
+    }
+    return battle_manager_.OnSkillKeyPressed(skill_slot, 0.0f, 0.0f);
+}
+
+void GameRuntime::ToggleBattlePause() {
+    if (!in_battle_mode_) {
+        return;
+    }
+    if (battle_manager_.IsPaused()) {
+        battle_manager_.Resume();
+    } else {
+        battle_manager_.Pause();
+    }
+}
+
+void GameRuntime::RetreatBattle() {
+    if (!in_battle_mode_) {
+        return;
+    }
+    battle_manager_.Retreat();
+}
+
+bool GameRuntime::TryEnterBattleByPlayerPosition() {
+    if (in_battle_mode_ || !world_state_.GetInSpiritRealm()) {
+        return false;
+    }
+    const auto player_pos = world_state_.GetPlayer().GetPosition();
+    for (const auto& object : world_state_.GetInteractables()) {
+        if (object.Label() != "Spirit Beast") {
+            continue;
+        }
+        const auto pos = object.Shape().getPosition();
+        if (battle_manager_.ShouldTriggerBattle("spirit_beast", pos.x, pos.y, player_pos.x, player_pos.y)) {
+            BattleZone zone;
+            zone.id = "spirit_realm_layer2";
+            zone.name = "灵界中层";
+            zone.is_spirit_realm = true;
+            if (battle_manager_.EnterBattle(zone, {"spirit_wisp"})) {
+                in_battle_mode_ = true;
+                callbacks_.push_hint("遭遇灵界污染体，进入净化战斗。", 2.6f);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+void GameRuntime::CycleSpiritBeastName() {
+    static const std::array<const char*, 6> kCandidateNames{
+        "灵团", "云丸", "小岚", "团团", "阿雾", "辰团"
+    };
+    auto& beast = world_state_.GetSpiritBeast();
+    std::size_t idx = 0;
+    for (std::size_t i = 0; i < kCandidateNames.size(); ++i) {
+        if (beast.custom_name == kCandidateNames[i]) {
+            idx = (i + 1) % kCandidateNames.size();
+            break;
+        }
+    }
+    beast.custom_name = kCandidateNames[idx];
+    callbacks_.push_hint("已为灵兽命名：" + beast.custom_name, 2.2f);
 }
 
 // ============================================================================
@@ -751,6 +1033,13 @@ bool GameRuntime::SaveGameToSlot(int slot_index) {
     auto push_hint = [this](const std::string& msg, float dur) {
         callbacks_.push_hint(msg, dur);
     };
+    if (in_battle_mode_) {
+        // BE-053: 战斗中存档强制结束战斗，防止读档刷战利品。
+        battle_manager_.Retreat();
+        in_battle_mode_ = false;
+        callbacks_.push_hint("检测到战斗中存档，已自动结算并退出战斗。", 2.6f);
+    }
+    const int battle_state = static_cast<int>(battle_manager_.CurrentState());
     if (!CloudSeamanor::engine::SaveGameState(
             save_path_,
             world_state_.GetClock(),
@@ -777,7 +1066,11 @@ bool GameRuntime::SaveGameToSlot(int slot_index) {
             &world_state_.GetPetAdopted(),
             &world_state_.GetAchievements(),
             &world_state_.GetWeeklyBuyCount(),
-            &world_state_.GetWeeklySellCount())) {
+            &world_state_.GetWeeklySellCount(),
+            &world_state_.GetSpiritRealmDailyMax(),
+            &world_state_.GetSpiritRealmDailyRemaining(),
+            &in_battle_mode_,
+            &battle_state)) {
         return false;
     }
 
@@ -858,6 +1151,8 @@ bool GameRuntime::LoadGameFromSlot(int slot_index) {
     auto push_hint = [this](const std::string& msg, float dur) {
         callbacks_.push_hint(msg, dur);
     };
+    bool loaded_in_battle_mode = false;
+    int loaded_battle_state = static_cast<int>(BattleState::Inactive);
     const bool ok = CloudSeamanor::engine::LoadGameState(
         save_path_,
         world_state_.GetClock(),
@@ -907,7 +1202,11 @@ bool GameRuntime::LoadGameFromSlot(int slot_index) {
         &world_state_.GetPetAdopted(),
         &world_state_.GetAchievements(),
         &world_state_.GetWeeklyBuyCount(),
-        &world_state_.GetWeeklySellCount());
+        &world_state_.GetWeeklySellCount(),
+        &world_state_.GetSpiritRealmDailyMax(),
+        &world_state_.GetSpiritRealmDailyRemaining(),
+        &loaded_in_battle_mode,
+        &loaded_battle_state);
     // 加载主线剧情状态（从存档文件末尾读取 plot 行）
     {
         std::ifstream in(save_path_);
@@ -939,6 +1238,11 @@ bool GameRuntime::LoadGameFromSlot(int slot_index) {
     world_state_.GetGreenhouseUnlocked() = (world_state_.GetMainHouseRepair().level >= 3);
     if (!world_state_.GetGreenhouseUnlocked()) {
         world_state_.GetGreenhouseTagNextPlanting() = false;
+    }
+    if (loaded_in_battle_mode || loaded_battle_state != static_cast<int>(BattleState::Inactive)) {
+        battle_manager_.Retreat();
+        in_battle_mode_ = false;
+        callbacks_.push_hint("读档时检测到战斗态，已安全重置战斗状态。", 2.6f);
     }
     return ok;
 }
@@ -1003,7 +1307,7 @@ std::string GameRuntime::GetCurrentTargetText() const {
 // 【GameRuntime::GetControlsHint】获取控制提示
 // ============================================================================
 std::string GameRuntime::GetControlsHint() const {
-    return "WASD 移动  E 交互  G 赠送茶包  T 22:00后睡觉  F5 天气  F6 保存  F9 读取";
+    return "WASD 移动  E 交互  I 背包  F 任务  M 地图  C 状态  F5 预报  F6 保存  F9 读取  F7/CTRL+W 工坊  F8 节日  O 商店  P 邮件  L 成就  V 图鉴";
 }
 
 std::size_t GameRuntime::GetEntityCount() const {
@@ -1067,7 +1371,7 @@ PlayerInteractRuntimeContext GameRuntime::BuildInteractionContext_() {
         systems_.GetWorkshop(),
         world_state_.GetNpcTextMappings(),
         world_state_.GetInteraction().dialogue_engine,
-        "assets/data",
+        dialogue_data_root_,
         world_state_.GetInteraction().dialogue_text,
         world_state_.GetGold(),
         world_state_.GetPriceTable(),
@@ -1139,9 +1443,17 @@ void GameRuntime::RequestSpiritRealmTravel_(bool to_spirit_realm) {
         return;
     }
 
-    const std::string to_map = to_spirit_realm
+    if (to_spirit_realm && world_state_.GetSpiritRealmDailyRemaining() <= 0) {
+        if (callbacks_.push_hint) {
+            callbacks_.push_hint("今日灵界探索次数已用尽。", 2.2f);
+        }
+        return;
+    }
+
+    const std::string requested_map = to_spirit_realm
         ? "assets/maps/spirit_realm_layer1.tmx"
         : "assets/maps/prototype_farm.tmx";
+    const std::string to_map = ResolveMapFromMods_(mod_loader_, requested_map);
 
     if (callbacks_.push_hint) {
         callbacks_.push_hint(to_spirit_realm ? "传送门开启……" : "正在返回主世界……", 1.8f);
@@ -1152,6 +1464,9 @@ void GameRuntime::RequestSpiritRealmTravel_(bool to_spirit_realm) {
         0.18f,
         [this, to_spirit_realm, to_map]() {
             world_state_.GetInSpiritRealm() = to_spirit_realm;
+            if (to_spirit_realm) {
+                world_state_.SetSpiritRealmDailyRemaining(world_state_.GetSpiritRealmDailyRemaining() - 1);
+            }
             BuildScene(
                 tmx_map_,
                 world_state_.GetGroundTiles(),
@@ -1210,19 +1525,11 @@ void GameRuntime::UpdateCropGrowth(float delta_seconds) {
     const float cloud_multiplier = CloudMultiplier();
     farming_.UpdateGrowth(delta_seconds, cloud_multiplier);
     crop_growth_.Update(world_state_, delta_seconds);
-    for (auto& plot : world_state_.GetTeaGardenPlots()) {
-        if (!plot.seeded || !plot.watered || plot.ready) continue;
-        float mult = cloud_multiplier;
-        if (systems_.GetCloud().CurrentState() == CloudSeamanor::domain::CloudState::Tide) {
-            mult *= 1.2f;
-            plot.quality = CloudSeamanor::domain::CropQuality::Spirit;
-        }
-        plot.growth += delta_seconds * mult;
-        if (plot.growth >= plot.growth_time) {
-            plot.ready = true;
-            plot.harvest_item_id = "TeaLeaf";
-        }
-    }
+    tea_garden_.UpdatePlots(
+        world_state_.GetTeaGardenPlots(),
+        delta_seconds * cloud_multiplier,
+        systems_.GetCloud().CurrentState(),
+        world_state_.GetClock().Day());
 }
 
 // ============================================================================

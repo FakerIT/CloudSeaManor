@@ -77,7 +77,7 @@ struct PanelState {
 // ============================================================================
 class PixelGameHud {
 public:
-    enum class UiEventType : std::uint8_t { Open, Close, Select, Error, Achievement };
+    enum class UiEventType : std::uint8_t { Open, Close, Select, Hover, Error, Achievement };
     // ========================================================================
     // 【初始化】
     // ========================================================================
@@ -216,12 +216,29 @@ public:
     void UpdateMapMarkers(const std::vector<MapMarker>& markers);
     void UpdateCloudForecast(const CloudForecastViewData& data);
     void UpdatePlayerStatus(const PlayerStatusViewData& data);
+    void UpdateTeaGardenPanel(const TeaGardenPanelViewData& data);
+    void UpdateFestivalPanel(const FestivalPanelViewData& data);
+    void UpdateShopPanel(const ShopPanelViewData& data);
+    void UpdateMailPanel(const MailPanelViewData& data);
+    void UpdateAchievementPanel(const AchievementPanelViewData& data);
+    void UpdateSpiritBeastPanel(const SpiritBeastPanelViewData& data);
+    void UpdateBuildingPanel(const BuildingPanelViewData& data);
+    void UpdateContractPanel(const ContractPanelViewData& data);
+    void UpdateNpcDetailPanel(const NpcDetailPanelViewData& data);
+    void UpdateSpiritRealmPanel(const SpiritRealmPanelViewData& data);
+    void UpdateBeastiaryPanel(const BeastiaryPanelViewData& data);
+    void UpdateWorkshopPanel(const WorkshopPanelViewData& data);
     void PushNotification(const std::string& message);
     void UpdateDailyRecommendations(const std::vector<std::string>& items);
+    void ConfigureNotificationTimings(float fade_in_seconds,
+                                      float hold_seconds,
+                                      float fade_out_seconds,
+                                      float cloud_report_total_seconds);
     void UpdateTutorialBubble(int step_index,
                               const std::string& text,
                               const sf::FloatRect& highlight_rect,
                               bool visible);
+    void SetBottomRightHotkeyHints(std::string interact_key, std::string tool_key);
     [[nodiscard]] std::optional<int> ConsumeTutorialStepDelta();
 
     // ========================================================================
@@ -330,6 +347,8 @@ private:
 
     // 金币缓存
     int coin_amount_ = 0;
+    std::string interact_key_hint_ = "E";
+    std::string tool_key_hint_ = "Q";
     std::string last_tooltip_item_id_;
     sf::Vector2f last_mouse_pos_{0.0f, 0.0f};
 
@@ -355,6 +374,7 @@ private:
     std::vector<Focusable> focusables_;
     int focus_index_ = -1;
     float focus_breath_timer_ = 0.0f;
+    float last_window_width_ = ScreenConfig::Width;
 
     infrastructure::UiLayoutData layout_data_ = infrastructure::UiLayoutConfig::GetDefaults();
 };

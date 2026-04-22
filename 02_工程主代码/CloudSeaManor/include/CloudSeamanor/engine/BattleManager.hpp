@@ -27,7 +27,6 @@ namespace CloudSeamanor::engine {
 
 // 前向声明
 class BattleUI;
-class ParticleSystem;
 
 // ============================================================================
 // 【BattleManager】战斗总管理器
@@ -46,6 +45,9 @@ public:
 
     /** 构造函数 */
     BattleManager();
+
+    /** 析构函数（在 .cpp 中定义以避免不完整类型删除问题） */
+    ~BattleManager();
 
     /**
      * @brief 注入依赖系统
@@ -187,7 +189,6 @@ private:
 
     BattleField field_;
     std::unique_ptr<BattleUI> ui_;
-    std::unique_ptr<ParticleSystem> battle_particles_;
 
     BattleState state_ = BattleState::Inactive;
     bool is_paused_ = false;

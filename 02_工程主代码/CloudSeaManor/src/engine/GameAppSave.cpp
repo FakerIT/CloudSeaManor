@@ -61,7 +61,7 @@ std::string BuildPayload(const std::vector<std::string>& lines) {
     return oss.str();
 }
 
-constexpr int kSaveVersion = 5;
+constexpr int kSaveVersion = 6;
 
 std::filesystem::path BackupPathFor(const std::filesystem::path& save_path) {
     return save_path.string() + ".bak";
@@ -189,6 +189,29 @@ std::vector<std::string> ReadNonEmptyLines(const std::filesystem::path& path) {
     return result;
 }
 
+std::vector<std::string> MigrateLegacyLinesToV5(
+    const std::vector<std::string>& legacy_lines,
+    int save_version) {
+    if (save_version >= 5) {
+        return legacy_lines;
+    }
+    std::vector<std::string> migrated;
+    migrated.reserve(legacy_lines.size());
+    for (const auto& line : legacy_lines) {
+        const auto fields = SplitSaveFields(line);
+        if (fields.empty()) {
+            continue;
+        }
+        // v1~v3 历史格式兼容：mail_order|item|count|day -> mail|item|day|count
+        if (fields[0] == "mail_order" && fields.size() >= 4) {
+            migrated.push_back("mail|" + fields[1] + "|" + fields[3] + "|" + fields[2]);
+            continue;
+        }
+        migrated.push_back(line);
+    }
+    return migrated;
+}
+
 bool PrepareLoadLines(const std::filesystem::path& save_path,
                       std::vector<std::string>& all_lines,
                       std::size_t& data_start,
@@ -220,6 +243,13 @@ bool PrepareLoadLines(const std::filesystem::path& save_path,
             save_version = parsed.Value();
             data_start = 1;
         }
+    }
+    if (save_version > kSaveVersion) {
+        push_hint(
+            "存档版本过高（v" + std::to_string(save_version)
+            + "），当前版本仅支持到 v" + std::to_string(kSaveVersion) + "。",
+            3.6f);
+        return false;
     }
     {
         const auto header = SplitSaveFields(all_lines[data_start]);
@@ -275,6 +305,12 @@ bool PrepareLoadLines(const std::filesystem::path& save_path,
             }
         }
     }
+    if (save_version < 5) {
+        std::vector<std::string> payload_lines(all_lines.begin() + static_cast<long long>(data_start), all_lines.end());
+        payload_lines = MigrateLegacyLinesToV5(payload_lines, save_version);
+        all_lines.resize(data_start);
+        all_lines.insert(all_lines.end(), payload_lines.begin(), payload_lines.end());
+    }
     return true;
 }
 
@@ -309,6 +345,10 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const std::unordered_map<std::string, bool>* achievements,
                    const std::unordered_map<std::string, int>* weekly_buy_count,
                    const std::unordered_map<std::string, int>* weekly_sell_count,
+                   const int* spirit_realm_daily_max,
+                   const int* spirit_realm_daily_remaining,
+                   const bool* in_battle_mode,
+                   const int* battle_state,
                    const TutorialState* tutorial) {
     std::filesystem::create_directories(save_path.parent_path());
 
@@ -368,6 +408,16 @@ bool SaveGameState(const std::filesystem::path& save_path,
             "tutorial|" + std::to_string(static_cast<unsigned int>(tutorial->tutorial_bubble_completed_mask)) + "|"
             + std::to_string(tutorial->tutorial_bubble_step) + "|"
             + std::to_string(tutorial->daily_cloud_report_day_shown));
+    }
+    if (in_battle_mode && battle_state) {
+        lines.push_back(
+            "battle|" + std::to_string(*in_battle_mode ? 1 : 0) + "|"
+            + std::to_string(*battle_state));
+    }
+    if (spirit_realm_daily_max && spirit_realm_daily_remaining) {
+        lines.push_back(
+            "spirit_realm|" + std::to_string(std::max(1, *spirit_realm_daily_max)) + "|"
+            + std::to_string(std::max(0, *spirit_realm_daily_remaining)));
     }
 
     // v4 存档格式：
@@ -524,6 +574,10 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    std::unordered_map<std::string, bool>* achievements,
                    std::unordered_map<std::string, int>* weekly_buy_count,
                    std::unordered_map<std::string, int>* weekly_sell_count,
+                   int* spirit_realm_daily_max,
+                   int* spirit_realm_daily_remaining,
+                   bool* in_battle_mode,
+                   int* battle_state,
                    TutorialState* tutorial) {
     ResetLoadTargets(
         inventory,
@@ -538,6 +592,12 @@ bool LoadGameState(const std::filesystem::path& save_path,
     int save_version = 1;
     if (!PrepareLoadLines(save_path, all_lines, data_start, save_version, push_hint)) {
         return false;
+    }
+    if (save_version < kSaveVersion) {
+        push_hint(
+            "检测到旧版存档 v" + std::to_string(save_version)
+            + "，已执行兼容迁移到 v" + std::to_string(kSaveVersion) + " 读取流程。",
+            2.8f);
     }
 
     for (std::size_t i = data_start; i < all_lines.size(); ++i) {
@@ -571,6 +631,33 @@ bool LoadGameState(const std::filesystem::path& save_path,
                     return false;
                 }
                 tutorial->daily_cloud_report_day_shown = shown.Value();
+            }
+        } else if (tag == "battle" && fields.size() >= 3) {
+            if (in_battle_mode) {
+                auto in_battle = ParseBool01(fields[1], "battle.in_battle_mode");
+                if (in_battle) {
+                    *in_battle_mode = in_battle.Value();
+                }
+            }
+            if (battle_state) {
+                auto state = ParseInt(fields[2], "battle.state");
+                if (state) {
+                    *battle_state = state.Value();
+                }
+            }
+        } else if (tag == "spirit_realm" && fields.size() >= 3) {
+            auto daily_max = ParseInt(fields[1], "spirit_realm.daily_max");
+            auto daily_remaining = ParseInt(fields[2], "spirit_realm.daily_remaining");
+            if (!daily_max || !daily_remaining) {
+                push_hint(!daily_max ? daily_max.Error() : daily_remaining.Error(), 3.2f);
+                return false;
+            }
+            if (spirit_realm_daily_max) {
+                *spirit_realm_daily_max = std::max(1, daily_max.Value());
+            }
+            if (spirit_realm_daily_remaining) {
+                const int clamped_max = spirit_realm_daily_max ? *spirit_realm_daily_max : std::max(1, daily_max.Value());
+                *spirit_realm_daily_remaining = std::clamp(daily_remaining.Value(), 0, clamped_max);
             }
         } else if (tag == "cloud" && fields.size() >= 3) {
             auto current_state = ParseInt(fields[1], "cloud.current_state");

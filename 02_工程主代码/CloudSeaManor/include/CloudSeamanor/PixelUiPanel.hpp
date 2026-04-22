@@ -16,6 +16,7 @@
 #include "CloudSeamanor/PixelUiConfig.hpp"
 
 #include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Transformable.hpp>

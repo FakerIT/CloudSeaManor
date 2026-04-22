@@ -70,8 +70,11 @@ private:
     float fps_accumulator_ = 0.0f;
     int fps_frame_counter_ = 0;
     int latest_fps_ = 0;
+    bool spirit_name_input_active_ = false;
+    std::string spirit_name_input_buffer_;
     bool show_main_menu_ = true;
     int main_menu_index_ = 0;
+    int last_festival_auto_popup_day_ = -1;
     sf::RectangleShape main_menu_panel_;
     std::unique_ptr<sf::Text> main_menu_title_;
     std::unique_ptr<sf::Text> main_menu_items_[3];

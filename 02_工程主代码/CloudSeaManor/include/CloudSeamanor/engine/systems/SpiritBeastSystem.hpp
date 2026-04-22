@@ -32,6 +32,8 @@ private:
 
     SpiritBeastState current_state_ = SpiritBeastState::Follow;
     float idle_timer_ = 0.0f;
+    sf::Vector2f last_player_position_{0.0f, 0.0f};
+    bool has_last_player_position_ = false;
 };
 
 }  // namespace CloudSeamanor::engine

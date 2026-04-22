@@ -111,6 +111,22 @@
           "aura": { "type": "string" }
         }
       }
+    },
+
+    "numbers": {
+      "type": "object",
+      "properties": {
+        "world_tip_wave_amplitude": { "type": "number" },
+        "world_tip_wave_period": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+
+    "fonts": {
+      "type": "object",
+      "properties": {
+        "primary": { "type": "string" },
+        "fallback": { "type": "string" }
+      }
     }
   }
 }

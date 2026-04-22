@@ -52,3 +52,32 @@ TEST_CASE("FarmingLogic: sprinkler auto-water within radius") {
     CHECK_FALSE(plots[2].watered);
 }
 
+TEST_CASE("FarmingLogic: sprinkler does nothing when days_left <= 0") {
+    TeaPlot sprinkler;
+    sprinkler.shape.setPosition({0.0f, 0.0f});
+    sprinkler.sprinkler_installed = true;
+    sprinkler.sprinkler_days_left = 0;
+
+    TeaPlot near_plot;
+    near_plot.shape.setPosition({10.0f, 0.0f});
+    near_plot.cleared = true;
+    near_plot.seeded = true;
+    near_plot.watered = false;
+
+    std::vector<TeaPlot> plots;
+    plots.push_back(sprinkler);
+    plots.push_back(near_plot);
+
+    ApplySprinklerAutoWater(plots, 80.0f);
+
+    CHECK_FALSE(plots[1].watered);
+}
+
+TEST_CASE("FarmingLogic: ShouldPlotWiltBecauseSeason returns false when crop_id empty") {
+    TeaPlot plot;
+    plot.seeded = true;
+    plot.crop_id.clear();
+    plot.in_greenhouse = false;
+    REQUIRE_FALSE(ShouldPlotWiltBecauseSeason(plot, Season::Winter));
+}
+

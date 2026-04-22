@@ -29,6 +29,11 @@
 
 namespace CloudSeamanor::engine {
 
+/**
+ * @brief 设置 CropTable 数据文件路径（用于 mod 覆盖）。
+ */
+void SetCropTableDataPath(const std::string& crop_table_path);
+
 // ============================================================================
 // 【RefreshTeaPlotVisual】刷新地块视觉状态
 // ============================================================================

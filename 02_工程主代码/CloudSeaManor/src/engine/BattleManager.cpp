@@ -3,6 +3,7 @@
 #include "CloudSeamanor/engine/BattleUI.hpp"
 #include "CloudSeamanor/GameConstants.hpp"
 
+#include <cmath>
 #include <unordered_map>
 
 namespace CloudSeamanor::engine {
@@ -15,6 +16,8 @@ BattleManager::BattleManager()
     , is_paused_(false)
     , result_display_timer_(0.0f) {
 }
+
+BattleManager::~BattleManager() = default;
 
 // ============================================================================
 // 【Initialize】初始化
@@ -181,12 +184,13 @@ bool BattleManager::ShouldTriggerBattle(
 // 【LoadPartnersFromSpiritBeasts】从灵兽系统加载伙伴
 // ============================================================================
 void BattleManager::LoadPartnersFromSpiritBeasts(const std::vector<std::string>& spirit_beast_ids) {
+    int partner_offset = 0;
     for (const auto& id : spirit_beast_ids) {
         BattlePartner partner;
         partner.spirit_beast_id = id;
         partner.heart_level = 1; // TODO: 从 SpiritBeastSystem 获取实际羁绊等级
         partner.purification_rate_mod = 1.0f + partner.heart_level * 0.1f;
-        partner.pos_x = 200.0f + partners_from_beasts__count() * 30.0f;
+        partner.pos_x = 200.0f + static_cast<float>(partner_offset) * 30.0f;
         partner.pos_y = 400.0f;
 
         // 默认技能
@@ -195,6 +199,7 @@ void BattleManager::LoadPartnersFromSpiritBeasts(const std::vector<std::string>&
         partner.cooldown_remaining.assign(partner.cooldown_total.begin(), partner.cooldown_total.end());
 
         field_.AddPartner(partner);
+        ++partner_offset;
     }
 }
 
@@ -305,13 +310,6 @@ void BattleManager::ProcessRetreat_() {
     field_.EndBattle();
     state_ = BattleState::Inactive;
     selected_target_id_.clear();
-}
-
-// ============================================================================
-// 辅助函数
-// ============================================================================
-int BattleManager::partners_from_beasts__count() const {
-    return 0; // 简化版
 }
 
 }  // namespace CloudSeamanor::engine

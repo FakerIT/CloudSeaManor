@@ -72,6 +72,10 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const std::unordered_map<std::string, bool>* achievements = nullptr,
                    const std::unordered_map<std::string, int>* weekly_buy_count = nullptr,
                    const std::unordered_map<std::string, int>* weekly_sell_count = nullptr,
+                   const int* spirit_realm_daily_max = nullptr,
+                   const int* spirit_realm_daily_remaining = nullptr,
+                   const bool* in_battle_mode = nullptr,
+                   const int* battle_state = nullptr,
                    const TutorialState* tutorial = nullptr);
 
 /**
@@ -135,6 +139,10 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    std::unordered_map<std::string, bool>* achievements = nullptr,
                    std::unordered_map<std::string, int>* weekly_buy_count = nullptr,
                    std::unordered_map<std::string, int>* weekly_sell_count = nullptr,
+                   int* spirit_realm_daily_max = nullptr,
+                   int* spirit_realm_daily_remaining = nullptr,
+                   bool* in_battle_mode = nullptr,
+                   int* battle_state = nullptr,
                    TutorialState* tutorial = nullptr);
 
 } // namespace CloudSeamanor::engine

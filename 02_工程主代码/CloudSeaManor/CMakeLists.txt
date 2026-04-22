@@ -56,6 +56,7 @@ set(CLOUDSEAMANOR_DOMAIN_HEADERS
   include/CloudSeamanor/RecipeData.hpp
   include/CloudSeamanor/SkillSystem.hpp
   include/CloudSeamanor/Stamina.hpp
+  include/CloudSeamanor/TeaGarden.hpp
   include/CloudSeamanor/WorkshopSystem.hpp
   include/CloudSeamanor/AtmosphereState.hpp
 )
@@ -129,8 +130,13 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/engine/input/InputHandler.hpp
   include/CloudSeamanor/engine/rendering/HudRenderer.hpp
   include/CloudSeamanor/engine/rendering/WorldRenderer.hpp
+  include/CloudSeamanor/engine/rendering/PlayerVisualComponent.hpp
   include/CloudSeamanor/engine/rendering/UiPanelInitializer.hpp
   include/CloudSeamanor/engine/rendering/AtmosphereRenderer.hpp
+  include/CloudSeamanor/engine/BattleEntities.hpp
+  include/CloudSeamanor/engine/BattleField.hpp
+  include/CloudSeamanor/engine/BattleUI.hpp
+  include/CloudSeamanor/engine/BattleManager.hpp
   include/CloudSeamanor/engine/systems/PlayerMovementSystem.hpp
   include/CloudSeamanor/engine/systems/PickupSystemRuntime.hpp
   include/CloudSeamanor/engine/systems/CropGrowthSystem.hpp
@@ -138,8 +144,13 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/engine/systems/DecorationSystem.hpp
   include/CloudSeamanor/engine/systems/NpcScheduleSystem.hpp
   include/CloudSeamanor/engine/systems/QuestManager.hpp
+  include/CloudSeamanor/engine/systems/ShopSystem.hpp
   include/CloudSeamanor/engine/systems/NpcDeliverySystem.hpp
+  include/CloudSeamanor/engine/systems/InnSystem.hpp
+  include/CloudSeamanor/engine/systems/CoopSystem.hpp
+  include/CloudSeamanor/engine/systems/PetSystem.hpp
   include/CloudSeamanor/engine/systems/SpiritBeastSystem.hpp
+  include/CloudSeamanor/engine/systems/SpiritRealmManager.hpp
   include/CloudSeamanor/engine/systems/TutorialSystem.hpp
   include/CloudSeamanor/engine/systems/WorkshopSystemRuntime.hpp
   include/CloudSeamanor/NpcDialogueManager.hpp
@@ -176,14 +187,13 @@ set(CLOUDSEAMANOR_DOMAIN_SOURCES
   src/domain/DynamicLifeSystem.cpp
   src/domain/FestivalSystem.cpp
   src/domain/GameClock.cpp
-  src/domain/Interactable.cpp
   src/domain/Inventory.cpp
   src/domain/MainPlotSystem.cpp
-  src/domain/PickupDrop.cpp
   src/domain/Player.cpp
   src/domain/RecipeData.cpp
   src/domain/SkillSystem.cpp
   src/domain/Stamina.cpp
+  src/domain/TeaGarden.cpp
   src/domain/WorkshopSystem.cpp
   src/domain/AtmosphereState.cpp
 )
@@ -210,8 +220,10 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/GameWorldState.cpp
   src/engine/GameWorldSystems.cpp
   src/engine/InteractionSystem.cpp
+  src/engine/Interactable.cpp
   src/engine/LevelUpSystem.cpp
   src/engine/PickupSystem.cpp
+  src/engine/PickupDrop.cpp
   src/engine/PlayerInteractRuntime.cpp
   src/engine/TargetHintRuntime.cpp
   src/engine/TextRenderUtils.cpp
@@ -226,8 +238,13 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/systems/DecorationSystem.cpp
   src/engine/systems/NpcScheduleSystem.cpp
   src/engine/systems/QuestManager.cpp
+  src/engine/systems/ShopSystem.cpp
   src/engine/systems/NpcDeliverySystem.cpp
+  src/engine/systems/InnSystem.cpp
+  src/engine/systems/CoopSystem.cpp
+  src/engine/systems/PetSystem.cpp
   src/engine/systems/SpiritBeastSystem.cpp
+  src/engine/systems/SpiritRealmManager.cpp
   src/engine/systems/TutorialSystem.cpp
   src/engine/systems/WorkshopSystemRuntime.cpp
   src/engine/NpcDialogueManager.cpp
@@ -265,9 +282,13 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/input/InputHandler.cpp
   src/engine/rendering/HudRenderer.cpp
   src/engine/rendering/WorldRenderer.cpp
+  src/engine/rendering/PlayerVisualComponent.cpp
   src/engine/rendering/UiPanelInitializer.cpp
   src/engine/AtmosphereRenderer.cpp
   src/engine/AudioManager.cpp
+  src/engine/BattleField.cpp
+  src/engine/BattleUI.cpp
+  src/engine/BattleManager.cpp
 )
 
 # ============================================================================
@@ -386,10 +407,19 @@ if(BUILD_TESTING)
     tests/domain/StaminaTest.cpp
     tests/domain/CropDataTest.cpp
     tests/domain/Week4BusinessLoopTest.cpp
-  tests/domain/MainPlotSystemTest.cpp
-  tests/domain/AtmosphereDomainTest.cpp
-  tests/engine/PixelArtStyleTest.cpp
-)
+    tests/domain/MainPlotSystemTest.cpp
+    tests/domain/AtmosphereDomainTest.cpp
+    tests/domain/TeaGardenTest.cpp
+    tests/domain/CloudGuardianContractTest.cpp
+    tests/domain/CloudSystemTest.cpp
+    tests/domain/WorkshopSystemTest.cpp
+    tests/engine/ShopSystemTest.cpp
+    tests/engine/DialogueEngineTest.cpp
+    tests/engine/InteractionSystemTest.cpp
+    tests/engine/CropGrowthSystemTest.cpp
+    tests/engine/FarmingLogicTest.cpp
+    tests/engine/PixelArtStyleTest.cpp
+  )
 
   add_executable(CloudSeamanor_tests
     ${TEST_SOURCES}

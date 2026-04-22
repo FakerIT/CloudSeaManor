@@ -150,6 +150,7 @@ void BuildSceneFallback(std::vector<sf::RectangleShape>& ground_tiles,
     interactables.emplace_back(sf::Vector2f(680.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Purchaser", "", 1);
     interactables.emplace_back(sf::Vector2f(740.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Mailbox", "", 1);
     interactables.emplace_back(sf::Vector2f(800.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::GatheringNode, "Spirit Gateway", "", 1);
+    interactables.emplace_back(sf::Vector2f(860.0f, 180.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::GatheringNode, "Spirit Gateway Return", "", 1);
     interactables.emplace_back(sf::Vector2f(860.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Workstation, "General Store", "", 1);
     interactables.emplace_back(sf::Vector2f(920.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Workstation, "Tide Shop", "", 1);
     interactables.emplace_back(sf::Vector2f(980.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::GatheringNode, "Spirit Beast", "spirit_dust", 1);
@@ -158,6 +159,7 @@ void BuildSceneFallback(std::vector<sf::RectangleShape>& ground_tiles,
     interactables.emplace_back(sf::Vector2f(980.0f, 300.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Coop Barn", "", 1);
     interactables.emplace_back(sf::Vector2f(1040.0f, 300.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Decoration Bench", "", 1);
     interactables.emplace_back(sf::Vector2f(1100.0f, 300.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Pet House", "", 1);
+    interactables.emplace_back(sf::Vector2f(1040.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::GatheringNode, "Spirit Beast Zone", "", 1);
 }
 
 void BuildSceneFromMap(const CloudSeamanor::infrastructure::TmxMap& tmx_map,
@@ -214,14 +216,26 @@ void BuildSceneFromMap(const CloudSeamanor::infrastructure::TmxMap& tmx_map,
     }
 
     for (const auto& entry : tmx_map.Interactables()) {
-        const auto type = entry.type == "Workstation"
+        const bool is_workstation = (entry.type == "Workstation");
+        const bool is_storage = (entry.type == "Storage");
+        const auto type = is_workstation
             ? CloudSeamanor::domain::InteractableType::Workstation
-            : (entry.type == "Storage" ? CloudSeamanor::domain::InteractableType::Storage : CloudSeamanor::domain::InteractableType::GatheringNode);
+            : (is_storage ? CloudSeamanor::domain::InteractableType::Storage : CloudSeamanor::domain::InteractableType::GatheringNode);
+        std::string label = entry.name.empty() ? "节点" : entry.name;
+        if (entry.type == "spirit_gateway") {
+            label = "Spirit Gateway";
+        } else if (entry.type == "spirit_gateway_return") {
+            label = "Spirit Gateway Return";
+        } else if (entry.type == "spirit_plant") {
+            label = "Spirit Plant";
+        } else if (entry.type == "spirit_beast_zone") {
+            label = "Spirit Beast Zone";
+        }
         interactables.emplace_back(
             sf::Vector2f(40.0f + entry.rect.x, 40.0f + entry.rect.y),
             sf::Vector2f(entry.rect.width, entry.rect.height),
             type,
-            entry.name.empty() ? "节点" : entry.name,
+            label,
             entry.item,
             entry.count);
     }

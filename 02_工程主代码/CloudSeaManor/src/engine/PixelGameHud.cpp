@@ -363,6 +363,7 @@ void PixelGameHud::ToggleTeaGarden() {
     const bool now_open = !tea_garden_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(tea_garden_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleWorkshop() {
@@ -370,6 +371,7 @@ void PixelGameHud::ToggleWorkshop() {
     const bool now_open = !workshop_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(workshop_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleContract() {
@@ -377,6 +379,7 @@ void PixelGameHud::ToggleContract() {
     const bool now_open = !contract_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(contract_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleNpcDetail() {
@@ -384,6 +387,7 @@ void PixelGameHud::ToggleNpcDetail() {
     const bool now_open = !npc_detail_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(npc_detail_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleSpiritBeast() {
@@ -391,6 +395,7 @@ void PixelGameHud::ToggleSpiritBeast() {
     const bool now_open = !spirit_beast_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(spirit_beast_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleFestival() {
@@ -398,6 +403,7 @@ void PixelGameHud::ToggleFestival() {
     const bool now_open = !festival_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(festival_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleSpiritRealm() {
@@ -405,6 +411,7 @@ void PixelGameHud::ToggleSpiritRealm() {
     const bool now_open = !spirit_realm_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(spirit_realm_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleBuilding() {
@@ -412,6 +419,7 @@ void PixelGameHud::ToggleBuilding() {
     const bool now_open = !building_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(building_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleShop() {
@@ -419,6 +427,7 @@ void PixelGameHud::ToggleShop() {
     const bool now_open = !shop_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(shop_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleMail() {
@@ -426,6 +435,7 @@ void PixelGameHud::ToggleMail() {
     const bool now_open = !mail_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(mail_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleAchievement() {
@@ -433,6 +443,7 @@ void PixelGameHud::ToggleAchievement() {
     const bool now_open = !achievement_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(achievement_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::ToggleBeastiary() {
@@ -440,6 +451,7 @@ void PixelGameHud::ToggleBeastiary() {
     const bool now_open = !beastiary_panel_.IsVisible();
     CloseAllPanels();
     ToggleModalPanel(beastiary_panel_, now_open);
+    EmitUiEvent_(now_open ? UiEventType::Open : UiEventType::Close);
 }
 
 void PixelGameHud::SettingsMoveSelection(int delta) {
@@ -687,6 +699,54 @@ void PixelGameHud::UpdatePlayerStatus(const PlayerStatusViewData& data) {
     player_status_panel_.UpdateData(data);
 }
 
+void PixelGameHud::UpdateTeaGardenPanel(const TeaGardenPanelViewData& data) {
+    tea_garden_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateFestivalPanel(const FestivalPanelViewData& data) {
+    festival_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateShopPanel(const ShopPanelViewData& data) {
+    shop_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateMailPanel(const MailPanelViewData& data) {
+    mail_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateAchievementPanel(const AchievementPanelViewData& data) {
+    achievement_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateSpiritBeastPanel(const SpiritBeastPanelViewData& data) {
+    spirit_beast_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateBuildingPanel(const BuildingPanelViewData& data) {
+    building_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateContractPanel(const ContractPanelViewData& data) {
+    contract_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateNpcDetailPanel(const NpcDetailPanelViewData& data) {
+    npc_detail_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateSpiritRealmPanel(const SpiritRealmPanelViewData& data) {
+    spirit_realm_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateBeastiaryPanel(const BeastiaryPanelViewData& data) {
+    beastiary_panel_.UpdateData(data);
+}
+
+void PixelGameHud::UpdateWorkshopPanel(const WorkshopPanelViewData& data) {
+    workshop_panel_.UpdateData(data);
+}
+
 void PixelGameHud::PushNotification(const std::string& message) {
     notification_banner_.Push(message);
     if (message.find("成就") != std::string::npos) {
@@ -698,6 +758,23 @@ void PixelGameHud::UpdateDailyRecommendations(const std::vector<std::string>& it
     daily_recommendations_ = items;
     if (selected_recommendation_ >= static_cast<int>(daily_recommendations_.size())) {
         selected_recommendation_ = -1;
+    }
+}
+
+void PixelGameHud::ConfigureNotificationTimings(float fade_in_seconds,
+                                                float hold_seconds,
+                                                float fade_out_seconds,
+                                                float cloud_report_total_seconds) {
+    notification_banner_.SetTimings(fade_in_seconds, hold_seconds, fade_out_seconds);
+    notification_banner_.SetCloudReportDuration(cloud_report_total_seconds);
+}
+
+void PixelGameHud::SetBottomRightHotkeyHints(std::string interact_key, std::string tool_key) {
+    if (!interact_key.empty()) {
+        interact_key_hint_ = std::move(interact_key);
+    }
+    if (!tool_key.empty()) {
+        tool_key_hint_ = std::move(tool_key);
     }
 }
 
@@ -747,13 +824,26 @@ bool PixelGameHud::HandleKeyPressed(const sf::Event::KeyPressed& key) {
         ToggleMap();
         return true;
     }
+    if (key.scancode == sf::Keyboard::Scancode::F5) {
+        ToggleCloudForecast();
+        return true;
+    }
     if (key.scancode == sf::Keyboard::Scancode::K) { ToggleTeaGarden(); return true; }
-    if (key.scancode == sf::Keyboard::Scancode::W) { ToggleWorkshop(); return true; }
+    if ((key.scancode == sf::Keyboard::Scancode::W && key.control)
+        || key.scancode == sf::Keyboard::Scancode::F7) {
+        ToggleWorkshop();
+        return true;
+    }
     if (key.scancode == sf::Keyboard::Scancode::H) { ToggleContract(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::N) { ToggleNpcDetail(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::B) { ToggleSpiritBeast(); return true; }
+    if (key.scancode == sf::Keyboard::Scancode::F8) { ToggleFestival(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::R) { ToggleSpiritRealm(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::U) { ToggleBuilding(); return true; }
+    if (key.scancode == sf::Keyboard::Scancode::O) { ToggleShop(); return true; }
+    if (key.scancode == sf::Keyboard::Scancode::P) { ToggleMail(); return true; }
+    if (key.scancode == sf::Keyboard::Scancode::L) { ToggleAchievement(); return true; }
+    if (key.scancode == sf::Keyboard::Scancode::V) { ToggleBeastiary(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::Escape) {
         CloseAllPanels();
         return true;
@@ -815,6 +905,7 @@ void PixelGameHud::HandleMouseMove(float mx, float my) {
         if (hovered && !hovered->empty) {
             const std::string item_id = hovered->item_id;
             if (item_id != last_tooltip_item_id_) {
+                EmitUiEvent_(UiEventType::Hover);
                 tooltip_.SetContent(
                     hovered->item_name,
                     "普通",
@@ -837,6 +928,14 @@ void PixelGameHud::HandleMouseMove(float mx, float my) {
 // 【PixelGameHud::HandleMouseClick】
 // ============================================================================
 bool PixelGameHud::HandleMouseClick(float mx, float my, sf::Mouse::Button button) {
+    if (button == sf::Mouse::Button::Left) {
+        if (notification_banner_.IsCloudReportBannerHit(mx, my, last_window_width_)) {
+            if (!panel_state_.cloud_forecast_open) {
+                ToggleCloudForecast();
+            }
+            return true;
+        }
+    }
     if (tutorial_visible_ && tutorial_bubble_.IsVisible()) {
         const auto r = tutorial_bubble_.GetRect();
         if (r.contains({mx, my})) {
@@ -958,6 +1057,7 @@ bool PixelGameHud::HandleMouseWheel(float mx, float my, float delta) {
 // 【PixelGameHud::Render】
 // ============================================================================
 void PixelGameHud::Render(sf::RenderWindow& window) {
+    last_window_width_ = static_cast<float>(window.getSize().x);
     if (tutorial_visible_ && HasFont()) {
         RenderTutorialOverlay_(window);
         tutorial_bubble_.Render(window);
@@ -1470,7 +1570,7 @@ void PixelGameHud::RenderBottomRightStatus_(sf::RenderWindow& window) {
                                  ToPixelTextStyle(ccfg, TextStyle::CoinText()));
 
         font_renderer_->DrawText(window,
-                                 "[E] 交互  [Q] 工具",
+                                 "[" + interact_key_hint_ + "] 交互  [" + tool_key_hint_ + "] 工具",
                                  {cfg_pos.x + 10.0f, cfg_pos.y + cfg_size.y - 14.0f},
                                  TextStyle::HotkeyHint());
         font_renderer_->DrawText(window,

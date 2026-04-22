@@ -426,6 +426,18 @@ sf::Keyboard::Key InputManager::GetDefaultKey(Action action) const {
     return sf::Keyboard::Key::Unknown;
 }
 
+sf::Keyboard::Key InputManager::GetPrimaryKey(Action action) const {
+    const auto& keys = action_bindings_[static_cast<std::size_t>(action)];
+    if (!keys.empty()) {
+        return keys.front();
+    }
+    return GetDefaultKey(action);
+}
+
+std::string InputManager::GetPrimaryKeyName(Action action) const {
+    return KeyName(GetPrimaryKey(action));
+}
+
 sf::Vector2f InputManager::GetGamepadVector() const {
     return sf::Vector2f(0.0f, 0.0f);
 }

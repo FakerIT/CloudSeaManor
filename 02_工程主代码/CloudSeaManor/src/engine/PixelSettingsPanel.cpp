@@ -94,13 +94,18 @@ void PixelSettingsPanel::RenderContent(sf::RenderWindow& window, const sf::Float
         return selected_row_ == row ? std::string(cursor) + " " : "  ";
     };
 
-    font_renderer_->DrawText(window, "存档槽位（1-3）", x, y, TextStyle::Default());
-    font_renderer_->DrawText(window, row_prefix(0) + "保存到槽位: " + std::to_string(selected_slot_), x, y + line_h, TextStyle::Default());
-    font_renderer_->DrawText(window, row_prefix(1) + "读取槽位: " + std::to_string(selected_slot_), x, y + line_h * 2.0f, TextStyle::Default());
-    font_renderer_->DrawText(window, row_prefix(2) + "BGM 音量: " + std::to_string(static_cast<int>(bgm_volume_ * 100.0f)) + "%", x, y + line_h * 3.0f, TextStyle::Default());
-    font_renderer_->DrawText(window, row_prefix(3) + "SFX 音量: " + std::to_string(static_cast<int>(sfx_volume_ * 100.0f)) + "%", x, y + line_h * 4.0f, TextStyle::Default());
-    font_renderer_->DrawText(window, row_prefix(4) + std::string("显示模式: ") + (fullscreen_ ? "全屏" : "窗口"), x, y + line_h * 5.0f, TextStyle::Default());
-    font_renderer_->DrawText(window, "操作: WS 选择, AD 调整, Enter 应用, Esc 关闭", x, y + line_h * 6.3f, TextStyle::HotkeyHint());
+    font_renderer_->DrawText(window, text_config_.slots_title, x, y, TextStyle::Default());
+    font_renderer_->DrawText(window, row_prefix(0) + text_config_.save_slot_prefix + " " + std::to_string(selected_slot_), x, y + line_h, TextStyle::Default());
+    font_renderer_->DrawText(window, row_prefix(1) + text_config_.load_slot_prefix + " " + std::to_string(selected_slot_), x, y + line_h * 2.0f, TextStyle::Default());
+    font_renderer_->DrawText(window, row_prefix(2) + text_config_.bgm_prefix + " " + std::to_string(static_cast<int>(bgm_volume_ * 100.0f)) + "%", x, y + line_h * 3.0f, TextStyle::Default());
+    font_renderer_->DrawText(window, row_prefix(3) + text_config_.sfx_prefix + " " + std::to_string(static_cast<int>(sfx_volume_ * 100.0f)) + "%", x, y + line_h * 4.0f, TextStyle::Default());
+    font_renderer_->DrawText(window,
+                             row_prefix(4) + text_config_.display_mode_prefix + " "
+                                 + (fullscreen_ ? text_config_.fullscreen_text : text_config_.windowed_text),
+                             x,
+                             y + line_h * 5.0f,
+                             TextStyle::Default());
+    font_renderer_->DrawText(window, text_config_.operation_hint, x, y + line_h * 6.3f, TextStyle::HotkeyHint());
 
     float slot_y = y + line_h * 7.3f;
     const float preview_w = 160.0f;
@@ -108,13 +113,13 @@ void PixelSettingsPanel::RenderContent(sf::RenderWindow& window, const sf::Float
     const float preview_x = inner_rect.position.x + inner_rect.size.x - preview_w - 16.0f;
     for (std::size_t i = 0; i < slots_.size(); ++i) {
         const auto& slot = slots_[i];
-        std::string line = "槽位 " + std::to_string(i + 1) + ": ";
+        std::string line = text_config_.slot_prefix + " " + std::to_string(i + 1) + ": ";
         if (!slot.exists) {
-            line += "空";
+            line += text_config_.empty_slot_text;
         } else {
-            line += (slot.saved_at_text.empty() ? "有存档" : slot.saved_at_text);
+            line += (slot.saved_at_text.empty() ? text_config_.has_save_text : slot.saved_at_text);
             if (slot.day > 0) {
-                line += " | Day " + std::to_string(slot.day);
+                line += " | " + text_config_.day_prefix + std::to_string(slot.day);
             }
             if (!slot.season_text.empty()) {
                 line += " | " + slot.season_text;
@@ -144,7 +149,7 @@ void PixelSettingsPanel::RenderContent(sf::RenderWindow& window, const sf::Float
             TextStyle ph = TextStyle::Default();
             ph.character_size = 12;
             ph.fill_color = ColorPalette::DeepBrown;
-            font_renderer_->DrawCenteredText(window, "无预览",
+            font_renderer_->DrawCenteredText(window, text_config_.no_preview_text,
                                              {preview_x + preview_w * 0.5f, preview_y + preview_h * 0.5f},
                                              ph);
         }

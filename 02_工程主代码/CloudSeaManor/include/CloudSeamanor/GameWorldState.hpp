@@ -37,6 +37,7 @@
 #include <cstdint>
 #include <functional>
 #include <memory>
+#include <algorithm>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -123,6 +124,14 @@ struct InteractionState {
     std::string current_heart_event_id;
     int current_heart_event_reward = 0;
     std::string current_heart_event_flag;
+
+    // 灵兽互动菜单（BE-077）：G 键打开，数字键选择，Enter/G 确认。
+    bool spirit_beast_menu_open = false;
+    int spirit_beast_menu_selection = 0; // 0=喂食 1=抚摸 2=派遣
+
+    // 宠物购买菜单（BE-079）：E 打开，数字键选择，Enter/E 确认。
+    bool pet_shop_menu_open = false;
+    int pet_shop_menu_selection = 0; // 0=猫 1=狗 2=鸟（按可售列表映射）
 };
 
 // ============================================================================
@@ -270,6 +279,14 @@ public:
     [[nodiscard]] bool& GetInSpiritRealm() { return in_spirit_realm_; }
     [[nodiscard]] bool GetInSpiritRealm() const { return in_spirit_realm_; }
     void SetInSpiritRealm(bool value) { in_spirit_realm_ = value; }
+    [[nodiscard]] int& GetSpiritRealmDailyMax() { return spirit_realm_daily_max_; }
+    [[nodiscard]] int GetSpiritRealmDailyMax() const { return spirit_realm_daily_max_; }
+    void SetSpiritRealmDailyMax(int value) { spirit_realm_daily_max_ = std::max(1, value); }
+    [[nodiscard]] int& GetSpiritRealmDailyRemaining() { return spirit_realm_daily_remaining_; }
+    [[nodiscard]] int GetSpiritRealmDailyRemaining() const { return spirit_realm_daily_remaining_; }
+    void SetSpiritRealmDailyRemaining(int value) {
+        spirit_realm_daily_remaining_ = std::clamp(value, 0, spirit_realm_daily_max_);
+    }
     [[nodiscard]] std::unordered_map<std::string, int>& GetSpiritPlantLastHarvestHour() {
         return spirit_plant_last_harvest_hour_;
     }
@@ -353,6 +370,8 @@ private:
     CloudSeamanor::domain::CropQuality last_trade_quality_ =
         CloudSeamanor::domain::CropQuality::Normal;
     bool in_spirit_realm_ = false;
+    int spirit_realm_daily_max_ = 5;
+    int spirit_realm_daily_remaining_ = 5;
     std::unordered_map<std::string, int> spirit_plant_last_harvest_hour_;
     std::vector<RuntimeQuest> runtime_quests_;
     std::unordered_map<std::string, int> weekly_buy_count_;

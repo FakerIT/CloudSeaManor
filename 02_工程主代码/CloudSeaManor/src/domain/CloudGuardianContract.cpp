@@ -1,4 +1,4 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
+#include "CloudSeamanor/AllDefine.hpp"
 
 #include "CloudSeamanor/CloudGuardianContract.hpp"
 
@@ -273,6 +273,31 @@ std::string CloudGuardianContract::TodayRecommendation() const {
         }
     }
     return "【" + tracking->name + "】当前项已全部完成，可切换追踪卷。";
+}
+
+AuraStage CloudGuardianContract::CurrentAuraStage() const noexcept {
+    const int total = TotalPactCount();
+    if (total <= 0) {
+        return AuraStage::Barren;
+    }
+    const float ratio = static_cast<float>(CompletedPactCount()) / static_cast<float>(total);
+    const float percent = ratio * 100.0f;
+    if (percent < 20.0f) return AuraStage::Barren;
+    if (percent < 50.0f) return AuraStage::Awakened;
+    if (percent < 80.0f) return AuraStage::Flourish;
+    if (percent < 95.0f) return AuraStage::Prosper;
+    return AuraStage::Primordial;
+}
+
+std::string CloudGuardianContract::CurrentAuraStageText() const {
+    switch (CurrentAuraStage()) {
+    case AuraStage::Barren: return "荒芜";
+    case AuraStage::Awakened: return "苏醒";
+    case AuraStage::Flourish: return "兴盛";
+    case AuraStage::Prosper: return "繁华";
+    case AuraStage::Primordial: return "太初";
+    }
+    return "荒芜";
 }
 
 // ============================================================================

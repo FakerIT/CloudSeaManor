@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numbers>
 
 namespace CloudSeamanor::engine {
 
@@ -64,6 +65,8 @@ void GameWorldState::InitializeWorld(const WorldConfig& config) {
     gold_ = 500;
     greenhouse_unlocked_ = false;
     greenhouse_tag_next_planting_ = false;
+    spirit_realm_daily_max_ = 5;
+    spirit_realm_daily_remaining_ = spirit_realm_daily_max_;
 
     interaction_.highlighted_index = -1;
     interaction_.highlighted_plot_index = -1;
@@ -155,9 +158,22 @@ void UpdateWorldTipPulse(GameWorldState& state, float delta_seconds) {
             world_tip_base_color.b,
             static_cast<std::uint8_t>(alpha)));
 
-    // 轻微上下浮动：振幅 2px，周期 0.5s
+    // 轻微上下浮动参数改为配置驱动，避免 UI 魔法数字散落。
     const auto base_pos = infrastructure::UiLayoutConfig::GetDefaults().texts["world_tip"].position;
-    const float wave = std::sin(world_tip_pulse * (2.0f * 3.14159f / 0.5f)) * 2.0f;
+    const auto& ui_defaults = infrastructure::UiLayoutConfig::GetDefaults();
+    const float wave_amplitude =
+        ui_defaults.semantic_numbers.count("world_tip_wave_amplitude")
+            ? ui_defaults.semantic_numbers.at("world_tip_wave_amplitude")
+            : 2.0f;
+    const float wave_period =
+        std::max(0.01f,
+                 ui_defaults.semantic_numbers.count("world_tip_wave_period")
+                     ? ui_defaults.semantic_numbers.at("world_tip_wave_period")
+                     : 0.5f);
+    const float wave = std::sin(
+                           world_tip_pulse
+                           * (2.0f * std::numbers::pi_v<float> / wave_period))
+        * wave_amplitude;
     world_tip_text->setPosition({base_pos[0], base_pos[1] + wave});
 }
 

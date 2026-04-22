@@ -50,6 +50,7 @@ struct UiLayoutData {
     std::unordered_map<std::string, TextStyleLayout> texts;
     std::unordered_map<std::string, CloudColorSet> cloud_colors;
     std::unordered_map<std::string, std::uint32_t> semantic_colors;
+    std::unordered_map<std::string, float> semantic_numbers;
     std::string primary_font;
     std::string fallback_font;
 };
@@ -89,6 +90,13 @@ public:
     [[nodiscard]] std::uint32_t GetSemanticColor(
         const std::string& name,
         std::uint32_t fallback) const;
+
+    /**
+     * @brief 获取通用语义数值，缺失时返回 fallback。
+     */
+    [[nodiscard]] float GetSemanticNumber(
+        const std::string& name,
+        float fallback) const;
 
     /**
      * @brief 是否已成功加载配置。

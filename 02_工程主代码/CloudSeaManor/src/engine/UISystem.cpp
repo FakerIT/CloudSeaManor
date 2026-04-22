@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <numbers>
 
 namespace CloudSeamanor::engine {
 
@@ -22,6 +23,14 @@ const infrastructure::PanelLayout& GetPanelOrFallback(
     infrastructure::Logger::Warning(std::string("UISystem: 缺少 panels 配置项: ") + key);
     static const infrastructure::PanelLayout kEmpty{};
     return kEmpty;
+}
+
+float GetSemanticNumberOrFallback(
+    const infrastructure::UiLayoutData& layout,
+    const char* key,
+    float fallback) {
+    const auto it = layout.semantic_numbers.find(key);
+    return it != layout.semantic_numbers.end() ? it->second : fallback;
 }
 
 }  // namespace
@@ -213,8 +222,20 @@ void UISystem::UpdateWorldTipPulse(float pulse) {
                     static_cast<float>(GameConstants::Ui::Pulse::AlphaBase)
                     + p * GameConstants::Ui::Pulse::AlphaRange)));
 
-        // 轻微上下浮动：振幅 2px，周期 0.5s
-        const float wave = std::sin(pulse * (2.0f * 3.14159f / 0.5f)) * 2.0f;
+        const float wave_amplitude = GetSemanticNumberOrFallback(
+            layout_data_,
+            "world_tip_wave_amplitude",
+            2.0f);
+        const float wave_period = std::max(
+            0.01f,
+            GetSemanticNumberOrFallback(
+                layout_data_,
+                "world_tip_wave_period",
+                0.5f));
+        const float wave = std::sin(
+                               pulse
+                               * (2.0f * std::numbers::pi_v<float> / wave_period))
+            * wave_amplitude;
         texts_.world_tip_text->setPosition({world_tip_style.position[0], world_tip_style.position[1] + wave});
     }
 }

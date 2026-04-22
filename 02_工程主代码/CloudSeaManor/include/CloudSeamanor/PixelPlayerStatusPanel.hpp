@@ -16,6 +16,14 @@ struct PlayerStatusViewData {
     float spirit_ratio = 1.0f;
     float fatigue_ratio = 0.0f;
     int contract_progress = 0;
+    std::string header_level_separator = "Lv.";
+    std::string manor_stage_prefix = "山庄阶段";
+    std::string total_gold_prefix = "总资产:";
+    std::string stamina_label = "体力";
+    std::string spirit_label = "灵气";
+    std::string fatigue_label = "疲劳";
+    std::string contract_progress_prefix = "契约进度:";
+    int contract_total = 6;
 };
 
 class PixelPlayerStatusPanel : public PixelUiPanel {

@@ -3,9 +3,28 @@
 #include "CloudSeamanor/CloudSystem.hpp"
 
 #include <algorithm>
+#include <array>
 #include <sstream>
 
 namespace CloudSeamanor::engine {
+
+namespace detail {
+const sf::Font& BattleUiFallbackFont() {
+    static const sf::Font fallback_font = [] {
+        sf::Font f;
+        const std::array<std::string, 2> fallback_paths = {
+            "assets/fonts/NotoSansSC-Regular.ttf",
+            "assets/fonts/fallback.ttf"};
+        for (const auto& path : fallback_paths) {
+            if (f.openFromFile(path)) {
+                break;
+            }
+        }
+        return f;
+    }();
+    return fallback_font;
+}
+} // namespace detail
 
 // ============================================================================
 // 【Initialize】初始化UI
@@ -26,12 +45,12 @@ void BattleUI::Initialize(
     weather_text_.setFont(font);
     weather_text_.setCharacterSize(16);
     weather_text_.setFillColor({220, 220, 255});
-    weather_text_.setPosition(16.0f, 8.0f);
+    weather_text_.setPosition({16.0f, 8.0f});
 
     battle_time_text_.setFont(font);
     battle_time_text_.setCharacterSize(16);
     battle_time_text_.setFillColor({220, 220, 255});
-    battle_time_text_.setPosition(200.0f, 8.0f);
+    battle_time_text_.setPosition({200.0f, 8.0f});
 
     pause_button_.setSize({60.0f, 24.0f});
     pause_button_.setPosition({static_cast<float>(window_width) - 130.0f, 6.0f});
@@ -53,7 +72,7 @@ void BattleUI::Initialize(
     energy_text_.setFont(font);
     energy_text_.setCharacterSize(14);
     energy_text_.setFillColor({255, 255, 255});
-    energy_text_.setPosition(24.0f, static_cast<float>(window_height) - 77.0f);
+    energy_text_.setPosition({24.0f, static_cast<float>(window_height) - 77.0f});
 
     // ---- 技能按钮（4个） ----
     skill_buttons_.resize(kSkillButtonCount);
@@ -115,12 +134,13 @@ void BattleUI::Initialize(
     log_panel_bg_.setPosition({20.0f, 50.0f});
     log_panel_bg_.setFillColor({0, 0, 0, 150});
 
-    log_lines_.resize(kMaxLogLines);
+    log_lines_.clear();
+    log_lines_.reserve(kMaxLogLines);
     for (int i = 0; i < kMaxLogLines; ++i) {
-        log_lines_[i].setFont(font);
-        log_lines_[i].setCharacterSize(13);
-        log_lines_[i].setFillColor({200, 200, 200});
-        log_lines_[i].setPosition(28.0f, 54.0f + i * 22.0f);
+        log_lines_.emplace_back(font);
+        log_lines_.back().setCharacterSize(13);
+        log_lines_.back().setFillColor({200, 200, 200});
+        log_lines_.back().setPosition({28.0f, 54.0f + i * 22.0f});
     }
 
     // ---- 暂停菜单 ----
@@ -133,7 +153,7 @@ void BattleUI::Initialize(
     pause_title_.setCharacterSize(28);
     pause_title_.setFillColor({255, 255, 255});
     pause_title_.setString("战斗暂停");
-    pause_title_.setPosition(560.0f, 230.0f);
+    pause_title_.setPosition({560.0f, 230.0f});
 
     resume_button_.setSize({160.0f, 40.0f});
     resume_button_.setPosition({560.0f, 290.0f});
@@ -143,7 +163,7 @@ void BattleUI::Initialize(
     resume_text_.setCharacterSize(18);
     resume_text_.setFillColor({255, 255, 255});
     resume_text_.setString("继续战斗");
-    resume_text_.setPosition(580.0f, 298.0f);
+    resume_text_.setPosition({580.0f, 298.0f});
 
     quit_button_.setSize({160.0f, 40.0f});
     quit_button_.setPosition({560.0f, 350.0f});
@@ -153,7 +173,7 @@ void BattleUI::Initialize(
     quit_text_.setCharacterSize(18);
     quit_text_.setFillColor({255, 255, 255});
     quit_text_.setString("暂避锋芒");
-    quit_text_.setPosition(580.0f, 358.0f);
+    quit_text_.setPosition({580.0f, 358.0f});
 
     // ---- 结算面板 ----
     result_panel_visible_ = false;
@@ -164,7 +184,7 @@ void BattleUI::Initialize(
     result_title_.setFont(font);
     result_title_.setCharacterSize(36);
     result_title_.setFillColor({255, 215, 100});
-    result_title_.setPosition(550.0f, 180.0f);
+    result_title_.setPosition({550.0f, 180.0f});
 
     result_lines_.reserve(8);
 }
@@ -283,12 +303,11 @@ void BattleUI::ShowResultPanel(const BattleResult& result, bool victory) {
     result_title_.setString(victory ? "★★ 战斗胜利！★★" : "暂避锋芒");
 
     auto addLine = [&](const std::string& text, unsigned char r, unsigned char g, unsigned char b) {
-        sf::Text t;
-        t.setFont(*font_);
+        result_lines_.emplace_back(*font_);
+        auto& t = result_lines_.back();
         t.setCharacterSize(18);
         t.setFillColor({r, g, b});
         t.setString(text);
-        result_lines_.push_back(t);
     };
 
     addLine("净化灵体：" + std::to_string(result.spirits_purified) + "/" + std::to_string(result.spirits_total), 200, 220, 255);
@@ -312,7 +331,7 @@ void BattleUI::SetPauseMenuVisible(bool visible) {
 // ============================================================================
 void BattleUI::OnMouseMove(float mouse_x, float mouse_y) {
     for (auto& btn : skill_buttons_) {
-        btn.is_hovered = btn.background.getGlobalBounds().contains(mouse_x, mouse_y);
+        btn.is_hovered = btn.background.getGlobalBounds().contains({mouse_x, mouse_y});
     }
 }
 
@@ -321,7 +340,7 @@ void BattleUI::OnMouseMove(float mouse_x, float mouse_y) {
 // ============================================================================
 int BattleUI::OnMouseClick(float mouse_x, float mouse_y) {
     for (const auto& btn : skill_buttons_) {
-        if (btn.background.getGlobalBounds().contains(mouse_x, mouse_y)) {
+        if (btn.background.getGlobalBounds().contains({mouse_x, mouse_y})) {
             if (btn.is_ready && !btn.is_locked) {
                 return btn.slot_index;
             }
@@ -431,8 +450,9 @@ void BattleUI::DrawResultPanel_(sf::RenderWindow& window) const {
     window.draw(result_panel_bg_);
     window.draw(result_title_);
     for (size_t i = 0; i < result_lines_.size(); ++i) {
-        result_lines_[i].setPosition(410.0f, 240.0f + i * 35.0f);
-        window.draw(result_lines_[i]);
+        sf::Text line = result_lines_[i];
+        line.setPosition({410.0f, 240.0f + static_cast<float>(i) * 35.0f});
+        window.draw(line);
     }
 }
 

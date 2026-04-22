@@ -28,16 +28,20 @@
 
 namespace CloudSeamanor::engine {
 
+namespace detail {
+[[nodiscard]] const sf::Font& BattleUiFallbackFont();
+}
+
 // ============================================================================
 // 【SkillButton】技能按钮
 // ============================================================================
 struct SkillButton {
     sf::RectangleShape background;   // 背景
     sf::RectangleShape cooldown_overlay; // 冷却遮罩
-    sf::Text key_label;              // 按键标签（Q/W/E/R）
-    sf::Text cooldown_label;         // 冷却倒计时
-    sf::Text name_label;             // 技能名称
-    sf::Text energy_cost_label;      // 能量消耗
+    sf::Text key_label{detail::BattleUiFallbackFont()};              // 按键标签（Q/W/E/R）
+    sf::Text cooldown_label{detail::BattleUiFallbackFont()};         // 冷却倒计时
+    sf::Text name_label{detail::BattleUiFallbackFont()};             // 技能名称
+    sf::Text energy_cost_label{detail::BattleUiFallbackFont()};      // 能量消耗
 
     std::string skill_id;           // 关联技能ID
     int slot_index = -1;             // 槽位（0-3）
@@ -56,8 +60,8 @@ struct SpiritHealthBar {
     sf::RectangleShape background;
     sf::RectangleShape pollution_fill;  // 污染值条（满=被污染）
     sf::RectangleShape purity_fill;     // 纯净值条（满=已净化）
-    sf::Text name_label;
-    sf::Text type_label;  // 普通/精英/BOSS标签
+    sf::Text name_label{detail::BattleUiFallbackFont()};
+    sf::Text type_label{detail::BattleUiFallbackFont()};  // 普通/精英/BOSS标签
 
     std::string spirit_id;
     float bar_width = 120.0f;
@@ -170,15 +174,15 @@ private:
 
     // 顶部状态栏
     sf::RectangleShape top_bar_bg_;
-    sf::Text weather_text_;
-    sf::Text battle_time_text_;
+    sf::Text weather_text_{detail::BattleUiFallbackFont()};
+    sf::Text battle_time_text_{detail::BattleUiFallbackFont()};
     sf::RectangleShape pause_button_;
     sf::RectangleShape retreat_button_;
 
     // 能量条
     sf::RectangleShape energy_bar_bg_;
     sf::RectangleShape energy_bar_fill_;
-    sf::Text energy_text_;
+    sf::Text energy_text_{detail::BattleUiFallbackFont()};
 
     // 技能按钮（4个）
     std::vector<SkillButton> skill_buttons_;
@@ -200,16 +204,16 @@ private:
     // 暂停菜单
     bool pause_menu_visible_ = false;
     sf::RectangleShape pause_menu_bg_;
-    sf::Text pause_title_;
+    sf::Text pause_title_{detail::BattleUiFallbackFont()};
     sf::RectangleShape resume_button_;
-    sf::Text resume_text_;
+    sf::Text resume_text_{detail::BattleUiFallbackFont()};
     sf::RectangleShape quit_button_;
-    sf::Text quit_text_;
+    sf::Text quit_text_{detail::BattleUiFallbackFont()};
 
     // 结算面板
     bool result_panel_visible_ = false;
     sf::RectangleShape result_panel_bg_;
-    sf::Text result_title_;
+    sf::Text result_title_{detail::BattleUiFallbackFont()};
     std::vector<sf::Text> result_lines_;
     float result_display_timer_ = 0.0f;
     static constexpr float kResultDisplayDuration = 3.0f;

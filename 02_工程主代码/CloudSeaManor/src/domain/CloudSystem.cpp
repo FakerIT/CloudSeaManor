@@ -3,8 +3,6 @@
 #include "CloudSeamanor/CloudSystem.hpp"
 
 #include <algorithm>
-#include <cstdlib>
-#include <random>
 #include <sstream>
 
 namespace CloudSeamanor::domain {
@@ -13,12 +11,6 @@ namespace CloudSeamanor::domain {
 // 【AdvanceToNextDay】推进到新的一天
 // ============================================================================
 void CloudSystem::AdvanceToNextDay(int day) {
-    static bool seeded = false;
-    if (!seeded) {
-        std::srand(static_cast<unsigned int>(std::random_device{}()));
-        seeded = true;
-    }
-
     // 结算本日的灵气收益
     spirit_energy_ += SpiritEnergyGain();
 
@@ -37,6 +29,17 @@ void CloudSystem::UpdateForecastVisibility(int day, int hour) {
     // 22:00后公开次日预报
     forecast_state_ = StateForDay(day + 1, spirit_energy_, total_player_influence_);
     forecast_visible_ = hour >= 22;
+}
+
+int CloudSystem::TideCountdownDays(int day) const noexcept {
+    const int start = std::max(1, day);
+    constexpr int kLookahead = 7;
+    for (int d = start; d <= start + kLookahead; ++d) {
+        if (StateForDay(d, spirit_energy_, total_player_influence_) == CloudState::Tide) {
+            return d - start;
+        }
+    }
+    return kLookahead;
 }
 
 // ============================================================================
@@ -193,23 +196,42 @@ CloudState CloudSystem::StateForDay(
 
     // 大潮概率：基础5%，灵气+10%，正向影响+5%
     const float tide_chance = 0.05f + spirit_bonus * 0.10f + std::max(0.0f, influence_bonus * 0.05f);
-    if (tide_chance > static_cast<float>(std::rand()) / RAND_MAX) {
+    if (tide_chance > Random01For(day, spirit_energy, player_influence, 0xC10DD001u)) {
         return CloudState::Tide;
     }
 
     // 浓云海概率：基础20%，灵气+15%，正向影响+10%
     const float dense_chance = 0.20f + spirit_bonus * 0.15f + std::max(0.0f, influence_bonus * 0.10f);
-    if (dense_chance > static_cast<float>(std::rand()) / RAND_MAX) {
+    if (dense_chance > Random01For(day, spirit_energy, player_influence, 0xC10DD002u)) {
         return CloudState::DenseCloud;
     }
 
     // 薄雾概率：基础35%
     const float mist_chance = 0.35f + std::max(0.0f, influence_bonus * 0.10f);
-    if (mist_chance > static_cast<float>(std::rand()) / RAND_MAX) {
+    if (mist_chance > Random01For(day, spirit_energy, player_influence, 0xC10DD003u)) {
         return CloudState::Mist;
     }
 
     return CloudState::Clear;
+}
+
+float CloudSystem::Random01For(
+    int day,
+    int spirit_energy,
+    int player_influence,
+    std::uint32_t salt) noexcept {
+    std::uint32_t x = static_cast<std::uint32_t>(day);
+    x ^= static_cast<std::uint32_t>(spirit_energy) * 0x9E3779B9u;
+    x ^= static_cast<std::uint32_t>(player_influence) * 0x85EBCA6Bu;
+    x ^= salt;
+    // Murmur3 finalizer-ish mix.
+    x ^= x >> 16;
+    x *= 0x7FEB352Du;
+    x ^= x >> 15;
+    x *= 0x846CA68Bu;
+    x ^= x >> 16;
+    constexpr float kInv = 1.0f / 4294967296.0f; // 2^32
+    return static_cast<float>(x) * kInv;
 }
 
 // ============================================================================

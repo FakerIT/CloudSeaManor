@@ -3,6 +3,7 @@
 #include <functional>
 #include <string>
 #include <unordered_map>
+#include <type_traits>
 #include <vector>
 namespace CloudSeamanor::engine {
 struct Event {
@@ -13,10 +14,17 @@ struct Event {
         const auto it = data.find(key);
         if (it == data.end()) return fallback;
         try {
-            if constexpr (std::is_same_v<T, int>) return std::stoi(it->second);
-            if constexpr (std::is_same_v<T, float>) return std::stof(it->second);
-            if constexpr (std::is_same_v<T, bool>) return it->second == "true";
-            return static_cast<T>(it->second);
+            if constexpr (std::is_same_v<T, int>) {
+                return std::stoi(it->second);
+            } else if constexpr (std::is_same_v<T, float>) {
+                return std::stof(it->second);
+            } else if constexpr (std::is_same_v<T, bool>) {
+                return it->second == "true";
+            } else if constexpr (std::is_same_v<T, std::string>) {
+                return it->second;
+            } else {
+                return fallback;
+            }
         } catch (...) { return fallback; }
     }
 };

@@ -172,6 +172,8 @@ public:
      * @brief 获取动作对应的默认键位。
      */
     [[nodiscard]] sf::Keyboard::Key GetDefaultKey(Action action) const;
+    [[nodiscard]] sf::Keyboard::Key GetPrimaryKey(Action action) const;
+    [[nodiscard]] std::string GetPrimaryKeyName(Action action) const;
 
     // ========================================================================
     // 【手柄支持（预留）】

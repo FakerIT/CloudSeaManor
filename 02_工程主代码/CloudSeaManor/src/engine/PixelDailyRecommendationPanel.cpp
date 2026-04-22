@@ -12,9 +12,9 @@ void PixelDailyRecommendationPanel::RenderContent(sf::RenderWindow& window, cons
     if (m_font_renderer == nullptr || !m_font_renderer->IsLoaded()) return;
     const float x = inner_rect.position.x + 8.0f;
     const float y = inner_rect.position.y + 8.0f;
-    m_font_renderer->DrawText(window, "1. " + m_items[0], {x, y}, TextStyle::TopRightInfo());
-    m_font_renderer->DrawText(window, "2. " + m_items[1], {x, y + 24.0f}, TextStyle::TopRightInfo());
-    m_font_renderer->DrawText(window, "3. " + m_items[2], {x, y + 48.0f}, TextStyle::TopRightInfo());
+    m_font_renderer->DrawText(window, m_item_prefixes[0] + m_items[0], {x, y}, TextStyle::TopRightInfo());
+    m_font_renderer->DrawText(window, m_item_prefixes[1] + m_items[1], {x, y + 24.0f}, TextStyle::TopRightInfo());
+    m_font_renderer->DrawText(window, m_item_prefixes[2] + m_items[2], {x, y + 48.0f}, TextStyle::TopRightInfo());
 }
 
 }  // namespace CloudSeamanor::engine

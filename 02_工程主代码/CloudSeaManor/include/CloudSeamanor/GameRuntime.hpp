@@ -33,13 +33,20 @@
 #include "CloudSeamanor/engine/systems/NpcScheduleSystem.hpp"
 #include "CloudSeamanor/engine/systems/QuestManager.hpp"
 #include "CloudSeamanor/engine/systems/NpcDeliverySystem.hpp"
+#include "CloudSeamanor/engine/systems/InnSystem.hpp"
+#include "CloudSeamanor/engine/systems/CoopSystem.hpp"
+#include "CloudSeamanor/engine/systems/PetSystem.hpp"
 #include "CloudSeamanor/engine/systems/SpiritBeastSystem.hpp"
+#include "CloudSeamanor/engine/systems/SpiritRealmManager.hpp"
 #include "CloudSeamanor/engine/systems/TutorialSystem.hpp"
 #include "CloudSeamanor/engine/systems/WorkshopSystemRuntime.hpp"
 #include "CloudSeamanor/MainPlotSystem.hpp"
 #include "CloudSeamanor/NpcDialogueManager.hpp"
 #include "CloudSeamanor/SaveSlotManager.hpp"
 #include "CloudSeamanor/SceneManager.hpp"
+#include "CloudSeamanor/TeaGarden.hpp"
+#include "CloudSeamanor/ModApi.hpp"
+#include "CloudSeamanor/engine/BattleManager.hpp"
 
 using CloudSeamanor::infrastructure::GameConfig;
 using CloudSeamanor::infrastructure::TmxMap;
@@ -153,7 +160,14 @@ public:
     void OnPlayerInteracted(const CloudSeamanor::domain::Interactable& target);
     void Update(float delta_seconds);
     void RenderSceneTransition(sf::RenderWindow& window);
+    void RenderBattle(sf::RenderWindow& window);
     SleepResult SleepToNextMorning();
+    [[nodiscard]] bool IsInBattleMode() const { return in_battle_mode_; }
+    bool HandleBattleKey(int skill_slot);
+    void ToggleBattlePause();
+    void RetreatBattle();
+    bool TryEnterBattleByPlayerPosition();
+    void CycleSpiritBeastName();
 
     // ========================================================================
     // 【教程】
@@ -213,12 +227,20 @@ private:
     NpcScheduleSystem npc_schedule_;
     QuestManager quest_manager_;
     NpcDeliverySystem npc_delivery_;
+    InnSystem inn_system_;
+    CoopSystem coop_system_;
+    BarnSystem barn_system_;
+    PetSystem pet_system_;
     SpiritBeastSystem spirit_beast_;
+    SpiritRealmManager spirit_realm_manager_;
+    CloudSeamanor::domain::TeaGarden tea_garden_;
     std::unique_ptr<TutorialSystem> tutorial_system_;
     std::unique_ptr<PickupSystemRuntime> pickup_runtime_;
     std::unique_ptr<WorkshopSystemRuntime> workshop_runtime_;
     NpcDialogueManager dialogue_manager_{"assets/data"};
     MainPlotSystem plot_system_{};
+    ModLoader mod_loader_{};
+    BattleManager battle_manager_{};
 
     sf::RenderWindow* window_ = nullptr;
     GameRuntimeCallbacks callbacks_;
@@ -235,6 +257,9 @@ private:
     std::string current_bgm_path_;
 
     SceneTransition scene_transition_;
+    bool in_battle_mode_ = false;
+    std::string dialogue_data_root_ = "assets/data";
+    std::string map_root_override_;
 };
 
 } // namespace CloudSeamanor::engine

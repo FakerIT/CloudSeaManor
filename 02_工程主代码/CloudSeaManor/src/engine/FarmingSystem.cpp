@@ -1,4 +1,4 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
+#include "CloudSeamanor/AllDefine.hpp"
 
 #include "CloudSeamanor/FarmingSystem.hpp"
 
@@ -45,6 +45,16 @@ void FarmingSystem::BuildDefaultPlots() {
             plot.seed_item_id = "TurnipSeed";
             plot.harvest_item_id = "Turnip";
             plot.harvest_amount = 2;
+        }
+        // BE-013: 默认生成障碍状态，验证 raw land -> obstacle -> tilled 状态机链路。
+        if (i == 0) {
+            plot.cleared = false;
+            plot.obstacle_type = PlotObstacleType::Stone;
+            plot.obstacle_hits_left = 3;
+        } else if (i == 1) {
+            plot.cleared = false;
+            plot.obstacle_type = PlotObstacleType::Stump;
+            plot.obstacle_hits_left = 2;
         }
         if (callbacks_.refresh_plot_visual) {
             callbacks_.refresh_plot_visual(plot, false);

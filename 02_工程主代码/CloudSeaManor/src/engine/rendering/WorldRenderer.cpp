@@ -8,44 +8,12 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstdint>
 
 namespace CloudSeamanor::engine {
 
 WorldRenderer::WorldRenderer() = default;
 
 namespace {
-sf::Color PlayerColor(const CloudSeamanor::domain::Player& player) {
-    using CloudSeamanor::domain::FacingDirection;
-    sf::Color color(89, 195, 255);
-
-    switch (player.Facing()) {
-    case FacingDirection::Up:
-    case FacingDirection::UpLeft:
-    case FacingDirection::UpRight:
-        color = sf::Color(126, 184, 255);
-        break;
-    case FacingDirection::Left:
-    case FacingDirection::DownLeft:
-        color = sf::Color(118, 220, 196);
-        break;
-    case FacingDirection::Right:
-    case FacingDirection::DownRight:
-        color = sf::Color(255, 190, 96);
-        break;
-    case FacingDirection::Down:
-        color = sf::Color(89, 195, 255);
-        break;
-    }
-
-    if (player.IsMoving()) {
-        color.r = static_cast<std::uint8_t>(std::min(255, static_cast<int>(color.r) + 18));
-        color.g = static_cast<std::uint8_t>(std::min(255, static_cast<int>(color.g) + 18));
-        color.b = static_cast<std::uint8_t>(std::min(255, static_cast<int>(color.b) + 18));
-    }
-    return color;
-}
-
 float StageWaveOffset_(const int stage, const float phase_seed) {
     if (stage < 3) {
         return 0.0f;
@@ -264,14 +232,8 @@ void WorldRenderer::RenderPlayer_(
     sf::RenderWindow& window,
     const GameWorldState& ws
 ) {
-    const auto& player = ws.GetPlayer();
-    const auto pos = player.GetPosition();
-    const auto size = player.GetSize();
-
-    player_shape_.setSize({size.x, size.y});
-    player_shape_.setPosition({pos.x, pos.y});
-    player_shape_.setFillColor(PlayerColor(player));
-    window.draw(player_shape_);
+    player_visual_.SyncFromDomainPlayer(ws.GetPlayer());
+    window.draw(player_visual_.Shape());
 }
 
 }  // namespace CloudSeamanor::engine

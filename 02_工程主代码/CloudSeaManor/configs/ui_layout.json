@@ -273,6 +273,11 @@
     }
   },
 
+  "numbers": {
+    "world_tip_wave_amplitude": 2.0,
+    "world_tip_wave_period": 0.5
+  },
+
   "fonts": {
     "primary": "default",
     "fallback": "auto"

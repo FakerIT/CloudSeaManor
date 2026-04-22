@@ -15,6 +15,8 @@
 #include "CloudSeamanor/WorkshopSystem.hpp"
 #include "CloudSeamanor/GameAppText.hpp"
 #include "CloudSeamanor/engine/systems/DecorationSystem.hpp"
+#include "CloudSeamanor/engine/systems/ShopSystem.hpp"
+#include "CloudSeamanor/EventBus.hpp"
 
 #include "CloudSeamanor/DialogueEngine.hpp"
 #include "CloudSeamanor/Profiling.hpp"
@@ -26,6 +28,7 @@ namespace CloudSeamanor::engine {
 namespace {
 
 const DecorationSystem kDecorationSystem;
+const ShopSystem kShopSystem;
 constexpr sf::Color kGiftHeartLovedColor(220, 64, 96);
 constexpr sf::Color kGiftHeartLikedColor(255, 153, 204);
 constexpr sf::Color kGiftHeartDislikedColor(160, 160, 160);
@@ -100,6 +103,13 @@ void AdoptPet_(
     } else {
         ctx.push_hint("宠物正在院子里玩耍。", 2.0f);
     }
+    ctx.achievements["pet_collected_" + pet_type] = true;
+    const bool has_cat = ctx.achievements["pet_collected_cat"];
+    const bool has_dog = ctx.achievements["pet_collected_dog"];
+    const bool has_bird = ctx.achievements["pet_collected_bird"];
+    if (has_cat && has_dog && has_bird) {
+        UnlockAchievement_(ctx, "pet_all_types", "全类型宠物收集");
+    }
 }
 
 const char* PetTypeFromCommodity_(const std::string& item_id) {
@@ -107,6 +117,18 @@ const char* PetTypeFromCommodity_(const std::string& item_id) {
     if (item_id == "pet_dog_license") return "dog";
     if (item_id == "pet_bird_license") return "bird";
     return nullptr;
+}
+
+std::vector<const PriceTableEntry*> CollectPetCommodityOptions_(
+    const std::vector<PriceTableEntry>& price_table,
+    const std::string& source) {
+    std::vector<const PriceTableEntry*> options;
+    for (const auto& entry : price_table) {
+        if (entry.buy_from == source && entry.buy_price > 0 && entry.category == "pet") {
+            options.push_back(&entry);
+        }
+    }
+    return options;
 }
 
 bool HandlePetCommodityPurchase_(
@@ -128,36 +150,23 @@ const PriceTableEntry* FindPrice_(const std::vector<PriceTableEntry>& table, con
     return nullptr;
 }
 
-int QualitySellMultiplierPercent_(CloudSeamanor::domain::CropQuality q) {
-    using Q = CloudSeamanor::domain::CropQuality;
-    switch (q) {
-    case Q::Normal: return 100;
-    case Q::Fine: return 150;
-    case Q::Rare: return 200;
-    case Q::Spirit: return 300;
-    case Q::Holy: return 350;
-    }
-    return 100;
-}
-
-const PriceTableEntry* FirstBySource_(
-    const std::vector<PriceTableEntry>& table,
-    const std::string& src,
-    const CloudSeamanor::domain::Inventory& inventory) {
-    for (const auto& e : table) {
-        if (e.buy_from == src && inventory.CountOf(e.item_id) > 0) {
-            return &e;
-        }
-    }
-    return nullptr;
-}
-
 } // namespace
 
 bool HandleGiftInteraction(PlayerInteractRuntimeContext& ctx) {
     if (ctx.spirit_beast_highlighted && ctx.highlighted_npc_index < 0) {
+        auto& interaction = ctx.interaction_state;
+        if (!interaction.spirit_beast_menu_open) {
+            interaction.spirit_beast_menu_open = true;
+            interaction.spirit_beast_menu_selection = 0;
+            ctx.dialogue_text = "灵兽互动：1 喂食  2 抚摸  3 派遣（Enter/G 确认）";
+            ctx.push_hint("已打开灵兽互动菜单：1喂食 2抚摸 3派遣", 2.4f);
+            UpdateUiAfterInteraction(ctx);
+            return true;
+        }
+
         auto& beast = ctx.spirit_beast;
-        if (ctx.inventory.TryRemoveItem("Feed", 1)) {
+        const int selected = std::clamp(interaction.spirit_beast_menu_selection, 0, 2);
+        if (selected == 0 && ctx.inventory.TryRemoveItem("Feed", 1)) {
             beast.favor += 20;
             beast.dispatched_for_pest_control = false;
             ctx.spawn_heart_particles(beast.shape.getPosition(), ctx.heart_particles);
@@ -165,16 +174,42 @@ bool HandleGiftInteraction(PlayerInteractRuntimeContext& ctx) {
             if (beast.favor >= 100) {
                 ctx.push_hint("灵兽羁绊已达到满级，可派遣自动除虫。", 2.8f);
             }
-        } else if (beast.favor >= 60) {
+        } else if (selected == 2 && beast.favor >= 60) {
             beast.dispatched_for_pest_control = true;
             ctx.push_hint("已派遣灵兽执行自动除虫。", 2.4f);
         } else {
-            // G 键对灵兽的兜底分支：抚摸互动
+            // 兜底分支：抚摸互动（或喂食缺饲料/派遣羁绊不足）。
             beast.favor += 5;
             ctx.spawn_heart_particles(beast.shape.getPosition(), ctx.heart_particles);
-            ctx.push_hint("你轻抚了灵兽（+5 羁绊）。提示：携带饲料可喂食。", 2.8f);
+            if (selected == 0) {
+                ctx.push_hint("饲料不足，改为抚摸灵兽（+5 羁绊）。", 2.8f);
+            } else if (selected == 2) {
+                ctx.push_hint("羁绊不足，改为抚摸灵兽（+5 羁绊）。", 2.8f);
+            } else {
+                ctx.push_hint("你轻抚了灵兽（+5 羁绊）。", 2.6f);
+            }
         }
         beast.favor = std::clamp(beast.favor, 0, 100);
+        interaction.spirit_beast_menu_open = false;
+        GlobalEventBus().Emit(Event{
+            "beast_bond",
+            {
+                {"favor", std::to_string(beast.favor)}
+            }});
+        if (beast.personality == SpiritBeastPersonality::Lively) {
+            ctx.achievements["beast_type_lively"] = true;
+        } else if (beast.personality == SpiritBeastPersonality::Lazy) {
+            ctx.achievements["beast_type_lazy"] = true;
+        } else if (beast.personality == SpiritBeastPersonality::Curious) {
+            ctx.achievements["beast_type_curious"] = true;
+        }
+        GlobalEventBus().Emit(Event{
+            "beast_type_collected",
+            {
+                {"lively", ctx.achievements["beast_type_lively"] ? "1" : "0"},
+                {"lazy", ctx.achievements["beast_type_lazy"] ? "1" : "0"},
+                {"curious", ctx.achievements["beast_type_curious"] ? "1" : "0"},
+            }});
         if (beast.favor >= 100) {
             UnlockAchievement_(ctx, "beast_bond_max", "灵兽羁绊满级");
         }
@@ -247,6 +282,13 @@ bool HandleGiftInteraction(PlayerInteractRuntimeContext& ctx) {
         const std::size_t before_hearts = ctx.heart_particles.size();
         ctx.spawn_heart_particles(npc.shape.getPosition(), ctx.heart_particles);
         TintRecentHearts_(ctx.heart_particles, before_hearts, heart_color);
+        GlobalEventBus().Emit(Event{
+            "gift",
+            {
+                {"npc_id", npc.id},
+                {"favor_delta", std::to_string(applied_delta)}
+            }
+        });
     }
 
     UpdateUiAfterInteraction(ctx);
@@ -589,6 +631,13 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
                 ctx.push_hint("已收获 " + quality_text + " " + ItemDisplayName(plot.harvest_item_id) + " x"
                     + std::to_string(actual_amount) + "。", 2.8f);
                 ctx.log_info(plot.crop_name + " 已收获（品质：" + quality_text + "，数量：" + std::to_string(actual_amount) + "）。");
+                GlobalEventBus().Emit(Event{
+                    "harvest",
+                    {
+                        {"item_id", plot.harvest_item_id},
+                        {"count", std::to_string(actual_amount)}
+                    }
+                });
             } else {
                 ctx.push_hint("病虫害未及时处理，本轮作物减产为 0。", 2.8f);
                 ctx.log_info(plot.crop_name + " 因病虫害未处理导致本轮减产为 0。");
@@ -618,6 +667,20 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             UpdateUiAfterInteraction(ctx);
             return true;
         }
+        if (target.Label() == "Spirit Gateway Return") {
+            if (ctx.in_spirit_realm) {
+                if (ctx.request_spirit_realm_travel) {
+                    ctx.request_spirit_realm_travel(false);
+                } else {
+                    ctx.in_spirit_realm = false;
+                }
+                ctx.push_hint("你通过返程传送门回到了主世界。", 2.4f);
+            } else {
+                ctx.push_hint("这里是灵界返程门。", 1.8f);
+            }
+            UpdateUiAfterInteraction(ctx);
+            return true;
+        }
         if (target.Label() == "Spirit Plant") {
             const std::string cooldown_key = target.Label() + "_" + std::to_string(ctx.highlighted_index);
             const auto it = ctx.spirit_plant_last_harvest_hour.find(cooldown_key);
@@ -640,30 +703,57 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             UpdateUiAfterInteraction(ctx);
             return true;
         }
+        if (target.Label() == "Spirit Plant Rare") {
+            const std::string cooldown_key = target.Label() + "_" + std::to_string(ctx.highlighted_index);
+            const auto it = ctx.spirit_plant_last_harvest_hour.find(cooldown_key);
+            if (it != ctx.spirit_plant_last_harvest_hour.end()
+                && (ctx.current_game_hour - it->second) < 2) {
+                ctx.push_hint("稀有灵草尚未恢复。", 2.6f);
+                UpdateUiAfterInteraction(ctx);
+                return true;
+            }
+            const std::string item_id =
+                (ctx.cloud_system.CurrentState() == CloudSeamanor::domain::CloudState::Tide)
+                ? "star_fragment" : "spirit_dust";
+            const int amount =
+                (ctx.cloud_system.CurrentState() == CloudSeamanor::domain::CloudState::Tide) ? 1 : 2;
+            ctx.inventory.AddItem(item_id, amount);
+            ctx.spirit_plant_last_harvest_hour[cooldown_key] = ctx.current_game_hour;
+            ctx.push_hint("采集到稀有灵物 " + ItemDisplayName(item_id) + " x" + std::to_string(amount), 2.8f);
+            UpdateUiAfterInteraction(ctx);
+            return true;
+        }
         if (target.Label() == "Shop Stall") {
+            auto& interaction = ctx.interaction_state;
+            const auto pet_options = CollectPetCommodityOptions_(ctx.price_table, "shop");
+            const bool can_use_pet_menu = !pet_options.empty();
             const PriceTableEntry* selected = nullptr;
-            for (const auto& e : ctx.price_table) {
-                if (!ctx.pet_adopted && e.buy_from == "shop" && e.buy_price > 0 && e.category == "pet") {
-                    selected = &e;
-                    break;
-                }
+            if (can_use_pet_menu && !interaction.pet_shop_menu_open) {
+                interaction.pet_shop_menu_open = true;
+                interaction.pet_shop_menu_selection = 0;
+                ctx.dialogue_text = "宠物选购：1 猫  2 狗  3 鸟（Enter/E 确认）";
+                ctx.push_hint("已打开宠物选购：1猫 2狗 3鸟", 2.4f);
+                UpdateUiAfterInteraction(ctx);
+                return true;
             }
-            if (!selected) {
-                for (const auto& e : ctx.price_table) {
-                if (e.buy_from == "shop" && e.buy_price > 0) {
-                    selected = &e;
-                    break;
-                }
-            }
+            if (can_use_pet_menu) {
+                const int idx = std::clamp(
+                    interaction.pet_shop_menu_selection, 0, static_cast<int>(pet_options.size()) - 1);
+                selected = pet_options[static_cast<std::size_t>(idx)];
+            } else {
+                selected = kShopSystem.SelectShopStallItem(ctx.price_table, ctx.pet_adopted);
             }
             if (!selected) {
                 ctx.push_hint("商店价格表为空。", 2.2f);
-            } else if (ctx.gold >= selected->buy_price) {
-                ctx.gold -= selected->buy_price;
-                if (!HandlePetCommodityPurchase_(ctx, *selected, "shop")) {
-                    ctx.inventory.AddItem(selected->item_id, 1);
-                }
-                ctx.weekly_buy_count[selected->item_id] += 1;
+            } else if (kShopSystem.TryPurchase(
+                           *selected,
+                           ctx.gold,
+                           ctx.inventory,
+                           ctx.weekly_buy_count,
+                           [&](const PriceTableEntry& entry) {
+                               return HandlePetCommodityPurchase_(ctx, entry, "shop");
+                           })) {
+                interaction.pet_shop_menu_open = false;
                 if (ctx.play_sfx) ctx.play_sfx("shop_purchase");
                 ctx.push_hint("商店购买：" + ItemDisplayName(selected->item_id) + " x1（-"
                     + std::to_string(selected->buy_price) + " 金）。", 2.6f);
@@ -674,12 +764,16 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             return true;
         }
         if (target.Label() == "Purchaser") {
-            const PriceTableEntry* sell_entry = FirstBySource_(ctx.price_table, "purchaser", ctx.inventory);
-            if (sell_entry && ctx.inventory.TryRemoveItem(sell_entry->item_id, 1)) {
-                const int multiplier = QualitySellMultiplierPercent_(ctx.last_trade_quality);
-                const int income = std::max(1, sell_entry->sell_price * multiplier / 100);
-                ctx.gold += income;
-                ctx.weekly_sell_count[sell_entry->item_id] += 1;
+            const PriceTableEntry* sell_entry = kShopSystem.SelectFirstSellable(
+                ctx.price_table, "purchaser", ctx.inventory);
+            int income = 0;
+            if (sell_entry && kShopSystem.TrySellOne(
+                                  *sell_entry,
+                                  ctx.last_trade_quality,
+                                  ctx.inventory,
+                                  ctx.gold,
+                                  ctx.weekly_sell_count,
+                                  income)) {
                 ctx.push_hint("收购商买下了 " + ItemDisplayName(sell_entry->item_id)
                     + "，获得 " + std::to_string(income) + " 金。", 2.6f);
             } else {
@@ -707,23 +801,18 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             return true;
         }
         if (target.Label() == "General Store") {
-            const PriceTableEntry* selected = nullptr;
-            for (const auto& e : ctx.price_table) {
-                if (e.buy_from == "general_store" && e.buy_price > 0
-                    && std::find(ctx.daily_general_store_stock.begin(), ctx.daily_general_store_stock.end(), e.item_id)
-                        != ctx.daily_general_store_stock.end()) {
-                    selected = &e;
-                    break;
-                }
-            }
+            const PriceTableEntry* selected = kShopSystem.SelectGeneralStoreItem(
+                ctx.price_table, ctx.daily_general_store_stock);
             if (!selected) {
                 ctx.push_hint("今日杂货店已售罄。", 2.2f);
-            } else if (ctx.gold >= selected->buy_price) {
-                ctx.gold -= selected->buy_price;
-                if (!HandlePetCommodityPurchase_(ctx, *selected, "general_store")) {
-                    ctx.inventory.AddItem(selected->item_id, 1);
-                }
-                ctx.weekly_buy_count[selected->item_id] += 1;
+            } else if (kShopSystem.TryPurchase(
+                           *selected,
+                           ctx.gold,
+                           ctx.inventory,
+                           ctx.weekly_buy_count,
+                           [&](const PriceTableEntry& entry) {
+                               return HandlePetCommodityPurchase_(ctx, entry, "general_store");
+                           })) {
                 if (ctx.play_sfx) ctx.play_sfx("shop_purchase");
                 ctx.push_hint("杂货店购入：" + ItemDisplayName(selected->item_id), 2.2f);
             } else {
@@ -733,22 +822,19 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             return true;
         }
         if (target.Label() == "Tide Shop") {
-            if (ctx.cloud_system.CurrentState() != CloudSeamanor::domain::CloudState::Tide) {
+            if (!kShopSystem.CanOpenTideShop(ctx.cloud_system.CurrentState())) {
                 ctx.push_hint("大潮商店仅在大潮日开放。", 2.2f);
                 UpdateUiAfterInteraction(ctx);
                 return true;
             }
-            const PriceTableEntry* selected = nullptr;
-            for (const auto& e : ctx.price_table) {
-                if (e.buy_from == "tide_shop" && e.buy_price > 0) {
-                    selected = &e;
-                    break;
-                }
-            }
-            if (selected && ctx.gold >= selected->buy_price) {
-                ctx.gold -= selected->buy_price;
-                ctx.inventory.AddItem(selected->item_id, 1);
-                ctx.weekly_buy_count[selected->item_id] += 1;
+            const PriceTableEntry* selected = kShopSystem.SelectBySource(
+                ctx.price_table, "tide_shop");
+            if (selected && kShopSystem.TryPurchase(
+                                *selected,
+                                ctx.gold,
+                                ctx.inventory,
+                                ctx.weekly_buy_count,
+                                nullptr)) {
                 if (ctx.play_sfx) ctx.play_sfx("shop_purchase");
                 ctx.push_hint("大潮商店购入：" + ItemDisplayName(selected->item_id), 2.2f);
             } else if (!selected) {
@@ -764,6 +850,11 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             const int amount = has_sickle ? 3 : 1;
             ctx.inventory.AddItem("spirit_dust", amount);
             ctx.push_hint(has_sickle ? "灵镰攻击成功，获得灵尘 x3。" : "普通采集获得灵尘 x1。", 2.4f);
+            UpdateUiAfterInteraction(ctx);
+            return true;
+        }
+        if (target.Label() == "Spirit Beast Zone") {
+            ctx.push_hint("这里有灵兽出没，按 J 可尝试进入净化战斗。", 2.2f);
             UpdateUiAfterInteraction(ctx);
             return true;
         }
@@ -874,6 +965,13 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
                     ctx.decoration_score,
                     [&ctx](const std::string& msg) { ctx.push_hint(msg, 2.2f); },
                     [&ctx](const std::string& id) { UnlockAchievement_(ctx, id, "家园设计师"); });
+                GlobalEventBus().Emit(Event{
+                    "build",
+                    {
+                        {"type", "decoration"},
+                        {"decoration_score", std::to_string(ctx.decoration_score)}
+                    }
+                });
                 break;
             }
             if (target.Label() == "Pet House") {
@@ -904,6 +1002,13 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
                 }
                 ctx.push_hint("主屋升级到 Lv." + std::to_string(ctx.main_house_repair.level) + "。", 3.0f);
                 ctx.log_info("主屋升级完成。");
+                GlobalEventBus().Emit(Event{
+                    "build",
+                    {
+                        {"type", "main_house"},
+                        {"house_level", std::to_string(ctx.main_house_repair.level)}
+                    }
+                });
                 if (ctx.main_house_repair.level >= 2) {
                     (void)ctx.workshop.Upgrade(2, 2);
                 }

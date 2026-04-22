@@ -12,6 +12,23 @@ namespace CloudSeamanor::engine {
 
 class PixelSettingsPanel : public PixelUiPanel {
 public:
+    struct TextConfig {
+        std::string slots_title = "存档槽位（1-3）";
+        std::string save_slot_prefix = "保存到槽位:";
+        std::string load_slot_prefix = "读取槽位:";
+        std::string bgm_prefix = "BGM 音量:";
+        std::string sfx_prefix = "SFX 音量:";
+        std::string display_mode_prefix = "显示模式:";
+        std::string fullscreen_text = "全屏";
+        std::string windowed_text = "窗口";
+        std::string operation_hint = "操作: WS 选择, AD 调整, Enter 应用, Esc 关闭";
+        std::string slot_prefix = "槽位";
+        std::string empty_slot_text = "空";
+        std::string has_save_text = "有存档";
+        std::string day_prefix = "Day ";
+        std::string no_preview_text = "无预览";
+    };
+
     PixelSettingsPanel();
 
     void SetFontRenderer(const PixelFontRenderer* renderer) { font_renderer_ = renderer; }
@@ -21,6 +38,7 @@ public:
     void MoveSelection(int delta);
     void AdjustValue(int delta);
     void SetSlots(const std::vector<CloudSeamanor::infrastructure::SaveSlotMetadata>& slots);
+    void SetTextConfig(const TextConfig& text_config) { text_config_ = text_config; }
 
     [[nodiscard]] int SelectedSlot() const { return selected_slot_; }
     [[nodiscard]] int SelectedRow() const { return selected_row_; }
@@ -41,6 +59,7 @@ private:
     float sfx_volume_ = 1.0f;
     bool fullscreen_ = false;
     std::array<CloudSeamanor::infrastructure::SaveSlotMetadata, 3> slots_{};
+    TextConfig text_config_{};
 
     struct ThumbnailCache {
         std::string path;

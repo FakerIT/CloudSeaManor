@@ -13,6 +13,7 @@
 namespace CloudSeamanor::engine {
 
 namespace {
+std::string g_crop_table_data_path = "assets/data/CropTable.csv";
 
 // ============================================================================
 // 【InitCropTableFromFile】惰性加载作物表
@@ -20,9 +21,15 @@ namespace {
 const CloudSeamanor::domain::CropTable& CropTableInstance() {
     static CloudSeamanor::domain::CropTable table;
     static bool loaded = false;
+    static std::string loaded_path;
     if (!loaded) {
-        table.LoadFromFile("assets/data/CropTable.csv");
+        table.LoadFromFile(g_crop_table_data_path);
+        loaded_path = g_crop_table_data_path;
         loaded = true;
+    } else if (loaded_path != g_crop_table_data_path) {
+        table = CloudSeamanor::domain::CropTable{};
+        table.LoadFromFile(g_crop_table_data_path);
+        loaded_path = g_crop_table_data_path;
     }
     return table;
 }
@@ -100,6 +107,12 @@ TeaPlot BuildLockedPlotFromCropDef(const CloudSeamanor::domain::CropDefinition& 
 }
 
 } // namespace
+
+void SetCropTableDataPath(const std::string& crop_table_path) {
+    if (!crop_table_path.empty()) {
+        g_crop_table_data_path = crop_table_path;
+    }
+}
 
 // ============================================================================
 // 【RefreshTeaPlotVisual】刷新地块视觉状态

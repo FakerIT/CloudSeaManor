@@ -32,10 +32,19 @@
 // ============================================================================
 
 #include <string>
+#include <cstdint>
 #include <unordered_map>
 #include <vector>
 
 namespace CloudSeamanor::domain {
+
+enum class AuraStage : std::uint8_t {
+    Barren = 0,    // 0-20%
+    Awakened = 1,  // 20-50%
+    Flourish = 2,  // 50-80%
+    Prosper = 3,   // 80-95%
+    Primordial = 4 // 95-100%
+};
 
 // ============================================================================
 // 【CloudPactItem】单个"云海之约"目标
@@ -180,6 +189,8 @@ public:
     [[nodiscard]] std::string ProgressText() const;
     [[nodiscard]] std::string VolumeProgressText(int volume_id) const;
     [[nodiscard]] std::string TodayRecommendation() const;
+    [[nodiscard]] AuraStage CurrentAuraStage() const noexcept;
+    [[nodiscard]] std::string CurrentAuraStageText() const;
 
     // ========================================================================
     // 【存档接口】

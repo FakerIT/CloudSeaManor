@@ -223,6 +223,16 @@ public:
 [[nodiscard]] inline StartsWithMatcher StartsWith(const std::string& p) { return StartsWithMatcher(p); }
 [[nodiscard]] inline ContainsMatcher Contains(const std::string& s) { return ContainsMatcher(s); }
 
+}  // namespace testing
+}  // namespace CloudSeamanor
+
+// Catch2-style unqualified matcher factories used by existing tests.
+using CloudSeamanor::testing::Contains;
+using CloudSeamanor::testing::Equals;
+using CloudSeamanor::testing::StartsWith;
+namespace CloudSeamanor {
+namespace testing {
+
 // ============================================================================
 // TestFailureException
 // ============================================================================
@@ -327,6 +337,11 @@ inline int run_all_tests(int argc, char* argv[]) {
 // ============================================================================
 
 // ---- TEST_CASE ----
+// Some legacy tests still pull in TestFramework.hpp, which also defines TEST_CASE.
+// Undefine first to ensure Catch2-compatible syntax (string literal names) works.
+#ifdef TEST_CASE
+#undef TEST_CASE
+#endif
 #define TEST_CASE(name) CATCH2_TEST_CASE_IMPL(name, __FILE__, __LINE__)
 
 #define CATCH2_TEST_CASE_IMPL(name, file, line)                                           \
@@ -499,6 +514,20 @@ inline void handle_assertion_fail(
                  << "\") " << _matcher_val.describe(); \
             CloudSeamanor::testing::detail::handle_assertion_fail( \
                 CATCH2_STRINGIFY(str_expr), _oss.str(), __FILE__, __LINE__, true); \
+        } \
+    } while (false)
+
+// ---- CHECK_THAT ----
+#define CHECK_THAT(str_expr, matcher_expr) \
+    do { \
+        auto _str_val = (str_expr); \
+        auto _matcher_val = (matcher_expr); \
+        if (!_matcher_val.match(_str_val)) { \
+            std::ostringstream _oss; \
+            _oss << "  " << CATCH2_STRINGIFY(str_expr) << " (\"" << _str_val \
+                 << "\") " << _matcher_val.describe(); \
+            CloudSeamanor::testing::detail::handle_assertion_fail( \
+                CATCH2_STRINGIFY(str_expr), _oss.str(), __FILE__, __LINE__, false); \
         } \
     } while (false)
 

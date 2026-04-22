@@ -25,6 +25,14 @@ float PersonalityIdleScale(SpiritBeastPersonality personality) {
     }
     return 1.0f;
 }
+
+sf::Vector2f NormalizedOrZero(const sf::Vector2f& v) {
+    const float len = std::sqrt(v.x * v.x + v.y * v.y);
+    if (len <= 0.0001f) {
+        return {0.0f, 0.0f};
+    }
+    return v / len;
+}
 } // namespace
 
 // ============================================================================
@@ -41,10 +49,79 @@ void SpiritBeastSystem::UpdateFollow_(
     const sf::Vector2f to_player = player_pos - beast_pos;
     const float distance = std::sqrt(to_player.x * to_player.x + to_player.y * to_player.y);
 
-    if (distance > GameConstants::SpiritBeast::FollowKeepDistance) {
-        const sf::Vector2f dir = to_player / distance;
+    float player_speed = 0.0f;
+    if (has_last_player_position_ && delta_seconds > 0.0f) {
+        const sf::Vector2f delta = player_pos - last_player_position_;
+        player_speed = std::sqrt(delta.x * delta.x + delta.y * delta.y) / delta_seconds;
+    }
+    last_player_position_ = player_pos;
+    has_last_player_position_ = true;
+
+    const float elastic_keep_distance = GameConstants::SpiritBeast::FollowKeepDistance
+        + std::min(92.0f, player_speed * 0.16f);
+    if (distance > elastic_keep_distance) {
+        // BE-078: 多灵兽分散策略（槽位编队）
+        // 当前运行时主灵兽仍是单实例，但会依据地图内 Spirit Beast 节点数量
+        // 选择不同跟随槽位，避免多个灵兽节点叠在玩家同一侧。
+        int beast_slot_count = 1;
+        for (const auto& obj : world_state.GetInteractables()) {
+            if (obj.Label() == "Spirit Beast") {
+                ++beast_slot_count;
+            }
+        }
+        beast_slot_count = std::clamp(beast_slot_count, 1, 4);
+        const int preferred_slot =
+            std::clamp(static_cast<int>(beast.personality), 0, beast_slot_count - 1);
+        const std::array<sf::Vector2f, 4> slot_offsets{
+            sf::Vector2f(-48.0f, 18.0f),
+            sf::Vector2f(42.0f, 20.0f),
+            sf::Vector2f(-30.0f, -26.0f),
+            sf::Vector2f(26.0f, -28.0f),
+        };
+        const sf::Vector2f slot_target = player_pos + slot_offsets[static_cast<std::size_t>(preferred_slot)];
+        const sf::Vector2f to_slot = slot_target - beast_pos;
+        const sf::Vector2f dir = NormalizedOrZero(to_slot);
         const float speed_scale = PersonalitySpeedScale(beast.personality);
-        beast_pos += dir * (delta_seconds * GameConstants::SpiritBeast::FollowSpeed * speed_scale);
+        sf::Vector2f next_pos =
+            beast_pos + dir * (delta_seconds * GameConstants::SpiritBeast::FollowSpeed * speed_scale);
+
+        // 轻量障碍绕行：若目标点落入障碍，尝试切向偏移。
+        for (const auto& obstacle : world_state.GetObstacleBounds()) {
+            if (obstacle.contains(next_pos)) {
+                const sf::Vector2f tangent(-dir.y, dir.x);
+                next_pos = beast_pos + tangent * (delta_seconds * GameConstants::SpiritBeast::FollowSpeed * 0.85f);
+                break;
+            }
+        }
+
+        // 避免与 NPC 贴脸重叠。
+        for (const auto& npc : world_state.GetNpcs()) {
+            const sf::Vector2f npc_delta = next_pos - npc.shape.getPosition();
+            const float npc_dist = std::sqrt(npc_delta.x * npc_delta.x + npc_delta.y * npc_delta.y);
+            if (npc_dist < 24.0f && npc_dist > 0.001f) {
+                const sf::Vector2f push = npc_delta / npc_dist;
+                next_pos += push * (24.0f - npc_dist);
+            }
+        }
+
+        // 防重叠：与“其他灵兽节点”做分离力，避免视觉叠在一起。
+        sf::Vector2f separate_force{0.0f, 0.0f};
+        for (const auto& obj : world_state.GetInteractables()) {
+            if (obj.Label() != "Spirit Beast") {
+                continue;
+            }
+            const sf::Vector2f other = obj.Shape().getPosition();
+            const sf::Vector2f delta = next_pos - other;
+            const float d = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+            if (d > 0.001f && d < 46.0f) {
+                separate_force += (delta / d) * ((46.0f - d) / 46.0f);
+            }
+        }
+        if (separate_force.x != 0.0f || separate_force.y != 0.0f) {
+            next_pos += NormalizedOrZero(separate_force)
+                * (delta_seconds * GameConstants::SpiritBeast::FollowSpeed * 0.75f);
+        }
+        beast_pos = next_pos;
         beast.shape.setPosition(beast_pos);
     }
 }

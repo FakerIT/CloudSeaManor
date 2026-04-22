@@ -77,6 +77,18 @@ void ParseSemanticColorIfExists(
     data.semantic_colors[key] = fallback;
 }
 
+void ParseSemanticNumberIfExists(
+    const JsonValue& numbers,
+    UiLayoutData& data,
+    const std::string& key,
+    float fallback) {
+    if (const auto* v = numbers.Get(key)) {
+        data.semantic_numbers[key] = static_cast<float>(v->AsFloatOrDefault(fallback));
+        return;
+    }
+    data.semantic_numbers[key] = fallback;
+}
+
 }  // namespace
 
 std::uint32_t ParseHexColor(const std::string& hex) {
@@ -162,6 +174,11 @@ bool UiLayoutConfig::LoadFromFile(const std::string& path) {
         ParseSemanticColorIfExists(*colors, data_, "main_menu_item_selected", GetDefaults().semantic_colors["main_menu_item_selected"]);
     }
 
+    if (const auto* numbers = root.Get("numbers"); numbers && numbers->IsObject()) {
+        ParseSemanticNumberIfExists(*numbers, data_, "world_tip_wave_amplitude", GetDefaults().semantic_numbers["world_tip_wave_amplitude"]);
+        ParseSemanticNumberIfExists(*numbers, data_, "world_tip_wave_period", GetDefaults().semantic_numbers["world_tip_wave_period"]);
+    }
+
     if (const auto* fonts = root.Get("fonts"); fonts && fonts->IsObject()) {
         if (const auto* primary = fonts->Get("primary"); primary && primary->IsString()) {
             data_.primary_font = primary->AsString();
@@ -196,6 +213,13 @@ std::uint32_t UiLayoutConfig::GetSemanticColor(
     std::uint32_t fallback) const {
     const auto it = data_.semantic_colors.find(name);
     return it != data_.semantic_colors.end() ? it->second : fallback;
+}
+
+float UiLayoutConfig::GetSemanticNumber(
+    const std::string& name,
+    float fallback) const {
+    const auto it = data_.semantic_numbers.find(name);
+    return it != data_.semantic_numbers.end() ? it->second : fallback;
 }
 
 UiLayoutData UiLayoutConfig::GetDefaults() {
@@ -261,6 +285,8 @@ UiLayoutData UiLayoutConfig::GetDefaults() {
     d.semantic_colors["button_disabled_bg"] = ParseHexColor("#C8C0A8");
     d.semantic_colors["main_menu_item_normal"] = ParseHexColor("#3D2517");
     d.semantic_colors["main_menu_item_selected"] = ParseHexColor("#D4A84B");
+    d.semantic_numbers["world_tip_wave_amplitude"] = 2.0f;
+    d.semantic_numbers["world_tip_wave_period"] = 0.5f;
 
     d.primary_font = "default";
     d.fallback_font = "auto";

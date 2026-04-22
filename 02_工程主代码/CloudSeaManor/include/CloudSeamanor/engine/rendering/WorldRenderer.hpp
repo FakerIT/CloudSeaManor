@@ -16,6 +16,7 @@
 // ============================================================================
 
 #include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/rendering/PlayerVisualComponent.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
@@ -41,7 +42,7 @@ private:
     void RenderPickups_(sf::RenderWindow& window, const GameWorldState& ws);
     void RenderPlayer_(sf::RenderWindow& window, const GameWorldState& ws);
 
-    sf::RectangleShape player_shape_;
+    PlayerVisualComponent player_visual_;
 };
 
 }  // namespace CloudSeamanor::engine
