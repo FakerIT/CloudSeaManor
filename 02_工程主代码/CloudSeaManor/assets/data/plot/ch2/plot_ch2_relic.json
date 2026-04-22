@@ -1,0 +1,45 @@
+{
+  "id": "plot_ch2_relic",
+  "chapter_id": "ch2",
+  "title": "灵界遗迹",
+  "description": "茶九带玩家进入灵界遗迹，展示界桥的历史壁画，讲述第一任守护者的牺牲。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "茶九",
+      "text": "这里是连接两个世界的古老遗迹。它存在了上千年……比山庄还要古老。这些壁画是界桥的历史：两个世界原本分离的状态，界桥最初被发现的场景，第一任守护者建立山庄……",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "茶九",
+      "text": "这是……界桥曾经崩溃过。很早以前，界桥曾经失控过。两个世界的灵气疯狂涌入，差点毁灭了一切。后来，第一任守护者用自己的生命，重新封印了界桥。从那以后，就有了守护者制度。每一代守护者，都要维护界桥的稳定。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "茶九",
+      "text": "你外公也做了同样的事。很多年前，一次大潮中界桥差点崩溃，你外公用自己的灵气填补了裂缝。他的寿命因此大大缩短……但他从来没有后悔过。",
+      "next_node_id": "end",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "茶九",
+      "text": "你外公守护了一辈子……我不能让他白费。我就知道你会继续。走吧，更深处还有东西要看。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "flag_to_set": "ch2_learned_history",
+      "trigger_event": "relic_deep_unlocked",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch2_ancient_text",
+  "priority": 40
+}

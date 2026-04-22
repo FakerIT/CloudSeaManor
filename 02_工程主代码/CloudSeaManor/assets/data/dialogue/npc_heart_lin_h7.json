@@ -1,0 +1,1 @@
+{"nodes":[{"id":"lin_h7_start","speaker":"林伯","text":"秋夜长，人就容易想很多。幸好山庄现在热闹多了。","choices":[{"id":"c1","text":"因为大家都把这里当家。","next":"lin_h7_end"}]},{"id":"lin_h7_end","speaker":"林伯","text":"说得好。你们在，老头子心里踏实。","choices":[]}]}

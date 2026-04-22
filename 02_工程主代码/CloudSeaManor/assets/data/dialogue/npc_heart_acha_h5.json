@@ -1,0 +1,1 @@
+{"nodes":[{"id":"acha_h5_start","speaker":"阿茶","text":"最近茶田里的香气更稳了。你来之后，很多事情都开始顺了。","choices":[{"id":"c1","text":"这是我们一起做出来的。","next":"acha_h5_end"}]},{"id":"acha_h5_end","speaker":"阿茶","text":"嗯……那就约好了，接下来也一起把山庄照看下去。","choices":[]}]}

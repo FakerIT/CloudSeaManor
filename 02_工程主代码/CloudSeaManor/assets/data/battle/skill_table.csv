@@ -1,0 +1,13 @@
+id,name,energy_cost,cooldown,base_power,element
+purify_slash,净灵斩,20,4,35,light
+mist_barrier,雾障,25,8,20,water
+tide_burst,潮涌破,40,15,70,water
+id,name,description,type,primary_effect,base_value,energy_cost,cooldown,range,is_area,duration,element,weather_bonus,unlock_heart,particle_effect,skill_slot
+player_wind_blade,风刃净化,释放风刃远程净化目标,active,purify,30,15,8,200,true,0,neutral,mist=1.2/thick=1.35/tide=1.5,1,purify_wind,0
+player_shadow_blade,影刃净化,瞬移至目标身边释放暗影刃,active,purify,45,25,12,150,false,0,dark,mist=1.2/thick=1.4/tide=1.5,3,purify_shadow,1
+player_stone_shield,岩甲护盾,生成厚重岩甲护盾保护自己,active,shield,40,20,20,0,false,10,earth,mist=1.0/thick=1.2/tide=1.4,1,shield_stone,2
+player_cloud_domain,云海领域,释放云海领域全屏净化,ultimate,purify,50,50,70,500,true,12,neutral,mist=1.2/thick=1.35/tide=1.5,5,purify_cloud,3
+spirit_basic_purify,灵兽净化,灵兽伙伴释放净化攻击,active,purify,25,0,15,180,false,0,neutral,mist=1.2/thick=1.35/tide=1.5,1,purify_generic,0
+spirit_heal,灵兽治疗,灵兽伙伴释放治疗,active,heal,20,0,20,0,false,0,neutral,mist=1.0/thick=1.0/tide=1.0,1,heal_generic,0
+spirit_group_buff,群体增益,全队获得净化效率加成,active,buff,0.2,0,30,300,true,0,neutral,mist=1.2/thick=1.35/tide=1.5,3,buff_generic,0
+spirit_ultimate,终阶领域,灵兽伙伴释放终阶领域,ultimate,purify,80,0,90,500,true,20,neutral,mist=1.2/thick=1.4/tide=1.6,5,purify_ultimate,0

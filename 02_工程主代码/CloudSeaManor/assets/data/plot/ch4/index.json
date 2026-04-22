@@ -1,0 +1,9 @@
+{
+  "plots": [
+    {"file": "plot_ch4_prologue.json", "id": "plot_ch4_prologue", "title": "新的夏天", "priority": 100},
+    {"file": "plot_ch4_tourists.json", "id": "plot_ch4_tourists", "title": "游客的到来", "priority": 90},
+    {"file": "plot_ch4_seal_array.json", "id": "plot_ch4_seal_array", "title": "古代封印阵", "priority": 80},
+    {"file": "plot_ch4_love_choice.json", "id": "plot_ch4_love_choice", "title": "感情的抉择", "priority": 70},
+    {"file": "plot_ch4_village_declaration.json", "id": "plot_ch4_village_declaration", "title": "全村表态", "priority": 60}
+  ]
+}

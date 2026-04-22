@@ -1,0 +1,69 @@
+{
+  "id": "plot_ch1_prologue",
+  "chapter_id": "ch1",
+  "title": "归途",
+  "description": "玩家独自走在荒废的山间小路上，回到阔别已久的云海山庄。",
+  "nodes": [
+    {
+      "id": "scene1_start",
+      "speaker": "旁白",
+      "text": "小时候，我总觉得这条山路很长、很远。后来去了城里，才发现……它其实很短。短到外公走不动了，我都不知道。",
+      "next_node_id": "scene2_old_manor",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "scene2_old_manor",
+      "speaker": "旁白",
+      "text": "外公走了。这座山庄，是他留给我的唯一的东西。也是我唯一的家。",
+      "next_node_id": "scene3_old_tree",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "scene3_old_tree",
+      "speaker": "老槐",
+      "text": "你终于来了。我等了很久了。",
+      "next_node_id": "scene4_reveal",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "scene4_reveal",
+      "speaker": "老槐",
+      "text": "我叫老槐，是这里的树灵。从今以后……也是你的朋友。欢迎回家，孩子。",
+      "next_node_id": "scene5_cloud_record",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "scene5_cloud_record",
+      "speaker": "旁白",
+      "text": "云海录第一页——若你能读到此页，说明你已回到山庄。山庄是我们的根，也是两个世界的纽带。界桥需要守护者，而你就是那个守护者。——你的外公",
+      "next_node_id": "scene6_village_doubt",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "scene6_village_doubt",
+      "speaker": "村民A",
+      "text": "就那个在外头待了很多年不管事的小年轻？能复兴山庄？",
+      "next_node_id": "scene7_laohuai_encourage",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "scene7_laohuai_encourage",
+      "speaker": "老槐",
+      "text": "各位，这是山庄的新主人。从今以后，山庄就交给他了。你要证明给他们看——你有能力守护这个地方。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "chapter_complete_flag": "ch1",
+      "trigger_event": "chapter_complete",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "scene1_start",
+  "next_plot_id": "plot_ch1_first_meet",
+  "priority": 100
+}

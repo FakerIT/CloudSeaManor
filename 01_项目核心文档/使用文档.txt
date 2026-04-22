@@ -1,0 +1,48 @@
+你现在是资深 C++20 / SFML 3.0.2 游戏客户端工程师。
+我已经给你《云海山庄》完整 UI 设计规范 1.0 版，我的项目是像素治愈系农场经营游戏，基于：
+- C++20
+- SFML 3.0.2
+- 现有代码结构：PixelArtStyle.hpp、PixelUiConfig.hpp、PixelGameHud.hpp、ui_layout.json、gameplay.cfg
+- 分辨率基准 1280×720，Switch 等比适配
+- 纯代码绘制 UI，无外部图集，全部复用现有调色板与组件
+
+请你严格按照这份 UI 设计规范，一次性生成【可直接编译、可直接集成到项目】的完整 C++ SFML UI 代码。
+
+输出要求：
+1. 只输出可直接使用的 C++ 代码，结构清晰，带命名空间、类、成员、函数。
+2. 严格遵循 UI 规范里的：颜色、尺寸、位置、布局、组件样式。
+3. 全部复用现有类：PixelUiPanel、PixelProgressBar、PixelToolbar、PixelDialogueBox 等。
+4. 自动生成以下 12 个核心 UI 面板类：
+   - CloudSeaForecastPanel（云海预报）
+   - PlayerStatusPanel（玩家状态）
+   - InventoryPanel（背包）
+   - TeaGardenPanel（茶园/灵茶）
+   - WorkshopPanel（工坊/制茶）
+   - ContractPanel（契约系统）
+   - NpcSocialPanel（NPC社交/好感）
+   - SpiritBeastPanel（灵兽）
+   - FestivalPanel（节日活动）
+   - SpiritRealmPanel（灵界探索）
+   - BuildingPanel（山庄建设/升级）
+   - SaveLoadPanel（存档/读档）
+
+5. 同时生成：
+   - 主 HUD 整合代码（PixelGameHud 扩展）
+   - 全局 UI 管理器（UIManager）
+   - 所有面板的初始化、更新、渲染、输入、开关逻辑
+   - 手柄/键盘导航兼容（Switch 适配）
+
+6. 代码必须：
+   - 可直接加入我的项目编译
+   - 不报错、不缺依赖
+   - 完全对齐 UI 规范里的颜色、位置、大小、状态
+   - 注释清晰，结构标准
+
+现在，根据《云海山庄》UI 设计规范 1.0，生成完整 C++ SFML UI 代码。
+
+
+
+
+
+
+

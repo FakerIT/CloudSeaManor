@@ -1,0 +1,5 @@
+[
+  { "npc_a": "acha", "npc_b": "lin", "text": "今年的茶香比往年稳了。" },
+  { "npc_a": "wanxing", "npc_b": "xiaoman", "text": "今晚的云层会很低，星会更亮。" },
+  { "npc_a": "lin", "npc_b": "wanxing", "text": "码头风大，早点回屋喝茶。" }
+]

@@ -1,0 +1,46 @@
+{
+  "id": "plot_ch3_autumn_memory",
+  "chapter_id": "ch3",
+  "title": "秋祭忆故",
+  "description": "秋祭忆故，玩家在外公墓前祭拜，收到《云海录》第3页碎片。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "老槐",
+      "text": "今天是秋祭忆故……是祭拜已故之人的日子。去，给你的外公上一炷香。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "玩家",
+      "text": "外公……我来看你了。你留给我的山庄，我正在努力守护它。虽然有时候很难……但我不会放弃的。谢谢你……外公。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "老槐",
+      "text": "你外公听到了。他一直都在看着你。故人已逝……但他们的心意，会代代相传。这就是生命的意义。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "老槐",
+      "text": "这是《云海录》的第3页碎片。你曾祖父和外公……一生的心血都在里面了。读懂它，你就能理解守护者真正的使命。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "trigger_event": "autumn_memory_complete",
+      "flag_to_set": "ch3_autumn_memory_done",
+      "unlock_item": "cloud_record_page3",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch3_rebuild",
+  "priority": 60
+}

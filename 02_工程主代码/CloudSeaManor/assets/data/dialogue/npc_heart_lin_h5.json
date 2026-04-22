@@ -1,0 +1,1 @@
+{"nodes":[{"id":"lin_h5_start","speaker":"林伯","text":"夏天的海风一吹，老头子就想起以前跑船的日子。","choices":[{"id":"c1","text":"以后我陪您慢慢讲那些故事。","next":"lin_h5_end"}]},{"id":"lin_h5_end","speaker":"林伯","text":"好啊，你这孩子愿意听，比什么都强。","choices":[]}]}

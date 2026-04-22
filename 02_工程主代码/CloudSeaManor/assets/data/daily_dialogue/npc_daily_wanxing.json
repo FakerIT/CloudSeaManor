@@ -1,0 +1,262 @@
+{
+  "npc_id": "wanxing",
+  "greetings": [
+    {
+      "id": "wanxing_greet_morning",
+      "text": "清晨的星光最淡，却也最澄澈。$[PLAYER_NAME]，你来得正好，快看东方。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_afternoon",
+      "text": "$[PLAYER_NAME]，午后的阳光会把云海染成金色。这是观测云海的另一个好时候。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_evening",
+      "text": "傍晚的云海……每一天都不一样。$[PLAYER_NAME]，你有没有留心观察过？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_night",
+      "text": "夜色下的云海是最安静的。$[PLAYER_NAME]，你很少这个时间来观星台，很少有人这么做。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_spring",
+      "text": "春天的星野里能看到特殊的星座。$[PLAYER_NAME]，我画了一幅春天的星图，想送你。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_summer",
+      "text": "夏夜的星河最长。$[PLAYER_NAME]，外公以前说，夏天可以看到'星泪'……我不知道那是什么。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_autumn",
+      "text": "秋天的星空最清澈，云层薄的时候，可以看到整条银河。$[PLAYER_NAME]，你会一起看吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_winter",
+      "text": "冬天的星星看起来最近。$[PLAYER_NAME]，冷吗？我给你倒杯热茶。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_mist",
+      "text": "薄雾里的星光会折射出淡淡的彩色光晕。$[PLAYER_NAME]，这是很少有人见过的景色。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_tide",
+      "text": "大潮之夜的星光……$[PLAYER_NAME]，外公说，这是能看到'星之心'的时候。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_greet_high",
+      "text": "……$[PLAYER_NAME]，看到你，我就不觉得一个人守着观星台很寂寞了。",
+      "favor_min": 200,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "wanxing_st_stars_1",
+      "text": "外公留下的星图里记载了三十六种特殊的星象。$[PLAYER_NAME]，我花了很多年才学会辨认它们。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_st_stars_2",
+      "text": "每一颗星都有自己的名字。$[PLAYER_NAME]，你相信吗？它们和人一样，是独一无二的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_st_weather",
+      "text": "今天的$[WEATHER]……云海和星空总是关联的，你注意到了吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_st_cloud",
+      "text": "云海是大地的呼吸，星空是天地的对话。$[PLAYER_NAME]，你喜欢哪一个？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_st_heart_low",
+      "text": "$[PLAYER_NAME]，谢谢你愿意听我说这些。其实……我很久没有和人聊过星星了。",
+      "favor_min": 0,
+      "favor_max": 100,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 4
+    },
+    {
+      "id": "wanxing_st_heart_mid",
+      "text": "外公走后，我是第一次和人说这么多话。$[PLAYER_NAME]，你让我想起了他。",
+      "favor_min": 50,
+      "favor_max": 400,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 8
+    },
+    {
+      "id": "wanxing_st_heart_high",
+      "text": "$[PLAYER_NAME]，我找到'星之心'了。就在……你眼里。",
+      "favor_min": 200,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_st_observatory",
+      "text": "这座观星台是外公亲手建的。$[PLAYER_NAME]，他说这里可以看到整个宇宙。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "wanxing_farewell_1",
+      "text": "下次再来吧，$[PLAYER_NAME]。我会在这里等你的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_farewell_2",
+      "text": "路上小心，夜里的山路要小心。$[PLAYER_NAME]。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_farewell_3",
+      "text": "你走了……我会继续数星星的。但这次，数着数着就在想你了。$[PLAYER_NAME]。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 3,
+      "heart_max": 10
+    },
+    {
+      "id": "wanxing_farewell_high",
+      "text": "……早点回来，$[PLAYER_NAME]。今晚的星星，我想和你一起看。",
+      "favor_min": 200,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ]
+}

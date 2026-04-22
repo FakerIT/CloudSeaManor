@@ -1,0 +1,122 @@
+{
+  "$schema": "../docs/atlas_schema.json",
+  "id": "player_main",
+  "texture": "assets/sprites/characters/player_main.png",
+  "width": 256,
+  "height": 512,
+  "description": "主角精灵表 - 256×512px，每帧 32×32px，8列×16行",
+  "grid": {
+    "frame_width": 32,
+    "frame_height": 32,
+    "columns": 8,
+    "rows": 16
+  },
+  "frames": [
+    {"id": "idle_down_0",  "x": 0,   "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "idle_down_1",  "x": 32,  "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "idle_down_2",  "x": 64,  "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "idle_down_3",  "x": 96,  "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "idle_right_0", "x": 128, "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "idle_right_1", "x": 160, "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "idle_up_0",    "x": 192, "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "idle_up_1",    "x": 224, "y": 0,   "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+
+    {"id": "walk_down_0",  "x": 0,   "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_down_1",  "x": 32,  "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_down_2",  "x": 64,  "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_down_3",  "x": 96,  "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_right_0", "x": 128, "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_right_1", "x": 160, "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_right_2", "x": 192, "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_right_3", "x": 224, "y": 32,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+
+    {"id": "walk_up_0",    "x": 0,   "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_up_1",    "x": 32,  "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_up_2",    "x": 64,  "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_up_3",    "x": 96,  "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_left_0",  "x": 128, "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_left_1",  "x": 160, "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_left_2",  "x": 192, "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "walk_left_3",  "x": 224, "y": 64,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+
+    {"id": "tool Hoe_0",   "x": 0,   "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "tool Hoe_1",   "x": 32,  "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "tool Hoe_2",   "x": 64,  "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "tool WateringCan_0", "x": 96,  "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "tool WateringCan_1", "x": 128, "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "tool WateringCan_2", "x": 160, "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "tool Axe_0",   "x": 192, "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+    {"id": "tool Axe_1",   "x": 224, "y": 96,  "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0},
+
+    {"id": "harvest_0",    "x": 0,   "y": 128, "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0, "duration": 200},
+    {"id": "harvest_1",    "x": 32,  "y": 128, "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0, "duration": 200},
+    {"id": "harvest_2",    "x": 64,  "y": 128, "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0, "duration": 200},
+    {"id": "harvest_3",    "x": 96,  "y": 128, "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0, "duration": 200},
+    {"id": "sleep_0",      "x": 128, "y": 128, "w": 32, "h": 32, "pivotX": 0.5, "pivotY": 1.0}
+  ],
+  "animations": [
+    {
+      "id": "idle_down",
+      "name": "待机·下",
+      "loop": true,
+      "speed": 1.0,
+      "frames": ["idle_down_0", "idle_down_1", "idle_down_2", "idle_down_3"]
+    },
+    {
+      "id": "idle_right",
+      "name": "待机·右",
+      "loop": true,
+      "speed": 1.0,
+      "frames": ["idle_right_0", "idle_right_1"]
+    },
+    {
+      "id": "idle_up",
+      "name": "待机·上",
+      "loop": true,
+      "speed": 1.0,
+      "frames": ["idle_up_0", "idle_up_1"]
+    },
+    {
+      "id": "walk_down",
+      "name": "行走·下",
+      "loop": true,
+      "speed": 1.2,
+      "frames": ["walk_down_0", "walk_down_1", "walk_down_2", "walk_down_3"]
+    },
+    {
+      "id": "walk_right",
+      "name": "行走·右",
+      "loop": true,
+      "speed": 1.2,
+      "frames": ["walk_right_0", "walk_right_1", "walk_right_2", "walk_right_3"]
+    },
+    {
+      "id": "walk_up",
+      "name": "行走·上",
+      "loop": true,
+      "speed": 1.2,
+      "frames": ["walk_up_0", "walk_up_1", "walk_up_2", "walk_up_3"]
+    },
+    {
+      "id": "walk_left",
+      "name": "行走·左",
+      "loop": true,
+      "speed": 1.2,
+      "frames": ["walk_left_0", "walk_left_1", "walk_left_2", "walk_left_3"]
+    },
+    {
+      "id": "tool_down",
+      "name": "使用工具·下",
+      "loop": false,
+      "speed": 1.0,
+      "frames": ["tool Hoe_0", "tool Hoe_1", "tool Hoe_2"]
+    },
+    {
+      "id": "harvest",
+      "name": "收获",
+      "loop": false,
+      "speed": 1.0,
+      "frames": ["harvest_0", "harvest_1", "harvest_2", "harvest_3"]
+    }
+  ]
+}

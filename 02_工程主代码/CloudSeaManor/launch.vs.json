@@ -1,0 +1,14 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "CloudSeamanor_game.exe",
+      "name": "CloudSeamanor_game (startup)",
+      "currentDir": "${projectDir}",
+      "args": []
+    }
+  ]
+}

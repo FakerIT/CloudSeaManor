@@ -1,0 +1,27 @@
+{
+  "id": "plot_ch4_prologue",
+  "chapter_id": "ch4",
+  "title": "新的夏天",
+  "description": "第二年夏天，山庄日益繁荣，老槐告知将面临人心与灵气的考验。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "旁白",
+      "text": "第二个夏天到了。山庄在我的打理下，已经完全恢复了生机。甚至比以前更加繁荣。但我也知道……平静的日子不会永远持续下去。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "老槐",
+      "text": "这一年……你会面临真正的考验。人心与灵气的考验。山庄越来越繁荣，来的人也会越来越多。有些是为了灵气，有些是为了利益，你要学会分辨。还有……你身边的朋友，他们的心，也在等待你的回应。是继续做朋友……还是更进一步？这个选择，会影响你的未来。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch4_tourists",
+  "priority": 100
+}

@@ -1,0 +1,1 @@
+{"nodes":[{"id":"lin_h1_start","speaker":"林伯","text":"$[PLAYER_NAME]，来得正好。主屋这边的旧木梁我刚看过，还撑得住。","choices":[{"id":"c1","text":"要不要我搭把手","next":"lin_h1_house"}]},{"id":"lin_h1_house","speaker":"林伯","text":"有你这句话就够了。你肯留下来，山庄这口气就续上了。","choices":[{"id":"c1","text":"我们一起守着它","next":"lin_h1_end"}]},{"id":"lin_h1_end","speaker":"林伯","text":"好。那就从今天起，把这儿当成真正的家。","choices":[]}]}

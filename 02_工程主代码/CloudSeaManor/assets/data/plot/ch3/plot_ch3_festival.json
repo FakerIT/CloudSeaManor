@@ -1,0 +1,44 @@
+{
+  "id": "plot_ch3_festival",
+  "chapter_id": "ch3",
+  "title": "丰收宴",
+  "description": "丰收宴上，大家团聚在一起，老槐讲述守护的意义。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "小满",
+      "text": "今年的收成太好了！番茄长得多大！黄瓜多长！",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "老槐",
+      "text": "这就是家的感觉啊……你外公最喜欢的，就是这样的日子。他总是说——'看到大家开心，就是我最大的幸福。'",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "玩家",
+      "text": "……外公他，原来一直在守护这些。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "老槐",
+      "text": "不只是守护界桥……更重要的是，守护这些人。这些平凡的日子，这些简单的快乐……才是守护的意义。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "trigger_event": "harvest_festival_complete",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch3_cloud_rift",
+  "priority": 90
+}

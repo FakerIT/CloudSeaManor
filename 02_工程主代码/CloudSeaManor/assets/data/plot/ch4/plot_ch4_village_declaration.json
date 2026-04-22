@@ -1,0 +1,61 @@
+{
+  "id": "plot_ch4_village_declaration",
+  "chapter_id": "ch4",
+  "title": "全村表态",
+  "description": "秋收宴上，全村人聚集在一起，老槐询问大家对山庄未来的看法。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "老槐",
+      "text": "今天是秋收宴，也是我们聚集在一起的时刻。这一年来，山庄发生了很多事。繁荣、危机、挑战、成长……我们都一起经历了。现在，我想听听大家的想法。你们觉得……山庄的未来应该是什么样的？",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "小满",
+      "text": "我希望山庄永远热闹！大家在一起，最开心了！",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "阿茶",
+      "text": "我希望山庄能一直保持平衡……让两个世界都能和平共处。",
+      "next_node_id": "start4",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "茶九",
+      "text": "我希望……界桥能保持稳定。这是最重要的事。只有界桥稳定，山庄才能长久。",
+      "next_node_id": "start5",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start5",
+      "speaker": "雾川",
+      "text": "……我会守护这一切。不管发生什么。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "老槐",
+      "text": "这就是人心。每个人都有自己的愿望，但我们都有一个共同的目标——让山庄变得更好。孩子，这就是你的力量。把大家的心团结在一起。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "chapter_complete_flag": "ch4",
+      "trigger_event": "plot_chapter_complete",
+      "cloud_delta": +200
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "",
+  "priority": 60
+}

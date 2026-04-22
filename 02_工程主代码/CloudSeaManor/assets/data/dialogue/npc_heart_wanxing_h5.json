@@ -1,0 +1,1 @@
+{"nodes":[{"id":"wanxing_h5_start","speaker":"晚星","text":"今晚的星图很干净，我刚好缺一个能听懂我兴奋的人。","choices":[{"id":"c1","text":"那就从这颗最亮的开始讲。","next":"wanxing_h5_end"}]},{"id":"wanxing_h5_end","speaker":"晚星","text":"好，先讲给你听。以后每次有新发现，我都第一时间告诉你。","choices":[]}]}

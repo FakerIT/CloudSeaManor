@@ -1,0 +1,40 @@
+{
+  "names": {
+    "acha": "阿茶",
+    "xiaoman": "小满",
+    "wanxing": "晚星",
+    "lin": "林伯",
+    "song": "宋掌柜",
+    "yu": "渔叔",
+    "mo": "墨匠",
+    "qiao": "桥婶",
+    "he": "禾娘",
+    "ning": "宁药师",
+    "an": "安书生",
+    "shu": "树婆婆",
+    "yan": "燕姑娘"
+  },
+  "locations": {
+    "TeaField": "茶田",
+    "MainHouse": "主屋",
+    "Market": "集市",
+    "Dock": "码头",
+    "Workshop": "工坊",
+    "VillageCenter": "村中心",
+    "SpiritGarden": "灵境花园",
+    "Observatory": "观星台",
+    "Greenhouse": "温室",
+    "Inn": "客栈",
+    "CoopBarn": "畜棚区"
+  },
+  "activities": {
+    "Watering": "浇水",
+    "BreakfastAndChores": "吃早饭并处理杂务",
+    "Trading": "摆摊交易",
+    "UnloadSupplies": "卸货整理物资",
+    "Repairs": "修理器具",
+    "Stargazing": "观星",
+    "FeedingBeasts": "喂养灵兽",
+    "TeaCeremony": "茶会"
+  }
+}

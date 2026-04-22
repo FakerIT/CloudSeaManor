@@ -1,0 +1,35 @@
+{
+  "id": "plot_ch1_first_work",
+  "chapter_id": "ch1",
+  "title": "初次经营",
+  "description": "玩家开始整理山庄，清理废墟，修复屋顶，打扫庭院。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "旁白",
+      "text": "接下来的日子里，我每天都在忙。清理废墟，修复屋顶，打扫庭院……外公以前一个人做这些，一定很累吧。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "旁白",
+      "text": "山庄有主屋、农田、茶田、灵兽园……还有一些我不认识的区域。外公的《云海录》里有很多我看不懂的记载。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "老槐",
+      "text": "这块地适合种茶。那个区域要小心，不要乱闯。有不懂的就来问我。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch1_awakening_festival",
+  "priority": 5
+}

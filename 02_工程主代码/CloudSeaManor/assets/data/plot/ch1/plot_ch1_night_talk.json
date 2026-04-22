@@ -1,0 +1,76 @@
+{
+  "id": "plot_ch1_night_talk",
+  "chapter_id": "ch1",
+  "title": "夜谈",
+  "description": "苏醒祭结束后，玩家独自坐在老槐树下，老槐讲述了界桥的秘密。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "老槐",
+      "text": "怎么还不睡？",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "玩家",
+      "text": "睡不着……在想外公的事。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "老槐",
+      "text": "你外公，是个了不起的人。他年轻时也是个普通人，后来偶然发现了界桥的秘密……从那以后，就把自己的一生都献给了这座山庄。",
+      "next_node_id": "start4",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "玩家",
+      "text": "界桥……到底是什么？",
+      "next_node_id": "start5",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start5",
+      "speaker": "老槐",
+      "text": "界桥，是连接人界和灵界的通道。它就在这座山庄的地下。人界和灵界原本是分离的两个世界，但偶尔会有裂缝，让两个世界的灵气流通。",
+      "next_node_id": "start6",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start6",
+      "speaker": "老槐",
+      "text": "你曾祖父发现了这个秘密，在这里建了山庄，目的就是守护这道裂缝，维持平衡。",
+      "next_node_id": "start7",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start7",
+      "speaker": "老槐",
+      "text": "不过你不用怕。你不是你一个人。这座山庄，这些人，这些灵兽……都会成为你的力量。",
+      "next_node_id": "start8",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start8",
+      "speaker": "老槐",
+      "text": "睡吧，孩子。明天还有很多事要做。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "flag_to_set": "ch1_night_talk_done",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch1_spirit_beast",
+  "priority": 2
+}

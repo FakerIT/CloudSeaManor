@@ -1,0 +1,14 @@
+id,name,machine_id,input_item,input_count,output_item,output_count,process_time,base_success_rate,tags
+green_tea,绿茶,tea_machine,TeaLeaf,2,TeaPack,1,60,0.85,core;entry
+white_tea,白茶,tea_machine,white_leaf,5,white_tea_pack,1,90,0.80,premium
+oolong_tea,乌龙茶,tea_machine,oolong_leaf,5,oolong_tea_pack,1,120,0.75,premium
+spirit_mist_tea,初雾绿茶,tea_machine,spirit_leaf,3,spirit_tea_pack,1,180,0.70,rare;seasonal
+summer_cloud_tea,夏云白茶,tea_machine,summer_leaf,3,summer_tea_pack,1,180,0.70,rare;seasonal
+autumn_frost_tea,秋霜乌龙,tea_machine,autumn_leaf,3,autumn_tea_pack,1,180,0.70,rare;seasonal
+winter_snow_tea,冬雪银针,tea_machine,winter_leaf,3,winter_snow_tea_pack,1,180,0.70,rare;seasonal
+fermented_tea,发酵茶,ferment_machine,TeaPack,2,fermented_tea_pack,1,300,0.60,core;upgrade
+spirit_fermented_tea,灵性发酵茶,ferment_machine,spirit_tea_pack,1,spirit_fermented_pack,1,480,0.50,legendary
+spirit_essence,灵粹,tea_machine,spirit_grass,3,spirit_essence,1,60,0.95,spirit
+cloud_elixir,云华灵药,tea_machine,cloud_dew,2,cloud_elixir,1,120,0.90,spirit
+immortal_tea,不朽灵茶,tea_machine,cloud_elixir,1,immortal_tea,1,300,0.85,legendary
+tea_tree_leaf,茶树采叶,tea_machine,TeaLeaf,3,TeaPack,2,160,0.92,tea_garden

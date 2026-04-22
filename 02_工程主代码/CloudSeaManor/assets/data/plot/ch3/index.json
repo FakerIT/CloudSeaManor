@@ -1,0 +1,10 @@
+{
+  "plots": [
+    {"file": "plot_ch3_prologue.json", "id": "plot_ch3_prologue", "title": "秋意的预兆", "priority": 100},
+    {"file": "plot_ch3_festival.json", "id": "plot_ch3_festival", "title": "丰收宴", "priority": 90},
+    {"file": "plot_ch3_cloud_rift.json", "id": "plot_ch3_cloud_rift", "title": "界桥警报", "priority": 80},
+    {"file": "plot_ch3_fix_realm.json", "id": "plot_ch3_fix_realm", "title": "修复界桥", "priority": 70},
+    {"file": "plot_ch3_autumn_memory.json", "id": "plot_ch3_autumn_memory", "title": "秋祭忆故", "priority": 60},
+    {"file": "plot_ch3_rebuild.json", "id": "plot_ch3_rebuild", "title": "重建与修缮", "priority": 50}
+  ]
+}

@@ -1,0 +1,7 @@
+building_id,level,wood_cost,gold_cost,days_required,new_feature
+main_house,1,4,0,0,帐篷->小木屋
+main_house,2,10,500,3,小木屋->砖房,+1房间
+main_house,3,20,2000,7,砖房->大宅,+2房间+温室
+workshop,1,0,0,0,1加工槽
+workshop,2,6,400,2,2加工槽
+workshop,3,12,1200,4,4加工槽

@@ -1,0 +1,8 @@
+building_id,level,wood_cost,gold_cost,days_required,new_feature
+main_house,1,4,0,0,帐篷→小木屋
+main_house,2,10,500,3,小木屋→砖房,+1房间
+main_house,3,20,2000,7,砖房→大宅,+2房间+温室
+workshop,1,0,0,0,基础工坊:1槽
+workshop,2,8,600,2,工坊升级:2槽
+workshop,3,16,1400,4,工坊升级:4槽
+workshop,4,24,2600,6,工坊升级:6槽

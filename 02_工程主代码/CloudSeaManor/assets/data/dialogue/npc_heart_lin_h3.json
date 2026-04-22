@@ -1,0 +1,1 @@
+{"nodes":[{"id":"lin_h3_start","speaker":"林伯","text":"$[PLAYER_NAME]，这屋子我看了很多年，今天忽然觉得终于有人能接住它了。","choices":[{"id":"c1","text":"我会好好守着","next":"lin_h3_memory"}]},{"id":"lin_h3_memory","speaker":"林伯","text":"你这句话，比修十根梁都顶用。山庄最怕的不是旧，是没人惦记。","choices":[{"id":"c1","text":"我会一直惦记","next":"lin_h3_end"}]},{"id":"lin_h3_end","speaker":"林伯","text":"那就行。以后有我一口茶，就有你一口。","choices":[]}]}

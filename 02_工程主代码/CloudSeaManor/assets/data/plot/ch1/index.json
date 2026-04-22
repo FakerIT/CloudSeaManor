@@ -1,0 +1,11 @@
+{
+  "plots": [
+    {"file": "plot_ch1_prologue.json", "id": "plot_ch1_prologue", "title": "归途", "priority": 100},
+    {"file": "plot_ch1_first_meet.json", "id": "plot_ch1_first_meet", "title": "村民初见", "priority": 10},
+    {"file": "plot_ch1_first_work.json", "id": "plot_ch1_first_work", "title": "初次经营", "priority": 5},
+    {"file": "plot_ch1_awakening_festival.json", "id": "plot_ch1_awakening_festival", "title": "山庄苏醒祭", "priority": 3},
+    {"file": "plot_ch1_night_talk.json", "id": "plot_ch1_night_talk", "title": "夜谈", "priority": 2},
+    {"file": "plot_ch1_spirit_beast.json", "id": "plot_ch1_spirit_beast", "title": "云狐相遇", "priority": 1},
+    {"file": "plot_ch1_cloud_rift.json", "id": "plot_ch1_cloud_rift", "title": "界桥动荡", "priority": 0}
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "id": "plot_ch5_three_paths",
+  "chapter_id": "ch5",
+  "title": "三条道路",
+  "description": "老槐向玩家揭示三条通往不同结局的道路：平衡、打开、关闭。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "老槐",
+      "text": "现在，摆在你面前的有三条路。三条路，通向三个不同的结局。",
+      "next_node_id": "path1",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "path1",
+      "speaker": "老槐",
+      "text": "第一条路——配合上界。彻底打开界桥，让两个世界的灵气自由流通。好处是人界可以获得灵界的资源，灵气会更加充沛。坏处是平衡会被打破，最终可能导致两个世界共同毁灭。",
+      "next_node_id": "path2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "path2",
+      "speaker": "老槐",
+      "text": "第二条路——配合下界贪婪者。彻底关闭界桥，切断两个世界的联系。好处是人界可以独占所有灵气，短期内经济会飞速发展。坏处是积累的灵气会爆发，后果同样不堪设想。",
+      "next_node_id": "path3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "path3",
+      "speaker": "老槐",
+      "text": "第三条路——维持平衡。让灵气自然流通，不偏向任何一方。这是最难的……但也是最正确的。",
+      "next_node_id": "choice",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "choice",
+      "speaker": "老槐",
+      "text": "孩子……你选择哪条路？",
+      "choices": [
+        { "id": "balance", "text": "我选择平衡之道。（推荐，难度最高）", "next": "balance_end" },
+        { "id": "open", "text": "我选择配合上界。", "next": "open_end" },
+        { "id": "close", "text": "我选择关闭界桥。", "next": "close_end" },
+        { "id": "delay", "text": "我还没想好……", "next": "delay_end" }
+      ],
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "balance_end",
+      "speaker": "老槐",
+      "text": "好……这才是最正确的选择。但这条路，需要你付出最大的努力。需要最高的人气……和最高的灵气。你准备好了吗？",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "choice_effects": [
+        { "flag_to_set": "ch5_route_balance" },
+        { "route_bias": "balance" }
+      ],
+      "unlock_location": "taiji_relic",
+      "trigger_event": "route_balance_locked",
+      "chapter_complete_flag": "ch5",
+      "cloud_delta": 0
+    },
+    {
+      "id": "open_end",
+      "speaker": "茶九",
+      "text": "我会支持你。毕竟，我来自上界……这也是我一直在寻找的答案。让我们一起，找到和平打开界桥的方法。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "choice_effects": [
+        { "flag_to_set": "ch5_route_open" },
+        { "route_bias": "open" }
+      ],
+      "trigger_event": "route_open_locked",
+      "chapter_complete_flag": "ch5",
+      "cloud_delta": 0
+    },
+    {
+      "id": "close_end",
+      "speaker": "雾川",
+      "text": "我会支持你。作为守护者，我的职责是保护人界。如果关闭界桥能让人界更安全，我愿意为此战斗。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "choice_effects": [
+        { "flag_to_set": "ch5_route_close" },
+        { "route_bias": "close" }
+      ],
+      "trigger_event": "route_close_locked",
+      "chapter_complete_flag": "ch5",
+      "cloud_delta": 0
+    },
+    {
+      "id": "delay_end",
+      "speaker": "老槐",
+      "text": "这是大事，需要慎重考虑。在最终决战之前，你随时可以改变决定。但记住……不管你选择什么，都要承担相应的后果。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "choice_effects": [
+        { "flag_to_set": "ch5_route_undecided" }
+      ],
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch5_preparation",
+  "priority": 90
+}

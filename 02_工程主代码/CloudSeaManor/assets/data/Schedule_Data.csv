@@ -1,0 +1,36 @@
+npc_id,day_type,start_minutes,end_minutes,location,activity
+# ===== 阿茶 (acha) =====
+acha,normal,360,480,TeaField,Watering
+acha,normal,480,600,TeaField,TeaCeremony
+acha,normal,600,720,MainHouse,BreakfastAndChores
+acha,normal,720,840,VillageCenter,Trading
+acha,normal,840,960,TeaField,TeaCeremony
+acha,normal,960,1140,MainHouse,BreakfastAndChores
+acha,normal,1140,1260,TeaField,Watering
+acha,normal,1260,1320,VillageCenter,Trading
+# ===== 小满 (xiaoman) =====
+xiaoman,normal,420,540,VillageCenter,BreakfastAndChores
+xiaoman,normal,540,720,SpiritGarden,FeedingBeasts
+xiaoman,normal,720,900,VillageCenter,Trading
+xiaoman,normal,900,1020,SpiritGarden,FeedingBeasts
+xiaoman,normal,1020,1140,Market,Trading
+xiaoman,normal,1140,1260,VillageCenter,BreakfastAndChores
+xiaoman,normal,1260,1440,SpiritGarden,FeedingBeasts
+# ===== 晚星 (wanxing) =====
+wanxing,normal,480,600,Observatory,Stargazing
+wanxing,normal,600,720,VillageCenter,BreakfastAndChores
+wanxing,normal,720,840,Market,Trading
+wanxing,normal,840,960,Observatory,Stargazing
+wanxing,normal,960,1140,VillageCenter,Trading
+wanxing,normal,1140,1260,Observatory,Stargazing
+wanxing,normal,1260,1380,VillageCenter,BreakfastAndChores
+wanxing,normal,1380,1440,Observatory,Stargazing
+# ===== 林伯 (lin) =====
+lin,normal,480,600,MainHouse,BreakfastAndChores
+lin,normal,600,720,Dock,UnloadSupplies
+lin,normal,720,840,MainHouse,Repairs
+lin,normal,840,960,Market,Trading
+lin,normal,960,1080,Dock,UnloadSupplies
+lin,normal,1080,1200,MainHouse,Repairs
+lin,normal,1200,1380,VillageCenter,Trading
+lin,normal,1380,1440,MainHouse,BreakfastAndChores

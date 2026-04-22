@@ -1,0 +1,13 @@
+id,name,background_sprite_id,ambient_pollution_rate
+farm_outskirts,山庄外缘,bg_farm_night,1.0
+spirit_realm_layer1,灵界浅层,bg_spirit_layer1,1.2
+spirit_realm_layer2,灵界中层,bg_spirit_layer2,1.4
+id,name,background,ambient_pollution_rate,is_spirit_realm,allowed_spirit_ids
+zone_cloud_manor,云海山庄外围,cloud_manor_bg,1.0,,false
+zone_mountain_path,山间小道,mountain_path_bg,1.0,,false
+zone_bamboo_forest,后山竹林,bamboo_bg,0.8,,false
+zone_tea_garden,茶园,tea_garden_bg,0.9,,false
+zone_spirit_realm_1,灵界遗迹浅层,spirit_realm_bg_1,1.2,spirit_wanderer/spirit_lost_butterfly/spirit_raging_vine,true
+zone_spirit_realm_2,灵界遗迹深层,spirit_realm_bg_2,1.5,spirit_angry_stone/spirit_frantic_cloud/spirit_vengeful,true
+zone_spirit_realm_3,灵界遗迹核心,spirit_realm_bg_3,2.0,spirit_abyss_jellyfish/spirit_raging_golem/spirit_realm_guardian,true
+zone_boss_tide,云海大潮,BOSS_tide_bg,2.5,spirit_tide_lord,true

@@ -1,0 +1,27 @@
+{
+  "id": "plot_ch3_prologue",
+  "chapter_id": "ch3",
+  "title": "秋意的预兆",
+  "description": "秋天到来，老槐提醒秋末是界桥最容易出现裂痕的时候。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "旁白",
+      "text": "秋天，是山庄最忙碌的季节。农田里的庄稼成熟了，茶田的茶叶也该采摘了……整个山庄都沉浸在丰收的喜悦中。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "老槐",
+      "text": "孩子，秋天来了。丰收是好的……但秋天的云海也会变得不稳定。尤其是秋末……是界桥最容易出现裂痕的时候。你要做好准备。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch3_festival",
+  "priority": 100
+}

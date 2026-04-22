@@ -1,0 +1,1 @@
+{"nodes":[{"id":"acha_h1_start","speaker":"阿茶","text":"$[PLAYER_NAME]，你今天来得很早。第一批新芽刚冒出来，我想第一个给你看。","choices":[{"id":"c1","text":"我也想看看","next":"acha_h1_bud"}]},{"id":"acha_h1_bud","speaker":"阿茶","text":"春茶最怕错过这几天。以后清晨来茶田，我给你留最嫩的一片。","choices":[{"id":"c1","text":"说好了","next":"acha_h1_end"}]},{"id":"acha_h1_end","speaker":"阿茶","text":"嗯，说好了。谢谢你愿意陪我守着这片茶田。","choices":[]}]}

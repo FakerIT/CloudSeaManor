@@ -1,0 +1,6 @@
+id,title,description,objective,reward
+daily_commission_tea,茶园委托,为阿茶补齐今日制茶原料,上交 TeaLeaf x3,金币 120
+daily_commission_shop,商队补给,为商队准备基础农产,上交 Turnip x2,金币 90
+birthday_prepare,生日筹备,本季 NPC 生日前准备礼物,赠送 TeaPack x1,好感 +15
+tool_upgrade_intro,工具升级试炼,在工坊完成一次工具升级,完成一次升级操作,体力上限 +5
+land_clearance,地块开垦,清理并开垦一块新地,完成翻土+播种+浇水,种子礼包

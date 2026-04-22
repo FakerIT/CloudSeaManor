@@ -1,0 +1,1 @@
+{"nodes":[{"id":"wanxing_h7_start","speaker":"晚星","text":"秋夜总让我想起第一次独自守在观星台的那天。","choices":[{"id":"c1","text":"现在你不是一个人了。","next":"wanxing_h7_end"}]},{"id":"wanxing_h7_end","speaker":"晚星","text":"嗯，有你在，夜色也没那么冷了。","choices":[]}]}

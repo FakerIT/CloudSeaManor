@@ -1,0 +1,46 @@
+{
+  "id": "plot_ch2_ancient_text",
+  "chapter_id": "ch2",
+  "title": "太古铭文",
+  "description": "茶九解读太古铭文：界桥的核心秘密——维持平衡才是唯一正确的道路。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "茶九",
+      "text": "这是太古铭文。记载了界桥最核心的秘密。我只能看懂一部分。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "茶九",
+      "text": "界桥，是两个世界的纽带。维持平衡，才能长治久安。如果强行打开，两个世界的灵气会失衡，最终导致共同毁灭。如果强行关闭，积累的灵气会爆发，后果同样不堪设想。唯一的办法，是维持平衡，让灵气自然流通。而守护者的使命，就是维持这种平衡。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "茶九",
+      "text": "上界想要打开界桥，只会加速毁灭。他们太急了。但这不全是他们的错……上界的灵气确实在枯竭。他们需要帮助，但不应该以牺牲人界为代价。我们需要找到一个两全其美的办法。",
+      "next_node_id": "end",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "茶九",
+      "text": "这就是界桥的真正秘密。好好记住它。这关系到你未来的每一个选择。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "flag_to_set": "ch2_truth_learned",
+      "trigger_event": "plot_chapter_complete",
+      "chapter_complete_flag": "ch2",
+      "cloud_delta": +200
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "",
+  "priority": 30
+}

@@ -1,0 +1,98 @@
+{
+  "id": "plot_ch4_seal_array",
+  "chapter_id": "ch4",
+  "title": "古代封印阵",
+  "description": "温泉扩建时发现古老的封印阵，守护灵兽现身，玩家可以选择沟通或战斗。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "秋棠",
+      "text": "温泉要扩建了！新发现了一块地方，可以做成新的温泉池。不过挖的时候……好像发现了什么奇怪的东西。",
+      "next_node_id": "start2",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "玄清",
+      "text": "这是……封印阵？是很古老的封印阵……而且它还……在运作。意思是有人曾经在这里封印过某种东西，而且封印还在生效。这件事……必须调查。",
+      "next_node_id": "start3",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "玄清",
+      "text": "从风格来看，应该是第一任守护者设的。看来第一任守护者在这里……封印了某种东西。这个封印，绝对不能被破坏。",
+      "next_node_id": "start4",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "守护灵兽",
+      "text": "吼！！",
+      "next_node_id": "choice",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "choice",
+      "speaker": "雾川",
+      "text": "要么说服它，要么……战斗。",
+      "choices": [
+        { "id": "talk", "text": "尝试和它沟通", "next": "talk_end" },
+        { "id": "fight", "text": "和雾川一起战斗", "next": "fight_end" }
+      ],
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "talk_end",
+      "speaker": "玩家",
+      "text": "别怕，我们不是来破坏封印的。我是守护者。",
+      "next_node_id": "talk_end2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "talk_end2",
+      "speaker": "守护灵兽",
+      "text": "……呜。",
+      "next_node_id": "talk_end3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "talk_end3",
+      "speaker": "旁白",
+      "text": "玩家轻轻触碰灵兽，光芒闪烁。守护灵兽接受了玩家，成为了玩家的伙伴。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "trigger_event": "guardian_beast_bonded",
+      "choice_effects": [{ "flag_to_set": "ch4_persuaded_guardian" }],
+      "cloud_delta": 0
+    },
+    {
+      "id": "fight_end",
+      "speaker": "雾川",
+      "text": "那就战斗吧！",
+      "next_node_id": "fight_end2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "fight_end2",
+      "speaker": "旁白",
+      "text": "经过一番激烈的战斗，守护灵兽被暂时击退。封印没有遭到破坏。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "trigger_event": "guardian_beast_wounded",
+      "choice_effects": [{ "flag_to_set": "ch4_fought_guardian" }],
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch4_love_choice",
+  "priority": 80
+}

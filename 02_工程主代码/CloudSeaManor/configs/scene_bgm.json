@@ -1,0 +1,9 @@
+{
+  "farm": "assets/audio/bgm/farmhouse_theme.ogg",
+  "shop": "assets/audio/bgm/shop_theme.ogg",
+  "spirit_realm_layer1": "assets/audio/bgm/spirit_realm_calm.ogg",
+  "spirit_realm_layer2": "assets/audio/bgm/spirit_realm_tension.ogg",
+  "spirit_realm_layer3": "assets/audio/bgm/spirit_realm_epic.ogg",
+  "festival": "assets/audio/bgm/festival_theme.ogg",
+  "tide": "assets/audio/bgm/tide_theme.ogg"
+}

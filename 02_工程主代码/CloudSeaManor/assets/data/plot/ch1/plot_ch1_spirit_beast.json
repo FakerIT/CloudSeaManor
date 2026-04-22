@@ -1,0 +1,86 @@
+{
+  "id": "plot_ch1_spirit_beast",
+  "chapter_id": "ch1",
+  "title": "云狐相遇",
+  "description": "浓云海之夜，玩家在竹林边发现了一只受伤的云狐，并将其救回。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "系统",
+      "text": "浓云海之夜！云海浓度达到最高！",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "旁白",
+      "text": "云海在夜空中翻涌，比平时浓得多。云海这么浓……而且是晚上？",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "老槐",
+      "text": "来了……浓云海之夜。有灵兽受伤了！快去看看！",
+      "next_node_id": "start4",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "旁白",
+      "text": "玩家顺着声音跑去，在竹林边发现了一只受伤的小狐狸。小狐狸身上闪着淡淡的蓝光，显然不是普通的动物。",
+      "next_node_id": "start5",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start5",
+      "speaker": "小满",
+      "text": "我听到声音也赶来了！哇！是云狐！云狐是灵兽中最温顺的一种，它怎么会受伤？",
+      "next_node_id": "start6",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start6",
+      "speaker": "老槐",
+      "text": "它是被其他灵兽追赶到这里的。云海之夜，有些灵兽会变得暴躁。它需要帮助。",
+      "next_node_id": "start7",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start7",
+      "speaker": "玩家",
+      "text": "别怕，我不会伤害你。走，我带你回去疗伤。",
+      "next_node_id": "start8",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start8",
+      "speaker": "旁白",
+      "text": "云狐蹭了蹭玩家的手，接受了玩家的善意。",
+      "next_node_id": "start9",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start9",
+      "speaker": "老槐",
+      "text": "你救了它……它会成为你的伙伴。灵兽，是界桥附近的特殊生灵。和灵兽建立羁绊，它们会帮助你守护山庄。好好照顾它，它会成为你最重要的伙伴。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "unlock_region": "spirit_beast_zone",
+      "flag_to_set": "spirit_beast_adopted",
+      "trigger_event": "spirit_beast_adopted",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch1_cloud_rift",
+  "priority": 1
+}

@@ -1,0 +1,106 @@
+{
+  "id": "plot_ch2_upper_world",
+  "chapter_id": "ch2",
+  "title": "上界使者",
+  "description": "夏季夜晚，上界使者来访，传达上界旨意：彻底打开界桥。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "雾川",
+      "text": "有情况。有人来了——上界的使者。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "上界使者",
+      "text": "你就是现任的守护者？奉上界之命，来查看界桥。这地方……比我想象的还要破旧。看来你这个守护者……不太称职啊。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "雾川",
+      "text": "放肆。这里是山庄，不是你撒野的地方。",
+      "next_node_id": "start4",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "上界使者",
+      "text": "界桥的裂缝越来越大。上界认为……是时候彻底打开通道了。让两个世界的灵气自由流通。这样，上界的灵气可以滋养人界……人界的资源也可以供给上界。",
+      "next_node_id": "choice",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "choice",
+      "speaker": "上界使者",
+      "text": "你只有两个选择——配合我们，或者被取代。选择吧，守护者。你站在哪一边？",
+      "choices": [
+        { "id": "refuse", "text": "我不会配合你们的。", "next": "refuse_end" },
+        { "id": "delay", "text": "我需要时间考虑。", "next": "delay_end" },
+        { "id": "ask", "text": "上界为什么突然要打开界桥？", "next": "ask_end" }
+      ],
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "refuse_end",
+      "speaker": "上界使者",
+      "text": "你会后悔的，年轻人。上界不会放弃的。下次见面……可就没这么客气了。",
+      "next_node_id": "refuse_end2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "refuse_end2",
+      "speaker": "雾川",
+      "text": "你做得对。彻底打开界桥……对两个世界都是灾难。但你也要做好准备……他们不会善罢甘休的。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "choice_effects": [{ "flag_to_set": "ch2_refused_upper" }],
+      "cloud_delta": 0
+    },
+    {
+      "id": "delay_end",
+      "speaker": "上界使者",
+      "text": "……好。给你一个月时间。一个月后，我会再来。希望你到时候能给我一个满意的答复。",
+      "next_node_id": "delay_end2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "delay_end2",
+      "speaker": "雾川",
+      "text": "拖延不是办法……但至少为我们争取了时间。趁这段时间，好好准备吧。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "choice_effects": [{ "flag_to_set": "ch2_delayed_upper" }],
+      "cloud_delta": 0
+    },
+    {
+      "id": "ask_end",
+      "speaker": "上界使者",
+      "text": "……上界的灵气在枯竭。我们需要新的灵气来源。",
+      "next_node_id": "ask_end2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "ask_end2",
+      "speaker": "雾川",
+      "text": "他透露了重要信息……上界的灵气在枯竭。这就是他们急于打开界桥的真正原因。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "choice_effects": [{ "flag_to_set": "ch2_learned_truth" }],
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch2_cloud_tide",
+  "priority": 60
+}

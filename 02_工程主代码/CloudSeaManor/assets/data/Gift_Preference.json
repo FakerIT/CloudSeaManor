@@ -1,0 +1,22 @@
+{
+  "acha": {
+    "loved": ["spirit_tea_pack", "MistFlower", "MoonRice"],
+    "liked": ["TeaPack", "TeaLeaf", "CloudBerry"],
+    "disliked": ["Stone", "Weed"]
+  },
+  "xiaoman": {
+    "loved": ["BeastTreat", "MoonRice", "CloudBerry"],
+    "liked": ["SpiritMushroom", "Wood", "RootTurnip"],
+    "disliked": ["Stone"]
+  },
+  "wanxing": {
+    "loved": ["StarFruit", "CrystalBall", "MoonRice"],
+    "liked": ["SpiritTeaPack", "MistFlower", "SpiritMushroom"],
+    "disliked": ["Turnip", "Weed"]
+  },
+  "lin": {
+    "loved": ["TeaPack", "CloudHerb"],
+    "liked": ["TeaLeaf", "Wood"],
+    "disliked": ["Stone"]
+  }
+}

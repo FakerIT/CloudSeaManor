@@ -1,0 +1,1 @@
+{"nodes":[{"id":"wanxing_h3_start","speaker":"晚星","text":"$[PLAYER_NAME]，今晚的星图我改了很多次，最后还是想先给你看。","choices":[{"id":"c1","text":"我很想看","next":"wanxing_h3_map"}]},{"id":"wanxing_h3_map","speaker":"晚星","text":"这条线原本没有名字。你来之后，我把它记成了“归途”。","choices":[{"id":"c1","text":"为什么叫归途","next":"wanxing_h3_end"}]},{"id":"wanxing_h3_end","speaker":"晚星","text":"因为每次看到它，我都会想到你会来观星台。","choices":[]}]}

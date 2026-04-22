@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UI Layout Configuration Schema",
+  "description": "Schema for ui_layout.json configuration file",
+  "type": "object",
+  "required": ["panels", "texts"],
+  "additionalProperties": false,
+
+  "definitions": {
+    "position": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "[x, y] coordinates"
+    },
+
+    "size": {
+      "type": "array",
+      "items": { "type": "number" },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "[width, height] dimensions"
+    },
+
+    "color": {
+      "type": "string",
+      "pattern": "^#[0-9A-Fa-f]{6,8}$",
+      "description": "Hex color code (6 or 8 digits)"
+    },
+
+    "panel": {
+      "type": "object",
+      "properties": {
+        "position": { "$ref": "#/definitions/position" },
+        "size": { "$ref": "#/definitions/size" },
+        "fill_color": { "$ref": "#/definitions/color" },
+        "outline_color": { "$ref": "#/definitions/color" },
+        "outline_thickness": { "type": "number" },
+        "alpha": { "type": "number", "minimum": 0, "maximum": 255 },
+        "fullscreen": { "type": "boolean" }
+      }
+    },
+
+    "text": {
+      "type": "object",
+      "properties": {
+        "position": { "$ref": "#/definitions/position" },
+        "font_size": { "type": "number", "minimum": 1 },
+        "color": { "$ref": "#/definitions/color" },
+        "outline_thickness": { "type": "number" },
+        "outline_color": { "$ref": "#/definitions/color" }
+      }
+    }
+  },
+
+  "properties": {
+    "panels": {
+      "type": "object",
+      "properties": {
+        "main_panel": { "$ref": "#/definitions/panel" },
+        "inventory_panel": { "$ref": "#/definitions/panel" },
+        "dialogue_panel": { "$ref": "#/definitions/panel" },
+        "hint_panel": { "$ref": "#/definitions/panel" },
+        "stamina_bar": { "$ref": "#/definitions/panel" },
+        "workshop_progress": { "$ref": "#/definitions/panel" },
+        "aura_overlay": { "$ref": "#/definitions/panel" },
+        "festival_notice": { "$ref": "#/definitions/panel" },
+
+        "pixel_top_right_info": { "$ref": "#/definitions/panel" },
+        "pixel_bottom_right_status": { "$ref": "#/definitions/panel" },
+        "pixel_toolbar": { "$ref": "#/definitions/panel" },
+        "pixel_dialogue_box": { "$ref": "#/definitions/panel" },
+        "pixel_inventory": { "$ref": "#/definitions/panel" },
+        "pixel_quest_menu": { "$ref": "#/definitions/panel" },
+        "pixel_minimap": { "$ref": "#/definitions/panel" },
+        "pixel_minimap_inner": { "$ref": "#/definitions/panel" },
+        "pixel_stamina_bar": { "$ref": "#/definitions/panel" },
+        "pixel_stamina_fill": { "$ref": "#/definitions/panel" },
+        "pixel_stamina_low": { "$ref": "#/definitions/panel" },
+        "pixel_stamina_full": { "$ref": "#/definitions/panel" }
+      }
+    },
+
+    "texts": {
+      "type": "object",
+      "properties": {
+        "hud": { "$ref": "#/definitions/text" },
+        "inventory": { "$ref": "#/definitions/text" },
+        "hint": { "$ref": "#/definitions/text" },
+        "dialogue": { "$ref": "#/definitions/text" },
+        "debug": { "$ref": "#/definitions/text" },
+        "world_tip": { "$ref": "#/definitions/text" },
+        "festival_notice": { "$ref": "#/definitions/text" },
+        "level_up": { "$ref": "#/definitions/text" },
+
+        "pixel_top_right_time": { "$ref": "#/definitions/text" },
+        "pixel_top_right_season": { "$ref": "#/definitions/text" },
+        "pixel_top_right_weather": { "$ref": "#/definitions/text" },
+        "pixel_coin": { "$ref": "#/definitions/text" },
+        "pixel_stamina_warning": { "$ref": "#/definitions/text" }
+      }
+    },
+
+    "colors": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "background": { "$ref": "#/definitions/color" },
+          "aura": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+{"nodes":[{"id":"xiaoman_h7_start","speaker":"小满","text":"夜里的灵境会安静得像海底，你听，连风声都变轻了。","choices":[{"id":"c1","text":"和你在一起，安静也很舒服。","next":"xiaoman_h7_end"}]},{"id":"xiaoman_h7_end","speaker":"小满","text":"那就多待一会儿吧，等星光落下来再回去。","choices":[]}]}

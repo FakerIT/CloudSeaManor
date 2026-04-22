@@ -1,0 +1,1 @@
+{"nodes":[{"id":"xiaoman_h5_start","speaker":"小满","text":"灵境花园的花开得比去年更亮，像在回应你每天的脚步。","choices":[{"id":"c1","text":"那我明天也来。","next":"xiaoman_h5_end"}]},{"id":"xiaoman_h5_end","speaker":"小满","text":"说好了。你来时，记得抬头看看云，它们也会记住你。","choices":[]}]}

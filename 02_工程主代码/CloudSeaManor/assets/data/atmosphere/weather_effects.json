@@ -1,0 +1,58 @@
+{
+  "clear": {
+    "max_particles": 0,
+    "particle_speed": 0.0,
+    "particle_direction": "right",
+    "particle_size_min": 2.0,
+    "particle_size_max": 8.0,
+    "particle_color_start": "#FFFFFF",
+    "particle_color_end": "#E0E0E0",
+    "particle_lifetime_min": 2.0,
+    "particle_lifetime_max": 5.0,
+    "particle_spawn_rate": 0.0,
+    "description": "晴空万里，无粒子特效",
+    "follows_camera": true
+  },
+  "mist": {
+    "max_particles": 120,
+    "particle_speed": 15.0,
+    "particle_direction": "right",
+    "particle_size_min": 3.0,
+    "particle_size_max": 12.0,
+    "particle_color_start": "#FFFFFF",
+    "particle_color_end": "#E0E0E0",
+    "particle_lifetime_min": 3.0,
+    "particle_lifetime_max": 8.0,
+    "particle_spawn_rate": 40.0,
+    "description": "薄雾轻飘，柔和朦胧",
+    "follows_camera": true
+  },
+  "dense": {
+    "max_particles": 180,
+    "particle_speed": 25.0,
+    "particle_direction": "right",
+    "particle_size_min": 4.0,
+    "particle_size_max": 16.0,
+    "particle_color_start": "#9B8DC2",
+    "particle_color_end": "#4A148C",
+    "particle_lifetime_min": 4.0,
+    "particle_lifetime_max": 10.0,
+    "particle_spawn_rate": 60.0,
+    "description": "浓云翻涌，神秘深邃",
+    "follows_camera": true
+  },
+  "tide": {
+    "max_particles": 200,
+    "particle_speed": 40.0,
+    "particle_direction": "radial",
+    "particle_size_min": 1.0,
+    "particle_size_max": 5.0,
+    "particle_color_start": "#FFD700",
+    "particle_color_end": "#FF4500",
+    "particle_lifetime_min": 1.5,
+    "particle_lifetime_max": 4.0,
+    "particle_spawn_rate": 80.0,
+    "description": "大潮降临，金尘飞舞",
+    "follows_camera": true
+  }
+}

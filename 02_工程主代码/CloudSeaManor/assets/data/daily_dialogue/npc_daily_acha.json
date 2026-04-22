@@ -1,0 +1,317 @@
+{
+  "npc_id": "acha",
+  "greetings": [
+    {
+      "id": "acha_greet_morning_1",
+      "text": "$[PLAYER_NAME]，早安。今天的茶田里雾气很轻，是个好兆头。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 2
+    },
+    {
+      "id": "acha_greet_morning_2",
+      "text": "早上好。$[PLAYER_NAME]，你起得真早。我刚泡好一壶茶，要来一杯吗？",
+      "favor_min": 3,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 3,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_afternoon_1",
+      "text": "午后阳光正好。$[PLAYER_NAME]，茶田里的茶叶今天长势不错。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_afternoon_2",
+      "text": "$[PLAYER_NAME]，下午好。刚才有位客人来问灵茶的价钱，我还在想怎么定价呢。",
+      "favor_min": 4,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_evening_1",
+      "text": "傍晚的风带着茶香。$[PLAYER_NAME]，今天辛苦了，进来喝杯茶吧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_night_1",
+      "text": "夜深了，$[PLAYER_NAME]。茶炉还温着，要不要来坐坐？",
+      "favor_min": 3,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 3,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_spring",
+      "text": "春茶初芽，是一年中最珍贵的滋味。$[PLAYER_NAME]，今年的春茶你想和我一起品吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_summer",
+      "text": "夏天的茶田绿得发亮。$[PLAYER_NAME]，要注意防暑，多喝凉茶。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_autumn",
+      "text": "秋天的云海最是动人。$[PLAYER_NAME]，我们一起观云品茶吧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_winter",
+      "text": "冬日里，热茶最暖人心。$[PLAYER_NAME]，快进来烤烤火。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_mist",
+      "text": "今天的薄雾，让茶田更添了几分灵气。$[PLAYER_NAME]，雾气中采的茶滋味最特别。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_dense",
+      "text": "浓云海的灵气最是充沛。$[PLAYER_NAME]，今天的茶叶品质应该会很不错。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_tide",
+      "text": "大潮来了！$[PLAYER_NAME]，这是云海最神秘的时刻，茶树会吸收最多的灵气。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_greet_high_heart",
+      "text": "$[PLAYER_NAME]……看到你，心里就很踏实。",
+      "favor_min": 200,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "acha_st_tea_1",
+      "text": "外公留下的茶谱里有句话：'茶如人生，苦尽甘来'。$[PLAYER_NAME]，你种的那片茶田，已经慢慢有他的影子了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_st_tea_2",
+      "text": "你知道吗？好茶需要三个条件：好山、好水、好人工。$[PLAYER_NAME]，我们的云海山庄，三个都占了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_st_weather",
+      "text": "今天的$[WEATHER]，最适合坐在观云台上看云海发呆。$[PLAYER_NAME]，你平时喜欢什么样的天气？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_st_season",
+      "text": "现在是$[SEASON]了。我最喜欢这个季节的……其实，每个季节都好，都有它独特的美。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_st_heart_low",
+      "text": "$[PLAYER_NAME]，你还记得我们小时候在茶田里捉迷藏吗？那时候的日子真简单。",
+      "favor_min": 0,
+      "favor_max": 100,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 4
+    },
+    {
+      "id": "acha_st_heart_mid",
+      "text": "你离开的这些年，我每年春天都会在茶田里等你回来。今年……终于等到了。",
+      "favor_min": 50,
+      "favor_max": 400,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 8
+    },
+    {
+      "id": "acha_st_heart_high",
+      "text": "$[PLAYER_NAME]，有你在的山庄，才像个家。外公说得对，云海山庄需要有人守护。",
+      "favor_min": 200,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_st_cloud",
+      "text": "云海的状态会影响茶叶的品质。你观察过吗？大潮时采的茶，泡出来有一种特别的光泽。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_st_location_teafield",
+      "text": "这里是茶田的中心。外公以前每天清晨都会站在这里，看着雾气慢慢散去。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_st_location_mainhouse",
+      "text": "主屋虽然旧了些，但冬暖夏凉，住着很舒服。$[PLAYER_NAME]，你以后也住在这里吧。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "acha_farewell_1",
+      "text": "那我就不打扰你了，有空常来茶田坐坐。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_farewell_2",
+      "text": "路上小心，茶田里的路有些湿滑。明天见。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_farewell_3",
+      "text": "嗯，去忙吧。茶炉我会看着的，等你回来。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 3,
+      "heart_max": 10
+    },
+    {
+      "id": "acha_farewell_high",
+      "text": "……早点回来，晚上我给你留了茶。",
+      "favor_min": 200,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ]
+}

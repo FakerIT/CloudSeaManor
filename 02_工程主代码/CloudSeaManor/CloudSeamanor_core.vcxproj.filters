@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{11111111-1111-1111-1111-111111111111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor">
+      <UniqueIdentifier>{11111111-1111-1111-1111-111111111112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{22222222-2222-2222-2222-222222222221}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\domain">
+      <UniqueIdentifier>{22222222-2222-2222-2222-222222222222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine">
+      <UniqueIdentifier>{22222222-2222-2222-2222-222222222223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\infrastructure">
+      <UniqueIdentifier>{22222222-2222-2222-2222-222222222224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{55555555-5555-5555-5555-555555555551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="configs">
+      <UniqueIdentifier>{55555555-5555-5555-5555-555555555552}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
+      <UniqueIdentifier>{55555555-5555-5555-5555-555555555553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\data">
+      <UniqueIdentifier>{55555555-5555-5555-5555-555555555554}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets\maps">
+      <UniqueIdentifier>{55555555-5555-5555-5555-555555555555}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\CloudSeamanor\CloudSeaManor.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\DayCycleRuntime.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\CloudSystem.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\CropData.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameApp.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppState.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppFarming.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppHud.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppNpc.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppRuntimeTypes.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppSave.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppScene.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppSpiritBeast.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameAppText.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameClock.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameConfig.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\Interactable.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\Inventory.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\Logger.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\PlayerInteractRuntime.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\PickupDrop.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\Player.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\Stamina.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\TargetHintRuntime.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\TmxMap.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\CloudGuardianContract.hpp" />
+    <ClInclude Include="include\CloudSeamanor\DynamicLifeSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\FestivalSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\SkillSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\WorkshopSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppWeather.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameWorldState.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameWorldSystems.hpp" />
+    <ClInclude Include="include\CloudSeamanor\FarmingSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\PickupSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameRuntime.hpp" />
+    <ClInclude Include="include\CloudSeamanor\InteractionSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\LevelUpSystem.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\engine\DayCycleRuntime.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\CloudSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\CropData.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\GameClock.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\Interactable.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\Inventory.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\PickupDrop.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\Player.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\RecipeData.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\Stamina.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameApp.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameAppFarming.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameAppHud.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameAppNpc.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameAppSave.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameAppScene.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameAppSpiritBeast.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\GameAppText.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\PlayerInteractRuntime.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\TargetHintRuntime.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\GameConfig.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\Logger.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\infrastructure\TmxMap.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="src\domain\CloudGuardianContract.cpp" />
+    <ClCompile Include="src\domain\DynamicLifeSystem.cpp" />
+    <ClCompile Include="src\domain\FestivalSystem.cpp" />
+    <ClCompile Include="src\domain\SkillSystem.cpp" />
+    <ClCompile Include="src\domain\WorkshopSystem.cpp" />
+    <ClCompile Include="src\engine\GameAppWeather.cpp" />
+    <ClCompile Include="src\engine\GameWorldState.cpp" />
+    <ClCompile Include="src\engine\GameWorldSystems.cpp" />
+    <ClCompile Include="src\engine\FarmingSystem.cpp" />
+    <ClCompile Include="src\engine\PickupSystem.cpp" />
+    <ClCompile Include="src\engine\GameRuntime.cpp" />
+    <ClCompile Include="src\engine\InteractionSystem.cpp" />
+    <ClCompile Include="src\engine\LevelUpSystem.cpp" />
+    <ClCompile Include="tests\TestRunner.cpp" />
+    <ClCompile Include="tests\SkillSystemTest.cpp" />
+  </ItemGroup>
+</Project>

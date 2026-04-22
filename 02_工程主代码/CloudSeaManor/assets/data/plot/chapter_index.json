@@ -1,0 +1,128 @@
+{
+  "chapters": [
+    {
+      "id": "ch1", "chapter_number": 1, "title": "归山",
+      "description": "玩家因外公去世回到阔别已久的云海山庄，继承守护者血脉",
+      "timeline": "春季·第1年",
+      "chapter_goal": "灵气>=100",
+      "chapter_theme": "回归与重逢",
+      "target_cloud": 100,
+      "plot_ids": [
+        "plot_ch1_prologue",
+        "plot_ch1_first_meet",
+        "plot_ch1_first_work",
+        "plot_ch1_awakening_festival",
+        "plot_ch1_night_talk",
+        "plot_ch1_spirit_beast",
+        "plot_ch1_cloud_rift"
+      ]
+    },
+    {
+      "id": "ch2", "chapter_number": 2, "title": "云海初醒",
+      "description": "夏季到来，茶九透露上界身份，玩家得知界桥即将崩溃",
+      "timeline": "夏季·第1年",
+      "chapter_goal": "灵气>=300，培育云巅金芽",
+      "chapter_theme": "使命与传承",
+      "target_cloud": 300,
+      "plot_ids": [
+        "plot_ch2_prologue",
+        "plot_ch2_tea_secret",
+        "plot_ch2_chajiou_secret",
+        "plot_ch2_golden_bud",
+        "plot_ch2_upper_world",
+        "plot_ch2_cloud_tide",
+        "plot_ch2_relic",
+        "plot_ch2_ancient_text"
+      ]
+    },
+    {
+      "id": "ch3", "chapter_number": 3, "title": "界桥裂痕",
+      "description": "秋末界桥危机，玩家成功修复界桥，经历秋祭忆故",
+      "timeline": "秋季·第1年~春季·第2年",
+      "chapter_goal": "灵气>=500，修复至少4栋主要建筑",
+      "chapter_theme": "牺牲与真相",
+      "target_cloud": 500,
+      "plot_ids": [
+        "plot_ch3_prologue",
+        "plot_ch3_festival",
+        "plot_ch3_cloud_rift",
+        "plot_ch3_fix_realm",
+        "plot_ch3_autumn_memory",
+        "plot_ch3_rebuild"
+      ]
+    },
+    {
+      "id": "ch4", "chapter_number": 4, "title": "人心与灵气",
+      "description": "山庄繁荣，面对游客涌入的隐患和感情的抉择",
+      "timeline": "夏季·第2年",
+      "chapter_goal": "3位角色达10心，灵气>=700",
+      "chapter_theme": "羁绊与抉择",
+      "target_cloud": 700,
+      "plot_ids": [
+        "plot_ch4_prologue",
+        "plot_ch4_tourists",
+        "plot_ch4_seal_array",
+        "plot_ch4_love_choice",
+        "plot_ch4_village_declaration"
+      ]
+    },
+    {
+      "id": "ch5", "chapter_number": 5, "title": "抉择之潮",
+      "description": "向所有村民公布真相，玩家选择三条道路之一：平衡/打开/关闭",
+      "timeline": "秋季·第2年",
+      "chapter_goal": "完成终局方向锁定",
+      "chapter_theme": "真相与对抗",
+      "target_cloud": 0,
+      "plot_ids": [
+        "plot_ch5_prologue",
+        "plot_ch5_three_paths",
+        "plot_ch5_preparation"
+      ]
+    },
+    {
+      "id": "ch6", "chapter_number": 6, "title": "山庄繁盛",
+      "description": "山庄迎来最繁荣的时期，为最终决战积蓄力量",
+      "timeline": "冬季·第2年~春季·第3年",
+      "chapter_goal": "客栈>=3级，灵气>=850",
+      "chapter_theme": "繁荣与危机",
+      "target_cloud": 850,
+      "plot_ids": []
+    },
+    {
+      "id": "ch7", "chapter_number": 7, "title": "界桥动摇",
+      "description": "最终决战的准备阶段，找到界桥核心碎片",
+      "timeline": "夏季·第3年",
+      "chapter_goal": "找到界桥核心碎片",
+      "chapter_theme": "抉择与代价",
+      "target_cloud": 0,
+      "plot_ids": []
+    },
+    {
+      "id": "ch8", "chapter_number": 8, "title": "太初遗迹",
+      "description": "探索太初云海遗迹，解锁太初云海祭",
+      "timeline": "秋季·第3年",
+      "chapter_goal": "解锁太初云海祭",
+      "chapter_theme": "探索与牺牲",
+      "target_cloud": 0,
+      "plot_ids": []
+    },
+    {
+      "id": "ch9", "chapter_number": 9, "title": "最终抉择",
+      "description": "进入界桥核心，做出最终的选择",
+      "timeline": "冬季·第3年",
+      "chapter_goal": "完成终局分支选择",
+      "chapter_theme": "守护与归宿",
+      "target_cloud": 0,
+      "plot_ids": []
+    },
+    {
+      "id": "ch10", "chapter_number": 10, "title": "云海归心",
+      "description": "达成对应结局，山庄迎来新的开始",
+      "timeline": "跨年",
+      "chapter_goal": "达成对应结局",
+      "chapter_theme": "归宿与新生",
+      "target_cloud": 0,
+      "plot_ids": []
+    }
+  ]
+}

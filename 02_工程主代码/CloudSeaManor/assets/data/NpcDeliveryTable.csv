@@ -1,0 +1,5 @@
+npc_id,quest_id,title,description,item_id,item_count,reward_gold,reward_favor
+acha,acha_delivery_tea,阿茶的委托,把新鲜茶叶送来，我会用它调一杯好茶。,TeaLeaf,3,80,5
+lin,lin_delivery_wood,林伯的委托,院子里需要些木材修补，麻烦你带一些来。,Wood,6,60,4
+wanxing,wanxing_delivery_turnip,晚星的委托,我想做一份夜宵，帮我带些萝卜吧。,Turnip,4,70,4
+xiaoman,xiaoman_delivery_grass,小满的委托,灵境花园缺点灵草装饰，你有的话带一点来。,spirit_grass,2,90,6

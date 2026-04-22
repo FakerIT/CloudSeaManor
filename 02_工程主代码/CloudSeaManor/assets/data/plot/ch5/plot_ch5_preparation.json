@@ -1,0 +1,70 @@
+{
+  "id": "plot_ch5_preparation",
+  "chapter_id": "ch5",
+  "title": "最终准备",
+  "description": "玩家开始为最终决战做准备的阶段——提升灵气、提升人气、选择队伍。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "老槐",
+      "text": "如果要选择平衡之道，你需要去一个地方——太初云海遗迹。那是界桥最深处的秘密，只有真正的守护者才能进入。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "老槐",
+      "text": "那里很危险……你需要带上你最信任的伙伴。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "玄清",
+      "text": "太初遗迹里会有最终的考验。你需要用你的力量，你的智慧，还有你的羁绊，来通过考验。",
+      "next_node_id": "start4",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "茶九",
+      "text": "相信你的伙伴。他们是你最大的力量。",
+      "next_node_id": "start5",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start5",
+      "speaker": "雾川",
+      "text": "……我会守护在遗迹外。如果里面出了什么事，我会第一时间支援。",
+      "next_node_id": "start6",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start6",
+      "speaker": "老槐",
+      "text": "这是《云海录》的最后一页。你曾祖父和外公一生的心血都在这里了。读懂它……你就能找到答案。",
+      "next_node_id": "end",
+      "is_cutscene": false,
+      "unlock_item": "cloud_record_full",
+      "unlock_location": "taiji_relic_entrance",
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "旁白",
+      "text": "做好最终准备后，就可以进入太初云海遗迹，迎接最后的试炼了。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "trigger_event": "final_preparation_done",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "",
+  "priority": 80
+}

@@ -1,0 +1,52 @@
+{
+  "$schema": "../../../docs/atlas_schema.json",
+  "id": "items_crop",
+  "texture": "assets/sprites/items/items_crop.png",
+  "width": 256,
+  "height": 128,
+  "description": "作物与物品精灵表 - 256×128px，每物品 32×32px",
+  "grid": {
+    "frame_width": 32,
+    "frame_height": 32,
+    "columns": 8,
+    "rows": 4
+  },
+  "frames": [
+    {"id": "spring_wheat",    "x": 0,   "y": 0,   "w": 32, "h": 32},
+    {"id": "spring_wheat_seed","x": 32,  "y": 0,   "w": 32, "h": 32},
+    {"id": "radish",          "x": 64,  "y": 0,   "w": 32, "h": 32},
+    {"id": "turnip",          "x": 96,  "y": 0,   "w": 32, "h": 32},
+    {"id": "potato",          "x": 128, "y": 0,   "w": 32, "h": 32},
+    {"id": "cauliflower",     "x": 160, "y": 0,   "w": 32, "h": 32},
+    {"id": "blueberry",       "x": 192, "y": 0,   "w": 32, "h": 32},
+    {"id": "cherry",          "x": 224, "y": 0,   "w": 32, "h": 32},
+
+    {"id": "tea_leaf",        "x": 0,   "y": 32,  "w": 32, "h": 32},
+    {"id": "tea_mist_green",  "x": 32,  "y": 32,  "w": 32, "h": 32},
+    {"id": "tea_cloud_bud",   "x": 64,  "y": 32,  "w": 32, "h": 32},
+    {"id": "tea_spirit_bud",  "x": 96,  "y": 32,  "w": 32, "h": 32},
+    {"id": "spring_water",    "x": 128, "y": 32,  "w": 32, "h": 32},
+    {"id": "spirit_grass",    "x": 160, "y": 32,  "w": 32, "h": 32},
+    {"id": "misty_essence",   "x": 192, "y": 32,  "w": 32, "h": 32},
+    {"id": "wood",            "x": 224, "y": 32,  "w": 32, "h": 32},
+
+    {"id": "stone",           "x": 0,   "y": 64,  "w": 32, "h": 32},
+    {"id": "mineral",          "x": 32,  "y": 64,  "w": 32, "h": 32},
+    {"id": "jade",            "x": 64,  "y": 64,  "w": 32, "h": 32},
+    {"id": "spirit_jade",     "x": 96,  "y": 64,  "w": 32, "h": 32},
+    {"id": "egg",             "x": 128, "y": 64,  "w": 32, "h": 32},
+    {"id": "milk",            "x": 160, "y": 64,  "w": 32, "h": 32},
+    {"id": "honey",           "x": 192, "y": 64,  "w": 32, "h": 32},
+    {"id": "mushroom",        "x": 224, "y": 64,  "w": 32, "h": 32},
+
+    {"id": "coin",            "x": 0,   "y": 96,  "w": 32, "h": 32},
+    {"id": "gem",             "x": 32,  "y": 96,  "w": 32, "h": 32},
+    {"id": "scroll",          "x": 64,  "y": 96,  "w": 32, "h": 32},
+    {"id": "book",            "x": 96,  "y": 96,  "w": 32, "h": 32},
+    {"id": "lantern",        "x": 128, "y": 96,  "w": 32, "h": 32},
+    {"id": "festival_food",   "x": 160, "y": 96,  "w": 32, "h": 32},
+    {"id": "gift_box",        "x": 192, "y": 96,  "w": 32, "h": 32},
+    {"id": "special_item",    "x": 224, "y": 96,  "w": 32, "h": 32}
+  ],
+  "animations": []
+}

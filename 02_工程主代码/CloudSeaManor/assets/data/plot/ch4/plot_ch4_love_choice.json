@@ -1,0 +1,68 @@
+{
+  "id": "plot_ch4_love_choice",
+  "chapter_id": "ch4",
+  "title": "感情的抉择",
+  "description": "与某位角色共度傍晚，面临感情的重大抉择——接受、婉拒或暂时搁置。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "某位角色",
+      "text": "今天的日落真美……谢谢你一直陪着我。谢谢你回来，谢谢你让山庄重新焕发生机，谢谢你让我不再孤单。有件事……我想告诉你。我……喜欢你。从你第一次来那天开始。你那么认真地帮我干活，那么认真地照顾山庄，我就知道，你是个好人。",
+      "next_node_id": "choice",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "choice",
+      "speaker": "某位角色",
+      "text": "你……愿意和我在一起吗？",
+      "choices": [
+        { "id": "accept", "text": "我也喜欢你。", "next": "accept_end" },
+        { "id": "refuse", "text": "对不起，我现在还没准备好。", "next": "refuse_end" },
+        { "id": "wait", "text": "给我一点时间……", "next": "wait_end" }
+      ],
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "accept_end",
+      "speaker": "某位角色",
+      "text": "真……真的吗？太好了……我等这一天，等了好久好久……",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "trigger_event": "love_accepted",
+      "choice_effects": [
+        { "flag_to_set": "ch4_love_accepted" },
+        { "route_bias": "open" }
+      ],
+      "cloud_delta": 0
+    },
+    {
+      "id": "refuse_end",
+      "speaker": "某位角色",
+      "text": "我明白了……没关系的……只要你能幸福，我就满足了。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "trigger_event": "love_refused",
+      "choice_effects": [
+        { "flag_to_set": "ch4_love_refused" }
+      ],
+      "cloud_delta": 0
+    },
+    {
+      "id": "wait_end",
+      "speaker": "某位角色",
+      "text": "好……我等你。不管你最后怎么决定，我都会支持你。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "trigger_event": "love_pending",
+      "choice_effects": [
+        { "flag_to_set": "ch4_love_pending" }
+      ],
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch4_village_declaration",
+  "priority": 70
+}

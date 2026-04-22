@@ -1,0 +1,45 @@
+{
+  "id": "plot_ch3_rebuild",
+  "chapter_id": "ch3",
+  "title": "重建与修缮",
+  "description": "危机解除后，全村人一起修复被破坏的建筑，山庄焕然一新。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "石生",
+      "text": "这个我来扛！放心，我手艺好。保证修得比以前还好！",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "小满",
+      "text": "我帮你加固田埂！明年肯定大丰收！",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "阿茶",
+      "text": "我帮你修剪茶树！有了灵茶的加持……明年会长得更好。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "老槐",
+      "text": "不错……山庄又焕然一新了。现在，比你刚来的时候好多了。这就是家的力量。只要用心，就能让破败的地方重新焕发生机。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "trigger_event": "ch3_building_repaired",
+      "chapter_complete_flag": "ch3",
+      "cloud_delta": +150
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "",
+  "priority": 50
+}

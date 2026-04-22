@@ -1,0 +1,17 @@
+item_id,buy_price,sell_price,buy_from,category
+TurnipSeed,20,10,shop,seed
+TeaSeed,30,15,shop,seed
+FertilizerItem,60,30,shop,fertilizer
+SprinklerItem,180,90,shop,tool
+TeaLeaf,0,15,purchaser,crop
+TeaPack,0,100,purchaser,processed
+PesticideItem,45,12,general_store,tool
+SpiritSickle,260,120,general_store,tool
+JadeRing,1280,640,tide_shop,special
+star_fragment,900,450,tide_shop,special
+Feed,25,8,general_store,farm
+Egg,0,18,purchaser,animal
+Milk,0,32,purchaser,animal
+pet_cat_license,220,0,shop,pet
+pet_dog_license,260,0,general_store,pet
+pet_bird_license,320,0,tide_shop,pet

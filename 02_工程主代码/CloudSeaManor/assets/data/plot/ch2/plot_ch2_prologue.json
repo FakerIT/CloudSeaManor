@@ -1,0 +1,27 @@
+{
+  "id": "plot_ch2_prologue",
+  "chapter_id": "ch2",
+  "title": "夏日的山庄",
+  "description": "夏季到来，山庄生机勃勃，老槐告知夏天是云海最活跃的季节。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "旁白",
+      "text": "夏天到了。山庄在我打理下，渐渐有了起色。主屋修好了，农田也开始有了收成。村民们看我的眼神，也从怀疑变成了认可。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "老槐",
+      "text": "孩子，夏天是云海最活跃的季节。云海会在这个季节变得更加浓郁……有些平时看不到的东西，会在这时候显现。好好利用这个夏天吧，你会有很多发现的。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch2_tea_secret",
+  "priority": 100
+}

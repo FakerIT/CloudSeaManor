@@ -1,0 +1,44 @@
+{
+  "id": "plot_ch5_prologue",
+  "chapter_id": "ch5",
+  "title": "真相大白",
+  "description": "老槐召集所有村民，公布界桥的真相和守护者的使命。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "老槐",
+      "text": "各位……有件事，必须告诉大家了。关于山庄的真相，关于界桥的秘密，关于你们的未来。云海山庄……不只是一个人界的小村庄。它是界桥的所在地，是连接人界和灵界的纽带。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "玄清",
+      "text": "界桥是两个世界的通道。它维持着灵气在人界和灵界之间的平衡。如果界桥崩溃……两个世界都会陷入混乱。而山庄……是守护界桥的关键。每一代守护者……都要用生命来维护这个平衡。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "茶九",
+      "text": "而现在……界桥快要撑不住了。上界想要打开它，下界有人想要关闭它。但这两种做法，都会导致灾难。唯一正确的做法……是维持平衡。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "老槐",
+      "text": "孩子……你的曾祖父建了山庄。你的外公守护了一辈子。现在……轮到你了。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "flag_to_set": "ch5_truth_revealed",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch5_three_paths",
+  "priority": 100
+}

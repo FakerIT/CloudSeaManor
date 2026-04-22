@@ -1,0 +1,7 @@
+{
+  "plots": [
+    {"file": "plot_ch5_prologue.json", "id": "plot_ch5_prologue", "title": "真相大白", "priority": 100},
+    {"file": "plot_ch5_three_paths.json", "id": "plot_ch5_three_paths", "title": "三条道路", "priority": 90},
+    {"file": "plot_ch5_preparation.json", "id": "plot_ch5_preparation", "title": "最终准备", "priority": 80}
+  ]
+}

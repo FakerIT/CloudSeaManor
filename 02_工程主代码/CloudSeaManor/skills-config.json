@@ -1,0 +1,59 @@
+{
+  "skill_version": "1.0",
+  "project_name": "CloudSeaManor",
+  "auto_apply_on_load": true,
+  "active_skills": [
+    {
+      "name": "performance-optimization",
+      "path": "skills/performance-optimization",
+      "priority": "high",
+      "auto_apply": true,
+      "checks": [
+        {
+          "id": "P0-01",
+          "name": "HUD文本按需更新",
+          "target_file": "src/engine/GameApp.cpp",
+          "target_function": "UpdateHudTextFn",
+          "status": "pending",
+          "applied": false
+        },
+        {
+          "id": "P0-02",
+          "name": "静态图层预渲染",
+          "target_file": "src/engine/GameApp.cpp",
+          "target_function": "Render",
+          "status": "pending",
+          "applied": false
+        },
+        {
+          "id": "P0-03",
+          "name": "预分配向量内存",
+          "target_file": "src/engine/GameApp.cpp",
+          "target_function": "Run",
+          "status": "pending",
+          "applied": false
+        },
+        {
+          "id": "P0-04",
+          "name": "粒子删除优化",
+          "target_file": "src/engine/GameApp.cpp",
+          "target_function": "Update",
+          "status": "pending",
+          "applied": false
+        }
+      ]
+    },
+    {
+      "name": "coding-standards",
+      "path": "skills/coding-standards",
+      "priority": "high",
+      "auto_apply": true,
+      "checks": []
+    }
+  ],
+  "profile_integration": {
+    "enabled": true,
+    "header_file": "skills/performance-optimization/scripts/profile-helper.hpp",
+    "target_include": "CloudSeamanor/ProfileHelper.hpp"
+  }
+}

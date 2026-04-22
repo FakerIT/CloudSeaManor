@@ -1,0 +1,104 @@
+{
+  "id": "plot_ch1_cloud_rift",
+  "chapter_id": "ch1",
+  "title": "界桥动荡",
+  "description": "云海之夜，界桥裂缝短暂扩大，雾川抵御来袭的灵兽。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "旁白",
+      "text": "深夜，界桥裂缝短暂扩大。大量灵兽从裂缝中涌出。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "雾川",
+      "text": "有敌袭。是灵界的低级灵兽，被某种力量驱使着攻击山庄。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "老槐",
+      "text": "孩子，快躲进屋里！",
+      "next_node_id": "start4",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "雾川",
+      "text": "保护好自己。今晚……可能会很危险。",
+      "next_node_id": "choice",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "choice",
+      "speaker": "旁白",
+      "text": "玩家可以选择行动方式。",
+      "choices": [
+        { "id": "fight", "text": "和云狐一起战斗", "next": "fight_start" },
+        { "id": "command", "text": "指挥灵兽作战", "next": "command_start" }
+      ],
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "fight_start",
+      "speaker": "雾川",
+      "text": "……好。跟我来。灵兽的战斗和人类不同，它们靠灵气和默契来战斗。信任它，和它配合，你们一定能赢。",
+      "next_node_id": "fight_win",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "fight_win",
+      "speaker": "雾川",
+      "text": "不错……你们的配合很好。记住今晚的战斗。以后，会有更大的挑战等着你。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "choice_effects": [{ "flag_to_set": "ch1_fought_with_beast" }],
+      "cloud_delta": 0
+    },
+    {
+      "id": "command_start",
+      "speaker": "老槐",
+      "text": "好！你来指挥，我来辅助！",
+      "next_node_id": "command_win",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "command_win",
+      "speaker": "老槐",
+      "text": "干得好！你的指挥能力很强。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "choice_effects": [{ "flag_to_set": "ch1_commanded_beast" }],
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "旁白",
+      "text": "经过一夜的奋战，来袭的灵兽被成功击退。黎明到来，云海渐渐消散。",
+      "next_node_id": "end2",
+      "is_cutscene": true,
+      "cloud_delta": +10
+    },
+    {
+      "id": "end2",
+      "speaker": "老槐",
+      "text": "孩子，今晚你做得很好。你没有退缩，和大家一起保护了山庄。这就是守护者的精神。继续努力吧，第一章的考验……你通过了。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "",
+  "priority": 0
+}

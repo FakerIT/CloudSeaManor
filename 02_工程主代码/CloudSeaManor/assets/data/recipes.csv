@@ -1,0 +1,7 @@
+id,name,machine_id,input_item,input_count,output_item,output_count,process_time,base_success_rate,tags
+green_tea,绿茶,tea_machine,TeaLeaf,2,TeaPack,1,60,0.85,core;week4
+tea_steaming,灵茶蒸汽加工,tea_machine,spirit_tea,1,steamed_tea,1,60,0.85,week4;legacy
+tea_ferment,灵茶发酵,ferment_machine,steamed_tea,1,fermented_tea,1,120,0.75,week4;legacy
+spirit_essence_refine,灵粹精炼,tea_machine,spirit_grass,3,spirit_essence,1,60,1.0,spirit;refine
+cloud_elixir_brew,云华灵药酿造,tea_machine,cloud_dew,2,cloud_elixir,1,120,1.0,spirit;brew
+immortal_tea_craft,不朽灵茶锻制,tea_machine,cloud_elixir,1,immortal_tea,1,300,1.0,spirit;legendary

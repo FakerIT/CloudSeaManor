@@ -1,0 +1,29 @@
+{
+  "id": "plot_ch2_golden_bud",
+  "chapter_id": "ch2",
+  "title": "云巅金芽",
+  "description": "茶九带玩家来到云巅金芽培育区，讲解界桥稳定的风向标。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "茶九",
+      "text": "你看这里——这株茶树在发光。这是云巅金芽，是所有灵茶中最珍贵的一种。它需要最浓郁的灵气才能生长，而且每年只能产出一点点。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "茶九",
+      "text": "你外公用了十年时间，才培育出这一株。它是界桥稳定的风向标。只要它还活着，就说明界桥还稳定。现在，它交给你了。好好照顾它，它会告诉你，什么时候该警惕，什么时候该放心。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "flag_to_set": "ch2_golden_bud_unlocked",
+      "trigger_event": "golden_bud_unlocked",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch2_upper_world",
+  "priority": 70
+}

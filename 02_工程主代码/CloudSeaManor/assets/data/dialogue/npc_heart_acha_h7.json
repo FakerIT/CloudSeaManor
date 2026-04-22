@@ -1,0 +1,1 @@
+{"nodes":[{"id":"acha_h7_start","speaker":"阿茶","text":"秋风起来后，我总会担心今年的茶会不会差一点。","choices":[{"id":"c1","text":"我会陪你把每一块地都照顾好。","next":"acha_h7_end"}]},{"id":"acha_h7_end","speaker":"阿茶","text":"有你这句话，我就安心了。今天这杯茶，请你先尝。","choices":[]}]}

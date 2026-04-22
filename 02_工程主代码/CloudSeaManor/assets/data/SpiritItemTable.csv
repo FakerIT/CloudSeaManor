@@ -1,0 +1,5 @@
+id,name,rarity,base_value,use_effect
+spirit_grass,灵草,common,20,stamina_recover_5
+cloud_dew,云露,uncommon,50,cloud_resistance_1
+spirit_dust,灵尘,rare,100,craft_boost_1
+star_fragment,星辰碎片,legendary,500,quality_boost_1

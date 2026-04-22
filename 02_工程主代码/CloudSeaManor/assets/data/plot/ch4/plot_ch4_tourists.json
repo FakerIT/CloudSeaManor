@@ -1,0 +1,45 @@
+{
+  "id": "plot_ch4_tourists",
+  "chapter_id": "ch4",
+  "title": "游客的到来",
+  "description": "山庄游客增加，解锁客栈经营系统，但也带来了灵气采集的隐患。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "游客A",
+      "text": "哇！这里就是云海山庄？好漂亮！比我想象的还要美！",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "小满",
+      "text": "有有有！客栈刚升级了！可以住好多人！",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "老槐",
+      "text": "游客会带来收入……但也会带来麻烦。有些人可能只是为了灵气而来，你要小心。",
+      "next_node_id": "start4",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "旁白",
+      "text": "一段时间后，山庄的游客越来越多。但在热闹的表象下，有人开始偷偷采集灵气……",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "unlock_system": "inn_management",
+      "flag_to_set": "ch4_tourists_arrived",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch4_seal_array",
+  "priority": 90
+}

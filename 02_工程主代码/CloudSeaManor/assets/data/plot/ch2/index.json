@@ -1,0 +1,12 @@
+{
+  "plots": [
+    {"file": "plot_ch2_prologue.json", "id": "plot_ch2_prologue", "title": "夏日的山庄", "priority": 100},
+    {"file": "plot_ch2_tea_secret.json", "id": "plot_ch2_tea_secret", "title": "灵茶的传说", "priority": 90},
+    {"file": "plot_ch2_chajiou_secret.json", "id": "plot_ch2_chajiou_secret", "title": "茶九的秘密", "priority": 80},
+    {"file": "plot_ch2_golden_bud.json", "id": "plot_ch2_golden_bud", "title": "云巅金芽", "priority": 70},
+    {"file": "plot_ch2_upper_world.json", "id": "plot_ch2_upper_world", "title": "上界使者", "priority": 60},
+    {"file": "plot_ch2_cloud_tide.json", "id": "plot_ch2_cloud_tide", "title": "云海灯会", "priority": 50},
+    {"file": "plot_ch2_relic.json", "id": "plot_ch2_relic", "title": "灵界遗迹", "priority": 40},
+    {"file": "plot_ch2_ancient_text.json", "id": "plot_ch2_ancient_text", "title": "太古铭文", "priority": 30}
+  ]
+}

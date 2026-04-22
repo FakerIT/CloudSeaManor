@@ -1,0 +1,192 @@
+{
+  "$schema": "../../../docs/ui_layout_schema.json",
+  "page_id": "inventory",
+  "title": "背包",
+  "width": 640,
+  "height": 480,
+  "modal": false,
+  "pause_game": false,
+  "close_key": "Escape",
+  "background": {
+    "sprite_id": "ui_main.panel_fill",
+    "tint": "#FBF4E0",
+    "alpha": 0.94
+  },
+  "elements": [
+    {
+      "id": "title_bar",
+      "type": "Text",
+      "x": 0, "y": 0,
+      "width": 640, "height": 40,
+      "text": "背包 · 云海山庄主",
+      "text_style": {
+        "font_size": 16,
+        "color": "#3D2517",
+        "bold": true
+      },
+      "interactive": false,
+      "layout": "Flow"
+    },
+    {
+      "id": "tab_bar",
+      "type": "TabBar",
+      "x": 0, "y": 40,
+      "width": 640, "height": 40,
+      "tabs": [
+        {"id": "tab_items",  "text": "物品", "sprite_id": ""},
+        {"id": "tab_tools",  "text": "工具", "sprite_id": ""},
+        {"id": "tab_equip", "text": "装备", "sprite_id": ""},
+        {"id": "tab_collect","text": "收集", "sprite_id": ""},
+        {"id": "tab_social", "text": "社交", "sprite_id": ""}
+      ],
+      "active_tab": 0,
+      "interactive": true
+    },
+    {
+      "id": "grid_container",
+      "type": "Container",
+      "x": 16, "y": 88,
+      "width": 408, "height": 376,
+      "layout": "Grid",
+      "grid_columns": 8,
+      "spacing_x": 4,
+      "spacing_y": 4,
+      "children": []
+    },
+    {
+      "id": "item_slot_0", "type": "IconSlot",
+      "width": 48, "height": 48,
+      "item_id": "", "item_count": 0,
+      "interactive": true
+    },
+    {
+      "id": "item_slot_1", "type": "IconSlot",
+      "width": 48, "height": 48,
+      "item_id": "", "item_count": 0,
+      "interactive": true
+    },
+    {
+      "id": "item_slot_2", "type": "IconSlot",
+      "width": 48, "height": 48,
+      "item_id": "", "item_count": 0,
+      "interactive": true
+    },
+    {
+      "id": "info_panel",
+      "type": "Container",
+      "x": 440, "y": 88,
+      "width": 184, "height": 376,
+      "layout": "Stack",
+      "children": []
+    },
+    {
+      "id": "item_name",
+      "type": "Text",
+      "x": 0, "y": 0,
+      "width": 184, "height": 24,
+      "text": "",
+      "text_style": {
+        "font_size": 14,
+        "color": "#8B5A2B",
+        "bold": true
+      },
+      "interactive": false
+    },
+    {
+      "id": "item_quality",
+      "type": "Text",
+      "x": 0, "y": 24,
+      "width": 184, "height": 16,
+      "text": "",
+      "text_style": {
+        "font_size": 12,
+        "color": "#78D68A"
+      },
+      "interactive": false
+    },
+    {
+      "id": "item_desc",
+      "type": "Text",
+      "x": 0, "y": 48,
+      "width": 184, "height": 200,
+      "text": "",
+      "text_style": {
+        "font_size": 12,
+        "color": "#3D2517"
+      },
+      "interactive": false,
+      "layout": "Flow"
+    },
+    {
+      "id": "item_price",
+      "type": "Text",
+      "x": 0, "y": 256,
+      "width": 184, "height": 16,
+      "text": "",
+      "text_style": {
+        "font_size": 12,
+        "color": "#D4A84B",
+        "bold": true
+      },
+      "interactive": false
+    },
+    {
+      "id": "btn_sell",
+      "type": "Button",
+      "x": 0, "y": 288,
+      "width": 80, "height": 32,
+      "text": "出售",
+      "sprite_id": "ui_main.btn_default_0",
+      "sprite_hover": "ui_main.btn_default_1",
+      "enabled": false,
+      "interactive": true,
+      "on_click": "inventory.sell_item"
+    },
+    {
+      "id": "btn_use",
+      "type": "Button",
+      "x": 88, "y": 288,
+      "width": 80, "height": 32,
+      "text": "使用",
+      "sprite_id": "ui_main.btn_default_0",
+      "sprite_hover": "ui_main.btn_default_1",
+      "enabled": false,
+      "interactive": true,
+      "on_click": "inventory.use_item"
+    },
+    {
+      "id": "coin_display",
+      "type": "Text",
+      "x": 0, "y": 344,
+      "width": 184, "height": 20,
+      "text": "💰 0",
+      "text_style": {
+        "font_size": 14,
+        "color": "#D4A84B"
+      },
+      "interactive": false
+    },
+    {
+      "id": "slot_count",
+      "type": "Text",
+      "x": 0, "y": 368,
+      "width": 184, "height": 16,
+      "text": "空格子: 0/32",
+      "text_style": {
+        "font_size": 11,
+        "color": "#6E6454"
+      },
+      "interactive": false
+    },
+    {
+      "id": "close_button",
+      "type": "Button",
+      "x": 604, "y": 4,
+      "width": 32, "height": 32,
+      "text": "×",
+      "sprite_id": "ui_main.icon_close",
+      "interactive": true,
+      "on_click": "page.close"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "id": "plot_ch2_cloud_tide",
+  "chapter_id": "ch2",
+  "title": "云海灯会",
+  "description": "云海灯会，玩家与晚星在观星台共赏灯火与星光。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "系统",
+      "text": "云海灯会正式开始！浓云海已形成！",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "老槐",
+      "text": "今晚是云海灯会。每年夏天，只要云海够浓，我们就会举办这个节日。大家挂灯，放河灯，一起祈祷平安。透过云海……两边的人能看到彼此的灯火。那也是一种联系。",
+      "next_node_id": "start3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "晚星",
+      "text": "今晚的星星很亮……是因为云海够浓吗？我师父说过，云海浓的时候，可以看到灵界的星星。那些星星……和我们的不一样。它们更亮，但也更冷。",
+      "next_node_id": "start4",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "晚星",
+      "text": "这里才是我的家。虽然有时候会寂寞……但有大家在，就够了。今晚……能陪我一起看灯会吗？",
+      "next_node_id": "end",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "end",
+      "speaker": "晚星",
+      "text": "你看，那些灯……是不是和星星很像？灯火和星光，都是照亮黑夜的光。你很会说话。谢谢你今晚陪我。很久没有这么开心了。",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "trigger_event": "wanxing_heart_scene",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch2_relic",
+  "priority": 50
+}

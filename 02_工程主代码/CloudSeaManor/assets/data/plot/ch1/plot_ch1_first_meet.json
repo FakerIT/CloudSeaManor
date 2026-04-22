@@ -1,0 +1,92 @@
+{
+  "id": "plot_ch1_first_meet",
+  "chapter_id": "ch1",
+  "title": "村民初见",
+  "description": "玩家在山庄广场遇到村民，小满第一个上前打招呼。",
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "小满",
+      "text": "喂！你就是新主人？",
+      "next_node_id": "start2",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "小满",
+      "text": "我叫小满！是种田的！听说你要复兴山庄？那可不容易，这地方荒了好几年了！",
+      "next_node_id": "start3",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start3",
+      "speaker": "阿茶",
+      "text": "小满，别这么说。他刚回来，肯定有很多事要忙。你好，我叫阿茶，是制茶的。欢迎回来。",
+      "next_node_id": "start4",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start4",
+      "speaker": "雾川",
+      "text": "……",
+      "next_node_id": "start5",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start5",
+      "speaker": "老槐",
+      "text": "各位，这是山庄的新主人。从今以后，山庄就交给他了。你要证明给他们看——你有能力守护这个地方。",
+      "choices": [
+        { "id": "c1", "text": "我会努力的。", "next": "accept" },
+        { "id": "c2", "text": "说实话……我也不知道该怎么做。", "next": "doubt" }
+      ],
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "accept",
+      "speaker": "老槐",
+      "text": "好孩子。我会帮助你的。有什么不懂的，随时来找我。",
+      "next_node_id": "accept2",
+      "is_cutscene": false,
+      "choice_effects": [
+        { "flag_to_set": "ch1_player_resolve", "next_plot_id": "plot_ch1_first_work" }
+      ],
+      "cloud_delta": 0
+    },
+    {
+      "id": "accept2",
+      "speaker": "小满",
+      "text": "好！那就一起加油吧！",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "doubt",
+      "speaker": "老槐",
+      "text": "不用着急，慢慢来。守护不是一天的事。重要的是，你已经回来了。",
+      "next_node_id": "doubt2",
+      "is_cutscene": false,
+      "choice_effects": [
+        { "flag_to_set": "ch1_player_honest", "next_plot_id": "plot_ch1_first_work" }
+      ],
+      "cloud_delta": 0
+    },
+    {
+      "id": "doubt2",
+      "speaker": "小满",
+      "text": "哈哈！这才真实嘛！慢慢来就好！",
+      "next_node_id": "",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "plot_ch1_first_work",
+  "priority": 10
+}

@@ -1,0 +1,118 @@
+{
+  "id": "plot_ch1_awakening_festival",
+  "chapter_id": "ch1",
+  "title": "山庄苏醒祭",
+  "description": "山庄苏醒祭，玩家第一次主持节日活动，众人齐心协力修缮山庄。",
+  "nodes": [
+    {
+      "id": "festival_notice",
+      "speaker": "系统",
+      "text": "山庄苏醒祭即将开始！请各位村民集合！",
+      "next_node_id": "festival_start",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_start",
+      "speaker": "老槐",
+      "text": "今天是山庄苏醒祭。每年春天，我们都会聚在一起，把山庄从沉睡中唤醒。今年，是新主人第一次主持苏醒祭。来吧，年轻人。带领大家一起，让山庄苏醒。",
+      "next_node_id": "festival_work",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_work",
+      "speaker": "小满",
+      "text": "我去搬材料！",
+      "next_node_id": "festival_work2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_work2",
+      "speaker": "阿茶",
+      "text": "我来准备茶点！",
+      "next_node_id": "festival_work3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_work3",
+      "speaker": "素锦",
+      "text": "我来缝补窗帘！",
+      "next_node_id": "festival_work4",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_work4",
+      "speaker": "林风",
+      "text": "我来准备蜂蜜！",
+      "next_node_id": "festival_result",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_result",
+      "speaker": "旁白",
+      "text": "众人齐心协力，主屋焕然一新。",
+      "next_node_id": "festival_result2",
+      "is_cutscene": true,
+      "cloud_delta": +20,
+      "trigger_event": "festival_complete"
+    },
+    {
+      "id": "festival_result2",
+      "speaker": "村民A",
+      "text": "哇！没想到这么快就修好了！",
+      "next_node_id": "festival_result3",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_result3",
+      "speaker": "村民B",
+      "text": "看来这个新主人……还是有点本事的！",
+      "next_node_id": "festival_xm",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_xm",
+      "speaker": "小满",
+      "text": "干得不错嘛！",
+      "next_node_id": "festival_acha",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_acha",
+      "speaker": "阿茶",
+      "text": "谢谢你今天帮了这么多忙。",
+      "next_node_id": "festival_wuzhou",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_wuzhou",
+      "speaker": "雾川",
+      "text": "……还行。",
+      "next_node_id": "festival_end",
+      "is_cutscene": false,
+      "cloud_delta": 0
+    },
+    {
+      "id": "festival_end",
+      "speaker": "老槐",
+      "text": "孩子，你做得很好。从今天起，他们开始信任你了。守护者的路，才刚刚开始。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "chapter_complete_flag": "ch1",
+      "trigger_event": "chapter_complete",
+      "cloud_delta": 0
+    }
+  ],
+  "start_node_id": "festival_notice",
+  "next_plot_id": "plot_ch1_night_talk",
+  "priority": 3
+}
