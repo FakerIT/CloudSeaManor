@@ -19,15 +19,19 @@
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/CloudSystem.hpp"
 #include "CloudSeamanor/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/GameWorldState.hpp"
 #include "CloudSeamanor/Interactable.hpp"
 #include "CloudSeamanor/Inventory.hpp"
 #include "CloudSeamanor/PickupDrop.hpp"
 #include "CloudSeamanor/SkillSystem.hpp"
 #include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/HungerSystem.hpp"
+#include "CloudSeamanor/TeaBush.hpp"
 #include "CloudSeamanor/WorkshopSystem.hpp"
 #include "CloudSeamanor/NpcDialogueManager.hpp"
-
-#include <SFML/System/Vector2.hpp>
+#include "CloudSeamanor/FestivalRuntimeData.hpp"
+#include "CloudSeamanor/RelationshipSystem.hpp"
+#include "CloudSeamanor/FestivalSystem.hpp"
 
 #include <functional>
 #include <string>
@@ -36,7 +40,6 @@
 
 namespace CloudSeamanor::domain {
 class GameClock;
-struct InteractionState;
 }
 
 namespace CloudSeamanor::engine {
@@ -96,8 +99,12 @@ struct PlayerInteractRuntimeContext {
     /** 体力系统引用：用于检查体力、消耗体力、恢复体力 */
     CloudSeamanor::domain::StaminaSystem& stamina;
 
+    /** 饱食系统引用：用于进食与早餐恢复 */
+    CloudSeamanor::domain::HungerSystem& hunger;
+
     /** 茶田地块列表引用：用于修改地块状态（翻土、播种、浇水、收获） */
     std::vector<TeaPlot>& tea_plots;
+    std::vector<CloudSeamanor::domain::TeaBush>& tea_bushes;
 
     /** NPC 列表引用：用于修改 NPC 状态（好感度、每日送礼标记） */
     std::vector<NpcActor>& npcs;
@@ -135,6 +142,15 @@ struct PlayerInteractRuntimeContext {
     /** 工坊系统引用：用于制茶机操作 */
     CloudSeamanor::domain::WorkshopSystem& workshop;
 
+    /** 关系系统引用：用于告白/婚礼状态机推进 */
+    CloudSeamanor::domain::RelationshipSystem& relationship_system;
+
+    /** 关系状态引用：用于持久化与 UI 展示 */
+    CloudSeamanor::domain::RelationshipState& relationship_state;
+
+    /** 节日系统只读引用：用于婚礼日期冲突处理 */
+    const CloudSeamanor::domain::FestivalSystem& festivals;
+
     /** NPC 文本映射表引用：用于获取 NPC 位置和活动的显示名称 */
     NpcTextMappings& npc_text_mappings;
 
@@ -168,6 +184,8 @@ struct PlayerInteractRuntimeContext {
     std::vector<MailOrderEntry>& mail_orders;
     CloudSeamanor::domain::CropQuality& last_trade_quality;
     bool& in_spirit_realm;
+    const std::string& active_festival_id;
+    FestivalRuntimeData* festival_runtime_state = nullptr;
     std::unordered_map<std::string, int>& spirit_plant_last_harvest_hour;
     std::unordered_map<std::string, int>& weekly_buy_count;
     std::unordered_map<std::string, int>& weekly_sell_count;
@@ -175,6 +193,12 @@ struct PlayerInteractRuntimeContext {
     int& inn_gold_reserve;
     int& coop_fed_today;
     int& decoration_score;
+    std::vector<DiaryEntryState>& diary_entries;
+    std::unordered_map<std::string, std::string>& skill_branches;
+    std::vector<std::string>& pending_skill_branches;
+    std::vector<PlacedObject>& placed_objects;
+    int& fishing_attempts;
+    std::string& last_fish_catch;
     std::string& pet_type;
     bool& pet_adopted;
     std::unordered_map<std::string, bool>& achievements;
@@ -194,6 +218,7 @@ struct PlayerInteractRuntimeContext {
      * @note 传入 true 表示去灵界，false 表示回主世界。
      */
     std::function<void(bool to_spirit_realm)> request_spirit_realm_travel;
+    std::function<void(const std::string& source_label)> start_fishing_qte;
 
     // ============================================================================
     // 【消耗参数】
@@ -232,13 +257,13 @@ struct PlayerInteractRuntimeContext {
     std::function<void(TeaPlot&, bool)> refresh_plot_visual;
 
     /** 生成爱心粒子回调 */
-    std::function<void(const sf::Vector2f&, std::vector<HeartParticle>&)> spawn_heart_particles;
+    std::function<void(const CloudSeamanor::domain::Vec2f&, std::vector<HeartParticle>&)> spawn_heart_particles;
 
     /** 刷新拾取物视觉回调 */
     std::function<void(CloudSeamanor::domain::PickupDrop&)> refresh_pickup_visual;
 
     /** 世界交互状态引用：用于追踪心事件完成奖励 */
-    struct InteractionState& interaction_state;
+    CloudSeamanor::engine::InteractionState& interaction_state;
 
     // ============================================================================
     // 【心事件追踪】
@@ -255,8 +280,10 @@ struct PlayerInteractRuntimeContext {
         CloudSeamanor::domain::CloudSystem& cloud,
         CloudSeamanor::domain::Inventory& inv,
         CloudSeamanor::domain::StaminaSystem& sta,
+        CloudSeamanor::domain::HungerSystem& hunger_system,
         float stamina_cost,
         std::vector<TeaPlot>& plots,
+        std::vector<CloudSeamanor::domain::TeaBush>& bushes,
         std::vector<NpcActor>& npcs_list,
         SpiritBeast& beast,
         bool& beast_watered,
@@ -269,6 +296,9 @@ struct PlayerInteractRuntimeContext {
         CloudSeamanor::domain::SkillSystem& sk,
         CloudSeamanor::domain::DynamicLifeSystem& dl,
         CloudSeamanor::domain::WorkshopSystem& ws,
+        CloudSeamanor::domain::RelationshipSystem& rel_system,
+        CloudSeamanor::domain::RelationshipState& rel_state,
+        const CloudSeamanor::domain::FestivalSystem& festivals_system,
         NpcTextMappings& mappings,
         DialogueEngine& dialogue_eng,
         std::string dialogue_root,
@@ -278,6 +308,8 @@ struct PlayerInteractRuntimeContext {
         std::vector<MailOrderEntry>& order_entries,
         CloudSeamanor::domain::CropQuality& trade_quality,
         bool& spirit_realm_flag,
+        const std::string& active_festival_id_ref,
+        FestivalRuntimeData* festival_runtime_state_ptr,
         std::unordered_map<std::string, int>& spirit_plant_hours,
         std::unordered_map<std::string, int>& weekly_buy_counter,
         std::unordered_map<std::string, int>& weekly_sell_counter,
@@ -285,6 +317,12 @@ struct PlayerInteractRuntimeContext {
         int& inn_reserve,
         int& coop_fed,
         int& deco_score,
+        std::vector<DiaryEntryState>& diary_entry_list,
+        std::unordered_map<std::string, std::string>& skill_branch_map,
+        std::vector<std::string>& pending_skill_branch_list,
+        std::vector<PlacedObject>& placed_object_list,
+        int& fishing_attempt_count,
+        std::string& last_fish_catch_id,
         std::string& pet_type_ref,
         bool& pet_adopted_ref,
         std::unordered_map<std::string, bool>& achievements_ref,
@@ -294,6 +332,7 @@ struct PlayerInteractRuntimeContext {
         int game_hour,
         std::function<bool(const std::string& npc_id)> claim_delivery_fn,
         std::function<void(bool to_spirit_realm)> spirit_realm_travel_fn,
+        std::function<void(const std::string& source_label)> start_fishing_qte_fn,
         std::function<void(const std::string&, float)> hint_fn,
         std::function<void(const std::string&)> log_fn,
         std::function<void(const std::string&)> sfx_fn,
@@ -302,9 +341,9 @@ struct PlayerInteractRuntimeContext {
         std::function<void()> title_fn,
         std::function<void(CloudSeamanor::domain::SkillType, int)> level_fn,
         std::function<void(TeaPlot&, bool)> plot_fn,
-        std::function<void(const sf::Vector2f&, std::vector<HeartParticle>&)> hearts_fn,
+        std::function<void(const CloudSeamanor::domain::Vec2f&, std::vector<HeartParticle>&)> hearts_fn,
         std::function<void(CloudSeamanor::domain::PickupDrop&)> pickup_fn,
-        struct InteractionState& interaction_state,
+        CloudSeamanor::engine::InteractionState& interaction_state,
         int npc_idx = -1,
         int plot_idx = -1,
         int idx = -1,
@@ -315,8 +354,10 @@ struct PlayerInteractRuntimeContext {
         cloud_system(cloud),
         inventory(inv),
         stamina(sta),
+        hunger(hunger_system),
         stamina_interact_cost(stamina_cost),
         tea_plots(plots),
+        tea_bushes(bushes),
         npcs(npcs_list),
         spirit_beast(beast),
         spirit_beast_watered_today(beast_watered),
@@ -329,6 +370,9 @@ struct PlayerInteractRuntimeContext {
         skills(sk),
         dynamic_life(dl),
         workshop(ws),
+        relationship_system(rel_system),
+        relationship_state(rel_state),
+        festivals(festivals_system),
         npc_text_mappings(mappings),
         dialogue_engine(dialogue_eng),
         dialogue_data_root(std::move(dialogue_root)),
@@ -338,6 +382,8 @@ struct PlayerInteractRuntimeContext {
         mail_orders(order_entries),
         last_trade_quality(trade_quality),
         in_spirit_realm(spirit_realm_flag),
+        active_festival_id(active_festival_id_ref),
+        festival_runtime_state(festival_runtime_state_ptr),
         spirit_plant_last_harvest_hour(spirit_plant_hours),
         weekly_buy_count(weekly_buy_counter),
         weekly_sell_count(weekly_sell_counter),
@@ -345,6 +391,12 @@ struct PlayerInteractRuntimeContext {
         inn_gold_reserve(inn_reserve),
         coop_fed_today(coop_fed),
         decoration_score(deco_score),
+        diary_entries(diary_entry_list),
+        skill_branches(skill_branch_map),
+        pending_skill_branches(pending_skill_branch_list),
+        placed_objects(placed_object_list),
+        fishing_attempts(fishing_attempt_count),
+        last_fish_catch(last_fish_catch_id),
         pet_type(pet_type_ref),
         pet_adopted(pet_adopted_ref),
         achievements(achievements_ref),
@@ -354,6 +406,7 @@ struct PlayerInteractRuntimeContext {
         current_game_hour(game_hour),
         try_claim_npc_delivery_rewards(std::move(claim_delivery_fn)),
         request_spirit_realm_travel(std::move(spirit_realm_travel_fn)),
+        start_fishing_qte(std::move(start_fishing_qte_fn)),
         push_hint(hint_fn),
         log_info(log_fn),
         play_sfx(sfx_fn),

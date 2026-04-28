@@ -1,0 +1,17 @@
+{
+  "npc_id": "an",
+  "greetings": [
+    {"id":"an_greet_morning","text":"早上好，$[PLAYER_NAME]。今天的市集计划我刚整理完。","favor_min":0,"favor_max":999,"season":"","time_of_day":"清晨","weather":"","heart_min":0,"heart_max":10},
+    {"id":"an_greet_afternoon","text":"下午好。你来得正好，我想听听你对摊位布局的建议。","favor_min":0,"favor_max":999,"season":"","time_of_day":"午后","weather":"","heart_min":0,"heart_max":10},
+    {"id":"an_greet_autumn","text":"秋天的游客最多。$[PLAYER_NAME]，这季的节奏得提前安排。","favor_min":0,"favor_max":999,"season":"秋","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ],
+  "small_talks": [
+    {"id":"an_talk_1","text":"经营这件事，最难的不是卖货，是让每个人都愿意再来一次。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"an_talk_2","text":"你每次交付都很准时，整个市集的节奏都被你带稳了。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"an_talk_high","text":"$[PLAYER_NAME]，有你一起规划，我对这座山庄的未来更有底气。","favor_min":180,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":6,"heart_max":10}
+  ],
+  "farewells": [
+    {"id":"an_bye_1","text":"先这样，回头有新计划我第一时间告诉你。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"an_bye_2","text":"路上小心，别忘了按时休息。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ]
+}

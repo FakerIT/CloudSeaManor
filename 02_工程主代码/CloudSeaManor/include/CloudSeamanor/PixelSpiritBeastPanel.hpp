@@ -11,6 +11,7 @@ struct SpiritBeastPanelViewData {
     std::string state_text = "休息";
     int favor = 0;
     bool dispatched = false;
+    int dispatch_remaining_seconds = 0;
     std::string trait = "Watering Aid";
     std::string category_text = "分类: [全部] [采集型] [守护型] [辅助型] [传说型]  数量: 1";
     std::string cards_title = "灵兽卡片";

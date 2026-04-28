@@ -1,0 +1,90 @@
+key,value,description
+# ===== 玩家基础属性 =====
+player_base_crit_chance,0.08,玩家基础暴击率（8%）
+player_base_purify_rate,1.0,玩家基础净化倍率
+player_base_energy,100,玩家基础能量上限
+player_base_energy_regen,5.0,玩家基础能量回复（每秒）
+player_base_dodge_chance,0.05,玩家基础闪避率（5%）
+player_base_shield_capacity,0,玩家基础护盾容量
+
+# ===== 灵兽基础属性 =====
+partner_base_skill_power,25,灵兽基础技能威力
+partner_default_cooldown,12,灵兽技能默认冷却（秒）
+partner_base_loyalty,0.6,灵兽基础忠诚度
+partner_max_loyalty,1.0,灵兽最大忠诚度
+partner_favor_per_battle,5,每次战斗胜利获得的好感度
+partner_exhausted_cooldown,1800,灵兽疲劳冷却时间（秒=30分钟）
+
+# ===== 战斗全局参数 =====
+area_skill_hit_radius,180,范围技能默认半径（像素）
+skill_max_range,500,技能最大释放距离（像素）
+battle_trigger_distance,60,战斗触发距离（像素）
+battle_timeout_seconds,300,战斗超时时间（秒）
+spirit_spawn_interval,2.0,灵体生成间隔（秒）
+max_spirits_per_battle,5,每场战斗最大灵体数量
+
+# ===== 天气/云海影响倍率 =====
+weather_clear_mult,1.0,晴朗天气净化倍率
+weather_mist_mult,1.2,薄雾天气净化倍率
+weather_dense_mult,1.35,浓云天气净化倍率
+weather_tide_mult,1.5,大潮天气净化倍率
+
+# ===== 区域难度缩放 =====
+zone_manor_scale,1.0,云海山庄外围难度缩放
+zone_bamboo_scale,1.2,后山竹林难度缩放
+zone_tea_scale,1.3,茶园难度缩放
+zone_spirit_shallow_scale,1.5,灵界浅层难度缩放
+zone_spirit_deep_scale,1.8,灵界深层难度缩放
+zone_spirit_core_scale,2.2,灵界核心难度缩放
+zone_realm_bridge_scale,2.5,界桥难度缩放
+zone_boss_scale,3.0,BOSS区域难度缩放
+
+# ===== 伤害计算参数 =====
+damage_formula_atk_weight,0.35,伤害公式攻击力权重
+damage_formula_def_k,60.0,伤害公式防御力系数
+damage_formula_energy_scale,0.5,能量转化伤害系数
+pollution_damage_ratio,0.8,污染伤害转化比例
+shield_damage_reduction,1.0,护盾伤害减免系数
+
+# ===== 元素克制倍率 =====
+element_advantage_mult,1.5,元素克制倍率
+element_disadvantage_mult,0.75,元素被克制倍率
+element_neutral_mult,1.0,元素无克制倍率
+
+# ===== 暴击相关 =====
+crit_base_multiplier,1.5,基础暴击倍率
+crit_max_multiplier,3.0,最大暴击倍率
+crit_bonus_from_equipment,0.15,装备提供的最大暴击倍率加成
+
+# ===== 经验与奖励 =====
+base_exp_per_spirit,10,每只灵体基础经验
+exp_multiplier_per_star,1.5,每星难度经验倍率
+victory_bonus_exp_mult,1.2,胜利奖励经验倍率
+retreat_no_penalty,true,撤退无惩罚
+
+# ===== 技能冷却参数 =====
+skill_cooldown_min,3,最小冷却时间（秒）
+skill_cooldown_max,120,最大冷却时间（秒）
+ultimate_cooldown_base,60,终极技能基础冷却（秒）
+energy_cost_min,5,最小能量消耗
+energy_cost_max,80,最大能量消耗
+
+# ===== 护盾与增益 =====
+shield_base_duration,12,护盾基础持续时间（秒）
+buff_max_stack,3,同类增益最大叠加层数
+debuff_max_stack,5,减益最大叠加层数
+buff_duration_base,10,增益基础持续时间（秒）
+
+# ===== BOSS特殊参数 =====
+boss_pollution_mult,3.0,BOSS污染值倍率
+boss_health_mult,2.5,BOSS生命值倍率
+boss_attack_mult,1.8,BOSS攻击力倍率
+boss_phase_threshold,0.5,BOSS进入下一阶段的阈值
+boss_rage_threshold,0.3,BOSS狂暴阶段阈值
+
+# ===== 战斗UI参数 =====
+battle_ui_spirit_icon_size,48,灵体图标大小
+battle_ui_skill_icon_size,56,技能图标大小
+battle_ui_health_bar_width,120,生命条宽度
+battle_ui_energy_bar_width,100,能量条宽度
+battle_log_max_entries,50,战斗日志最大条目数

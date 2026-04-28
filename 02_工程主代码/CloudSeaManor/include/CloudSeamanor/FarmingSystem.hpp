@@ -10,16 +10,18 @@
 // - 处理种植、浇水、收获交互
 // - 更新作物生长状态
 // - 计算农业相关奖励
+// - 集成工具系统效果（锄头效率、水壶范围等）
 //
 // 设计原则：
 // - 独立的农业状态管理
 // - 支持多种作物类型
-// - 与天气和技能系统联动
+// - 与天气、技能和工具系统联动
 // ============================================================================
 
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/Inventory.hpp"
 #include "CloudSeamanor/SkillSystem.hpp"
+#include "CloudSeamanor/ToolSystem.hpp"
 
 #include <functional>
 #include <string>
@@ -34,6 +36,7 @@ struct FarmingCallbacks {
     std::function<void(const std::string&, float)> push_hint;
     std::function<void(const std::string&)> log_info;
     std::function<void(TeaPlot&, bool)> refresh_plot_visual;
+    std::function<void(TeaPlot&, const CloudSeamanor::domain::CloudSystem&)> apply_planting_snapshot;
 };
 
 // ============================================================================
@@ -47,6 +50,13 @@ struct FarmingResult {
     bool skill_level_up = false;
     std::string skill_name;
     int new_level = 0;
+    // ========== 新增字段 ==========
+    /** 收获时提供的饱食恢复值 */
+    int hunger_restore = 0;
+    /** 收获时的品质等级 */
+    CloudSeamanor::domain::CropQuality quality = CloudSeamanor::domain::CropQuality::Normal;
+    /** 是否为灵化变种 */
+    bool spirit_mutated = false;
 };
 
 // ============================================================================
@@ -79,7 +89,10 @@ public:
         CloudSeamanor::domain::Inventory& inventory,
         CloudSeamanor::domain::SkillSystem& skills,
         float cloud_density,
-        bool spirit_beast_interacted
+        bool spirit_beast_interacted,
+        const CloudSeamanor::domain::CloudSystem& cloud_system,
+        const CloudSeamanor::domain::CropTable& crop_table,
+        const CloudSeamanor::domain::ToolSystem* tool_system = nullptr
     );
 
     // ========================================================================

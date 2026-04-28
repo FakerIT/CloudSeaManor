@@ -1,8 +1,8 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameApp.hpp"
+#include "CloudSeamanor/Logger.hpp"
 
 #include <filesystem>
+#include <exception>
 #include <system_error>
 #include <windows.h>
 
@@ -50,6 +50,14 @@ int main() {
     };
 
     TrySetCwdToProjectRoot();
-    CloudSeamanor::engine::GameApp app;
-    return app.Run();
+    CloudSeamanor::infrastructure::Logger::Initialize("logs");
+
+    try {
+        CloudSeamanor::engine::GameApp app;
+        return app.Run();
+    } catch (const std::exception& ex) {
+        CloudSeamanor::infrastructure::Logger::Error(
+            std::string("Fatal exception: ") + ex.what());
+        return 3;
+    }
 }

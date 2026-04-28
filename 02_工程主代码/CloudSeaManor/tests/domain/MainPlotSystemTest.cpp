@@ -16,7 +16,7 @@
 // - Priority-based trigger ordering
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 
 #include "CloudSeamanor/MainPlotSystem.hpp"
 #include "CloudSeamanor/GameClock.hpp"

@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/DynamicLifeSystem.hpp"
 #include "CloudSeamanor/GameAppSave.hpp"
 
@@ -9,20 +7,25 @@
 #include "CloudSeamanor/GameAppText.hpp"
 #include "CloudSeamanor/GameClock.hpp"
 #include "CloudSeamanor/Inventory.hpp"
+#include "CloudSeamanor/Logger.hpp"
 #include "CloudSeamanor/Player.hpp"
 #include "CloudSeamanor/Result.hpp"
 #include "CloudSeamanor/SkillSystem.hpp"
 #include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/engine/systems/TutorialSystem.hpp"
 #include "CloudSeamanor/WorkshopSystem.hpp"
 #include "CloudSeamanor/GameAppFarming.hpp"
 #include "CloudSeamanor/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/NpcDialogueManager.hpp"
 
 #include <algorithm>
 #include <cstdint>
 #include <fstream>
 #include <filesystem>
 #include <functional>
+#include <optional>
 #include <sstream>
+#include <unordered_map>
 
 namespace CloudSeamanor::engine {
 
@@ -61,7 +64,79 @@ std::string BuildPayload(const std::vector<std::string>& lines) {
     return oss.str();
 }
 
-constexpr int kSaveVersion = 6;
+constexpr int kSaveVersion = 8;
+constexpr const char* kPlotSchemaTag = "plot_schema";
+
+const std::vector<std::string>& PlotFieldNames() {
+    static const std::vector<std::string> kNames{
+        "index",
+        "tilled",
+        "seeded",
+        "watered",
+        "ready",
+        "growth",
+        "stage",
+        "crop_id",
+        "quality",
+        "sprinkler",
+        "sprinkler_days",
+        "fertilized",
+        "fertilizer_type",
+        "greenhouse",
+        "cleared",
+        "disease",
+        "pest",
+        "disease_days",
+        "cloud_density_at_planting",
+        "aura_at_planting",
+        "weather_at_planting",
+        "dense_cloud_days_accumulated",
+        "tide_days_accumulated",
+        "tea_soul_flower_nearby",
+        "fertilizer_type_for_quality",
+        "spirit_mutated",
+        "hunger_restore",
+        "plot_layer",
+    };
+    return kNames;
+}
+
+std::string BuildPlotSchemaLine() {
+    std::ostringstream schema;
+    schema << kPlotSchemaTag;
+    for (const auto& field : PlotFieldNames()) {
+        schema << "|" << field;
+    }
+    return schema.str();
+}
+
+std::unordered_map<std::string, std::size_t> ParsePlotSchema(const std::vector<std::string>& fields) {
+    std::unordered_map<std::string, std::size_t> index_map;
+    if (fields.empty() || fields[0] != kPlotSchemaTag) {
+        return index_map;
+    }
+    for (std::size_t i = 1; i < fields.size(); ++i) {
+        index_map[fields[i]] = i;
+    }
+    return index_map;
+}
+
+std::optional<std::string> GetPlotField(
+    const std::vector<std::string>& fields,
+    const std::unordered_map<std::string, std::size_t>& schema_map,
+    const std::string& field_name,
+    std::size_t legacy_index) {
+    if (!schema_map.empty()) {
+        auto it = schema_map.find(field_name);
+        if (it != schema_map.end() && it->second < fields.size()) {
+            return fields[it->second];
+        }
+    }
+    if (legacy_index < fields.size()) {
+        return fields[legacy_index];
+    }
+    return std::nullopt;
+}
 
 std::filesystem::path BackupPathFor(const std::filesystem::path& save_path) {
     return save_path.string() + ".bak";
@@ -69,6 +144,23 @@ std::filesystem::path BackupPathFor(const std::filesystem::path& save_path) {
 
 std::filesystem::path TempPathFor(const std::filesystem::path& save_path) {
     return save_path.string() + ".tmp";
+}
+
+std::string SaveSlotLabelFromPath(const std::filesystem::path& save_path) {
+    const std::string stem = save_path.stem().string();
+    // Expected format: save_slot_01 -> slot 1
+    const std::string prefix = "save_slot_";
+    if (stem.rfind(prefix, 0) == 0 && stem.size() > prefix.size()) {
+        try {
+            const int slot = std::stoi(stem.substr(prefix.size()));
+            if (slot > 0) {
+                return "槽位 " + std::to_string(slot);
+            }
+        } catch (const std::exception&) {
+            // Fall through to filename display below.
+        }
+    }
+    return save_path.filename().string();
 }
 
 bool WriteAtomically(
@@ -116,7 +208,11 @@ bool WriteAtomically(
 Result<int> ParseInt(const std::string& text, const std::string& field_name) {
     try {
         return std::stoi(text);
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        return Result<int>("字段解析失败（int, invalid_argument）: " + field_name + "='" + text + "'");
+    } catch (const std::out_of_range&) {
+        return Result<int>("字段解析失败（int, out_of_range）: " + field_name + "='" + text + "'");
+    } catch (const std::exception&) {
         return Result<int>("字段解析失败（int）: " + field_name + "='" + text + "'");
     }
 }
@@ -124,7 +220,11 @@ Result<int> ParseInt(const std::string& text, const std::string& field_name) {
 Result<float> ParseFloat(const std::string& text, const std::string& field_name) {
     try {
         return std::stof(text);
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        return Result<float>("字段解析失败（float, invalid_argument）: " + field_name + "='" + text + "'");
+    } catch (const std::out_of_range&) {
+        return Result<float>("字段解析失败（float, out_of_range）: " + field_name + "='" + text + "'");
+    } catch (const std::exception&) {
         return Result<float>("字段解析失败（float）: " + field_name + "='" + text + "'");
     }
 }
@@ -257,7 +357,13 @@ bool PrepareLoadLines(const std::filesystem::path& save_path,
             std::uint32_t expected = 0;
             try {
                 expected = static_cast<std::uint32_t>(std::stoul(header[1]));
-            } catch (...) {
+            } catch (const std::invalid_argument&) {
+                push_hint("存档校验头损坏（invalid_argument）。", 3.0f);
+                return false;
+            } catch (const std::out_of_range&) {
+                push_hint("存档校验头损坏（out_of_range）。", 3.0f);
+                return false;
+            } catch (const std::exception&) {
                 push_hint("存档校验头损坏。", 3.0f);
                 return false;
             }
@@ -288,7 +394,13 @@ bool PrepareLoadLines(const std::filesystem::path& save_path,
                     std::uint32_t bak_expected = 0;
                     try {
                         bak_expected = static_cast<std::uint32_t>(std::stoul(bak_header[1]));
-                    } catch (...) {
+                    } catch (const std::invalid_argument&) {
+                        push_hint("备份存档校验头损坏（invalid_argument）。", 3.0f);
+                        return false;
+                    } catch (const std::out_of_range&) {
+                        push_hint("备份存档校验头损坏（out_of_range）。", 3.0f);
+                        return false;
+                    } catch (const std::exception&) {
                         push_hint("备份存档校验头损坏。", 3.0f);
                         return false;
                     }
@@ -324,6 +436,7 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const CloudSeamanor::domain::CloudSystem& cloud_system,
                    const CloudSeamanor::domain::Player& player,
                    const CloudSeamanor::domain::StaminaSystem& stamina,
+                   const CloudSeamanor::domain::HungerSystem& hunger,
                    const RepairProject& main_house_repair,
                    const TeaMachine& tea_machine,
                    const SpiritBeast& spirit_beast,
@@ -339,17 +452,37 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const CloudSeamanor::domain::FestivalSystem* festivals,
                    const CloudSeamanor::domain::DynamicLifeSystem* dynamic_life,
                    const CloudSeamanor::domain::WorkshopSystem* workshop,
+                   const CloudSeamanor::domain::RelationshipState* relationship,
                    const int* decoration_score,
                    const std::string* pet_type,
                    const bool* pet_adopted,
                    const std::unordered_map<std::string, bool>* achievements,
                    const std::unordered_map<std::string, int>* weekly_buy_count,
                    const std::unordered_map<std::string, int>* weekly_sell_count,
+                   const std::vector<InnOrderEntry>* inn_orders,
+                   const int* inn_visitors_today,
+                   const int* inn_income_today,
+                   const int* inn_reputation,
+                   const int* coop_fed_today,
+                   const int* livestock_eggs_today,
+                   const int* livestock_milk_today,
                    const int* spirit_realm_daily_max,
                    const int* spirit_realm_daily_remaining,
                    const bool* in_battle_mode,
                    const int* battle_state,
-                   const TutorialState* tutorial) {
+                   const bool* battle_available,
+                   const std::vector<std::string>* battle_active_partners,
+                   const std::string* equipped_weapon_id,
+                   const TutorialState* tutorial,
+                   const std::vector<DiaryEntryState>* diary_entries,
+                   const std::unordered_map<std::string, bool>* recipe_unlocks,
+                   const std::unordered_map<std::string, std::string>* skill_branches,
+                   const std::vector<std::string>* pending_skill_branches,
+                   const std::vector<PlacedObject>* placed_objects,
+                   const int* purify_return_days,
+                   const int* purify_return_spirits,
+                   const int* fishing_attempts,
+                   const std::string* last_fish_catch) {
     std::filesystem::create_directories(save_path.parent_path());
 
     std::vector<std::string> lines;
@@ -365,6 +498,7 @@ bool SaveGameState(const std::filesystem::path& save_path,
         "player|" + std::to_string(player_pos.x) + "|"
         + std::to_string(player_pos.y) + "|"
         + std::to_string(stamina.Current()));
+    lines.push_back("hunger|" + hunger.SaveState());
     lines.push_back(
         "repair|" + std::to_string(main_house_repair.completed ? 1 : 0) + "|"
         + std::to_string(main_house_repair.level) + "|"
@@ -378,8 +512,8 @@ bool SaveGameState(const std::filesystem::path& save_path,
         + std::to_string(tea_machine.duration) + "|"
         + std::to_string(tea_machine.queued_output));
     lines.push_back(
-        "spirit|" + std::to_string(spirit_beast.shape.getPosition().x) + "|"
-        + std::to_string(spirit_beast.shape.getPosition().y) + "|"
+        "spirit|" + std::to_string(spirit_beast.position.x) + "|"
+        + std::to_string(spirit_beast.position.y) + "|"
         + std::to_string(SpiritBeastStateToInt(spirit_beast.state)) + "|"
         + std::to_string(static_cast<int>(spirit_beast.patrol_index)) + "|"
         + std::to_string(spirit_beast.idle_timer) + "|"
@@ -392,6 +526,16 @@ bool SaveGameState(const std::filesystem::path& save_path,
         + spirit_beast.custom_name + "|"
         + std::to_string(SpiritBeastPersonalityToInt(spirit_beast.personality)));
     lines.push_back("economy|" + std::to_string(gold));
+    if (relationship) {
+        lines.push_back(
+            "relationship|"
+            + std::to_string(static_cast<int>(relationship->stage)) + "|"
+            + relationship->target_npc_id + "|"
+            + std::to_string(relationship->confession_cooldown_until_day) + "|"
+            + std::to_string(relationship->engaged_day) + "|"
+            + std::to_string(relationship->wedding_day) + "|"
+            + std::to_string(relationship->married_since_day));
+    }
     if (decoration_score) {
         lines.push_back("decor|" + std::to_string(*decoration_score));
     }
@@ -402,6 +546,62 @@ bool SaveGameState(const std::filesystem::path& save_path,
         for (const auto& [id, unlocked] : *achievements) {
             lines.push_back("ach|" + id + "|" + std::to_string(unlocked ? 1 : 0));
         }
+    }
+    if (diary_entries) {
+        for (const auto& e : *diary_entries) {
+            if (e.entry_id.empty()) {
+                continue;
+            }
+            lines.push_back(
+                "diary|" + e.entry_id + "|"
+                + std::to_string(std::max(0, e.day_unlocked)) + "|"
+                + std::to_string(e.has_been_read ? 1 : 0));
+        }
+    }
+    if (recipe_unlocks) {
+        for (const auto& [id, unlocked] : *recipe_unlocks) {
+            if (!id.empty() && unlocked) {
+                lines.push_back("recipe_unlock|" + id);
+            }
+        }
+    }
+    if (skill_branches) {
+        for (const auto& [skill_id, branch_id] : *skill_branches) {
+            if (!skill_id.empty() && !branch_id.empty()) {
+                lines.push_back("skill_branch|" + skill_id + "|" + branch_id);
+            }
+        }
+    }
+    if (pending_skill_branches) {
+        for (const auto& skill_id : *pending_skill_branches) {
+            if (!skill_id.empty()) {
+                lines.push_back("skill_branch_pending|" + skill_id);
+            }
+        }
+    }
+    if (placed_objects) {
+        for (const auto& obj : *placed_objects) {
+            if (obj.object_id.empty()) {
+                continue;
+            }
+            lines.push_back(
+                "decor_item|" + obj.object_id + "|"
+                + std::to_string(obj.tile_x) + "|"
+                + std::to_string(obj.tile_y) + "|"
+                + std::to_string(obj.rotation) + "|"
+                + obj.room + "|"
+                + obj.custom_data);
+        }
+    }
+    if (const int days = purify_return_days ? std::max(0, *purify_return_days) : 0;
+        days > 0 && purify_return_spirits) {
+        lines.push_back(
+            "purify_return|" + std::to_string(days) + "|"
+            + std::to_string(std::max(0, *purify_return_spirits)));
+    }
+    if (fishing_attempts || last_fish_catch) {
+        lines.push_back("fishing_state|" + std::to_string(fishing_attempts ? std::max(0, *fishing_attempts) : 0)
+                        + "|" + (last_fish_catch ? *last_fish_catch : ""));
     }
     if (tutorial) {
         lines.push_back(
@@ -414,53 +614,89 @@ bool SaveGameState(const std::filesystem::path& save_path,
             "battle|" + std::to_string(*in_battle_mode ? 1 : 0) + "|"
             + std::to_string(*battle_state));
     }
+    if (battle_available || battle_active_partners) {
+        std::ostringstream oss;
+        oss << "battle_runtime|" << (battle_available && *battle_available ? 1 : 0) << "|";
+        if (battle_active_partners) {
+            for (std::size_t i = 0; i < battle_active_partners->size(); ++i) {
+                if (i > 0) {
+                    oss << ",";
+                }
+                oss << (*battle_active_partners)[i];
+            }
+        }
+        lines.push_back(oss.str());
+    }
+    if (equipped_weapon_id && !equipped_weapon_id->empty()) {
+        lines.push_back("equip_weapon|" + *equipped_weapon_id);
+    }
     if (spirit_realm_daily_max && spirit_realm_daily_remaining) {
         lines.push_back(
             "spirit_realm|" + std::to_string(std::max(1, *spirit_realm_daily_max)) + "|"
             + std::to_string(std::max(0, *spirit_realm_daily_remaining)));
     }
 
-    // v4 存档格式：
+    // v4+ 存档格式（字段映射 + 数据行）：
+    lines.push_back(BuildPlotSchemaLine());
+    // plot_schema|index|tilled|...
     // plot|index|tilled|seeded|watered|ready|growth|stage|crop_id|quality|
     // sprinkler_installed|sprinkler_days_left|fertilized|fertilizer_type|in_greenhouse|
-    // cleared|disease|pest|disease_days
+    // cleared|disease|pest|disease_days|...|plot_layer
     for (std::size_t i = 0; i < tea_plots.size(); ++i) {
         const auto& plot = tea_plots[i];
-        lines.push_back(
-            "plot|" + std::to_string(i) + "|"
-            + std::to_string(plot.tilled ? 1 : 0) + "|"
-            + std::to_string(plot.seeded ? 1 : 0) + "|"
-            + std::to_string(plot.watered ? 1 : 0) + "|"
-            + std::to_string(plot.ready ? 1 : 0) + "|"
-            + std::to_string(plot.growth) + "|"
-            + std::to_string(plot.stage) + "|"
-            + plot.crop_id + "|"
-            + std::to_string(static_cast<int>(plot.quality)) + "|"
-            + std::to_string(plot.sprinkler_installed ? 1 : 0) + "|"
-            + std::to_string(plot.sprinkler_days_left) + "|"
-            + std::to_string(plot.fertilized ? 1 : 0) + "|"
-            + plot.fertilizer_type + "|"
-            + std::to_string(plot.in_greenhouse ? 1 : 0) + "|"
-            + std::to_string(plot.cleared ? 1 : 0) + "|"
-            + std::to_string(plot.disease ? 1 : 0) + "|"
-            + std::to_string(plot.pest ? 1 : 0) + "|"
-            + std::to_string(plot.disease_days));
+        std::ostringstream plot_line;
+        plot_line << "plot|" << i
+                  << "|" << (plot.tilled ? 1 : 0)
+                  << "|" << (plot.seeded ? 1 : 0)
+                  << "|" << (plot.watered ? 1 : 0)
+                  << "|" << (plot.ready ? 1 : 0)
+                  << "|" << plot.growth
+                  << "|" << plot.stage
+                  << "|" << plot.crop_id
+                  << "|" << static_cast<int>(plot.quality)
+                  << "|" << (plot.sprinkler_installed ? 1 : 0)
+                  << "|" << plot.sprinkler_days_left
+                  << "|" << (plot.fertilized ? 1 : 0)
+                  << "|" << plot.fertilizer_type
+                  << "|" << (plot.in_greenhouse ? 1 : 0)
+                  << "|" << (plot.cleared ? 1 : 0)
+                  << "|" << (plot.disease ? 1 : 0)
+                  << "|" << (plot.pest ? 1 : 0)
+                  << "|" << plot.disease_days
+                  << "|" << plot.cloud_density_at_planting
+                  << "|" << plot.aura_at_planting
+                  << "|" << static_cast<int>(plot.weather_at_planting)
+                  << "|" << plot.dense_cloud_days_accumulated
+                  << "|" << plot.tide_days_accumulated
+                  << "|" << (plot.tea_soul_flower_nearby ? 1 : 0)
+                  << "|" << plot.fertilizer_type_for_quality
+                  << "|" << (plot.spirit_mutated ? 1 : 0)
+                  << "|" << plot.hunger_restore
+                  << "|" << static_cast<int>(plot.layer);
+        lines.push_back(plot_line.str());
     }
 
     for (const auto& p : price_table) {
-        lines.push_back(
-            "price|" + p.item_id + "|"
-            + std::to_string(p.buy_price) + "|"
-            + std::to_string(p.sell_price) + "|"
-            + p.buy_from + "|"
-            + p.category);
+        std::ostringstream price_line;
+        price_line << "price|" << p.item_id
+                   << "|" << p.buy_price
+                   << "|" << p.sell_price
+                   << "|" << p.buy_from
+                   << "|" << p.category;
+        lines.push_back(price_line.str());
     }
     for (const auto& m : mail_orders) {
         // 采用补充任务定义中的 mail 标签格式。
-        lines.push_back(
-            "mail|" + m.item_id + "|"
-            + std::to_string(m.deliver_day) + "|"
-            + std::to_string(m.count));
+        std::ostringstream mail_line;
+        mail_line << "mail|" << m.item_id
+                  << "|" << m.deliver_day
+                  << "|" << m.count
+                  << "|" << (m.claimed ? 1 : 0)
+                  << "|" << m.source_rule_id
+                  << "|" << m.sender
+                  << "|" << m.subject
+                  << "|" << m.body;
+        lines.push_back(mail_line.str());
     }
     if (weekly_buy_count) {
         for (const auto& [item_id, count] : *weekly_buy_count) {
@@ -472,6 +708,29 @@ bool SaveGameState(const std::filesystem::path& save_path,
             lines.push_back("weekly_sell|" + item_id + "|" + std::to_string(count));
         }
     }
+    if (inn_orders || inn_visitors_today || inn_income_today || inn_reputation) {
+        lines.push_back(
+            "inn_state|"
+            + std::to_string(inn_visitors_today ? std::max(0, *inn_visitors_today) : 0) + "|"
+            + std::to_string(inn_income_today ? std::max(0, *inn_income_today) : 0) + "|"
+            + std::to_string(inn_reputation ? *inn_reputation : 0));
+    }
+    if (inn_orders) {
+        for (const auto& order : *inn_orders) {
+            lines.push_back(
+                "inn_order|" + order.order_id + "|" + order.item_id + "|"
+                + std::to_string(std::max(1, order.required_count)) + "|"
+                + std::to_string(std::max(0, order.reward_gold)) + "|"
+                + std::to_string(order.npc_visit_weight) + "|"
+                + std::to_string(order.fulfilled ? 1 : 0));
+        }
+    }
+    if (coop_fed_today || livestock_eggs_today || livestock_milk_today) {
+        lines.push_back(
+            "livestock|" + std::to_string(coop_fed_today ? std::max(0, *coop_fed_today) : 0) + "|"
+            + std::to_string(livestock_eggs_today ? std::max(0, *livestock_eggs_today) : 0) + "|"
+            + std::to_string(livestock_milk_today ? std::max(0, *livestock_milk_today) : 0));
+    }
 
     for (const auto& slot : inventory.Slots()) {
         lines.push_back("inventory|" + slot.item_id + "|" + std::to_string(slot.count));
@@ -480,8 +739,8 @@ bool SaveGameState(const std::filesystem::path& save_path,
     for (const auto& npc : npcs) {
         lines.push_back(
             "npc|" + npc.id + "|"
-            + std::to_string(npc.shape.getPosition().x) + "|"
-            + std::to_string(npc.shape.getPosition().y) + "|"
+            + std::to_string(npc.position.x) + "|"
+            + std::to_string(npc.position.y) + "|"
             + std::to_string(npc.favor) + "|"
             + std::to_string(npc.daily_gifted ? 1 : 0) + "|"
             + npc.current_location + "|" + npc.current_activity + "|"
@@ -534,7 +793,8 @@ bool SaveGameState(const std::filesystem::path& save_path,
         return false;
     }
 
-    push_hint("游戏已保存到 save_slot_01。", 2.4f);
+    CloudSeamanor::infrastructure::Logger::LogSaveSuccess(save_path.string());
+    push_hint("游戏已保存到 " + SaveSlotLabelFromPath(save_path) + "。", 2.4f);
     return true;
 }
 
@@ -546,6 +806,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    CloudSeamanor::domain::CloudSystem& cloud_system,
                    CloudSeamanor::domain::Player& player,
                    CloudSeamanor::domain::StaminaSystem& stamina,
+                   CloudSeamanor::domain::HungerSystem& hunger,
                    RepairProject& main_house_repair,
                    TeaMachine& tea_machine,
                    SpiritBeast& spirit_beast,
@@ -567,6 +828,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    CloudSeamanor::domain::FestivalSystem* festivals,
                    CloudSeamanor::domain::DynamicLifeSystem* dynamic_life,
                    CloudSeamanor::domain::WorkshopSystem* workshop,
+                   CloudSeamanor::domain::RelationshipState* relationship,
                    NpcDialogueManager* dialogue_manager,
                    int* decoration_score,
                    std::string* pet_type,
@@ -574,11 +836,30 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    std::unordered_map<std::string, bool>* achievements,
                    std::unordered_map<std::string, int>* weekly_buy_count,
                    std::unordered_map<std::string, int>* weekly_sell_count,
+                   std::vector<InnOrderEntry>* inn_orders,
+                   int* inn_visitors_today,
+                   int* inn_income_today,
+                   int* inn_reputation,
+                   int* coop_fed_today,
+                   int* livestock_eggs_today,
+                   int* livestock_milk_today,
                    int* spirit_realm_daily_max,
                    int* spirit_realm_daily_remaining,
                    bool* in_battle_mode,
                    int* battle_state,
-                   TutorialState* tutorial) {
+                   bool* battle_available,
+                   std::vector<std::string>* battle_active_partners,
+                   std::string* equipped_weapon_id,
+                   TutorialState* tutorial,
+                   std::vector<DiaryEntryState>* diary_entries,
+                   std::unordered_map<std::string, bool>* recipe_unlocks,
+                   std::unordered_map<std::string, std::string>* skill_branches,
+                   std::vector<std::string>* pending_skill_branches,
+                   std::vector<PlacedObject>* placed_objects,
+                   int* purify_return_days,
+                   int* purify_return_spirits,
+                   int* fishing_attempts,
+                   std::string* last_fish_catch) {
     ResetLoadTargets(
         inventory,
         price_table,
@@ -586,6 +867,22 @@ bool LoadGameState(const std::filesystem::path& save_path,
         weekly_buy_count,
         weekly_sell_count,
         achievements);
+    if (inn_orders) inn_orders->clear();
+    if (inn_visitors_today) *inn_visitors_today = 0;
+    if (inn_income_today) *inn_income_today = 0;
+    if (inn_reputation) *inn_reputation = 0;
+    if (coop_fed_today) *coop_fed_today = 0;
+    if (livestock_eggs_today) *livestock_eggs_today = 0;
+    if (livestock_milk_today) *livestock_milk_today = 0;
+    if (diary_entries) diary_entries->clear();
+    if (recipe_unlocks) recipe_unlocks->clear();
+    if (skill_branches) skill_branches->clear();
+    if (pending_skill_branches) pending_skill_branches->clear();
+    if (placed_objects) placed_objects->clear();
+    if (purify_return_days) *purify_return_days = 0;
+    if (purify_return_spirits) *purify_return_spirits = 0;
+    if (fishing_attempts) *fishing_attempts = 0;
+    if (last_fish_catch) last_fish_catch->clear();
 
     std::vector<std::string> all_lines;
     std::size_t data_start = 0;
@@ -600,6 +897,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
             2.8f);
     }
 
+    std::unordered_map<std::string, std::size_t> plot_schema_map;
     for (std::size_t i = data_start; i < all_lines.size(); ++i) {
         const auto fields = SplitSaveFields(all_lines[i]);
         if (fields.empty()) {
@@ -607,6 +905,10 @@ bool LoadGameState(const std::filesystem::path& save_path,
         }
 
         const auto& tag = fields[0];
+        if (tag == kPlotSchemaTag) {
+            plot_schema_map = ParsePlotSchema(fields);
+            continue;
+        }
         if (tag == "clock" && fields.size() >= 3) {
             auto day = ParseInt(fields[1], "clock.day");
             auto minutes = ParseFloat(fields[2], "clock.minutes");
@@ -644,6 +946,29 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 if (state) {
                     *battle_state = state.Value();
                 }
+            }
+        } else if (tag == "battle_runtime" && fields.size() >= 2) {
+            if (battle_available) {
+                auto available = ParseBool01(fields[1], "battle_runtime.available");
+                if (available) {
+                    *battle_available = available.Value();
+                }
+            }
+            if (battle_active_partners) {
+                battle_active_partners->clear();
+                if (fields.size() >= 3) {
+                    std::istringstream ss(fields[2]);
+                    std::string id;
+                    while (std::getline(ss, id, ',')) {
+                        if (!id.empty()) {
+                            battle_active_partners->push_back(id);
+                        }
+                    }
+                }
+            }
+        } else if (tag == "equip_weapon" && fields.size() >= 2) {
+            if (equipped_weapon_id) {
+                *equipped_weapon_id = fields[1];
             }
         } else if (tag == "spirit_realm" && fields.size() >= 3) {
             auto daily_max = ParseInt(fields[1], "spirit_realm.daily_max");
@@ -692,6 +1017,8 @@ bool LoadGameState(const std::filesystem::path& save_path,
             }
             player.SetPosition({pos_x.Value(), pos_y.Value()});
             stamina.SetCurrent(stamina_current.Value());
+        } else if (tag == "hunger" && fields.size() >= 2) {
+            hunger.LoadState(fields[1]);
         } else if (tag == "repair" && fields.size() >= 2) {
             auto completed = ParseBool01(fields[1], "repair.completed");
             if (!completed) {
@@ -714,6 +1041,10 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 main_house_repair.wood_cost = wood_cost.Value();
                 main_house_repair.turnip_cost = turnip_cost.Value();
                 main_house_repair.gold_cost = gold_cost.Value();
+            }
+            // Compatibility: older saves may carry stale completed flag while level is already upgraded.
+            if (main_house_repair.level >= 2) {
+                main_house_repair.completed = true;
             }
             if (!obstacle_shapes.empty()) {
                 if (main_house_repair.completed) {
@@ -754,7 +1085,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 push_hint("灵兽存档字段解析失败。", 3.2f);
                 return false;
             }
-            spirit_beast.shape.setPosition({pos_x.Value(), pos_y.Value()});
+            spirit_beast.position = {pos_x.Value(), pos_y.Value()};
             spirit_beast.state = SpiritBeastStateFromInt(state.Value());
             spirit_beast.patrol_index = static_cast<std::size_t>(std::max(0, patrol_index.Value()));
             spirit_beast.idle_timer = idle_timer.Value();
@@ -791,6 +1122,23 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 return false;
             }
             gold = parsed_gold.Value();
+        } else if (tag == "relationship" && fields.size() >= 7 && relationship) {
+            auto stage = ParseInt(fields[1], "relationship.stage");
+            auto cooldown = ParseInt(fields[3], "relationship.cooldown_until_day");
+            auto engaged_day = ParseInt(fields[4], "relationship.engaged_day");
+            auto wedding_day = ParseInt(fields[5], "relationship.wedding_day");
+            auto married_since_day = ParseInt(fields[6], "relationship.married_since_day");
+            if (!stage || !cooldown || !engaged_day || !wedding_day || !married_since_day) {
+                push_hint("关系存档字段解析失败。", 3.2f);
+                return false;
+            }
+            relationship->stage = static_cast<CloudSeamanor::domain::RelationshipStage>(
+                std::clamp(stage.Value(), 0, 5));
+            relationship->target_npc_id = fields[2];
+            relationship->confession_cooldown_until_day = std::max(0, cooldown.Value());
+            relationship->engaged_day = std::max(0, engaged_day.Value());
+            relationship->wedding_day = std::max(0, wedding_day.Value());
+            relationship->married_since_day = std::max(0, married_since_day.Value());
         } else if (tag == "decor" && fields.size() >= 2 && decoration_score) {
             auto d = ParseInt(fields[1], "decor.score");
             if (!d) {
@@ -798,6 +1146,23 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 return false;
             }
             *decoration_score = d.Value();
+        } else if (tag == "decor_item") {
+            // J18+ / P3-002：装饰实体摆放。
+            // - `decor_item|<item_id>|<x>|<y>|<rot>|<room>|<custom>`
+            if (placed_objects && fields.size() >= 6) {
+                PlacedObject obj;
+                obj.object_id = fields[1];
+                obj.tile_x = ParseInt(fields[2], "decor_item.x").ValueOr(0);
+                obj.tile_y = ParseInt(fields[3], "decor_item.y").ValueOr(0);
+                obj.rotation = ParseInt(fields[4], "decor_item.rot").ValueOr(0);
+                obj.room = fields[5];
+                if (fields.size() >= 7) {
+                    obj.custom_data = fields[6];
+                }
+                if (!obj.object_id.empty()) {
+                    placed_objects->push_back(std::move(obj));
+                }
+            }
         } else if (tag == "pet" && fields.size() >= 3 && pet_adopted && pet_type) {
             auto adopted = ParseBool01(fields[1], "pet.adopted");
             if (!adopted) {
@@ -806,6 +1171,30 @@ bool LoadGameState(const std::filesystem::path& save_path,
             }
             *pet_adopted = adopted.Value();
             *pet_type = fields[2];
+        } else if (tag == "diary" && fields.size() >= 4 && diary_entries) {
+            DiaryEntryState e;
+            e.entry_id = fields[1];
+            e.day_unlocked = std::max(0, ParseInt(fields[2], "diary.day_unlocked").ValueOr(0));
+            e.has_been_read = ParseInt(fields[3], "diary.has_been_read").ValueOr(0) != 0;
+            if (!e.entry_id.empty()) {
+                diary_entries->push_back(std::move(e));
+            }
+        } else if (tag == "recipe_unlock" && fields.size() >= 2 && recipe_unlocks) {
+            (*recipe_unlocks)[fields[1]] = true;
+        } else if (tag == "skill_branch" && fields.size() >= 3 && skill_branches) {
+            (*skill_branches)[fields[1]] = fields[2];
+        } else if (tag == "skill_branch_pending" && fields.size() >= 2 && pending_skill_branches) {
+            pending_skill_branches->push_back(fields[1]);
+        } else if (tag == "purify_return" && fields.size() >= 3 && purify_return_days && purify_return_spirits) {
+            *purify_return_days = std::max(0, ParseInt(fields[1], "purify_return.days").ValueOr(0));
+            *purify_return_spirits = std::max(0, ParseInt(fields[2], "purify_return.spirits").ValueOr(0));
+        } else if (tag == "fishing_state" && fields.size() >= 2) {
+            if (fishing_attempts) {
+                *fishing_attempts = std::max(0, ParseInt(fields[1], "fishing_state.attempts").ValueOr(0));
+            }
+            if (last_fish_catch && fields.size() >= 3) {
+                *last_fish_catch = fields[2];
+            }
         } else if (tag == "ach" && fields.size() >= 3 && achievements) {
             auto unlocked = ParseBool01(fields[2], "ach.unlocked");
             if (!unlocked) {
@@ -814,21 +1203,32 @@ bool LoadGameState(const std::filesystem::path& save_path,
             }
             (*achievements)[fields[1]] = unlocked.Value();
         } else if (tag == "plot") {
-            // v2 格式：至少 8 个字段（index + 6 个状态 + stage）
-            if (fields.size() < 8) continue;
-            auto index = ParseInt(fields[1], "plot.index");
+            auto index_text = GetPlotField(fields, plot_schema_map, "index", 1);
+            if (!index_text) continue;
+            auto index = ParseInt(*index_text, "plot.index");
             if (!index) {
                 push_hint(index.Error(), 3.2f);
                 return false;
             }
             if (index.Value() < 0 || index.Value() >= static_cast<int>(tea_plots.size())) continue;
             auto& plot = tea_plots[static_cast<std::size_t>(index.Value())];
-            auto tilled = ParseBool01(fields[2], "plot.tilled");
-            auto seeded = ParseBool01(fields[3], "plot.seeded");
-            auto watered = ParseBool01(fields[4], "plot.watered");
-            auto ready = ParseBool01(fields[5], "plot.ready");
-            auto growth = ParseFloat(fields[6], "plot.growth");
-            auto stage = ParseInt(fields[7], "plot.stage");
+
+            auto tilled_text = GetPlotField(fields, plot_schema_map, "tilled", 2);
+            auto seeded_text = GetPlotField(fields, plot_schema_map, "seeded", 3);
+            auto watered_text = GetPlotField(fields, plot_schema_map, "watered", 4);
+            auto ready_text = GetPlotField(fields, plot_schema_map, "ready", 5);
+            auto growth_text = GetPlotField(fields, plot_schema_map, "growth", 6);
+            auto stage_text = GetPlotField(fields, plot_schema_map, "stage", 7);
+            if (!tilled_text || !seeded_text || !watered_text || !ready_text || !growth_text || !stage_text) {
+                push_hint("地块存档字段缺失。", 3.2f);
+                return false;
+            }
+            auto tilled = ParseBool01(*tilled_text, "plot.tilled");
+            auto seeded = ParseBool01(*seeded_text, "plot.seeded");
+            auto watered = ParseBool01(*watered_text, "plot.watered");
+            auto ready = ParseBool01(*ready_text, "plot.ready");
+            auto growth = ParseFloat(*growth_text, "plot.growth");
+            auto stage = ParseInt(*stage_text, "plot.stage");
             if (!tilled || !seeded || !watered || !ready || !growth || !stage) {
                 push_hint("地块存档字段解析失败。", 3.2f);
                 return false;
@@ -839,20 +1239,28 @@ bool LoadGameState(const std::filesystem::path& save_path,
             plot.ready = ready.Value();
             plot.growth = growth.Value();
             plot.stage = stage.Value();
-            // v2 新字段：crop_id 和 quality（前向兼容：旧存档没有这些字段）
-            if (fields.size() >= 10) {
-                plot.crop_id = fields[8];
-                auto quality = ParseInt(fields[9], "plot.quality");
+            if (auto crop_id = GetPlotField(fields, plot_schema_map, "crop_id", 8)) {
+                plot.crop_id = *crop_id;
+            }
+            if (auto quality_text = GetPlotField(fields, plot_schema_map, "quality", 9)) {
+                auto quality = ParseInt(*quality_text, "plot.quality");
                 if (!quality) {
                     push_hint(quality.Error(), 3.2f);
                     return false;
                 }
                 plot.quality = static_cast<CloudSeamanor::domain::CropQuality>(quality.Value());
             }
-            if (fields.size() >= 15) {
-                auto sprinkler = ParseBool01(fields[10], "plot.sprinkler");
-                auto sprinkler_days = ParseInt(fields[11], "plot.sprinkler_days");
-                auto fertilized = ParseBool01(fields[12], "plot.fertilized");
+            if (auto sprinkler_text = GetPlotField(fields, plot_schema_map, "sprinkler", 10);
+                sprinkler_text) {
+                auto sprinkler_days_text = GetPlotField(fields, plot_schema_map, "sprinkler_days", 11);
+                auto fertilized_text = GetPlotField(fields, plot_schema_map, "fertilized", 12);
+                if (!sprinkler_days_text || !fertilized_text) {
+                    push_hint("地块扩展字段缺失。", 3.2f);
+                    return false;
+                }
+                auto sprinkler = ParseBool01(*sprinkler_text, "plot.sprinkler");
+                auto sprinkler_days = ParseInt(*sprinkler_days_text, "plot.sprinkler_days");
+                auto fertilized = ParseBool01(*fertilized_text, "plot.fertilized");
                 if (!sprinkler || !sprinkler_days || !fertilized) {
                     push_hint("地块扩展字段解析失败。", 3.2f);
                     return false;
@@ -860,15 +1268,30 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 plot.sprinkler_installed = sprinkler.Value();
                 plot.sprinkler_days_left = sprinkler_days.Value();
                 plot.fertilized = fertilized.Value();
-                plot.fertilizer_type = fields[13];
-                auto greenhouse = ParseBool01(fields[14], "plot.greenhouse");
+                if (auto fertilizer_type = GetPlotField(fields, plot_schema_map, "fertilizer_type", 13)) {
+                    plot.fertilizer_type = *fertilizer_type;
+                }
+                auto greenhouse_text = GetPlotField(fields, plot_schema_map, "greenhouse", 14);
+                if (!greenhouse_text) {
+                    push_hint("地块温室字段缺失。", 3.2f);
+                    return false;
+                }
+                auto greenhouse = ParseBool01(*greenhouse_text, "plot.greenhouse");
                 plot.in_greenhouse = greenhouse ? greenhouse.Value() : false;
             }
-            if (fields.size() >= 19) {
-                auto cleared = ParseBool01(fields[15], "plot.cleared");
-                auto disease = ParseBool01(fields[16], "plot.disease");
-                auto pest = ParseBool01(fields[17], "plot.pest");
-                auto disease_days = ParseInt(fields[18], "plot.disease_days");
+            if (auto cleared_text = GetPlotField(fields, plot_schema_map, "cleared", 15);
+                cleared_text) {
+                auto disease_text = GetPlotField(fields, plot_schema_map, "disease", 16);
+                auto pest_text = GetPlotField(fields, plot_schema_map, "pest", 17);
+                auto disease_days_text = GetPlotField(fields, plot_schema_map, "disease_days", 18);
+                if (!disease_text || !pest_text || !disease_days_text) {
+                    push_hint("地块 v4 字段缺失。", 3.2f);
+                    return false;
+                }
+                auto cleared = ParseBool01(*cleared_text, "plot.cleared");
+                auto disease = ParseBool01(*disease_text, "plot.disease");
+                auto pest = ParseBool01(*pest_text, "plot.pest");
+                auto disease_days = ParseInt(*disease_days_text, "plot.disease_days");
                 if (!cleared || !disease || !pest || !disease_days) {
                     push_hint("地块 v4 字段解析失败。", 3.2f);
                     return false;
@@ -877,6 +1300,64 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 plot.disease = disease.Value();
                 plot.pest = pest.Value();
                 plot.disease_days = disease_days.Value();
+            }
+            if (auto cloud_density_text =
+                    GetPlotField(fields, plot_schema_map, "cloud_density_at_planting", 19);
+                cloud_density_text) {
+                auto aura_text = GetPlotField(fields, plot_schema_map, "aura_at_planting", 20);
+                auto weather_text = GetPlotField(fields, plot_schema_map, "weather_at_planting", 21);
+                auto dense_cloud_days_text =
+                    GetPlotField(fields, plot_schema_map, "dense_cloud_days_accumulated", 22);
+                auto tide_days_text =
+                    GetPlotField(fields, plot_schema_map, "tide_days_accumulated", 23);
+                auto tea_soul_flower_text =
+                    GetPlotField(fields, plot_schema_map, "tea_soul_flower_nearby", 24);
+                auto fertilizer_type_for_quality_text =
+                    GetPlotField(fields, plot_schema_map, "fertilizer_type_for_quality", 25);
+                auto spirit_mutated_text =
+                    GetPlotField(fields, plot_schema_map, "spirit_mutated", 26);
+                auto hunger_restore_text =
+                    GetPlotField(fields, plot_schema_map, "hunger_restore", 27);
+                auto plot_layer_text =
+                    GetPlotField(fields, plot_schema_map, "plot_layer", 28);
+                if (!aura_text || !weather_text || !dense_cloud_days_text || !tide_days_text
+                    || !tea_soul_flower_text || !fertilizer_type_for_quality_text
+                    || !spirit_mutated_text || !hunger_restore_text) {
+                    push_hint("地块 v7 字段缺失。", 3.2f);
+                    return false;
+                }
+                auto cloud_density = ParseFloat(*cloud_density_text, "plot.cloud_density_at_planting");
+                auto aura = ParseInt(*aura_text, "plot.aura_at_planting");
+                auto weather = ParseInt(*weather_text, "plot.weather_at_planting");
+                auto dense_cloud_days =
+                    ParseInt(*dense_cloud_days_text, "plot.dense_cloud_days_accumulated");
+                auto tide_days = ParseInt(*tide_days_text, "plot.tide_days_accumulated");
+                auto tea_soul_flower =
+                    ParseBool01(*tea_soul_flower_text, "plot.tea_soul_flower_nearby");
+                auto spirit_mutated =
+                    ParseBool01(*spirit_mutated_text, "plot.spirit_mutated");
+                auto hunger_restore = ParseInt(*hunger_restore_text, "plot.hunger_restore");
+                if (!cloud_density || !aura || !weather || !dense_cloud_days || !tide_days
+                    || !tea_soul_flower || !spirit_mutated || !hunger_restore) {
+                    push_hint("地块 v7 字段解析失败。", 3.2f);
+                    return false;
+                }
+                plot.cloud_density_at_planting = cloud_density.Value();
+                plot.aura_at_planting = aura.Value();
+                plot.weather_at_planting =
+                    static_cast<CloudSeamanor::domain::CloudState>(weather.Value());
+                plot.dense_cloud_days_accumulated = dense_cloud_days.Value();
+                plot.tide_days_accumulated = tide_days.Value();
+                plot.tea_soul_flower_nearby = tea_soul_flower.Value();
+                plot.fertilizer_type_for_quality = *fertilizer_type_for_quality_text;
+                plot.spirit_mutated = spirit_mutated.Value();
+                plot.hunger_restore = hunger_restore.Value();
+                if (plot_layer_text.has_value()) {
+                    auto plot_layer = ParseInt(*plot_layer_text, "plot.plot_layer");
+                    if (plot_layer) {
+                        plot.layer = static_cast<TeaPlotLayer>(std::clamp(plot_layer.Value(), 0, 1));
+                    }
+                }
             }
             refresh_tea_plot_visual(plot, false);
         } else if (tag == "price" && fields.size() >= 6) {
@@ -904,6 +1385,8 @@ bool LoadGameState(const std::filesystem::path& save_path,
             }
             m.count = count.Value();
             m.deliver_day = deliver_day.Value();
+            m.claimed = false;
+            m.source_rule_id.clear();
             mail_orders.push_back(std::move(m));
         } else if (tag == "mail" && fields.size() >= 4) {
             MailOrderEntry m;
@@ -916,6 +1399,26 @@ bool LoadGameState(const std::filesystem::path& save_path,
             }
             m.count = count.Value();
             m.deliver_day = deliver_day.Value();
+            if (fields.size() >= 5) {
+                auto claimed = ParseInt(fields[4], "mail.claimed");
+                if (!claimed) {
+                    push_hint(claimed.Error(), 3.0f);
+                    return false;
+                }
+                m.claimed = (claimed.Value() != 0);
+            }
+            if (fields.size() >= 6) {
+                m.source_rule_id = fields[5];
+            }
+            if (fields.size() >= 7) {
+                m.sender = fields[6];
+            }
+            if (fields.size() >= 8) {
+                m.subject = fields[7];
+            }
+            if (fields.size() >= 9) {
+                m.body = fields[8];
+            }
             mail_orders.push_back(std::move(m));
         } else if (tag == "weekly_buy" && fields.size() >= 3 && weekly_buy_count) {
             auto count = ParseInt(fields[2], "weekly_buy.count");
@@ -931,6 +1434,45 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 return false;
             }
             (*weekly_sell_count)[fields[1]] = count.Value();
+        } else if (tag == "inn_state" && fields.size() >= 4) {
+            auto visitors = ParseInt(fields[1], "inn_state.visitors");
+            auto income = ParseInt(fields[2], "inn_state.income");
+            auto reputation = ParseInt(fields[3], "inn_state.reputation");
+            if (!visitors || !income || !reputation) {
+                push_hint("客栈存档字段解析失败。", 3.0f);
+                return false;
+            }
+            if (inn_visitors_today) *inn_visitors_today = std::max(0, visitors.Value());
+            if (inn_income_today) *inn_income_today = std::max(0, income.Value());
+            if (inn_reputation) *inn_reputation = reputation.Value();
+        } else if (tag == "inn_order" && fields.size() >= 7 && inn_orders) {
+            InnOrderEntry order;
+            order.order_id = fields[1];
+            order.item_id = fields[2];
+            auto need = ParseInt(fields[3], "inn_order.required_count");
+            auto reward = ParseInt(fields[4], "inn_order.reward_gold");
+            auto weight = ParseFloat(fields[5], "inn_order.npc_visit_weight");
+            auto fulfilled = ParseBool01(fields[6], "inn_order.fulfilled");
+            if (!need || !reward || !weight || !fulfilled) {
+                push_hint("客栈订单存档字段解析失败。", 3.0f);
+                return false;
+            }
+            order.required_count = std::max(1, need.Value());
+            order.reward_gold = std::max(0, reward.Value());
+            order.npc_visit_weight = std::max(0.1f, weight.Value());
+            order.fulfilled = fulfilled.Value();
+            inn_orders->push_back(std::move(order));
+        } else if (tag == "livestock" && fields.size() >= 4) {
+            auto fed = ParseInt(fields[1], "livestock.coop_fed_today");
+            auto eggs = ParseInt(fields[2], "livestock.eggs_today");
+            auto milk = ParseInt(fields[3], "livestock.milk_today");
+            if (!fed || !eggs || !milk) {
+                push_hint("畜棚存档字段解析失败。", 3.0f);
+                return false;
+            }
+            if (coop_fed_today) *coop_fed_today = std::max(0, fed.Value());
+            if (livestock_eggs_today) *livestock_eggs_today = std::max(0, eggs.Value());
+            if (livestock_milk_today) *livestock_milk_today = std::max(0, milk.Value());
         } else if (tag == "inventory" && fields.size() >= 3) {
             auto count = ParseInt(fields[2], "inventory.count");
             if (!count) {
@@ -949,7 +1491,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
                         push_hint("NPC存档字段解析失败。", 3.2f);
                         return false;
                     }
-                    npc.shape.setPosition({pos_x.Value(), pos_y.Value()});
+                    npc.position = {pos_x.Value(), pos_y.Value()};
                     npc.favor = favor.Value();
                     npc.daily_gifted = gifted.Value();
                     npc.current_location = fields[6];
@@ -1020,7 +1562,8 @@ bool LoadGameState(const std::filesystem::path& save_path,
     }
 
     push_hint(
-        "已从 save_slot_01 读取存档（版本 v" + std::to_string(save_version) + "）。",
+        "已从 " + SaveSlotLabelFromPath(save_path) + " 读取存档（版本 v"
+            + std::to_string(save_version) + "）。",
         2.4f);
     return true;
 }

@@ -17,7 +17,8 @@ void PixelNpcDetailPanel::RenderContent(sf::RenderWindow& window, const sf::Floa
     m_font_renderer->DrawText(window, data_.name + "  |  " + data_.title_suffix, {x, y}, TextStyle::PanelTitle());
     m_font_renderer->DrawText(window, data_.location_prefix + " " + data_.location, {x, y + row_h}, TextStyle::TopRightInfo());
     m_font_renderer->DrawText(window,
-                              data_.favor_prefix + " " + std::to_string(data_.heart_level) + "/10  (favor " + std::to_string(data_.favor) + ")",
+                              data_.favor_prefix + " " + data_.cloud_stage_text
+                                  + "  (" + std::to_string(data_.heart_level) + "/10, favor " + std::to_string(data_.favor) + ")",
                               {x, y + row_h * 2.1f},
                               TextStyle::Default());
     m_font_renderer->DrawText(window, data_.heart_event_text, {x, y + row_h * 3.1f}, TextStyle::Default());

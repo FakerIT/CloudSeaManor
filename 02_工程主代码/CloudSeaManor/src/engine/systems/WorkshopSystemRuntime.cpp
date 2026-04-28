@@ -1,7 +1,6 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/systems/WorkshopSystemRuntime.hpp"
 
+#include "CloudSeamanor/GameAppText.hpp"
 #include "CloudSeamanor/GameWorldState.hpp"
 #include "CloudSeamanor/TextRenderUtils.hpp"
 
@@ -33,13 +32,13 @@ void WorkshopSystemRuntime::Update(float delta_seconds) {
 
     for (const auto& [item_id, count] : outputs) {
         if (item_id == "TeaPack") {
-            world_state_.GetTeaMachine().queued_output += count;
+            world_state_.MutableTeaMachine().queued_output += count;
             if (hint_callback_) {
                 hint_callback_("灵茶加工完成！按 E 领取", 3.0f);
             }
             continue;
         }
-        world_state_.GetInventory().AddItem(item_id, count);
+        world_state_.MutableInventory().AddItem(item_id, count);
         if (hint_callback_) {
             hint_callback_(
                 "工坊产出 " + ItemDisplayName(item_id) + " x" +

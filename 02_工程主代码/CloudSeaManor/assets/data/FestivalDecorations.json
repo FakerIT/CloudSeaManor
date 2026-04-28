@@ -1,0 +1,383 @@
+# ============================================================================
+# 【节日装饰配置】FestivalDecorations.json
+# ============================================================================
+# 支持的装饰类型：
+#   banner   - 横幅（矩形）
+#   particles - 粒子（圆形）
+#   lantern  - 灯笼（圆形，有边框）
+#   moon     - 月亮（圆形）
+#   peak     - 山峰（矩形）
+#   wave     - 波浪（矩形）
+#   mist     - 雾气（矩形）
+#   overlay  - 全屏覆盖（矩形）
+#   steam    - 蒸汽（矩形）
+#   bundle   - 捆束（圆形）
+#
+# 字段说明：
+#   type              - 装饰类型
+#   festival_ids      - 适用的节日 ID（逗号分隔，支持多个别名）
+#   position          - 位置 x,y
+#   size              - 尺寸 width,height（矩形用）
+#   radius            - 半径（圆形用）
+#   point_count       - 多边形顶点数
+#   fill_color        - 填充颜色 (#RRGGBB 或 #RRGGBBAA)
+#   outline_color     - 边框颜色
+#   outline_thickness - 边框厚度
+#   anim_amplitude    - 动画振幅（像素）
+#   anim_frequency    - 动画频率（弧度/秒）
+#   anim_phase        - 动画相位偏移
+# ============================================================================
+
+# ---- 春节 / 山庄苏醒祭 ----
+type: banner
+festival_ids: spring_festival, spring_awakening
+position: 450, 58
+size: 380, 18
+fill_color: #C42A34
+outline_color: #FFD778
+outline_thickness: 2
+
+type: particles
+festival_ids: spring_festival, spring_awakening
+position: 520, 86
+radius: 4
+point_count: 6
+fill_color: #FFB8C4
+anim_amplitude: 6
+anim_frequency: 2
+anim_phase: 0
+# 5 个花瓣，通过 phase 区分位置
+
+type: particles
+festival_ids: spring_festival, spring_awakening
+position: 562, 86
+radius: 4
+point_count: 6
+fill_color: #FFB8C4
+anim_amplitude: 6
+anim_frequency: 2
+anim_phase: 1
+
+type: particles
+festival_ids: spring_festival, spring_awakening
+position: 604, 86
+radius: 4
+point_count: 6
+fill_color: #FFB8C4
+anim_amplitude: 6
+anim_frequency: 2
+anim_phase: 2
+
+type: particles
+festival_ids: spring_festival, spring_awakening
+position: 646, 86
+radius: 4
+point_count: 6
+fill_color: #FFB8C4
+anim_amplitude: 6
+anim_frequency: 2
+anim_phase: 3
+
+type: particles
+festival_ids: spring_festival, spring_awakening
+position: 688, 86
+radius: 4
+point_count: 6
+fill_color: #FFB8C4
+anim_amplitude: 6
+anim_frequency: 2
+anim_phase: 4
+
+type: particles
+festival_ids: spring_festival, spring_awakening
+position: 730, 86
+radius: 4
+point_count: 6
+fill_color: #FFB8C4
+anim_amplitude: 6
+anim_frequency: 2
+anim_phase: 5
+
+# ---- 元宵 / 夏季灯笼祭 ----
+type: lantern
+festival_ids: lantern_festival, summer_lantern
+position: 430, 62
+radius: 10
+point_count: 20
+fill_color: #FCBE50
+outline_color: #804A14
+outline_thickness: 1.5
+anim_amplitude: 5
+anim_frequency: 1.8
+anim_phase: 0
+
+type: lantern
+festival_ids: lantern_festival, summer_lantern
+position: 520, 62
+radius: 10
+point_count: 20
+fill_color: #FCBE50
+outline_color: #804A14
+outline_thickness: 1.5
+anim_amplitude: 5
+anim_frequency: 1.8
+anim_phase: 1
+
+type: lantern
+festival_ids: lantern_festival, summer_lantern
+position: 610, 62
+radius: 10
+point_count: 20
+fill_color: #FCBE50
+outline_color: #804A14
+outline_thickness: 1.5
+anim_amplitude: 5
+anim_frequency: 1.8
+anim_phase: 2
+
+type: lantern
+festival_ids: lantern_festival, summer_lantern
+position: 700, 62
+radius: 10
+point_count: 20
+fill_color: #FCBE50
+outline_color: #804A14
+outline_thickness: 1.5
+anim_amplitude: 5
+anim_frequency: 1.8
+anim_phase: 3
+
+type: lantern
+festival_ids: lantern_festival, summer_lantern
+position: 790, 62
+radius: 10
+point_count: 20
+fill_color: #FCBE50
+outline_color: #804A14
+outline_thickness: 1.5
+anim_amplitude: 5
+anim_frequency: 1.8
+anim_phase: 4
+
+# ---- 赏花节 ----
+type: particles
+festival_ids: flower_festival
+position: 380, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 0
+
+type: particles
+festival_ids: flower_festival
+position: 435, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 1
+
+type: particles
+festival_ids: flower_festival
+position: 490, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 2
+
+type: particles
+festival_ids: flower_festival
+position: 545, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 3
+
+type: particles
+festival_ids: flower_festival
+position: 600, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 4
+
+type: particles
+festival_ids: flower_festival
+position: 655, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 5
+
+type: particles
+festival_ids: flower_festival
+position: 710, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 6
+
+type: particles
+festival_ids: flower_festival
+position: 765, 70
+radius: 6
+point_count: 8
+fill_color: #FF8CBE
+anim_amplitude: 8
+anim_frequency: 2.2
+anim_phase: 7
+
+# ---- 清明节 ----
+type: mist
+festival_ids: qingming_festival
+position: 0, 48
+size: 1280, 40
+fill_color: #A0BEAA
+outline_thickness: 0
+
+# ---- 端午节 ----
+type: wave
+festival_ids: dragon_boat
+position: 430, 72
+size: 420, 12
+fill_color: #4682C8
+outline_thickness: 0
+
+# ---- 七夕节 ----
+type: particles
+festival_ids: qixi_festival
+position: 400, 55
+radius: 3
+point_count: 4
+fill_color: #F0F8FF
+anim_amplitude: 4
+anim_frequency: 1.5
+anim_phase: 0
+
+type: particles
+festival_ids: qixi_festival
+position: 470, 55
+radius: 3
+point_count: 4
+fill_color: #F0F8FF
+anim_amplitude: 4
+anim_frequency: 1.5
+anim_phase: 1
+
+type: particles
+festival_ids: qixi_festival
+position: 540, 55
+radius: 3
+point_count: 4
+fill_color: #F0F8FF
+anim_amplitude: 4
+anim_frequency: 1.5
+anim_phase: 2
+
+type: particles
+festival_ids: qixi_festival
+position: 610, 55
+radius: 3
+point_count: 4
+fill_color: #F0F8FF
+anim_amplitude: 4
+anim_frequency: 1.5
+anim_phase: 3
+
+type: particles
+festival_ids: qixi_festival
+position: 680, 55
+radius: 3
+point_count: 4
+fill_color: #F0F8FF
+anim_amplitude: 4
+anim_frequency: 1.5
+anim_phase: 4
+
+type: particles
+festival_ids: qixi_festival
+position: 750, 55
+radius: 3
+point_count: 4
+fill_color: #F0F8FF
+anim_amplitude: 4
+anim_frequency: 1.5
+anim_phase: 5
+
+type: particles
+festival_ids: qixi_festival
+position: 820, 55
+radius: 3
+point_count: 4
+fill_color: #F0F8FF
+anim_amplitude: 4
+anim_frequency: 1.5
+anim_phase: 6
+
+# ---- 中秋节 ----
+type: moon
+festival_ids: mid_autumn
+position: 600, 48
+radius: 22
+point_count: 30
+fill_color: #FFEEB4
+outline_color: #FFC878
+outline_thickness: 2
+
+# ---- 重阳节 ----
+type: peak
+festival_ids: double_ninth
+position: 520, 40
+size: 18, 48
+fill_color: #8C785A
+
+type: peak
+festival_ids: double_ninth
+position: 560, 32
+size: 18, 48
+fill_color: #8C785A
+
+# ---- 冬至 ----
+type: overlay
+festival_ids: winter_solstice
+position: 0, 40
+size: 1280, 24
+fill_color: #B4D2FF
+outline_thickness: 0
+
+# ---- 茶文化日 ----
+type: steam
+festival_ids: tea_culture_day
+position: 480, 60
+size: 320, 10
+fill_color: #E6E6E6
+outline_thickness: 0
+
+# ---- 收获节 ----
+type: bundle
+festival_ids: harvest_festival, autumn_harvest
+position: 520, 58
+radius: 14
+point_count: 8
+fill_color: #D2A046
+
+# ---- 云潮祭祀 ----
+type: wave
+festival_ids: cloud_tide_ritual, cloud_tide
+position: 0, 52
+size: 1280, 16
+fill_color: #78C8FF
+outline_thickness: 0

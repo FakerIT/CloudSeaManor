@@ -17,6 +17,7 @@
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/Interactable.hpp"
 #include "CloudSeamanor/Inventory.hpp"
+#include "CloudSeamanor/TeaBush.hpp"
 #include "CloudSeamanor/WorkshopSystem.hpp"
 
 #include <string>
@@ -53,6 +54,7 @@ struct TargetHintContext {
     // ============================================================================
     /** 茶田地块列表：用于检查地块状态和作物信息 */
     const std::vector<TeaPlot>& tea_plots;
+    const std::vector<CloudSeamanor::domain::TeaBush>& tea_bushes;
     
     /** NPC 列表：用于检查 NPC 名称和状态 */
     const std::vector<NpcActor>& npcs;
@@ -80,6 +82,9 @@ struct TargetHintContext {
     
     /** 当前高亮的一般可交互对象索引，-1 表示无高亮 */
     int highlighted_index = -1;
+    int current_day = 1;
+    int current_hour = 0;
+    int player_gold = 0;
 
     // ============================================================================
     // 【建筑/设施状态】

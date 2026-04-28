@@ -12,7 +12,7 @@
 // - Stage growth threshold
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 #include "CloudSeamanor/CropData.hpp"
 #include "CloudSeamanor/CloudSystem.hpp"
 

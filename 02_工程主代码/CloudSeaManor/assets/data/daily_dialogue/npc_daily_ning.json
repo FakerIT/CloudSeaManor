@@ -1,0 +1,17 @@
+{
+  "npc_id": "ning",
+  "greetings": [
+    {"id":"ning_greet_morning","text":"早，$[PLAYER_NAME]。今天巡防路线我已经排好了，你要一起吗？","favor_min":0,"favor_max":999,"season":"","time_of_day":"清晨","weather":"","heart_min":0,"heart_max":10},
+    {"id":"ning_greet_afternoon","text":"下午好。山庄外围目前安全，但竹林口还要多巡一轮。","favor_min":0,"favor_max":999,"season":"","time_of_day":"午后","weather":"","heart_min":0,"heart_max":10},
+    {"id":"ning_greet_tide","text":"大潮天更不能松懈。$[PLAYER_NAME]，请优先保证自己的体力。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"大潮","heart_min":0,"heart_max":10}
+  ],
+  "small_talks": [
+    {"id":"ning_talk_1","text":"守住边界，不是为了阻拦谁，而是给大家一个安心生活的范围。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"ning_talk_2","text":"你最近处理突发情况很稳，和你配合很省心。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"ning_talk_high","text":"$[PLAYER_NAME]，如果你在巡防队，我会放心很多。","favor_min":180,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":6,"heart_max":10}
+  ],
+  "farewells": [
+    {"id":"ning_bye_1","text":"收到，你先去忙。若有异常，第一时间通知我。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"ning_bye_2","text":"路上注意观察，别单独进深层区域。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ]
+}

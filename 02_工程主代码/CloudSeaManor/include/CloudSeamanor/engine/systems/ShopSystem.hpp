@@ -26,6 +26,14 @@ public:
         const std::vector<PriceTableEntry>& price_table,
         const std::string& source,
         const CloudSeamanor::domain::Inventory& inventory) const;
+    [[nodiscard]] std::vector<const PriceTableEntry*> CollectSellableBySource(
+        const std::vector<PriceTableEntry>& price_table,
+        const std::string& source,
+        const CloudSeamanor::domain::Inventory& inventory) const;
+    [[nodiscard]] bool CanPurchaseByWeeklyLimit(
+        const PriceTableEntry& selected,
+        const std::unordered_map<std::string, int>& weekly_buy_count) const;
+    [[nodiscard]] int WeeklyPurchaseLimitPerItem() const;
 
     [[nodiscard]] bool TryPurchase(
         const PriceTableEntry& selected,

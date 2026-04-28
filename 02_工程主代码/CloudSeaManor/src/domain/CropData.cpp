@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/CropData.hpp"
 
 #include "CloudSeamanor/Logger.hpp"
@@ -51,6 +49,28 @@ bool CropTable::LoadFromFile(const std::string& file_path) {
             case 6: def.base_harvest = std::stoi(field); break;
             case 7: def.stamina_cost = std::stoi(field); break;
             case 8: def.tags = ParseTags_(field); break;
+            // ========== 新增字段 ==========
+            case 9: def.hunger_restore = std::stoi(field); break;
+            case 10: def.special_effect_id = field; break;
+            case 11: def.season_tag = field; break;
+            case 12: {
+                try { def.fertilizer_multiplier = std::stof(field); } catch (...) { def.fertilizer_multiplier = 1.0f; }
+                break;
+            }
+            case 13: def.is_spirit_tea = (field == "1" || field == "true"); break;
+            case 14: def.cloud_min_requirement = field; break;
+            case 15: def.buff_effect_id = field; break;
+            case 16: {
+                // love_npc_ids: 分号分隔
+                std::istringstream nss(field);
+                std::string nid;
+                while (std::getline(nss, nid, ';')) {
+                    if (!nid.empty()) def.love_npc_ids.push_back(nid);
+                }
+                break;
+            }
+            case 17: def.unlock_condition = field; break;
+            case 18: def.is_legendary = (field == "1" || field == "true"); break;
             }
             ++column;
         }
@@ -171,6 +191,69 @@ float CropTable::QualityHarvestMultiplier(const CropQuality q) {
     case CropQuality::Holy:   return 3.5f;
     }
     return 1.0f;
+}
+
+// ============================================================================
+// 【CropTable::CalculateFinalQuality】基于快照计算最终品质
+// ============================================================================
+CropQuality CropTable::CalculateFinalQuality(
+    const CloudState current_state,
+    const float cloud_density_at_planting,
+    const int aura_at_planting,
+    const int dense_cloud_days,
+    const int tide_days,
+    const bool tea_soul_nearby,
+    const std::string& fertilizer_type,
+    const bool is_legendary
+) {
+    // 第一层：播种基础品质
+    CropQuality base = CropQuality::Normal;
+    if (cloud_density_at_planting >= 1.0f) {
+        base = CropQuality::Rare;
+    } else if (cloud_density_at_planting >= 0.7f) {
+        base = CropQuality::Fine;
+    } else if (cloud_density_at_planting >= 0.3f) {
+        // 薄雾播种：50% Fine，50% Normal
+        base = CropQuality::Fine;
+    }
+
+    // 第二层：累积加权
+    int quality_boost = 0;
+    quality_boost += dense_cloud_days;        // 每天+1
+    quality_boost += tide_days * 2;        // 大潮每天+2
+
+    // 灵气加成
+    if (aura_at_planting >= 300) quality_boost += 1;
+    if (aura_at_planting >= 600) quality_boost += 1;
+
+    // 茶魂花地块额外+2
+    if (tea_soul_nearby) quality_boost += 2;
+
+    // 肥料加成
+    if (fertilizer_type == "premium")      quality_boost += 1;
+    if (fertilizer_type == "spirit")       quality_boost += 2;
+    if (fertilizer_type == "cloud_essence") quality_boost += 3;
+    if (fertilizer_type == "tea_soul")     quality_boost += 2;
+
+    // 第三层：最终品质
+    CropQuality final = static_cast<CropQuality>(
+        static_cast<int>(base) + quality_boost);
+
+    // 上限：Holy（圣品）
+    if (final > CropQuality::Holy) {
+        final = CropQuality::Holy;
+    }
+
+    // 传说灵茶圣品需要特殊条件
+    if (is_legendary) {
+        if (current_state != CloudState::Tide || aura_at_planting < 600 || !tea_soul_nearby) {
+            if (final > CropQuality::Spirit) {
+                final = CropQuality::Spirit;
+            }
+        }
+    }
+
+    return final;
 }
 
 // ============================================================================

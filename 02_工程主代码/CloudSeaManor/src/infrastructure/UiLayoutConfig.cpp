@@ -3,6 +3,7 @@
 #include "CloudSeamanor/JsonValue.hpp"
 #include "CloudSeamanor/Logger.hpp"
 
+#include <exception>
 #include <fstream>
 #include <sstream>
 
@@ -111,7 +112,11 @@ std::uint32_t ParseHexColor(const std::string& hex) {
         const std::uint32_t b = parse_byte(5);
         const std::uint32_t a = (hex.size() == 9) ? parse_byte(7) : 0xFF;
         return (r << 24) | (g << 16) | (b << 8) | a;
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        return 0x000000FF;
+    } catch (const std::out_of_range&) {
+        return 0x000000FF;
+    } catch (const std::exception&) {
         return 0x000000FF;
     }
 }

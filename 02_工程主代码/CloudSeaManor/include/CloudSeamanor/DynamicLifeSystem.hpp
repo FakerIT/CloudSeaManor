@@ -92,6 +92,7 @@ public:
     // 【Initialize】初始化系统
     // ========================================================================
     void Initialize();
+    bool LoadFromFile(const std::string& file_path = "assets/data/npc/npc_data.csv");
 
     // ========================================================================
     // 【UpdateDaily】每日更新
@@ -135,6 +136,8 @@ private:
     // 【CreateDefaultConfig_】创建默认NPC配置
     // ========================================================================
     [[nodiscard]] std::unordered_map<std::string, std::vector<StageConfig>> CreateDefaultConfig_() const;
+    [[nodiscard]] std::vector<StageConfig> BuildProfileConfig_(const std::string& profile_id,
+                                                               const std::string& npc_id) const;
 
     // ========================================================================
     // 成员变量

@@ -1,8 +1,7 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/Logger.hpp"
 
 #include <chrono>
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <mutex>

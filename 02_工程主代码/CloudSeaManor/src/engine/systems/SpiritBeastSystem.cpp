@@ -1,7 +1,7 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/systems/SpiritBeastSystem.hpp"
 #include "CloudSeamanor/GameConstants.hpp"
+#include "CloudSeamanor/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <cmath>
 
@@ -42,10 +42,10 @@ void SpiritBeastSystem::UpdateFollow_(
     GameWorldState& world_state,
     float delta_seconds
 ) {
-    auto& beast = world_state.GetSpiritBeast();
+    auto& beast = world_state.MutableSpiritBeast();
     const auto player_pos_d = world_state.GetPlayer().GetPosition();
     const sf::Vector2f player_pos(player_pos_d.x, player_pos_d.y);
-    sf::Vector2f beast_pos = beast.shape.getPosition();
+    sf::Vector2f beast_pos = CloudSeamanor::adapter::ToSf(beast.position);
     const sf::Vector2f to_player = player_pos - beast_pos;
     const float distance = std::sqrt(to_player.x * to_player.x + to_player.y * to_player.y);
 
@@ -96,7 +96,7 @@ void SpiritBeastSystem::UpdateFollow_(
 
         // 避免与 NPC 贴脸重叠。
         for (const auto& npc : world_state.GetNpcs()) {
-            const sf::Vector2f npc_delta = next_pos - npc.shape.getPosition();
+            const sf::Vector2f npc_delta = next_pos - CloudSeamanor::adapter::ToSf(npc.position);
             const float npc_dist = std::sqrt(npc_delta.x * npc_delta.x + npc_delta.y * npc_delta.y);
             if (npc_dist < 24.0f && npc_dist > 0.001f) {
                 const sf::Vector2f push = npc_delta / npc_dist;
@@ -122,7 +122,7 @@ void SpiritBeastSystem::UpdateFollow_(
                 * (delta_seconds * GameConstants::SpiritBeast::FollowSpeed * 0.75f);
         }
         beast_pos = next_pos;
-        beast.shape.setPosition(beast_pos);
+        beast.position = CloudSeamanor::adapter::ToDomain(beast_pos);
     }
 }
 
@@ -133,15 +133,15 @@ void SpiritBeastSystem::UpdateWander_(
     GameWorldState& world_state,
     float delta_seconds
 ) {
-    auto& beast = world_state.GetSpiritBeast();
+    auto& beast = world_state.MutableSpiritBeast();
     if (beast.patrol_points.empty()) {
         current_state_ = SpiritBeastState::Idle;
         idle_timer_ = GameConstants::SpiritBeast::IdleDuration;
         return;
     }
 
-    sf::Vector2f beast_pos = beast.shape.getPosition();
-    const sf::Vector2f target_pt = beast.patrol_points[beast.patrol_index];
+    sf::Vector2f beast_pos = CloudSeamanor::adapter::ToSf(beast.position);
+    const sf::Vector2f target_pt = CloudSeamanor::adapter::ToSf(beast.patrol_points[beast.patrol_index]);
     const sf::Vector2f to_target = target_pt - beast_pos;
     const float target_dist = std::sqrt(to_target.x * to_target.x + to_target.y * to_target.y);
 
@@ -149,7 +149,7 @@ void SpiritBeastSystem::UpdateWander_(
         const sf::Vector2f dir = to_target / target_dist;
         const float speed_scale = PersonalitySpeedScale(beast.personality);
         beast_pos += dir * (delta_seconds * GameConstants::SpiritBeast::WanderSpeed * speed_scale);
-        beast.shape.setPosition(beast_pos);
+        beast.position = CloudSeamanor::adapter::ToDomain(beast_pos);
     } else {
         beast.patrol_index =
             (beast.patrol_index + 1) % beast.patrol_points.size();
@@ -178,7 +178,7 @@ void SpiritBeastSystem::Update(
     GameWorldState& world_state,
     float delta_seconds
 ) {
-    auto& beast = world_state.GetSpiritBeast();
+    auto& beast = world_state.MutableSpiritBeast();
 
     if (current_state_ == SpiritBeastState::Interact) {
         beast.interact_timer -= delta_seconds;
@@ -201,7 +201,7 @@ void SpiritBeastSystem::Update(
         return;
     }
 
-    RefreshSpiritBeastVisual(beast, world_state.GetInteraction().spirit_beast_highlighted);
+    RefreshSpiritBeastVisual(beast, world_state.MutableInteraction().spirit_beast_highlighted);
 }
 
 // ============================================================================

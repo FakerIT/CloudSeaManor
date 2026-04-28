@@ -111,24 +111,59 @@ std::vector<std::string> BuildConfiguredFontPathCandidates(const std::string& co
 }  // namespace
 
 // ============================================================================
+// 【Acquire】增加引用计数
+// ============================================================================
+void ResourceManager::Acquire(const std::string& id) {
+    auto it = ref_counts_.find(id);
+    if (it == ref_counts_.end()) {
+        return;
+    }
+    ++it->second;
+    Logger::Info(BuildStr("ResourceManager: Acquire '", id, "' ref_count=", std::to_string(it->second)));
+}
+
+// ============================================================================
+// 【Release】减少引用计数
+// ============================================================================
+void ResourceManager::Release(const std::string& id) {
+    auto it = ref_counts_.find(id);
+    if (it == ref_counts_.end()) {
+        return;
+    }
+    --it->second;
+    if (it->second < 0) {
+        it->second = 0;
+    }
+    Logger::Info(BuildStr("ResourceManager: Release '", id, "' ref_count=", std::to_string(it->second)));
+}
+
+// ============================================================================
 // 【LoadTexture】加载纹理
 // ============================================================================
 bool ResourceManager::LoadTexture(const std::string& id, const std::string& path) {
+    const auto result = LoadTextureResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadTextureResult(const std::string& id, const std::string& path) {
     if (textures_.contains(id)) {
-        return true;
+        return {};
     }
 
     auto tex = std::make_unique<sf::Texture>();
     if (!tex->loadFromFile(path)) {
-        Logger::Warning(BuildStr("ResourceManager: 无法加载纹理 '", id, "'，路径='", path, "'"));
-        return false;
+        return BuildStr("无法加载纹理 '", id, "'，路径='", path, "'");
     }
     tex->setSmooth(false);
 
     textures_.emplace(id, std::move(tex));
     ref_counts_[id] = 1;
     Logger::Info(BuildStr("ResourceManager: 加载纹理 '", id, "'（路径='", path, "')"));
-    return true;
+    return {};
 }
 
 // ============================================================================
@@ -169,20 +204,28 @@ void ResourceManager::UnloadTexture(const std::string& id) {
 // 【LoadFont】加载字体
 // ============================================================================
 bool ResourceManager::LoadFont(const std::string& id, const std::string& path) {
+    const auto result = LoadFontResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadFontResult(const std::string& id, const std::string& path) {
     if (fonts_.contains(id)) {
-        return true;
+        return {};
     }
 
     auto font = std::make_unique<sf::Font>();
     if (!font->openFromFile(path)) {
-        Logger::Warning(BuildStr("ResourceManager: 无法加载字体 '", id, "'，路径='", path, "'"));
-        return false;
+        return BuildStr("无法加载字体 '", id, "'，路径='", path, "'");
     }
 
     fonts_.emplace(id, std::move(font));
     ref_counts_[id] = 1;
     Logger::Info(BuildStr("ResourceManager: 加载字体 '", id, "'（路径='", path, "')"));
-    return true;
+    return {};
 }
 
 // ============================================================================
@@ -208,20 +251,28 @@ bool ResourceManager::HasFont(const std::string& id) const {
 }
 
 bool ResourceManager::LoadSoundBuffer(const std::string& id, const std::string& path) {
+    const auto result = LoadSoundBufferResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadSoundBufferResult(const std::string& id, const std::string& path) {
     if (sound_buffers_.contains(id)) {
-        return true;
+        return {};
     }
 
     auto sound = std::make_unique<sf::SoundBuffer>();
     if (!sound->loadFromFile(path)) {
-        Logger::Warning(BuildStr("ResourceManager: 无法加载音效 '", id, "'，路径='", path, "'"));
-        return false;
+        return BuildStr("无法加载音效 '", id, "'，路径='", path, "'");
     }
 
     sound_buffers_.emplace(id, std::move(sound));
     ref_counts_[id] = 1;
     Logger::Info(BuildStr("ResourceManager: 加载音效 '", id, "'（路径='", path, "')"));
-    return true;
+    return {};
 }
 
 sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& id) {
@@ -246,6 +297,87 @@ void ResourceManager::UnloadSoundBuffer(const std::string& id) {
         sound_buffers_.erase(it);
         ref_counts_.erase(id);
         Logger::Info(BuildStr("ResourceManager: 卸载音效 '", id, "'"));
+    }
+}
+
+// ============================================================================
+// 【LoadText】加载文本
+// ============================================================================
+bool ResourceManager::LoadText(const std::string& id, const std::string& path) {
+    const auto result = LoadTextResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadTextResult(const std::string& id, const std::string& path) {
+    if (texts_.contains(id)) {
+        return {};
+    }
+    std::ifstream in(path, std::ios::binary);
+    if (!in.is_open()) {
+        return BuildStr("无法加载文本 '", id, "'，路径='", path, "'");
+    }
+    std::ostringstream ss;
+    ss << in.rdbuf();
+    texts_.emplace(id, ss.str());
+    ref_counts_[id] = 1;
+    Logger::Info(BuildStr("ResourceManager: 加载文本 '", id, "'（路径='", path, "')"));
+    return {};
+}
+
+const std::string& ResourceManager::GetText(const std::string& id) {
+    auto it = texts_.find(id);
+    if (it == texts_.end()) {
+        Logger::Warning(BuildStr("ResourceManager: 文本未找到 '", id, "'，返回空字符串"));
+        default_text_.clear();
+        return default_text_;
+    }
+    return it->second;
+}
+
+bool ResourceManager::HasText(const std::string& id) const {
+    return texts_.contains(id);
+}
+
+void ResourceManager::SetDataRoots(std::vector<std::filesystem::path> data_roots) {
+    data_roots_ = std::move(data_roots);
+}
+
+std::filesystem::path ResourceManager::ResolveDataPath(const std::string& relative_path) const {
+    const std::filesystem::path normalized = std::filesystem::path(relative_path).lexically_normal();
+    if (normalized.is_absolute() && std::filesystem::exists(normalized)) {
+        return normalized;
+    }
+
+    for (const auto& root : data_roots_) {
+        const auto candidate = (root / normalized).lexically_normal();
+        if (std::filesystem::exists(candidate)) {
+            return candidate;
+        }
+    }
+
+    if (std::filesystem::exists(normalized)) {
+        return normalized;
+    }
+    return normalized;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadResolvedText(
+    const std::string& id,
+    const std::string& relative_path) {
+    const auto resolved_path = ResolveDataPath(relative_path);
+    return LoadTextResult(id, resolved_path.string());
+}
+
+void ResourceManager::UnloadText(const std::string& id) {
+    auto it = texts_.find(id);
+    if (it != texts_.end()) {
+        texts_.erase(it);
+        ref_counts_.erase(id);
+        Logger::Info(BuildStr("ResourceManager: 卸载文本 '", id, "'"));
     }
 }
 
@@ -372,6 +504,7 @@ void ResourceManager::ReleaseAll() {
     textures_.clear();
     fonts_.clear();
     sound_buffers_.clear();
+    texts_.clear();
     ref_counts_.clear();
     best_main_font_id_.clear();
     Logger::Info("ResourceManager: 所有资源已释放");

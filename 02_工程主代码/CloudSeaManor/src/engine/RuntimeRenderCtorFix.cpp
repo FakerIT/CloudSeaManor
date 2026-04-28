@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameRuntime.hpp"
 #include "CloudSeamanor/engine/rendering/WorldRenderer.hpp"
 

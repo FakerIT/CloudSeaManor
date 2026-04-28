@@ -51,10 +51,13 @@
 #include <unordered_set>
 #include <vector>
 
-namespace CloudSeamanor::engine {
+namespace CloudSeamanor::domain {
 using CloudSeamanor::domain::Season;
 using CloudSeamanor::domain::GameClock;
 using CloudSeamanor::domain::CloudSystem;
+using CloudSeamanor::engine::DialogueChoice;
+using CloudSeamanor::engine::DialogueContext;
+using CloudSeamanor::engine::DialogueEngine;
 
 
 // ============================================================================
@@ -454,4 +457,21 @@ constexpr const char* RouteName(PlotRoute r) {
     return Season::Spring;
 }
 
+}  // namespace CloudSeamanor::domain
+
+// Backward-compatible alias for existing engine call sites.
+namespace CloudSeamanor::engine {
+using MainPlotSystem = CloudSeamanor::domain::MainPlotSystem;
+using PlotRoute = CloudSeamanor::domain::PlotRoute;
+using PlotConditionType = CloudSeamanor::domain::PlotConditionType;
+using PlotCondition = CloudSeamanor::domain::PlotCondition;
+using PlotChoiceEffect = CloudSeamanor::domain::PlotChoiceEffect;
+using PlotNode = CloudSeamanor::domain::PlotNode;
+using PlotEntry = CloudSeamanor::domain::PlotEntry;
+using ChapterEntry = CloudSeamanor::domain::ChapterEntry;
+using PlotState = CloudSeamanor::domain::PlotState;
+using PlotCallbacks = CloudSeamanor::domain::PlotCallbacks;
+using CloudSeamanor::domain::RouteName;
+using CloudSeamanor::domain::PlotRouteFromString;
+using CloudSeamanor::domain::SeasonFromString;
 }  // namespace CloudSeamanor::engine

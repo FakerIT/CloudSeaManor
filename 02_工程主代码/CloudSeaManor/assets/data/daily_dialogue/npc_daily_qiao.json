@@ -1,0 +1,17 @@
+{
+  "npc_id": "qiao",
+  "greetings": [
+    {"id":"qiao_greet_morning","text":"早安，$[PLAYER_NAME]。茶宴的花材我刚整理好，你来得正巧。","favor_min":0,"favor_max":999,"season":"","time_of_day":"清晨","weather":"","heart_min":0,"heart_max":10},
+    {"id":"qiao_greet_afternoon","text":"下午好。今天市集的香气很好，像春天刚洗过的风。","favor_min":0,"favor_max":999,"season":"","time_of_day":"午后","weather":"","heart_min":0,"heart_max":10},
+    {"id":"qiao_greet_spring","text":"春天最适合办茶宴。$[PLAYER_NAME]，改天来帮我选主桌花吧。","favor_min":0,"favor_max":999,"season":"春","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ],
+  "small_talks": [
+    {"id":"qiao_talk_1","text":"我总觉得，一场好的茶宴，不只是味道，更是人与人之间的距离。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"qiao_talk_2","text":"你带来的材料都很实在，用起来也安心。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"qiao_talk_high","text":"$[PLAYER_NAME]，你在的时候，连布置都顺手很多。","favor_min":160,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":5,"heart_max":10}
+  ],
+  "farewells": [
+    {"id":"qiao_bye_1","text":"慢走，回头记得来尝新茶点。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"qiao_bye_2","text":"路上小心，花枝我帮你留一束。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ]
+}

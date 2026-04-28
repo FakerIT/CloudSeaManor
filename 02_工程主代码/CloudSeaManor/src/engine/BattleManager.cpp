@@ -3,6 +3,8 @@
 #include "CloudSeamanor/engine/BattleUI.hpp"
 #include "CloudSeamanor/GameConstants.hpp"
 
+#include <algorithm>
+#include <cctype>
 #include <cmath>
 #include <unordered_map>
 
@@ -29,14 +31,56 @@ void BattleManager::Initialize(
     (void)field_.LoadSpiritTableFromCsv("assets/data/battle/spirit_table.csv");
     (void)field_.LoadSkillTableFromCsv("assets/data/battle/skill_table.csv");
     (void)field_.LoadZoneTableFromCsv("assets/data/battle/zone_table.csv");
-    // UI 在需要时按需创建
+    (void)field_.LoadWeaponTableFromCsv("assets/data/battle/weapon_table.csv");
+    (void)field_.LoadBattleTuningFromCsv("assets/data/battle/balance_table.csv");
+    (void)field_.LoadSeedDropTableFromCsv("assets/data/SeedDropTable.csv");
+    if (!equipped_weapon_id_.empty()) {
+        (void)field_.EquipWeapon(equipped_weapon_id_);
+    }
+    if (!quest_skill_ids_.empty()) {
+        field_.SetQuestSkills(quest_skill_ids_);
+    }
+    if (!ui_) {
+        ui_ = std::make_unique<BattleUI>();
+        ui_->Initialize(detail::BattleUiFallbackFont(), 1280, 720);
+    }
+    if (!renderer_) {
+        renderer_ = std::make_unique<BattleRenderer>();
+        renderer_->Initialize(1280, 720);
+    }
+    if (cloud_system_) {
+        renderer_->SetWeather(cloud_system_->CurrentState());
+    }
+}
+
+bool BattleManager::SetEquippedWeapon(const std::string& weapon_id) {
+    if (weapon_id.empty()) {
+        return false;
+    }
+    equipped_weapon_id_ = weapon_id;
+    return field_.EquipWeapon(weapon_id);
+}
+
+void BattleManager::SetQuestSkills(const std::vector<std::string>& quest_skill_ids) {
+    quest_skill_ids_ = quest_skill_ids;
+    field_.SetQuestSkills(quest_skill_ids_);
 }
 
 // ============================================================================
 // 【Update】每帧更新
 // ============================================================================
 void BattleManager::Update(float delta_seconds, float player_pos_x, float player_pos_y) {
+    (void)player_pos_x;
+    (void)player_pos_y;
     if (is_paused_) return;
+
+    // 更新渲染器
+    if (renderer_) {
+        renderer_->Update(delta_seconds);
+        if (cloud_system_) {
+            renderer_->SetWeather(cloud_system_->CurrentState());
+        }
+    }
 
     switch (state_) {
         case BattleState::Inactive:
@@ -66,7 +110,8 @@ void BattleManager::Update(float delta_seconds, float player_pos_x, float player
                 ui_->Update(delta_seconds);
             }
             if (result_display_timer_ >= kResultDisplayDuration) {
-                // 玩家可以确认结算
+                // 结算时间到达后自动发放奖励并返回 Inactive
+                ProcessVictory_();
             }
             break;
 
@@ -82,6 +127,10 @@ void BattleManager::Update(float delta_seconds, float player_pos_x, float player
 bool BattleManager::EnterBattle(const BattleZone& zone, const std::vector<std::string>& spirit_ids) {
     if (state_ != BattleState::Inactive) return false;
 
+    // Ensure a fresh battle session starts from a clean runtime state.
+    is_paused_ = false;
+    result_display_timer_ = 0.0f;
+    selected_target_id_.clear();
     LoadBattle_(zone, spirit_ids);
     state_ = BattleState::Loading;
 
@@ -110,14 +159,23 @@ void BattleManager::ConfirmVictory() {
 // ============================================================================
 bool BattleManager::OnSkillKeyPressed(int skill_slot, float mouse_x, float mouse_y) {
     if (state_ != BattleState::Active) return false;
+    if (skill_slot < 0) return false;
 
-    // TODO: 从技能表获取技能数据
-    // 目前使用简化逻辑：直接释放技能
-    (void)skill_slot;
-    (void)mouse_x;
-    (void)mouse_y;
+    const auto& player = field_.GetPlayerState();
+    if (static_cast<std::size_t>(skill_slot) >= player.unlocked_skill_ids.size()) {
+        return false;
+    }
+    const auto& skill_id = player.unlocked_skill_ids[static_cast<std::size_t>(skill_slot)];
 
-    return true;
+    std::optional<std::string> target_id;
+    if (!selected_target_id_.empty()) {
+        target_id = selected_target_id_;
+    }
+    const bool cast_ok = field_.PlayerCastSkill(skill_id, target_id, mouse_x, mouse_y);
+    if (cast_ok && ui_) {
+        ui_->SyncFromField(field_);
+    }
+    return cast_ok;
 }
 
 // ============================================================================
@@ -163,6 +221,16 @@ BattleUI& BattleManager::GetUI() {
     return ui_ ? *ui_ : dummy;
 }
 
+const BattleRenderer& BattleManager::GetRenderer() const {
+    static BattleRenderer dummy;
+    return renderer_ ? *renderer_ : dummy;
+}
+
+BattleRenderer& BattleManager::GetRenderer() {
+    static BattleRenderer dummy;
+    return renderer_ ? *renderer_ : dummy;
+}
+
 // ============================================================================
 // 【ShouldTriggerBattle】是否应触发战斗
 // ============================================================================
@@ -171,6 +239,7 @@ bool BattleManager::ShouldTriggerBattle(
     float spirit_x, float spirit_y,
     float player_x, float player_y
 ) const {
+    if (spirit_id.empty()) return false;
     if (state_ != BattleState::Inactive) return false;
 
     float dx = spirit_x - player_x;
@@ -188,8 +257,17 @@ void BattleManager::LoadPartnersFromSpiritBeasts(const std::vector<std::string>&
     for (const auto& id : spirit_beast_ids) {
         BattlePartner partner;
         partner.spirit_beast_id = id;
-        partner.heart_level = 1; // TODO: 从 SpiritBeastSystem 获取实际羁绊等级
+        partner.heart_level = 1;
+        if (partner_heart_level_resolver_) {
+            partner.heart_level = std::max(1, std::min(5, partner_heart_level_resolver_(id)));
+        } else {
+            const auto h_pos = id.find("h");
+            if (h_pos != std::string::npos && (h_pos + 1) < id.size() && std::isdigit(static_cast<unsigned char>(id[h_pos + 1]))) {
+                partner.heart_level = std::max(1, std::min(5, id[h_pos + 1] - '0'));
+            }
+        }
         partner.purification_rate_mod = 1.0f + partner.heart_level * 0.1f;
+        partner.name = id;
         partner.pos_x = 200.0f + static_cast<float>(partner_offset) * 30.0f;
         partner.pos_y = 400.0f;
 
@@ -246,12 +324,22 @@ void BattleManager::LoadBattle_(const BattleZone& zone, const std::vector<std::s
     std::optional<std::string> boss_id;
 
     for (const auto& id : spirit_ids) {
-        // TODO: 从数据表判定类型
-        (void)id;
-        num_common++;
+        if (id.find("boss") != std::string::npos || id.find("guardian") != std::string::npos) {
+            boss_id = id;
+        } else if (id.find("elite") != std::string::npos || id.find("lord") != std::string::npos) {
+            ++num_elite;
+        } else {
+            ++num_common;
+        }
     }
 
+    if (num_common == 0 && num_elite == 0 && !boss_id.has_value()) {
+        num_common = 2;
+    }
     field_.StartBattle(zone, cloud, num_common, num_elite, boss_id);
+    if (ui_) {
+        ui_->SyncFromField(field_);
+    }
 }
 
 // ============================================================================
@@ -304,9 +392,6 @@ void BattleManager::ProcessVictory_() {
 // 【ProcessRetreat_】处理撤退
 // ============================================================================
 void BattleManager::ProcessRetreat_() {
-    // 撤退：灵体进入暂时退散状态（3分钟后重新出现）
-    // TODO: 设置灵体退散计时器
-
     field_.EndBattle();
     state_ = BattleState::Inactive;
     selected_target_id_.clear();

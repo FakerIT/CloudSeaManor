@@ -104,28 +104,30 @@ bool UpdateCropGrowth(
 // ============================================================================
 /**
  * @brief 处理玩家与地块的交互
- * 
+ *
  * 交互状态机（按顺序检查）：
  * 1. 未翻土 -> 翻土
  * 2. 已翻土未播种 -> 消耗种子并播种
  * 3. 已播种未浇水 -> 标记为已浇水
  * 4. 已浇水已成熟 -> 收获并添加到背包
  * 5. 其他情况 -> 显示当前状态提示
- * 
+ *
  * @param plot              目标地块引用
  * @param inventory         背包引用（用于消耗种子、添加产物）
- * @param skills            技能系统引用（用于添加经验）
- * @param cloud_density     云海密度（影响经验倍率）
+ * @param skills           技能系统引用（用于添加经验）
+ * @param cloud_state      当前云海天气状态（决定作物品质）
+ * @param cloud_density    云海密度（影响经验倍率）
  * @param beast_interacted  灵兽今日是否已互动（影响经验倍率）
- * @param refresh_visual    刷新地块视觉的回调
- * @param push_hint         推送提示的回调
- * @param log_info          日志记录回调
+ * @param refresh_visual   刷新地块视觉的回调
+ * @param push_hint        推送提示的回调
+ * @param log_info         日志记录回调
  * @return 是否成功处理了交互
  */
 bool HandlePlotInteraction(
     TeaPlot& plot,
     CloudSeamanor::domain::Inventory& inventory,
     CloudSeamanor::domain::SkillSystem& skills,
+    CloudSeamanor::domain::CloudState cloud_state,
     float cloud_density,
     bool beast_interacted,
     const std::function<void(TeaPlot&, bool)>& refresh_visual,

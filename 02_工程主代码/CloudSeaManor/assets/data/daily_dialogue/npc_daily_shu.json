@@ -1,0 +1,17 @@
+{
+  "npc_id": "shu",
+  "greetings": [
+    {"id":"shu_greet_morning","text":"早，$[PLAYER_NAME]。林地里昨晚落了不少枝叶，我正准备清一轮。","favor_min":0,"favor_max":999,"season":"","time_of_day":"清晨","weather":"","heart_min":0,"heart_max":10},
+    {"id":"shu_greet_evening","text":"傍晚好。今天风向不错，林地边缘已经清出来了。","favor_min":0,"favor_max":999,"season":"","time_of_day":"傍晚","weather":"","heart_min":0,"heart_max":10},
+    {"id":"shu_greet_spring","text":"春天是林地最脆弱也最有生机的时候。$[PLAYER_NAME]，走路尽量别踩新芽。","favor_min":0,"favor_max":999,"season":"春","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ],
+  "small_talks": [
+    {"id":"shu_talk_1","text":"清理不是把东西丢掉，而是把该留下的空间留出来。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"shu_talk_2","text":"你上次帮我搬木料那次，我省下了半天工夫。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"shu_talk_high","text":"$[PLAYER_NAME]，你做事很稳。林地这块交给你，我放心。","favor_min":170,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":5,"heart_max":10}
+  ],
+  "farewells": [
+    {"id":"shu_bye_1","text":"我再巡一圈林地。你先去忙。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"shu_bye_2","text":"注意脚下，竹林那条小道有点滑。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ]
+}

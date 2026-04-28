@@ -9,6 +9,7 @@
 #include <cmath>
 #include <iostream>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 namespace CloudSeamanor {
@@ -33,26 +34,26 @@ int RunAllTests() {
     int passed = 0;
     int failed = 0;
 
-    std::cout << "========================================" << std::endl;
-    std::cout << " CloudSeamanor Test Suite" << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << std::endl;
+    std::cout << "========================================\n";
+    std::cout << " CloudSeamanor Test Suite\n";
+    std::cout << "========================================\n";
+    std::cout << '\n';
 
     for (const auto& test : g_tests) {
         std::cout << "Running: " << test.name << " ... ";
         if (test.func()) {
-            std::cout << "PASSED" << std::endl;
+            std::cout << "PASSED\n";
             passed++;
         } else {
-            std::cout << "FAILED" << std::endl;
+            std::cout << "FAILED\n";
             failed++;
         }
     }
 
-    std::cout << std::endl;
-    std::cout << "========================================" << std::endl;
-    std::cout << "Results: " << passed << " passed, " << failed << " failed" << std::endl;
-    std::cout << "========================================" << std::endl;
+    std::cout << '\n';
+    std::cout << "========================================\n";
+    std::cout << "Results: " << passed << " passed, " << failed << " failed\n";
+    std::cout << "========================================\n";
 
     return failed;
 }
@@ -67,7 +68,7 @@ int RunAllTests() {
 #define ASSERT_TRUE(condition) \
     do { \
         if (!(condition)) { \
-            std::cerr << "Assertion failed: " << #condition << std::endl; \
+            std::cerr << "Assertion failed: " << #condition << '\n'; \
             return false; \
         } \
     } while (false)
@@ -75,9 +76,17 @@ int RunAllTests() {
 #define ASSERT_EQ(a, b) \
     do { \
         if ((a) != (b)) { \
-            std::cerr << "Assertion failed: " << #a << " == " << #b << std::endl; \
-            std::cerr << "  " << #a << " = " << (a) << std::endl; \
-            std::cerr << "  " << #b << " = " << (b) << std::endl; \
+            std::cerr << "Assertion failed: " << #a << " == " << #b << '\n'; \
+            auto _print_value = [](auto&& v) { \
+                using V = std::decay_t<decltype(v)>; \
+                if constexpr (std::is_enum_v<V>) { \
+                    std::cerr << static_cast<int>(v); \
+                } else { \
+                    std::cerr << v; \
+                } \
+            }; \
+            std::cerr << "  " << #a << " = "; _print_value((a)); std::cerr << '\n'; \
+            std::cerr << "  " << #b << " = "; _print_value((b)); std::cerr << '\n'; \
             return false; \
         } \
     } while (false)
@@ -85,7 +94,7 @@ int RunAllTests() {
 #define ASSERT_NE(a, b) \
     do { \
         if ((a) == (b)) { \
-            std::cerr << "Assertion failed: " << #a << " != " << #b << std::endl; \
+            std::cerr << "Assertion failed: " << #a << " != " << #b << '\n'; \
             return false; \
         } \
     } while (false)
@@ -94,9 +103,9 @@ int RunAllTests() {
     do { \
         float _a = (a); float _b = (b); \
         if (std::abs(_a - _b) > (epsilon)) { \
-            std::cerr << "Assertion failed: " << #a << " ~= " << #b << std::endl; \
-            std::cerr << "  " << #a << " = " << _a << std::endl; \
-            std::cerr << "  " << #b << " = " << _b << std::endl; \
+            std::cerr << "Assertion failed: " << #a << " ~= " << #b << '\n'; \
+            std::cerr << "  " << #a << " = " << _a << '\n'; \
+            std::cerr << "  " << #b << " = " << _b << '\n'; \
             return false; \
         } \
     } while (false)
@@ -104,7 +113,7 @@ int RunAllTests() {
 #define ASSERT_FALSE(condition) \
     do { \
         if (condition) { \
-            std::cerr << "Assertion failed: !" << #condition << std::endl; \
+            std::cerr << "Assertion failed: !" << #condition << '\n'; \
             return false; \
         } \
     } while (false)

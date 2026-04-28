@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/CloudSystem.hpp"
 
 #include <algorithm>

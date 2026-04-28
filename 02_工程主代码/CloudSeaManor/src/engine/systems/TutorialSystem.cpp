@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/systems/TutorialSystem.hpp"
 
 #include "CloudSeamanor/GameWorldState.hpp"
@@ -23,14 +21,14 @@ TutorialSystem::TutorialSystem(
 // 【TutorialSystem::Reset】重置教程进度
 // ============================================================================
 void TutorialSystem::Reset() {
-    world_state_.GetTutorial().intro_move_hint_shown = false;
-    world_state_.GetTutorial().intro_interact_hint_shown = false;
-    world_state_.GetTutorial().intro_crop_hint_shown = false;
-    world_state_.GetTutorial().intro_save_hint_shown = false;
-    world_state_.GetTutorial().show_debug_overlay = true;
-    world_state_.GetTutorial().daily_cloud_report_day_shown = -1;
-    world_state_.GetTutorial().tutorial_bubble_completed_mask = 0;
-    world_state_.GetTutorial().tutorial_bubble_step = 1;
+    world_state_.MutableTutorial().intro_move_hint_shown = false;
+    world_state_.MutableTutorial().intro_interact_hint_shown = false;
+    world_state_.MutableTutorial().intro_crop_hint_shown = false;
+    world_state_.MutableTutorial().intro_save_hint_shown = false;
+    world_state_.MutableTutorial().show_debug_overlay = true;
+    world_state_.MutableTutorial().daily_cloud_report_day_shown = -1;
+    world_state_.MutableTutorial().tutorial_bubble_completed_mask = 0;
+    world_state_.MutableTutorial().tutorial_bubble_step = 1;
 }
 
 // ============================================================================
@@ -38,8 +36,8 @@ void TutorialSystem::Reset() {
 // ============================================================================
 void TutorialSystem::Update(float delta_seconds) {
     (void)delta_seconds;
-    auto& tutorial = world_state_.GetTutorial();
-    auto& interaction = world_state_.GetInteraction();
+    auto& tutorial = world_state_.MutableTutorial();
+    auto& interaction = world_state_.MutableInteraction();
     const float session_time = world_state_.GetSessionTime();
 
     if (!tutorial.intro_move_hint_shown && session_time > 2.5f) {
@@ -85,7 +83,7 @@ void TutorialSystem::Update(float delta_seconds) {
 // 【TutorialSystem::ToggleDebugOverlay】切换调试面板
 // ============================================================================
 void TutorialSystem::ToggleDebugOverlay() {
-    auto& tutorial = world_state_.GetTutorial();
+    auto& tutorial = world_state_.MutableTutorial();
     tutorial.show_debug_overlay = !tutorial.show_debug_overlay;
     if (hint_callback_) {
         hint_callback_(

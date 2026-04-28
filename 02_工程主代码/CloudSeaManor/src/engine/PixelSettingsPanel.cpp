@@ -1,7 +1,9 @@
 #include "CloudSeamanor/PixelSettingsPanel.hpp"
 
 #include "CloudSeamanor/PixelUiConfig.hpp"
+#include "CloudSeamanor/ResourceManager.hpp"
 
+#include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -58,6 +60,12 @@ void PixelSettingsPanel::SetSlots(const std::vector<CloudSeamanor::infrastructur
     RefreshThumbnails_();
 }
 
+void PixelSettingsPanel::SetRuntimeValues(float bgm_volume, float sfx_volume, bool fullscreen) {
+    bgm_volume_ = std::clamp(bgm_volume, 0.0f, 1.0f);
+    sfx_volume_ = std::clamp(sfx_volume, 0.0f, 1.0f);
+    fullscreen_ = fullscreen;
+}
+
 void PixelSettingsPanel::RefreshThumbnails_() {
     for (std::size_t i = 0; i < thumbnails_.size(); ++i) {
         auto& t = thumbnails_[i];
@@ -73,6 +81,23 @@ void PixelSettingsPanel::RefreshThumbnails_() {
             continue;
         }
         t.path = p;
+        // 优先通过 ResourceManager 统一加载，回退到直接加载
+        if (resource_manager_ != nullptr) {
+            const std::string id = "settings_slot_thumb_" + std::to_string(i);
+            if (resource_manager_->LoadTexture(id, p)) {
+                resource_manager_->Acquire(id);
+                const sf::Texture& tex = resource_manager_->GetTexture(id);
+                if (t.texture.getSize().x != tex.getSize().x || t.texture.getSize().y != tex.getSize().y) {
+                    (void)t.texture.loadFromImage(tex.copyToImage());
+                } else {
+                    (void)t.texture.update(tex);
+                }
+                t.texture.setSmooth(false);
+                t.loaded = true;
+                continue;
+            }
+        }
+        // 直接加载作为回退
         if (t.texture.loadFromFile(p)) {
             t.texture.setSmooth(false);
             t.loaded = true;

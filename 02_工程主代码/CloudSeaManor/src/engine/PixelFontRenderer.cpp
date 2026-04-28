@@ -6,6 +6,18 @@
 
 namespace CloudSeamanor::engine {
 
+unsigned int PixelFontRenderer::ScaledCharacterSize_(unsigned int base) const {
+    return static_cast<unsigned int>(std::max(8.0f, std::round(static_cast<float>(base) * ui_scale_)));
+}
+
+float PixelFontRenderer::ScaledOutlineThickness_(float base) const {
+    return base * ui_scale_;
+}
+
+sf::Vector2f PixelFontRenderer::ScaledShadowOffset_(const sf::Vector2f& base) const {
+    return {base.x * ui_scale_, base.y * ui_scale_};
+}
+
 // ============================================================================
 // 【PixelFontRenderer::PixelFontRenderer】
 // ============================================================================
@@ -62,7 +74,8 @@ sf::Vector2f PixelFontRenderer::MeasureText(const std::string& text,
     if (!font_loaded_ || text.empty()) return {0.0f, 0.0f};
 
     sf::Text probe(font_);
-    probe.setCharacterSize(style.character_size);
+    const unsigned int scaled_size = ScaledCharacterSize_(style.character_size);
+    probe.setCharacterSize(scaled_size);
     probe.setStyle(style.bold ? sf::Text::Bold : sf::Text::Regular);
 
     float width = 0.0f;
@@ -107,7 +120,8 @@ void PixelFontRenderer::DrawWrappedText(sf::RenderWindow& window,
                                        float line_height_multiplier) const {
     if (!font_loaded_ || text.empty()) return;
 
-    const float line_height = static_cast<float>(style.character_size) * line_height_multiplier;
+    const unsigned int scaled_size = ScaledCharacterSize_(style.character_size);
+    const float line_height = static_cast<float>(scaled_size) * line_height_multiplier;
     std::string current_line;
     float y = position.y;
 
@@ -119,7 +133,7 @@ void PixelFontRenderer::DrawWrappedText(sf::RenderWindow& window,
         const sf::Font& active_font = (has_non_ascii && fallback_font_ != nullptr) ? *fallback_font_ : font_;
         sf::Text probe(active_font);
         probe.setString(sf::String::fromUtf8(current_line.begin(), current_line.end()));
-        probe.setCharacterSize(style.character_size);
+        probe.setCharacterSize(scaled_size);
         probe.setStyle(style.bold ? sf::Text::Bold : sf::Text::Regular);
 
         if (probe.getLocalBounds().size.x > max_width) {
@@ -161,12 +175,15 @@ void PixelFontRenderer::DrawTextWithFallback(sf::RenderWindow& window,
     }
 
     sf::Text txt(font_);
-    txt.setCharacterSize(style.character_size);
+    const unsigned int scaled_size = ScaledCharacterSize_(style.character_size);
+    const float scaled_outline = ScaledOutlineThickness_(style.outline_thickness);
+    const sf::Vector2f scaled_shadow = ScaledShadowOffset_(style.shadow_offset);
+    txt.setCharacterSize(scaled_size);
     txt.setStyle(style.bold ? sf::Text::Bold : sf::Text::Regular);
     txt.setFillColor(style.fill_color);
-    if (style.outline_thickness > 0.0f && style.outline_color != sf::Color::Transparent) {
+    if (scaled_outline > 0.0f && style.outline_color != sf::Color::Transparent) {
         txt.setOutlineColor(style.outline_color);
-        txt.setOutlineThickness(style.outline_thickness);
+        txt.setOutlineThickness(scaled_outline);
     }
 
     float cursor_x = start_x;
@@ -182,8 +199,8 @@ void PixelFontRenderer::DrawTextWithFallback(sf::RenderWindow& window,
         if (style.shadow_color != sf::Color::Transparent) {
             shadow_txt.setFont(active_font);
             shadow_txt.setString(s);
-            shadow_txt.setPosition({std::round(cursor_x + style.shadow_offset.x),
-                                    std::round(snapped_y + style.shadow_offset.y)});
+            shadow_txt.setPosition({std::round(cursor_x + scaled_shadow.x),
+                                    std::round(snapped_y + scaled_shadow.y)});
             window.draw(shadow_txt, sf::RenderStates::Default);
         }
         txt.setPosition({std::round(cursor_x), snapped_y});
@@ -196,7 +213,7 @@ void PixelFontRenderer::DrawTextWithFallback(sf::RenderWindow& window,
         const bool is_ascii = cp >= 0x20u && cp <= 0x7Eu;
         const sf::Font* preferred = (is_ascii || fallback_font_ == nullptr) ? &font_ : fallback_font_;
 
-        const auto& g = preferred->getGlyph(cp, style.character_size, style.bold, style.outline_thickness);
+        const auto& g = preferred->getGlyph(cp, scaled_size, style.bold, scaled_outline);
         const bool glyph_ok = (g.advance > 0.0f) || (g.bounds.size.x > 0.0f);
 
         if (glyph_ok) {
@@ -204,7 +221,7 @@ void PixelFontRenderer::DrawTextWithFallback(sf::RenderWindow& window,
             continue;
         }
 
-        const auto& g2 = font_.getGlyph(cp, style.character_size, style.bold, style.outline_thickness);
+        const auto& g2 = font_.getGlyph(cp, scaled_size, style.bold, scaled_outline);
         const bool glyph_ok2 = (g2.advance > 0.0f) || (g2.bounds.size.x > 0.0f);
         if (glyph_ok2) {
             DrawOne(font_, sf::String(static_cast<char32_t>(cp)), style.fill_color);

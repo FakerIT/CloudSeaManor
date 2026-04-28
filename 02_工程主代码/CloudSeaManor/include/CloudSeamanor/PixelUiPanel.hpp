@@ -58,6 +58,12 @@ public:
      * @brief 是否显示标题栏
      */
     void SetHasTitleBar(bool value) { has_title_bar_ = value; }
+    void SetColors(const sf::Color& fill, const sf::Color& border) {
+        auto& s = art_style_.MutableStyle();
+        s.fill_color = fill;
+        s.outline_color = border;
+        geometry_dirty_ = true;
+    }
 
     /**
      * @brief 设置是否显示
@@ -109,6 +115,16 @@ public:
     void Render(sf::RenderWindow& window);
 
     // ========================================================================
+    // 【拖动（UI-129）】
+    // ========================================================================
+    // 仅在标题栏区域按下左键时开始拖动（has_title_bar_ == true）
+    // Mouse coords are expected to be in the same view space as rendering (1280x720 logical).
+    [[nodiscard]] bool OnMousePressed(float mx, float my);
+    void OnMouseMoved(float mx, float my);
+    void OnMouseReleased();
+    [[nodiscard]] bool IsDragging() const { return is_dragging_; }
+
+    // ========================================================================
     // 【属性】
     // ========================================================================
     [[nodiscard]] const sf::FloatRect& GetRect() const { return rect_; }
@@ -154,6 +170,10 @@ private:
     bool visible_ = true;
     bool is_open_ = false;
     PixelArtStyle art_style_;
+
+    // 拖动状态（标题栏拖动）
+    bool is_dragging_ = false;
+    sf::Vector2f drag_offset_{0.0f, 0.0f};
 
     // 动画
     enum class AnimationState : std::uint8_t { Idle, FadeIn, FadeOut };

@@ -12,7 +12,7 @@
 // - Save/Load position
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 #include "CloudSeamanor/Player.hpp"
 
 using CloudSeamanor::domain::FacingDirection;

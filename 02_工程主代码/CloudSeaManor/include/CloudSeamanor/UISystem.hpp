@@ -193,10 +193,10 @@ public:
     // 【访问器】
     // ========================================================================
 
-    [[nodiscard]] UiPanels& GetPanels() { return panels_; }
     [[nodiscard]] const UiPanels& GetPanels() const { return panels_; }
-    [[nodiscard]] UiTexts& GetTexts() { return texts_; }
+    [[nodiscard]] UiPanels& MutablePanels() { return panels_; }
     [[nodiscard]] const UiTexts& GetTexts() const { return texts_; }
+    [[nodiscard]] UiTexts& MutableTexts() { return texts_; }
 
 private:
     // 内部渲染方法

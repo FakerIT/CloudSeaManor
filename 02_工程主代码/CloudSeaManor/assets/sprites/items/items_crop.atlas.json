@@ -1,10 +1,10 @@
 {
   "$schema": "../../../docs/atlas_schema.json",
   "id": "items_crop",
-  "texture": "assets/sprites/items/items_crop.png",
+  "texture": "assets/textures/third_party/kenney_pixel-platformer-farm-expansion/PNG/tilemap.png",
   "width": 256,
   "height": 128,
-  "description": "作物与物品精灵表 - 256×128px，每物品 32×32px",
+  "description": "作物与物品精灵表 - 256×128px，每物品 32×32px - Farm Expansion (Kenney)",
   "grid": {
     "frame_width": 32,
     "frame_height": 32,

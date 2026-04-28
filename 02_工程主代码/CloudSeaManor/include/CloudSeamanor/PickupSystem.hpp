@@ -15,6 +15,9 @@
 // - 独立的拾取状态管理
 // - 支持多种掉落物类型
 // - 提供简洁的交互接口
+//
+// 架构决策：
+// - 公开接口使用 domain::Vec2f（纯数据），SFML 类型隔离在内部
 // ============================================================================
 
 #include "CloudSeamanor/PickupDrop.hpp"
@@ -60,8 +63,11 @@ public:
     // ========================================================================
     // 【生成掉落物】
     // ========================================================================
-    void SpawnPickup(const sf::Vector2f& position, const std::string& item_id, int amount);
-    void SpawnPickups(const std::vector<std::tuple<sf::Vector2f, std::string, int>>& items);
+    // @param position 掉落位置（domain 纯数据）
+    // @param item_id 物品标识符
+    // @param amount 物品数量
+    void SpawnPickup(CloudSeamanor::domain::Vec2f position, const std::string& item_id, int amount);
+    void SpawnPickups(const std::vector<std::tuple<CloudSeamanor::domain::Vec2f, std::string, int> >& items);
 
     // ========================================================================
     // 【更新】

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "default_scene": "wedding_courtyard",
+  "events": [
+    {
+      "id": "wedding_default",
+      "name": "云海誓约",
+      "duration_minutes": 15,
+      "participants": {
+        "required_npcs": [
+          "acha",
+          "lin",
+          "wanxing",
+          "xiaoman"
+        ],
+        "allow_guest_pool": true
+      },
+      "rewards": {
+        "title": "云海伴侣",
+        "gold": 300,
+        "items": [
+          {
+            "item_id": "wedding_commemorative_ring",
+            "count": 1
+          }
+        ],
+        "daily_bonus": {
+          "stamina_regen_bonus": 5
+        }
+      },
+      "festival_conflict_policy": "postpone_one_day"
+    }
+  ]
+}

@@ -1,5 +1,3 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/Stamina.hpp"
 
 #include <algorithm>

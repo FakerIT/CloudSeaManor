@@ -1,0 +1,5 @@
+FestivalId,RewardType,RewardValue,GrantItems,HintLines,NoticeDays,Type
+spring_awakening,gold,300,"[""SleepingBeauty:1""]","[""【山庄苏醒祭】领取开春奖励。""]",3,normal
+summer_lantern,item,StarLantern,"[""TeaPack:1""]","[""【云海灯会】灯谜与茶点摊位已开放。""]",3,normal
+autumn_harvest,gold,500,"[""HarvestBundle:1""]","[""【丰穰祭】公共餐桌与集体庆祝开始。""]",3,normal
+cloud_tide_ritual,gold,1000,"[""TideLantern:1""]","[""【界桥祭】前往灵界触发三波净化战。""]",7,cloud_tide

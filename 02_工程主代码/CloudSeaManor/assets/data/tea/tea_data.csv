@@ -1,0 +1,4 @@
+Id,DisplayName,Element,Rarity,GrowthDays,BaseYield,BasePrice,FertilizerMultiplier,CloudMin,HarvestTime,TeaType,BuffEffectId,RecipeIds,GiftTags,TeaSpiritId,UnlockCondition,Description
+tea_green_bud,初雾绿茶,Cloud,Common,4,2,80,1.0,0.0,morning,Green,buff_focus_small,"[""recipe_green_bud""]","[""daily"",""gift_like""]",spirit_leafling,default,适合作为前期经营与送礼基础茶
+tea_cloud_mist,云岚乌龙,Wind,Rare,6,3,150,1.15,0.25,noon,Oolong,buff_stamina_small,"[""recipe_cloud_mist""]","[""gift_like"",""festival""]",spirit_mist_bird,chapter_ch2,中期主力商品茶
+tea_sweet_dew,甘露白茶,Light,Epic,8,3,240,1.25,0.45,evening,White,buff_social_small,"[""recipe_sweet_dew""]","[""gift_love"",""social""]",spirit_dew_sprite,chapter_ch3,偏社交与恢复用途

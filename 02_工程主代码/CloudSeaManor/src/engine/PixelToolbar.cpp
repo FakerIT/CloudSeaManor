@@ -1,6 +1,7 @@
 #include "CloudSeamanor/PixelToolbar.hpp"
 
 #include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cstdint>
@@ -10,26 +11,35 @@
 namespace CloudSeamanor::engine {
 
 namespace {
-inline void AddQuad(sf::VertexArray& va,
-                    const sf::Vector2f& p0,
-                    const sf::Vector2f& p1,
-                    const sf::Vector2f& p2,
-                    const sf::Vector2f& p3,
-                    const sf::Color& color,
-                    float alpha = 1.0f) {
-    sf::Color c = color;
-    c.a = static_cast<std::uint8_t>(std::clamp(static_cast<float>(c.a) * alpha, 0.0f, 255.0f));
-    const auto snap = [](const sf::Vector2f& p) { return sf::Vector2f(std::round(p.x), std::round(p.y)); };
-    const sf::Vector2f s0 = snap(p0);
-    const sf::Vector2f s1 = snap(p1);
-    const sf::Vector2f s2 = snap(p2);
-    const sf::Vector2f s3 = snap(p3);
-    va.append(sf::Vertex(s0, c));
-    va.append(sf::Vertex(s1, c));
-    va.append(sf::Vertex(s2, c));
-    va.append(sf::Vertex(s0, c));
-    va.append(sf::Vertex(s2, c));
-    va.append(sf::Vertex(s3, c));
+using CloudSeamanor::engine::uivx::AddQuad;
+constexpr float kPixelBorderThickness = 1.0f;
+constexpr float kToolbarBgPadX = 4.0f;
+constexpr float kToolbarBgPadY = 2.0f;
+constexpr float kDisabledCrossPad = 7.0f;
+constexpr float kDisabledCrossThickness = 2.0f;
+
+inline void AddDashedRect(sf::VertexArray& va,
+                          const sf::FloatRect& r,
+                          float dash_len,
+                          float gap_len,
+                          const sf::Color& color,
+                          float alpha = 1.0f) {
+    const float total = std::max(1.0f, dash_len + gap_len);
+    const int top_n = std::max(1, static_cast<int>(std::floor(r.size.x / total)));
+    const int side_n = std::max(1, static_cast<int>(std::floor(r.size.y / total)));
+
+    for (int i = 0; i < top_n; ++i) {
+        const float x0 = r.position.x + static_cast<float>(i) * total;
+        const float x1 = std::min(r.position.x + r.size.x, x0 + dash_len);
+        AddQuad(va, {x0, r.position.y}, {x1, r.position.y}, {x1, r.position.y + kPixelBorderThickness}, {x0, r.position.y + kPixelBorderThickness}, color, alpha);
+        AddQuad(va, {x0, r.position.y + r.size.y - kPixelBorderThickness}, {x1, r.position.y + r.size.y - kPixelBorderThickness}, {x1, r.position.y + r.size.y}, {x0, r.position.y + r.size.y}, color, alpha);
+    }
+    for (int i = 0; i < side_n; ++i) {
+        const float y0 = r.position.y + static_cast<float>(i) * total;
+        const float y1 = std::min(r.position.y + r.size.y, y0 + dash_len);
+        AddQuad(va, {r.position.x, y0}, {r.position.x + kPixelBorderThickness, y0}, {r.position.x + kPixelBorderThickness, y1}, {r.position.x, y1}, color, alpha);
+        AddQuad(va, {r.position.x + r.size.x - kPixelBorderThickness, y0}, {r.position.x + r.size.x, y0}, {r.position.x + r.size.x, y1}, {r.position.x + r.size.x - kPixelBorderThickness, y1}, color, alpha);
+    }
 }
 }  // namespace
 
@@ -118,50 +128,76 @@ void PixelToolbar::RebuildGeometry_() {
     const float slot_s = ToolbarConfig::SlotSize;
     const float spacing = ToolbarConfig::SlotSpacing;
 
-    const float bg_l = sx - 4.0f;
-    const float bg_t = sy - 2.0f;
-    const float bg_r = sx + rect_.size.x + 4.0f;
-    const float bg_b = sy + rect_.size.y + 2.0f;
+    const float bg_l = sx - kToolbarBgPadX;
+    const float bg_t = sy - kToolbarBgPadY;
+    const float bg_r = sx + rect_.size.x + kToolbarBgPadX;
+    const float bg_b = sy + rect_.size.y + kToolbarBgPadY;
 
     AddQuad(bg_vertices_,
             {bg_l, bg_t}, {bg_r, bg_t}, {bg_r, bg_b}, {bg_l, bg_b},
             bg_fill_color_, alpha_);
     AddQuad(bg_vertices_,
-            {bg_l, bg_t}, {bg_r, bg_t}, {bg_r, bg_t + 1.0f}, {bg_l, bg_t + 1.0f},
+            {bg_l, bg_t}, {bg_r, bg_t}, {bg_r, bg_t + kPixelBorderThickness}, {bg_l, bg_t + kPixelBorderThickness},
             bg_border_color_, alpha_);
     AddQuad(bg_vertices_,
-            {bg_l, bg_b - 1.0f}, {bg_r, bg_b - 1.0f}, {bg_r, bg_b}, {bg_l, bg_b},
+            {bg_l, bg_b - kPixelBorderThickness}, {bg_r, bg_b - kPixelBorderThickness}, {bg_r, bg_b}, {bg_l, bg_b},
             bg_border_color_, alpha_);
     AddQuad(bg_vertices_,
-            {bg_l, bg_t}, {bg_l + 1.0f, bg_t}, {bg_l + 1.0f, bg_b}, {bg_l, bg_b},
+            {bg_l, bg_t}, {bg_l + kPixelBorderThickness, bg_t}, {bg_l + kPixelBorderThickness, bg_b}, {bg_l, bg_b},
             bg_border_color_, alpha_);
     AddQuad(bg_vertices_,
-            {bg_r - 1.0f, bg_t}, {bg_r, bg_t}, {bg_r, bg_b}, {bg_r - 1.0f, bg_b},
+            {bg_r - kPixelBorderThickness, bg_t}, {bg_r, bg_t}, {bg_r, bg_b}, {bg_r - kPixelBorderThickness, bg_b},
             bg_border_color_, alpha_);
 
     for (int i = 0; i < ToolbarConfig::SlotCount; ++i) {
         const float gx = sx + static_cast<float>(i) * (slot_s + spacing);
         const float gy = sy;
 
-        const sf::Color slot_bg = slots_[i].empty
-            ? ColorPalette::LightGray
-            : ColorPalette::BackgroundWhite;
+        const bool is_empty = slots_[i].empty;
+        const bool is_disabled = (!is_empty && slots_[i].count <= 0);
+        const sf::Color slot_bg = is_empty
+            ? ColorPalette::BackgroundWhite
+            : (is_disabled ? ColorPalette::DarkGray : ColorPalette::BackgroundWhite);
         AddQuad(slot_vertices_,
                 {gx, gy}, {gx + slot_s, gy}, {gx + slot_s, gy + slot_s}, {gx, gy + slot_s},
                 slot_bg, alpha_);
 
-        AddQuad(slot_vertices_,
-                {gx, gy}, {gx + slot_s, gy}, {gx + slot_s, gy + 1.0f}, {gx, gy + 1.0f},
-                ColorPalette::LightGray, alpha_);
-        AddQuad(slot_vertices_,
-                {gx, gy + slot_s - 1.0f}, {gx + slot_s, gy + slot_s - 1.0f}, {gx + slot_s, gy + slot_s}, {gx, gy + slot_s},
-                ColorPalette::DarkGray, alpha_);
-        AddQuad(slot_vertices_,
-                {gx, gy}, {gx + 1.0f, gy}, {gx + 1.0f, gy + slot_s}, {gx, gy + slot_s},
-                ColorPalette::LightGray, alpha_);
-        AddQuad(slot_vertices_,
-                {gx + slot_s - 1.0f, gy}, {gx + slot_s, gy}, {gx + slot_s, gy + slot_s}, {gx + slot_s - 1.0f, gy + slot_s},
-                ColorPalette::DarkGray, alpha_);
+        if (is_empty) {
+            AddDashedRect(slot_vertices_,
+                          sf::FloatRect({gx, gy}, {slot_s, slot_s}),
+                          4.0f, 3.0f,
+                          ColorPalette::LightGray,
+                          alpha_);
+        } else {
+            AddQuad(slot_vertices_,
+                    {gx, gy}, {gx + slot_s, gy}, {gx + slot_s, gy + kPixelBorderThickness}, {gx, gy + kPixelBorderThickness},
+                    ColorPalette::LightGray, alpha_);
+            AddQuad(slot_vertices_,
+                    {gx, gy + slot_s - kPixelBorderThickness}, {gx + slot_s, gy + slot_s - kPixelBorderThickness}, {gx + slot_s, gy + slot_s}, {gx, gy + slot_s},
+                    ColorPalette::DarkGray, alpha_);
+            AddQuad(slot_vertices_,
+                    {gx, gy}, {gx + kPixelBorderThickness, gy}, {gx + kPixelBorderThickness, gy + slot_s}, {gx, gy + slot_s},
+                    ColorPalette::LightGray, alpha_);
+            AddQuad(slot_vertices_,
+                    {gx + slot_s - kPixelBorderThickness, gy}, {gx + slot_s, gy}, {gx + slot_s, gy + slot_s}, {gx + slot_s - kPixelBorderThickness, gy + slot_s},
+                    ColorPalette::DarkGray, alpha_);
+        }
+
+        if (is_disabled) {
+            const float pad = kDisabledCrossPad;
+            const float thick = kDisabledCrossThickness;
+            const sf::Color xcol(210, 210, 210, 255);
+            // diagonal (\\)
+            AddQuad(select_vertices_,
+                    {gx + pad, gy + pad}, {gx + pad + thick, gy + pad},
+                    {gx + slot_s - pad, gy + slot_s - pad}, {gx + slot_s - pad - thick, gy + slot_s - pad},
+                    xcol, alpha_);
+            // diagonal //
+            AddQuad(select_vertices_,
+                    {gx + slot_s - pad - thick, gy + pad}, {gx + slot_s - pad, gy + pad},
+                    {gx + pad + thick, gy + slot_s - pad}, {gx + pad, gy + slot_s - pad},
+                    xcol, alpha_);
+        }
 
         if (slots_[i].highlighted) {
             const float pulse = 0.55f + 0.45f * std::sin(highlight_timer_ * ToolbarConfig::HighlightPulseFrequency);

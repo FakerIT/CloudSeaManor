@@ -1,0 +1,49 @@
+{
+  "npc_id": "yu",
+  "greetings": [
+    {
+      "id": "yu_greet_morning",
+      "text": "早安，$[PLAYER_NAME]。今天的云色很温柔，像一封还没拆开的信。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "清晨", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "yu_greet_evening",
+      "text": "傍晚好。$[PLAYER_NAME]，忙了一天，记得给自己留点安静时间。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "傍晚", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "yu_greet_winter",
+      "text": "冬天的风会把声音吹得很远。$[PLAYER_NAME]，你说的话我都记得。",
+      "favor_min": 0, "favor_max": 999, "season": "冬", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "yu_talk_1",
+      "text": "有些人把愿望写在纸上，我把它们写在云里，等风替我送出去。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "yu_talk_2",
+      "text": "你要是路过竹林深处，帮我看看那块旧木牌还在不在，好吗？",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "yu_talk_heart_high",
+      "text": "和你说话的时候，我总会慢一点，因为不想太快结束。",
+      "favor_min": 180, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 6, "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "yu_bye_1",
+      "text": "先这样吧。$[PLAYER_NAME]，愿你今天的路都顺风。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "yu_bye_2",
+      "text": "如果你愿意，明天再来，我还有一段故事没讲完。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    }
+  ]
+}

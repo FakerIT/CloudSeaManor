@@ -1,0 +1,68 @@
+# 灵茶数据表
+# 字段说明：
+# id: 灵茶唯一标识符
+# name: 中文名称
+# tier: 品质层级 (1=入门, 2=中级, 3=高级, 4=传说)
+# season: 适种季节 (spring/summer/autumn/winter/all)
+# growth_days: 生长周期（游戏内天数）
+# base_yield: 基础产量
+# base_price: 基础售价
+# buff_effect_id: Buff效果ID
+# unlock_condition: 解锁条件 (default/favor_N/contract_xxx)
+# is_legendary: 是否传说级 (0/1)
+# description: 简短描述
+# lore: 背景传说
+# color_hex: 茶汤颜色（十六进制）
+# tea_type: 茶类 (green/white/oolong/black/red/purple/gold)
+# fertilizer_multiplier: 肥料效果倍率
+# cloud_min: 最低云海要求 (clear/mist/dense/tide)
+# harvest_time: 最佳采摘时间 (dawn/day/dusk/night/any)
+
+# ============================================================================
+# 入门级灵茶（春季）
+# ============================================================================
+mist_green_tea,初雾绿茶,1,spring,3,2,68,buff_focus_small,default,0,初春嫩芽，清新提神,春之新生与希望的象征,90C379,green,1.2,mist,dawn
+dew_white_tea,晨露白茶,1,spring,4,2,82,buff_stamina_small,default,0,银白如露，甘甜爽口,纯洁无瑕，待客首选,A8D8B9,white,1.2,mist,dawn
+
+# ============================================================================
+# 入门级灵茶（夏/秋季过渡）
+# ============================================================================
+sunset_oolong,暮霞乌龙,2,summer,5,2,138,buff_trade_bonus,favor_2,0,霞色乌龙，醇厚回甘,霞光万道，充实满足,E8A87C,oolong,1.3,dense,day
+cloudberry_red,云莓红茶,2,summer,6,2,158,buff_stamina_small,favor_2,0,宝石红色，果香浓郁,夏日山林，甜美活力,C97B84,red,1.3,clear,day
+
+# ============================================================================
+# 中级灵茶（秋/冬季）
+# ============================================================================
+moonlight_silver,望月银茶,2,autumn,6,2,176,buff_creativity,favor_3,0,银白如月，清甜回甘,月圆人圆，思念团圆,C0C0C0,white,1.3,dense,night
+autumn_frost_oolong,秋霜乌龙,2,autumn,6,2,148,buff_mood_soft,favor_3,0,墨绿经霜，沉稳甘醇,秋风送爽，沉稳内敛,7D8471,oolong,1.3,dense,dusk
+pine_smoke_black,松烟黑茶,2,autumn,7,2,172,buff_defense_small,favor_3,0,乌黑油润，松烟香气,薪火相传，岁月积淀,3D3D3D,black,1.4,clear,any
+
+# ============================================================================
+# 高级灵茶（春季特殊）
+# ============================================================================
+spirit_orchid_tea,灵兰花茶,3,spring,8,1,310,buff_mood_soft,contract_cloud_1,0,紫纹兰香，幽雅怡人,兰花君子，茶中雅士,9B7BB8,green,1.5,dense,dawn
+
+# ============================================================================
+# 高级灵茶（冬季）
+# ============================================================================
+frost_needle_tea,霜针灵茶,3,winter,7,1,248,buff_focus_mid,contract_cloud_1,0,霜白如针，清凉澄澈,傲雪凌霜，坚韧高洁,E8E8E8,white,1.5,dense,dawn
+winter_snow_silver,冬雪银针,3,winter,8,1,298,buff_focus_mid,favor_4,0,银白如雪，挺立如针,冬茶极品，茶九至爱,F5F5F5,white,1.5,dense,dawn
+rock_bone_tea,岩骨黑茶,3,autumn,8,1,288,buff_defense_mid,contract_cloud_2,0,坚硬如岩，岩韵显著,岩石品格，坚守执着,4A4A4A,black,1.5,dense,any
+star_frost_tea,星霜雪茶,3,winter,9,1,360,buff_focus_mid,contract_cloud_2,0,星斑璀璨，神秘清冷,星空浩瀚，智慧远见,6B7FD7,white,1.6,tide,night
+
+# ============================================================================
+# 高级灵茶（夏季特殊）
+# ============================================================================
+summer_cloud_tea,夏云白茶,2,summer,5,2,118,buff_agility_small,favor_2,0,白中带绿，夏云飘逸,夏日清凉，动作敏捷,D4E5CF,white,1.3,clear,day
+
+# ============================================================================
+# 特殊高级灵茶
+# ============================================================================
+cloud_top_golden,云巅金芽,4,spring;summer,13,1,380,buff_spirit_rate,main_ch2,1,金黄灿烂，如阳光凝成,云海之巅，尊贵稀有,FFD700,gold,1.8,dense,day
+dream_cloud_purple,梦云紫茶,4,summer,16,1,340,buff_dream_creative,main_ch3,1,神秘紫色，梦幻如云,茶祖之泪，梦中所见,9370DB,purple,2.0,tide,night
+
+# ============================================================================
+# 传说级灵茶
+# ============================================================================
+tide_heart_tea,潮心古茶,4,all,10,1,420,buff_spirit_rate_legendary,contract_tide_1,1,墨绿潮纹，远古气息,潮汐之力，生命律动,2E8B57,oolong,2.0,tide,dusk
+origin_tea,太初元茶,4,all,12,1,680,buff_mastery,contract_tide_2,1,混沌五彩，万象更新,太初之源，返璞归真,8A2BE2,green,2.2,tide,any

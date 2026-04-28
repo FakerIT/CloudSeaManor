@@ -1,16 +1,24 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/FestivalSystem.hpp"
 
+#include "CloudSeamanor/Logger.hpp"
+
 #include <algorithm>
+#include <cctype>
+#include <fstream>
+#include <sstream>
 
 namespace CloudSeamanor::domain {
 
 // ============================================================================
 // 【Initialize】初始化节日系统
 // ============================================================================
-void FestivalSystem::Initialize() {
-    festivals_ = CreateDefaultFestivals_();
+void FestivalSystem::Initialize(const std::string& csv_path) {
+    if (!LoadFromCsv_(csv_path)) {
+        festivals_ = CreateDefaultFestivals_();
+        infrastructure::Logger::Warning("Festival CSV load failed, fallback to built-in festivals: " + csv_path);
+    } else {
+        infrastructure::Logger::Info("Festival CSV loaded: " + csv_path + ", count=" + std::to_string(festivals_.size()));
+    }
     today_festival_id_.clear();
     notice_festival_ids_.clear();
 }
@@ -114,13 +122,17 @@ std::vector<const Festival*> FestivalSystem::GetUpcomingFestivals(int max_count)
 // 【GetNoticeText】获取节日预告文本
 // ============================================================================
 std::string FestivalSystem::GetNoticeText() const {
-    std::string text;
-
+    std::ostringstream oss;
+    bool first = true;
     for (const auto* fest : GetUpcomingFestivals()) {
-        if (!text.empty()) text += "、";
-        text += fest->name;
+        if (!first) {
+            oss << "、";
+        }
+        oss << fest->name;
+        first = false;
     }
 
+    const std::string text = oss.str();
     if (!text.empty()) {
         return "即将到来：" + text;
     }
@@ -179,6 +191,140 @@ std::vector<Festival> FestivalSystem::CreateDefaultFestivals_() const {
     fests.push_back({"cloud_tide", "云海大潮", "云海最盛大的时刻", FestivalType::CloudTide, 1, 21, 7, "潮祭", "灵气+50"});
 
     return fests;
+}
+
+bool FestivalSystem::LoadFromCsv_(const std::string& csv_path) {
+    std::ifstream in(csv_path);
+    if (!in.is_open()) {
+        return false;
+    }
+
+    std::vector<Festival> loaded;
+    std::string line;
+    bool header_loaded = false;
+    std::vector<std::string> header;
+    while (std::getline(in, line)) {
+        const std::string trimmed = Trim_(line);
+        if (trimmed.empty() || trimmed[0] == '#') {
+            continue;
+        }
+
+        const auto cols = SplitCsvLine_(trimmed);
+        if (!header_loaded) {
+            header_loaded = true;
+            if (!cols.empty() && Trim_(cols[0]) == "id") {
+                header.reserve(cols.size());
+                for (const auto& col : cols) {
+                    header.push_back(Trim_(col));
+                }
+                continue;
+            }
+        }
+
+        auto column = [&](std::size_t index, const std::string& name) -> std::string {
+            if (!header.empty()) {
+                for (std::size_t i = 0; i < header.size(); ++i) {
+                    if (header[i] == name) {
+                        return i < cols.size() ? Trim_(cols[i]) : "";
+                    }
+                }
+            }
+            return index < cols.size() ? Trim_(cols[index]) : "";
+        };
+
+        if (cols.size() < 5) {
+            continue;
+        }
+
+        Festival fest{};
+        fest.id = column(0, "id");
+        fest.name = column(1, "name");
+        fest.season = SeasonFromText_(column(2, "season"));
+        try {
+            fest.day = std::clamp(std::stoi(column(3, "day")), 1, 28);
+        } catch (...) {
+            continue;
+        }
+        fest.description = column(4, "description");
+        fest.activity = column(5, "activity");
+        if (fest.activity.empty()) {
+            fest.activity = "节日活动";
+        }
+        const std::string reward_type = column(6, "reward_type");
+        const std::string reward_value = column(7, "reward_value");
+        fest.reward = reward_type.empty() ? reward_value : reward_type + ":" + reward_value;
+        const std::string notice_days_text = column(8, "notice_days");
+        if (notice_days_text.empty()) {
+            fest.notice_days = (fest.id == "cloud_tide_ritual" || fest.id == "cloud_tide") ? 7 : 3;
+        } else {
+            try {
+                fest.notice_days = std::max(1, std::stoi(notice_days_text));
+            } catch (...) {
+                fest.notice_days = 3;
+            }
+        }
+        const std::string type_text = column(9, "type");
+        fest.type = (type_text == "cloud_tide" || fest.id == "cloud_tide_ritual" || fest.id == "cloud_tide")
+            ? FestivalType::CloudTide
+            : FestivalType::Normal;
+        fest.participated = false;
+
+        if (fest.id.empty() || fest.name.empty()) {
+            continue;
+        }
+        loaded.push_back(std::move(fest));
+    }
+
+    if (loaded.empty()) {
+        return false;
+    }
+    festivals_ = std::move(loaded);
+    return true;
+}
+
+std::vector<std::string> FestivalSystem::SplitCsvLine_(const std::string& line) {
+    std::vector<std::string> out;
+    std::string current;
+    bool in_quotes = false;
+    for (char ch : line) {
+        if (ch == '"') {
+            in_quotes = !in_quotes;
+            continue;
+        }
+        if (ch == ',' && !in_quotes) {
+            out.push_back(current);
+            current.clear();
+            continue;
+        }
+        current.push_back(ch);
+    }
+    out.push_back(current);
+    return out;
+}
+
+int FestivalSystem::SeasonFromText_(const std::string& text) {
+    std::string lower;
+    lower.reserve(text.size());
+    for (unsigned char ch : text) {
+        lower.push_back(static_cast<char>(std::tolower(ch)));
+    }
+    if (lower == "spring") return 0;
+    if (lower == "summer") return 1;
+    if (lower == "autumn" || lower == "fall") return 2;
+    if (lower == "winter") return 3;
+    return 0;
+}
+
+std::string FestivalSystem::Trim_(const std::string& text) {
+    std::size_t start = 0;
+    while (start < text.size() && std::isspace(static_cast<unsigned char>(text[start]))) {
+        ++start;
+    }
+    std::size_t end = text.size();
+    while (end > start && std::isspace(static_cast<unsigned char>(text[end - 1]))) {
+        --end;
+    }
+    return text.substr(start, end - start);
 }
 
 }  // namespace CloudSeamanor::domain

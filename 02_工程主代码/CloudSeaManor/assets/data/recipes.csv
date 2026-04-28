@@ -1,7 +1,86 @@
 id,name,machine_id,input_item,input_count,output_item,output_count,process_time,base_success_rate,tags
 green_tea,绿茶,tea_machine,TeaLeaf,2,TeaPack,1,60,0.85,core;week4
+tea_withering,茶叶萎凋,tea_machine,TeaLeaf,2,withered_tea_leaf,1,45,0.92,tea;process;p0
+tea_kill_green,茶叶杀青,tea_machine,withered_tea_leaf,1,killed_green_tea_leaf,1,55,0.90,tea;process;p0
+tea_rolling,茶叶揉捻,tea_machine,killed_green_tea_leaf,1,rolled_tea_leaf,1,55,0.88,tea;process;p0
+tea_drying,茶叶干燥,tea_machine,rolled_tea_leaf,1,TeaPack,1,60,0.86,tea;process;p0
 tea_steaming,灵茶蒸汽加工,tea_machine,spirit_tea,1,steamed_tea,1,60,0.85,week4;legacy
 tea_ferment,灵茶发酵,ferment_machine,steamed_tea,1,fermented_tea,1,120,0.75,week4;legacy
 spirit_essence_refine,灵粹精炼,tea_machine,spirit_grass,3,spirit_essence,1,60,1.0,spirit;refine
 cloud_elixir_brew,云华灵药酿造,tea_machine,cloud_dew,2,cloud_elixir,1,120,1.0,spirit;brew
 immortal_tea_craft,不朽灵茶锻制,tea_machine,cloud_elixir,1,immortal_tea,1,300,1.0,spirit;legendary
+spirit_dust_pack,灵尘压缩包,tea_machine,spirit_dust,3,spirit_dust_pack,1,50,0.96,spirit;utility
+spirit_dust_essence,灵尘精华,ferment_machine,spirit_dust_pack,1,dust_essence,1,110,0.90,spirit;utility
+cloud_crystal_cut,云晶切割,tea_machine,cloud_crystal,1,cloud_fragment,2,80,0.92,spirit;craft
+realm_shard_polish,界桥碎片抛光,ferment_machine,realm_shard,1,realm_polished_shard,1,140,0.86,spirit;craft
+tea_essence_extract,茶灵萃取,tea_machine,spirit_tea,2,tea_essence,1,100,0.90,tea;spirit
+taichu_tea_proto,太初灵茶原液,ferment_machine,tea_essence,1,taichu_tea_base,1,180,0.82,tea;legendary
+taichu_tea_finish,太初灵茶,tea_machine,taichu_tea_base,1,taichu_tea,1,260,0.78,tea;legendary
+fermented_tea_plus,熟成发酵茶,ferment_machine,fermented_tea,1,fermented_tea_plus,1,180,0.80,core;upgrade
+spirit_tea_blend,灵雾拼配茶,tea_machine,TeaPack,2,spirit_tea_blend,1,90,0.88,tea;blend
+mist_recovery_potion,云雾恢复药,tea_machine,cloud_elixir,1,mist_recovery_potion,1,90,0.90,spirit;medicine
+guardian_incense,守护香,ferment_machine,dust_essence,1,guardian_incense,1,160,0.84,spirit;buff
+bamboo_tea_snack,竹韵茶点,tea_machine,BambooShoot,2,bamboo_tea_snack,1,70,0.93,food;tea
+wildflower_tea,花韵清茶,tea_machine,WildFlower,3,wildflower_tea,1,80,0.91,food;tea
+cook_tea_egg,茶叶蛋,tea_machine,Egg,1,tea_egg,1,50,0.95,food;cook;p0
+cook_veggie_soup,蔬菜汤,tea_machine,Turnip,2,veggie_soup,1,70,0.90,food;cook;p0
+cook_warm_milk,热牛奶,tea_machine,Milk,1,warm_milk,1,40,0.98,food;drink;p0
+cook_grilled_fish,烤鱼,tea_machine,mist_carp,1,grilled_fish,1,60,0.94,food;fish
+cook_fish_stew,鱼汤,tea_machine,cloud_koi,1,fish_stew,1,80,0.90,food;fish
+craft_fish_feed,鱼饵灵食,tea_machine,tea_shrimp,1,Feed,1,45,0.96,pet;fish
+craft_fish_oil,鱼油凝脂,ferment_machine,tide_eel,1,fish_oil,1,90,0.82,material;fish
+iron_infused_kettle,玄铁茶釜,ferment_machine,IronOre,4,iron_infused_kettle,1,220,0.72,tool;advanced
+mist_green_tea_process,初雾绿茶萎凋,tea_machine,mist_green_tea_leaf,2,mist_green_tea_pack,1,95,0.88,tea;process
+sunset_oolong_process,暮霞乌龙焙火,tea_machine,sunset_oolong_leaf,2,sunset_oolong_pack,1,120,0.84,tea;process
+frost_needle_tea_process,霜针灵茶凝香,tea_machine,frost_needle_tea_leaf,2,frost_needle_tea_pack,1,140,0.81,tea;process;buff
+tide_heart_tea_process,潮心古茶熬炼,ferment_machine,tide_heart_tea_leaf,1,tide_heart_tea_brew,1,210,0.76,tea;legendary;buff
+# ============================================================================
+# 洒水器合成配方（5级）
+# ============================================================================
+sprinkler_copper_craft,铜洒水器制作,tea_machine,copper_ingot,2,sprinkler_copper,1,80,0.90,tool;sprinkler
+sprinkler_silver_craft,银洒水器制作,tea_machine,silver_ingot,2,sprinkler_silver,1,100,0.88,tool;sprinkler
+sprinkler_gold_craft,金洒水器制作,tea_machine,gold_ingot,2,sprinkler_gold,1,120,0.85,tool;sprinkler
+sprinkler_spirit_craft,灵金洒水器制作,tea_machine,spirit_ingot,1,sprinkler_spirit,1,180,0.80,tool;sprinkler;legendary
+# ============================================================================
+# 农业工具合成配方
+# ============================================================================
+tool_hoe_copper,铜锄制作,tea_machine,copper_ingot,3,hoe_copper,1,90,0.90,tool;hoe
+tool_hoe_silver,银锄制作,tea_machine,silver_ingot,3,hoe_silver,1,110,0.88,tool;hoe
+tool_hoe_gold,金锄制作,tea_machine,gold_ingot,3,hoe_gold,1,130,0.85,tool;hoe
+tool_hoe_spirit,灵金锄制作,tea_machine,spirit_ingot,1,hoe_spirit,1,200,0.80,tool;hoe;legendary
+tool_can_copper,铜水壶制作,tea_machine,copper_ingot,2,watering_can_copper,1,70,0.90,tool;watering_can
+tool_can_silver,银水壶制作,tea_machine,silver_ingot,2,watering_can_silver,1,90,0.88,tool;watering_can
+tool_can_gold,金水壶制作,tea_machine,gold_ingot,2,watering_can_gold,1,110,0.85,tool;watering_can
+tool_can_spirit,灵金水壶制作,tea_machine,spirit_ingot,1,watering_can_spirit,1,160,0.80,tool;watering_can;legendary
+# ============================================================================
+# 镰刀/剪刀/斧头/镐子合成配方
+# ============================================================================
+tool_sickle_copper,铜镰刀制作,tea_machine,copper_ingot,3,sickle_copper,1,80,0.88,tool;sickle
+tool_sickle_silver,银镰刀制作,tea_machine,silver_ingot,3,sickle_silver,1,100,0.85,tool;sickle
+tool_sickle_gold,金镰刀制作,tea_machine,gold_ingot,3,sickle_gold,1,120,0.82,tool;sickle
+tool_sickle_spirit,灵金镰刀制作,tea_machine,spirit_ingot,1,sickle_spirit,1,180,0.78,tool;sickle;legendary
+tool_scissors_copper,铜剪刀制作,tea_machine,copper_ingot,2,scissors_copper,1,70,0.88,tool;scissors
+tool_scissors_silver,银剪刀制作,tea_machine,silver_ingot,2,scissors_silver,1,90,0.85,tool;scissors
+tool_scissors_gold,金剪刀制作,tea_machine,gold_ingot,2,scissors_gold,1,110,0.82,tool;scissors
+tool_scissors_spirit,灵金剪刀制作,tea_machine,spirit_ingot,1,scissors_spirit,1,160,0.78,tool;scissors;legendary
+tool_axe_copper,铜斧头制作,tea_machine,copper_ingot,3,axe_copper,1,90,0.88,tool;axe
+tool_axe_silver,银斧头制作,tea_machine,silver_ingot,3,axe_silver,1,110,0.85,tool;axe
+tool_axe_gold,金斧头制作,tea_machine,gold_ingot,3,axe_gold,1,130,0.82,tool;axe
+tool_axe_spirit,灵金斧头制作,tea_machine,spirit_ingot,1,axe_spirit,1,200,0.78,tool;axe;legendary
+tool_pickaxe_copper,铜镐子制作,tea_machine,copper_ingot,3,pickaxe_copper,1,90,0.88,tool;pickaxe
+tool_pickaxe_silver,银镐子制作,tea_machine,silver_ingot,3,pickaxe_silver,1,110,0.85,tool;pickaxe
+tool_pickaxe_gold,金镐子制作,tea_machine,gold_ingot,3,pickaxe_gold,1,130,0.82,tool;pickaxe
+tool_pickaxe_spirit,灵金镐子制作,tea_machine,spirit_ingot,1,pickaxe_spirit,1,200,0.78,tool;pickaxe;legendary
+# ============================================================================
+# 肥料合成配方
+# ============================================================================
+# 普通肥料 - 基础生长加速
+|fertilizer_basic_craft,普通肥料制作,tea_machine,Turnip,3,FertilizerItem,1,40,0.95,fertilizer;basic
+# 优质肥料 - 生长加速 + 品质提升
+|fertilizer_premium_craft,优质肥料制作,tea_machine,FertilizerItem,3,premium_fertilizer,1,80,0.85,fertilizer;premium
+# 灵肥 - 生长加速 + 品质大幅提升
+|fertilizer_spirit_craft,灵肥制作,tea_machine,spirit_grass,5,spirit_fertilizer,1,120,0.80,fertilizer;spirit
+# 云华肥 - 生长加速 + 品质极致提升
+|fertilizer_cloud_craft,云华肥制作,tea_machine,cloud_dew,3,cloud_fertilizer,1,150,0.75,fertilizer;cloud_essence
+# 茶魂肥 - 生长加速 + 品质大幅提升 + 茶魂花特殊加成
+|fertilizer_tea_soul_craft,茶魂肥制作,tea_machine,spirit_essence,2,tea_soul_fertilizer,1,200,0.70,fertilizer;tea_soul;legendary

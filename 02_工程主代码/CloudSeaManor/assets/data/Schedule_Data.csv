@@ -34,3 +34,66 @@ lin,normal,960,1080,Dock,UnloadSupplies
 lin,normal,1080,1200,MainHouse,Repairs
 lin,normal,1200,1380,VillageCenter,Trading
 lin,normal,1380,1440,MainHouse,BreakfastAndChores
+# ===== 松 (song) =====
+song,normal,420,540,BambooForest,Foraging
+song,normal,540,720,Market,Trading
+song,normal,720,900,BambooForest,Foraging
+song,normal,900,1080,VillageCenter,BreakfastAndChores
+song,normal,1080,1260,Market,Trading
+song,normal,1260,1440,BambooForest,Foraging
+# ===== 雨 (yu) =====
+yu,normal,420,600,MainHouse,BreakfastAndChores
+yu,normal,600,780,VillageCenter,Trading
+yu,normal,780,960,BambooForest,Foraging
+yu,normal,960,1140,MainHouse,Repairs
+yu,normal,1140,1320,VillageCenter,Trading
+yu,normal,1320,1440,MainHouse,BreakfastAndChores
+# ===== 墨 (mo) =====
+mo,normal,480,660,Workshop,Repairs
+mo,normal,660,840,VillageCenter,Trading
+mo,normal,840,1020,Workshop,Repairs
+mo,normal,1020,1200,Dock,UnloadSupplies
+mo,normal,1200,1380,Workshop,Repairs
+mo,normal,1380,1440,MainHouse,BreakfastAndChores
+# ===== 桥 (qiao) =====
+qiao,normal,420,600,VillageCenter,BreakfastAndChores
+qiao,normal,600,780,TeaField,Watering
+qiao,normal,780,960,Market,Trading
+qiao,normal,960,1140,TeaField,TeaCeremony
+qiao,normal,1140,1320,VillageCenter,Trading
+qiao,normal,1320,1440,MainHouse,BreakfastAndChores
+# ===== 禾 (he) =====
+he,normal,480,660,SpiritGarden,FeedingBeasts
+he,normal,660,840,BambooForest,Foraging
+he,normal,840,1020,VillageCenter,Trading
+he,normal,1020,1200,SpiritGarden,FeedingBeasts
+he,normal,1200,1380,MainHouse,Repairs
+he,normal,1380,1440,SpiritGarden,FeedingBeasts
+# ===== 宁 (ning) =====
+ning,normal,420,600,VillageCenter,BreakfastAndChores
+ning,normal,600,780,Dock,UnloadSupplies
+ning,normal,780,960,BambooForest,Foraging
+ning,normal,960,1140,VillageCenter,Trading
+ning,normal,1140,1320,Dock,UnloadSupplies
+ning,normal,1320,1440,MainHouse,BreakfastAndChores
+# ===== 安 (an) =====
+an,normal,420,600,MainHouse,BreakfastAndChores
+an,normal,600,780,VillageCenter,Trading
+an,normal,780,960,Market,Trading
+an,normal,960,1140,MainHouse,Repairs
+an,normal,1140,1320,VillageCenter,Trading
+an,normal,1320,1440,MainHouse,BreakfastAndChores
+# ===== 书 (shu) =====
+shu,normal,480,660,BambooForest,Foraging
+shu,normal,660,840,VillageCenter,BreakfastAndChores
+shu,normal,840,1020,BambooForest,Foraging
+shu,normal,1020,1200,MainHouse,Repairs
+shu,normal,1200,1380,VillageCenter,Trading
+shu,normal,1380,1440,BambooForest,Foraging
+# ===== 言 (yan) =====
+yan,normal,420,600,Observatory,Stargazing
+yan,normal,600,780,VillageCenter,Trading
+yan,normal,780,960,MainHouse,BreakfastAndChores
+yan,normal,960,1140,Observatory,Stargazing
+yan,normal,1140,1320,VillageCenter,Trading
+yan,normal,1320,1440,MainHouse,BreakfastAndChores

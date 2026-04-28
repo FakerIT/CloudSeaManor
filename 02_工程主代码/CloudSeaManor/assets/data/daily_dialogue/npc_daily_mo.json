@@ -1,0 +1,49 @@
+{
+  "npc_id": "mo",
+  "greetings": [
+    {
+      "id": "mo_greet_morning",
+      "text": "来得正好，$[PLAYER_NAME]。我这边刚把一批旧工具修完，手还热着。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "清晨", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "mo_greet_afternoon",
+      "text": "下午好。要修东西就趁现在，晚上火候不好控。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "午后", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "mo_greet_cloud",
+      "text": "云气重的时候，金属会'呼吸'。$[PLAYER_NAME]，今天打磨会更顺手。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "浓云", "heart_min": 0, "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "mo_talk_1",
+      "text": "工具不是越新越好，关键看你用得顺不顺手。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "mo_talk_2",
+      "text": "你要是想提升效率，先把刀口角度调好，再谈别的。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "mo_talk_heart_high",
+      "text": "我平时不爱夸人，但你做事踏实，这点我认。",
+      "favor_min": 160, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 5, "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "mo_bye_1",
+      "text": "行，你先去忙。需要修理就来工坊找我。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "mo_bye_2",
+      "text": "注意手别伤着。工具坏了能修，人受伤可慢。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    }
+  ]
+}

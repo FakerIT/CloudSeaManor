@@ -58,6 +58,7 @@ enum class Action : std::uint8_t {
     Confirm,       // Enter
     Sprint,        // Shift
     UseTool,       // Q
+    EatFood,       // H：快捷食用
     OpenMenu,      // Esc（快捷菜单）
     DebugToggle,   // F3：调试面板开关
     CloudToggle,   // F5：云海调试切换

@@ -1,13 +1,59 @@
-id,name,season,day,description,special_item,reward_type,reward_value
-spring_festival,春节,winter,1,新年第一天,RedEnvelope,gold,200
+# 节日数据表
+# 字段说明：
+# id: 节日唯一标识符
+# name: 中文名称
+# season: 季节 (spring/summer/autumn/winter/all)
+# day: 日期（该季节的第几天）
+# description: 描述
+# special_item: 特殊物品ID
+# reward_type: 奖励类型 (gold/stamina/favor/item/title)
+# reward_value: 奖励值
+
+# ============================================================================
+# 春季节日
+# ============================================================================
+spring_awakening,山庄苏醒祭,spring,8,庆祝山庄苏醒与新一年开始,SleepingBeauty,gold,300
+spring_tea_bud,春茶祭,spring,14,斗茶大赛，提交自产灵茶参与评比,TeaSeal,title,春茶王
+spring_ploughing,春耕祈福,spring,22,全村祈福仪式与茶园开耕,HarvestBundle,item,FertilizerItem
+
+# ============================================================================
+# 夏季节日
+# ============================================================================
+summer_lantern,云海灯会,summer,12,云海上的浪漫灯会,LanternItem,item,StarLantern
+summer_starry_swim,星河夜泳,summer,19,温泉夜泳观星活动,StickyRiceBall,stamina,50
+summer_beast_sports,灵兽祭,summer,20,灵兽技能表演与赛跑庆典,BeastMedal,favor,30
+
+# ============================================================================
+# 秋季节日
+# ============================================================================
+autumn_harvest,丰穰祭,autumn,8,NPC 集体聚餐与公共餐桌共享,HarvestBundle,gold,500
+autumn_beast_contest,灵兽大比,autumn,14,灵兽实力展示大赛,BeastMedal,favor,40
+autumn_memory,秋祭忆故,autumn,23,祭拜先人缅怀传承,MemorialTablet,title,传承守护者
+
+# ============================================================================
+# 冬季节日
+# ============================================================================
+winter_snow,雪雾封山,winter,8,大雪封山的温馨居家,WarmBlanket,stamina,80
+winter_newyear,守岁祈福,winter,28,除夕守岁迎接新年,NewYearBlessing,title,云海归人
+
+# ============================================================================
+# 跨季节特殊节日
+# ============================================================================
+cloud_tide_ritual,界桥祭,winter,25,一年一度界桥灵气大潮与三波净化战,TideLantern,gold,1000
+tourist_day,游客开放日,all,15,客栈接待游客,GuestTip,gold,800
+bridge_observation,界桥观测夜,autumn,25,观测界桥的神秘之夜,StarMap,title,星象师
+village_wedding,山庄集体婚礼,summer,18,多对新人同时举办婚礼,WeddingBouquet,favor,50
+origin_cloud_festival,太初云海祭,all,1,传说中从未见过的终极节日,OriginMedal,title,云海守护者
+
+# ============================================================================
+# 传统节日（简化版）
+# ============================================================================
+lunar_newyear,春节,winter,1,新年第一天,RedEnvelope,gold,200
 lantern_festival,元宵节,winter,15,正月十五赏灯,StickyRiceBall,stamina,30
 flower_festival,花朝节,spring,8,百花绽放庆典,FlowerCrown,favor,20
 qingming_festival,清明,spring,14,追思与踏青,WillowBranch,item,TeaSeed
 dragon_boat,端午节,summer,5,龙舟竞渡与香囊,HerbalPouch,stamina,20
-qixi_festival,七夕,summer,21,星桥相会夜,StarThread,favor,30
+qixi_festival,七夕,summer,20,星桥相会夜,StarThread,favor,30
 mid_autumn,中秋节,autumn,15,赏月团圆,MoonCake,stamina,40
 double_ninth,重阳节,autumn,23,登高祈福,ChrysanthemumWine,gold,300
 winter_solstice,冬至,winter,22,冬至团圆,Dumpling,item,FertilizerItem
-cloud_tide_ritual,大潮祭,summer,21,云海最盛时的祭典,TideLantern,gold,500
-tea_culture_day,茶文化节,spring,18,灵茶文化展示,TeaSeal,title,茶艺新秀
-harvest_festival,丰收祭,autumn,7,庆祝丰收季,HarvestBundle,gold,350

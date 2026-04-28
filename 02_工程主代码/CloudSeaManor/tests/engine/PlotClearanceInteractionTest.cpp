@@ -8,6 +8,7 @@
 #include "CloudSeamanor/DynamicLifeSystem.hpp"
 #include "CloudSeamanor/WorkshopSystem.hpp"
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/FestivalRuntimeData.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
@@ -82,6 +83,10 @@ TEST_CASE("PlayerInteractRuntime: uncleared plot requires wood and clears state"
     int highlighted_plot_index = 0;
     int highlighted_index = -1;
     bool spirit_beast_highlighted = false;
+    std::string active_festival_id;
+    CloudSeamanor::engine::FestivalRuntimeData festival_runtime;
+    bool greenhouse_unlocked = false;
+    bool greenhouse_tag_next_planting = false;
 
     bool refreshed = false;
     auto refresh_plot = [&](TeaPlot& /*plot*/, bool /*hl*/) { refreshed = true; };
@@ -114,6 +119,8 @@ TEST_CASE("PlayerInteractRuntime: uncleared plot requires wood and clears state"
         mails,
         last_trade_q,
         in_spirit,
+        active_festival_id,
+        &festival_runtime,
         plant_cd,
         weekly_buy,
         weekly_sell,
@@ -125,18 +132,25 @@ TEST_CASE("PlayerInteractRuntime: uncleared plot requires wood and clears state"
         pet_adopted,
         achievements,
         mod_hooks,
-        0,
+        greenhouse_unlocked,
+        greenhouse_tag_next_planting,
+        8,
+        [](const std::string&) { return false; },
+        [](bool) {},
         [](const std::string&, float) {},
-        nullptr,
+        [](const std::string&) {},
+        [](const std::string&) {},
         []() {},
         []() {},
         []() {},
         [](CloudSeamanor::domain::SkillType, int) {},
         refresh_plot,
-        [](const sf::Vector2f&, std::vector<CloudSeamanor::engine::HeartParticle>&) {},
+        [](const CloudSeamanor::domain::Vec2f&, std::vector<CloudSeamanor::engine::HeartParticle>&) {},
         [](CloudSeamanor::domain::PickupDrop&) {},
         interaction_state,
-        highlighted_npc_index, highlighted_plot_index, highlighted_index,
+        highlighted_npc_index,
+        highlighted_plot_index,
+        highlighted_index,
         1,
         8,
         spirit_beast_highlighted);

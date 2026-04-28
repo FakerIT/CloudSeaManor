@@ -1,6 +1,7 @@
 #include "CloudSeamanor/PixelInventoryGrid.hpp"
 
 #include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,26 +9,30 @@
 namespace CloudSeamanor::engine {
 
 namespace {
-inline void AddQuad(sf::VertexArray& va,
-                    const sf::Vector2f& p0,
-                    const sf::Vector2f& p1,
-                    const sf::Vector2f& p2,
-                    const sf::Vector2f& p3,
-                    const sf::Color& color,
-                    float alpha = 1.0f) {
-    sf::Color c = color;
-    c.a = static_cast<std::uint8_t>(std::clamp(static_cast<float>(c.a) * alpha, 0.0f, 255.0f));
-    const auto snap = [](const sf::Vector2f& p) { return sf::Vector2f(std::round(p.x), std::round(p.y)); };
-    const sf::Vector2f s0 = snap(p0);
-    const sf::Vector2f s1 = snap(p1);
-    const sf::Vector2f s2 = snap(p2);
-    const sf::Vector2f s3 = snap(p3);
-    va.append(sf::Vertex(s0, c));
-    va.append(sf::Vertex(s1, c));
-    va.append(sf::Vertex(s2, c));
-    va.append(sf::Vertex(s0, c));
-    va.append(sf::Vertex(s2, c));
-    va.append(sf::Vertex(s3, c));
+using CloudSeamanor::engine::uivx::AddQuad;
+
+inline void AddDashedRect(sf::VertexArray& va,
+                          const sf::FloatRect& r,
+                          float dash_len,
+                          float gap_len,
+                          const sf::Color& color,
+                          float alpha = 1.0f) {
+    const float total = std::max(1.0f, dash_len + gap_len);
+    const int top_n = std::max(1, static_cast<int>(std::floor(r.size.x / total)));
+    const int side_n = std::max(1, static_cast<int>(std::floor(r.size.y / total)));
+
+    for (int i = 0; i < top_n; ++i) {
+        const float x0 = r.position.x + static_cast<float>(i) * total;
+        const float x1 = std::min(r.position.x + r.size.x, x0 + dash_len);
+        AddQuad(va, {x0, r.position.y}, {x1, r.position.y}, {x1, r.position.y + 1.0f}, {x0, r.position.y + 1.0f}, color, alpha);
+        AddQuad(va, {x0, r.position.y + r.size.y - 1.0f}, {x1, r.position.y + r.size.y - 1.0f}, {x1, r.position.y + r.size.y}, {x0, r.position.y + r.size.y}, color, alpha);
+    }
+    for (int i = 0; i < side_n; ++i) {
+        const float y0 = r.position.y + static_cast<float>(i) * total;
+        const float y1 = std::min(r.position.y + r.size.y, y0 + dash_len);
+        AddQuad(va, {r.position.x, y0}, {r.position.x + 1.0f, y0}, {r.position.x + 1.0f, y1}, {r.position.x, y1}, color, alpha);
+        AddQuad(va, {r.position.x + r.size.x - 1.0f, y0}, {r.position.x + r.size.x, y0}, {r.position.x + r.size.x, y1}, {r.position.x + r.size.x - 1.0f, y1}, color, alpha);
+    }
 }
 }  // namespace
 
@@ -468,57 +473,65 @@ void PixelInventoryGrid::RebuildGeometry_() {
         for (int col = 0; col < InventoryGridConfig::Columns; ++col) {
             const sf::FloatRect slot_r = GetSlotRect_(col, row);
             const int slot_idx = row * InventoryGridConfig::Columns + col;
-            const bool is_empty = (slot_idx >= static_cast<int>(items_.size())) || items_[static_cast<std::size_t>(slot_idx)].empty;
+            const bool out_of_range = (slot_idx >= static_cast<int>(items_.size()));
+            const bool is_empty = out_of_range || items_[static_cast<std::size_t>(slot_idx)].empty;
+            const bool is_disabled = (!out_of_range && !is_empty && items_[static_cast<std::size_t>(slot_idx)].count <= 0);
 
             AddQuad(grid_vertices_,
                     {slot_r.position.x, slot_r.position.y},
                     {slot_r.position.x + slot_r.size.x, slot_r.position.y},
                     {slot_r.position.x + slot_r.size.x, slot_r.position.y + slot_r.size.y},
                     {slot_r.position.x, slot_r.position.y + slot_r.size.y},
-                    is_empty ? ColorPalette::LightGray : ColorPalette::BackgroundWhite, alpha_);
+                    (is_disabled ? ColorPalette::DarkGray : ColorPalette::BackgroundWhite), alpha_);
 
             // 格子描边
-            AddQuad(grid_vertices_,
-                    {slot_r.position.x, slot_r.position.y},
-                    {slot_r.position.x + slot_r.size.x, slot_r.position.y},
-                    {slot_r.position.x + slot_r.size.x, slot_r.position.y + InventoryGridConfig::SlotBorderThickness},
-                    {slot_r.position.x, slot_r.position.y + InventoryGridConfig::SlotBorderThickness},
-                    ColorPalette::LightGray, alpha_);
-            AddQuad(grid_vertices_,
-                    {slot_r.position.x, slot_r.position.y + slot_r.size.y - InventoryGridConfig::SlotBorderThickness},
-                    {slot_r.position.x + slot_r.size.x, slot_r.position.y + slot_r.size.y - InventoryGridConfig::SlotBorderThickness},
-                    {slot_r.position.x + slot_r.size.x, slot_r.position.y + slot_r.size.y},
-                    {slot_r.position.x, slot_r.position.y + slot_r.size.y},
-                    ColorPalette::DarkGray, alpha_);
-            AddQuad(grid_vertices_,
-                    {slot_r.position.x, slot_r.position.y},
-                    {slot_r.position.x + InventoryGridConfig::SlotBorderThickness, slot_r.position.y},
-                    {slot_r.position.x + InventoryGridConfig::SlotBorderThickness, slot_r.position.y + slot_r.size.y},
-                    {slot_r.position.x, slot_r.position.y + slot_r.size.y},
-                    ColorPalette::LightGray, alpha_);
-            AddQuad(grid_vertices_,
-                    {slot_r.position.x + slot_r.size.x - InventoryGridConfig::SlotBorderThickness, slot_r.position.y},
-                    {slot_r.position.x + slot_r.size.x, slot_r.position.y},
-                    {slot_r.position.x + slot_r.size.x, slot_r.position.y + slot_r.size.y},
-                    {slot_r.position.x + slot_r.size.x - InventoryGridConfig::SlotBorderThickness, slot_r.position.y + slot_r.size.y},
-                    ColorPalette::DarkGray, alpha_);
             if (is_empty) {
-                const float cx = slot_r.position.x + slot_r.size.x * 0.5f;
-                const float cy = slot_r.position.y + slot_r.size.y * 0.5f;
-                const float half = InventoryGridConfig::DisabledMarkHalfSize;
-                const float thickness = InventoryGridConfig::DisabledMarkThickness;
+                AddDashedRect(grid_vertices_, slot_r, 5.0f, 3.0f, ColorPalette::LightGray, alpha_);
+            } else {
                 AddQuad(grid_vertices_,
-                        {cx - half, cy - thickness},
-                        {cx + half, cy - thickness},
-                        {cx + half, cy + thickness},
-                        {cx - half, cy + thickness},
-                        ColorPalette::DisabledGray, alpha_);
+                        {slot_r.position.x, slot_r.position.y},
+                        {slot_r.position.x + slot_r.size.x, slot_r.position.y},
+                        {slot_r.position.x + slot_r.size.x, slot_r.position.y + InventoryGridConfig::SlotBorderThickness},
+                        {slot_r.position.x, slot_r.position.y + InventoryGridConfig::SlotBorderThickness},
+                        ColorPalette::LightGray, alpha_);
                 AddQuad(grid_vertices_,
-                        {cx - thickness, cy - half},
-                        {cx + thickness, cy - half},
-                        {cx + thickness, cy + half},
-                        {cx - thickness, cy + half},
-                        ColorPalette::DisabledGray, alpha_);
+                        {slot_r.position.x, slot_r.position.y + slot_r.size.y - InventoryGridConfig::SlotBorderThickness},
+                        {slot_r.position.x + slot_r.size.x, slot_r.position.y + slot_r.size.y - InventoryGridConfig::SlotBorderThickness},
+                        {slot_r.position.x + slot_r.size.x, slot_r.position.y + slot_r.size.y},
+                        {slot_r.position.x, slot_r.position.y + slot_r.size.y},
+                        ColorPalette::DarkGray, alpha_);
+                AddQuad(grid_vertices_,
+                        {slot_r.position.x, slot_r.position.y},
+                        {slot_r.position.x + InventoryGridConfig::SlotBorderThickness, slot_r.position.y},
+                        {slot_r.position.x + InventoryGridConfig::SlotBorderThickness, slot_r.position.y + slot_r.size.y},
+                        {slot_r.position.x, slot_r.position.y + slot_r.size.y},
+                        ColorPalette::LightGray, alpha_);
+                AddQuad(grid_vertices_,
+                        {slot_r.position.x + slot_r.size.x - InventoryGridConfig::SlotBorderThickness, slot_r.position.y},
+                        {slot_r.position.x + slot_r.size.x, slot_r.position.y},
+                        {slot_r.position.x + slot_r.size.x, slot_r.position.y + slot_r.size.y},
+                        {slot_r.position.x + slot_r.size.x - InventoryGridConfig::SlotBorderThickness, slot_r.position.y + slot_r.size.y},
+                        ColorPalette::DarkGray, alpha_);
+            }
+
+            if (is_disabled) {
+                const float pad = 10.0f;
+                const float thick = 2.0f;
+                const sf::Color xcol(210, 210, 210, 255);
+                // diagonal backslash
+                AddQuad(highlight_vertices_,
+                        {slot_r.position.x + pad, slot_r.position.y + pad},
+                        {slot_r.position.x + pad + thick, slot_r.position.y + pad},
+                        {slot_r.position.x + slot_r.size.x - pad, slot_r.position.y + slot_r.size.y - pad},
+                        {slot_r.position.x + slot_r.size.x - pad - thick, slot_r.position.y + slot_r.size.y - pad},
+                        xcol, alpha_);
+                // diagonal slash
+                AddQuad(highlight_vertices_,
+                        {slot_r.position.x + slot_r.size.x - pad - thick, slot_r.position.y + pad},
+                        {slot_r.position.x + slot_r.size.x - pad, slot_r.position.y + pad},
+                        {slot_r.position.x + pad + thick, slot_r.position.y + slot_r.size.y - pad},
+                        {slot_r.position.x + pad, slot_r.position.y + slot_r.size.y - pad},
+                        xcol, alpha_);
             }
         }
     }

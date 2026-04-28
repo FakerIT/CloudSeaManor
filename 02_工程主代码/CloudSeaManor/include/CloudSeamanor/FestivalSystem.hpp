@@ -86,7 +86,7 @@ public:
     // 【Initialize】初始化节日系统
     // ========================================================================
     // @note 首次运行时调用
-    void Initialize();
+    void Initialize(const std::string& csv_path = "assets/data/festival/festival_definitions.csv");
 
     // ========================================================================
     // 【Update】每日更新
@@ -135,6 +135,11 @@ public:
     [[nodiscard]] const Festival* GetFestival(const std::string& id) const;
 
 private:
+    [[nodiscard]] bool LoadFromCsv_(const std::string& csv_path);
+    [[nodiscard]] static std::vector<std::string> SplitCsvLine_(const std::string& line);
+    [[nodiscard]] static int SeasonFromText_(const std::string& text);
+    [[nodiscard]] static std::string Trim_(const std::string& text);
+
     // ========================================================================
     // 【CreateDefaultFestivals_】创建默认节日数据
     // ========================================================================

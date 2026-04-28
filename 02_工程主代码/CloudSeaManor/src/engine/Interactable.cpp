@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/Interactable.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
@@ -7,7 +5,7 @@
 
 #include <utility>
 
-namespace CloudSeamanor::domain {
+namespace CloudSeamanor::engine {
 
 Interactable::Interactable(
     sf::Vector2f position,
@@ -15,11 +13,13 @@ Interactable::Interactable(
     InteractableType type,
     std::string label,
     std::string reward_item,
-    int reward_amount
+    int reward_amount,
+    std::string enemy_id
 ) : type_(type),
     label_(std::move(label)),
     reward_item_(std::move(reward_item)),
-    reward_amount_(reward_amount) {
+    reward_amount_(reward_amount),
+    enemy_id_(std::move(enemy_id)) {
     shape_.setPosition(position);
     shape_.setSize(size);
     RefreshVisualState(false);
@@ -30,15 +30,15 @@ void Interactable::SetHighlighted(bool highlighted) {
 }
 
 bool Interactable::IsPlayerInRange(
-    const RectF& player_bounds,
+    const CloudSeamanor::domain::RectF& player_bounds,
     float extra_range
 ) const noexcept {
-    RectF expanded = adapter::ToDomain(Bounds());
+    CloudSeamanor::domain::RectF expanded = adapter::ToDomain(Bounds());
     expanded.position.x -= extra_range;
     expanded.position.y -= extra_range;
     expanded.size.x += extra_range * 2.0f;
     expanded.size.y += extra_range * 2.0f;
-    return Intersection(expanded, player_bounds).has_value();
+    return CloudSeamanor::domain::Intersection(expanded, player_bounds).has_value();
 }
 
 sf::FloatRect Interactable::Bounds() const noexcept {
@@ -81,5 +81,5 @@ void Interactable::RefreshVisualState(bool highlighted) {
     }
 }
 
-}  // namespace CloudSeamanor::domain
+}  // namespace CloudSeamanor::engine
 

@@ -1,31 +1,22 @@
 #include "CloudSeamanor/PixelGameHud.hpp"
 
 #include "CloudSeamanor/InputManager.hpp"
+#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/UiAtlasMappings.hpp"
+#include "CloudSeamanor/UiVertexHelpers.hpp"
+
+#include <SFML/Graphics/Sprite.hpp>
 
 #include <algorithm>
+#include <cctype>
 #include <cmath>
+#include <filesystem>
+#include <string_view>
 
 namespace CloudSeamanor::engine {
 
 namespace {
-inline void AddQuad(sf::VertexArray& va,
-                    const sf::Vector2f& p0,
-                    const sf::Vector2f& p1,
-                    const sf::Vector2f& p2,
-                    const sf::Vector2f& p3,
-                    const sf::Color& color) {
-    const auto snap = [](const sf::Vector2f& p) { return sf::Vector2f(std::round(p.x), std::round(p.y)); };
-    const sf::Vector2f s0 = snap(p0);
-    const sf::Vector2f s1 = snap(p1);
-    const sf::Vector2f s2 = snap(p2);
-    const sf::Vector2f s3 = snap(p3);
-    va.append(sf::Vertex(s0, color));
-    va.append(sf::Vertex(s1, color));
-    va.append(sf::Vertex(s2, color));
-    va.append(sf::Vertex(s0, color));
-    va.append(sf::Vertex(s2, color));
-    va.append(sf::Vertex(s3, color));
-}
+using CloudSeamanor::engine::uivx::AddQuad;
 
 sf::Color Uint32ToSfColor(std::uint32_t rgba) {
     return {
@@ -65,6 +56,49 @@ TextStyle ToPixelTextStyle(const infrastructure::TextStyleLayout& cfg, TextStyle
     }
     return base;
 }
+
+struct SeasonThemeColors {
+    sf::Color fill;
+    sf::Color border;
+};
+
+constexpr float kNpcDetailPanelGap = 16.0f;
+constexpr float kNpcDetailPanelWidth = 320.0f;
+
+[[nodiscard]] std::string ToLowerAscii(std::string_view text) {
+    std::string out(text);
+    std::transform(out.begin(), out.end(), out.begin(), [](unsigned char c) {
+        return static_cast<char>(std::tolower(c));
+    });
+    return out;
+}
+
+[[nodiscard]] bool ContainsAny(std::string_view text, std::initializer_list<std::string_view> keys) {
+    for (const auto key : keys) {
+        if (!key.empty() && text.find(key) != std::string_view::npos) {
+            return true;
+        }
+    }
+    return false;
+}
+
+[[nodiscard]] SeasonThemeColors SeasonThemeFor(std::string_view season_text) {
+    const std::string lower = ToLowerAscii(season_text);
+    const std::string_view v = lower;
+    if (ContainsAny(season_text, {"春"}) || ContainsAny(v, {"spring"})) {
+        return {sf::Color(223, 238, 213), sf::Color(109, 140, 91)};
+    }
+    if (ContainsAny(season_text, {"夏"}) || ContainsAny(v, {"summer"})) {
+        return {sf::Color(209, 235, 221), sf::Color(73, 124, 99)};
+    }
+    if (ContainsAny(season_text, {"秋"}) || ContainsAny(v, {"autumn", "fall"})) {
+        return {sf::Color(241, 224, 196), sf::Color(140, 102, 66)};
+    }
+    if (ContainsAny(season_text, {"冬"}) || ContainsAny(v, {"winter"})) {
+        return {sf::Color(217, 227, 237), sf::Color(90, 108, 126)};
+    }
+    return {ColorPalette::Cream, ColorPalette::BrownOutline};
+}
 }  // namespace
 
 // ============================================================================
@@ -76,6 +110,7 @@ void PixelGameHud::Initialize(const sf::Font& font) {
 
 void PixelGameHud::Initialize(const sf::Font& font, const infrastructure::UiLayoutConfig* layout_config) {
     font_renderer_ = std::make_unique<PixelFontRenderer>(font);
+    font_renderer_->SetUiScale(ui_scale_);
     settings_panel_.SetFontRenderer(font_renderer_.get());
     inventory_grid_.SetFontRenderer(font_renderer_.get());
     quest_menu_.SetFontRenderer(font_renderer_.get());
@@ -123,13 +158,69 @@ void PixelGameHud::Initialize(const sf::Font& font, const infrastructure::UiLayo
 
     top_right_bg_.setPrimitiveType(sf::PrimitiveType::Triangles);
     coin_bg_.setPrimitiveType(sf::PrimitiveType::Triangles);
+    ui_atlas_loaded_ = LoadUiAtlas_();
     ApplyScaleLayout_();
+    ApplySeasonTheme_(top_right_season_text_);
+}
+
+bool PixelGameHud::LoadUiAtlas_() {
+    if (resource_manager_ == nullptr) {
+        return false;
+    }
+    const std::filesystem::path atlas_texture = atlas::kTinyTownTilemapPath;
+    std::error_code ec;
+    if (!std::filesystem::exists(atlas_texture, ec)) {
+        return false;
+    }
+    const std::string id = "pixel_hud_ui_atlas";
+    atlas_texture_id_ = id;
+    if (resource_manager_->LoadTexture(id, atlas_texture.string())) {
+        resource_manager_->Acquire(id);
+        return true;
+    }
+    return false;
+}
+
+void PixelGameHud::DrawUiFrame_(sf::RenderWindow& window,
+                                const sf::IntRect& rect,
+                                const sf::Vector2f& position,
+                                const sf::Vector2f& size) const {
+    if (!ui_atlas_loaded_ || resource_manager_ == nullptr || atlas_texture_id_.empty()) {
+        return;
+    }
+    sf::Sprite sprite(resource_manager_->GetTexture(atlas_texture_id_), rect);
+    if (rect.size.x > 0 && rect.size.y > 0) {
+        const float uniform = std::min(
+            size.x / static_cast<float>(rect.size.x),
+            size.y / static_cast<float>(rect.size.y));
+        const sf::Vector2f draw_size{
+            static_cast<float>(rect.size.x) * uniform,
+            static_cast<float>(rect.size.y) * uniform
+        };
+        sprite.setPosition({
+            position.x + (size.x - draw_size.x) * 0.5f,
+            position.y + (size.y - draw_size.y) * 0.5f
+        });
+        sprite.setScale({uniform, uniform});
+    } else {
+        sprite.setPosition(position);
+    }
+    window.draw(sprite);
+}
+
+void PixelGameHud::SetResourceManager(infrastructure::ResourceManager* rm) {
+    resource_manager_ = rm;
+    settings_panel_.SetResourceManager(rm);
+    ui_atlas_loaded_ = LoadUiAtlas_();
 }
 
 void PixelGameHud::SetUiScale(float scale) {
     const float snapped = std::max(1.0f, std::floor(scale));
     if (std::abs(ui_scale_ - snapped) < 0.001f) return;
     ui_scale_ = snapped;
+    if (font_renderer_) {
+        font_renderer_->SetUiScale(ui_scale_);
+    }
     ApplyScaleLayout_();
 }
 
@@ -188,6 +279,14 @@ void PixelGameHud::ApplyLayout_(const infrastructure::UiLayoutConfig* layout_con
                            Uint32ToSfColor(stamina_fill.fill_color),
                            Uint32ToSfColor(stamina_low.fill_color),
                            Uint32ToSfColor(stamina_full.fill_color));
+    hunger_bar_.SetPosition({ToVec2(stamina_bg.position).x, ToVec2(stamina_bg.position).y + 16.0f});
+    hunger_bar_.SetSize({ToVec2(stamina_bg.size).x, ToVec2(stamina_bg.size).y});
+    hunger_bar_.SetColors(
+        sf::Color(62, 45, 34),
+        sf::Color(113, 78, 47),
+        sf::Color(214, 164, 88),
+        sf::Color(176, 89, 68),
+        sf::Color(236, 196, 96));
 
     top_right_geometry_dirty_ = true;
     coin_geometry_dirty_ = true;
@@ -209,12 +308,37 @@ void PixelGameHud::ApplyScaleLayout_() {
     const auto stamina_rect = panel_scaled("pixel_stamina_bar");
     stamina_bar_.SetPosition(stamina_rect.position);
     stamina_bar_.SetSize(stamina_rect.size);
+    hunger_bar_.SetPosition({stamina_rect.position.x, stamina_rect.position.y + std::round(16.0f * ui_scale_)});
+    hunger_bar_.SetSize(stamina_rect.size);
     top_right_geometry_dirty_ = true;
     coin_geometry_dirty_ = true;
 }
 
 void PixelGameHud::EmitUiEvent_(UiEventType event_type) {
     if (on_ui_event_) on_ui_event_(event_type);
+}
+
+void PixelGameHud::ApplySeasonTheme_(const std::string& season_text) {
+    const SeasonThemeColors theme = SeasonThemeFor(season_text);
+    toolbar_.SetColors(theme.fill, theme.border);
+    inventory_grid_.SetColors(theme.fill, theme.border);
+    quest_menu_.SetColors(theme.fill, theme.border);
+    minimap_.SetColors(theme.fill, theme.border, ColorPalette::Lighten(theme.fill, 10));
+    settings_panel_.SetColors(theme.fill, theme.border);
+    cloud_forecast_panel_.SetColors(theme.fill, theme.border);
+    player_status_panel_.SetColors(theme.fill, theme.border);
+    tea_garden_panel_.SetColors(theme.fill, theme.border);
+    workshop_panel_.SetColors(theme.fill, theme.border);
+    contract_panel_.SetColors(theme.fill, theme.border);
+    npc_detail_panel_.SetColors(theme.fill, theme.border);
+    spirit_beast_panel_.SetColors(theme.fill, theme.border);
+    festival_panel_.SetColors(theme.fill, theme.border);
+    spirit_realm_panel_.SetColors(theme.fill, theme.border);
+    building_panel_.SetColors(theme.fill, theme.border);
+    shop_panel_.SetColors(theme.fill, theme.border);
+    mail_panel_.SetColors(theme.fill, theme.border);
+    achievement_panel_.SetColors(theme.fill, theme.border);
+    beastiary_panel_.SetColors(theme.fill, theme.border);
 }
 
 // ============================================================================
@@ -230,6 +354,7 @@ void PixelGameHud::ToggleInventory() {
         EmitUiEvent_(UiEventType::Open);
     } else {
         inventory_grid_.Close();
+        npc_detail_panel_.SetVisible(false);
         EmitUiEvent_(UiEventType::Close);
     }
 
@@ -623,10 +748,14 @@ void PixelGameHud::UpdateTopRightInfo(const std::string& time_text,
                                       const std::string& season_text,
                                       const std::string& weather_text,
                                       bool has_new_quest) {
+    const bool season_changed = (top_right_season_text_ != season_text);
     top_right_time_text_ = time_text;
     top_right_season_text_ = season_text;
     top_right_weather_text_ = weather_text;
     top_right_has_new_quest_ = has_new_quest;
+    if (season_changed) {
+        ApplySeasonTheme_(top_right_season_text_);
+    }
     top_right_geometry_dirty_ = true;
 }
 
@@ -640,6 +769,13 @@ void PixelGameHud::UpdateStaminaBar(float stamina_ratio, float /*current*/, floa
     low_stamina_active_ = stamina_ratio_ < StaminaBarConfig::LowThreshold;
     critical_stamina_active_ = stamina_ratio_ < StaminaBarConfig::CriticalThreshold;
     stamina_bar_.SetLowState(low_stamina_active_);
+}
+
+void PixelGameHud::UpdateHungerBar(float hunger_ratio, float /*current*/, float /*max_hunger*/) {
+    hunger_ratio_ = std::clamp(hunger_ratio, 0.0f, 1.0f);
+    hunger_bar_.SetProgress(hunger_ratio_);
+    hunger_bar_.SetLabel(std::to_string(static_cast<int>(hunger_ratio_ * 100.0f)) + "%");
+    hunger_bar_.SetLowState(hunger_ratio_ < 0.25f);
 }
 
 // ============================================================================
@@ -754,6 +890,53 @@ void PixelGameHud::PushNotification(const std::string& message) {
     }
 }
 
+void PixelGameHud::UpdateSkillBranchOverlay(bool visible,
+                                            const std::string& skill_name,
+                                            const std::string& option_a,
+                                            const std::string& option_b) {
+    skill_branch_overlay_.visible = visible;
+    skill_branch_overlay_.skill_name = skill_name;
+    skill_branch_overlay_.option_a = option_a;
+    skill_branch_overlay_.option_b = option_b;
+    if (!visible) {
+        skill_branch_overlay_.submitted_choice.reset();
+    }
+}
+
+void PixelGameHud::UpdateFishingQteOverlay(bool visible,
+                                           float progress,
+                                           float target_center,
+                                           float target_width,
+                                           const std::string& title) {
+    fishing_qte_overlay_.visible = visible;
+    fishing_qte_overlay_.progress = std::clamp(progress, 0.0f, 1.0f);
+    fishing_qte_overlay_.target_center = std::clamp(target_center, 0.0f, 1.0f);
+    fishing_qte_overlay_.target_width = std::clamp(target_width, 0.05f, 0.6f);
+    fishing_qte_overlay_.title = title;
+    if (!visible) {
+        fishing_qte_overlay_.confirm_requested = false;
+    }
+}
+
+void PixelGameHud::UpdateDiyPlacementOverlay(bool visible,
+                                             const std::string& object_name,
+                                             int tile_x,
+                                             int tile_y,
+                                             int rotation) {
+    diy_overlay_.visible = visible;
+    diy_overlay_.object_name = object_name;
+    diy_overlay_.tile_x = tile_x;
+    diy_overlay_.tile_y = tile_y;
+    diy_overlay_.rotation = rotation;
+    if (!visible) {
+        diy_overlay_.move_x = 0;
+        diy_overlay_.move_y = 0;
+        diy_overlay_.rotate_requested = false;
+        diy_overlay_.confirm_requested = false;
+        diy_overlay_.pickup_requested = false;
+    }
+}
+
 void PixelGameHud::UpdateDailyRecommendations(const std::vector<std::string>& items) {
     daily_recommendations_ = items;
     if (selected_recommendation_ >= static_cast<int>(daily_recommendations_.size())) {
@@ -778,6 +961,43 @@ void PixelGameHud::SetBottomRightHotkeyHints(std::string interact_key, std::stri
     }
 }
 
+std::optional<bool> PixelGameHud::ConsumeSkillBranchChoice() {
+    const auto out = skill_branch_overlay_.submitted_choice;
+    skill_branch_overlay_.submitted_choice.reset();
+    return out;
+}
+
+bool PixelGameHud::ConsumeFishingQteConfirm() {
+    const bool out = fishing_qte_overlay_.confirm_requested;
+    fishing_qte_overlay_.confirm_requested = false;
+    return out;
+}
+
+sf::Vector2i PixelGameHud::ConsumeDiyMoveDelta() {
+    const sf::Vector2i out{diy_overlay_.move_x, diy_overlay_.move_y};
+    diy_overlay_.move_x = 0;
+    diy_overlay_.move_y = 0;
+    return out;
+}
+
+bool PixelGameHud::ConsumeDiyRotate() {
+    const bool out = diy_overlay_.rotate_requested;
+    diy_overlay_.rotate_requested = false;
+    return out;
+}
+
+bool PixelGameHud::ConsumeDiyConfirm() {
+    const bool out = diy_overlay_.confirm_requested;
+    diy_overlay_.confirm_requested = false;
+    return out;
+}
+
+bool PixelGameHud::ConsumeDiyPickup() {
+    const bool out = diy_overlay_.pickup_requested;
+    diy_overlay_.pickup_requested = false;
+    return out;
+}
+
 // ============================================================================
 // 【PixelGameHud::SetDialogueBoxCallbacks】
 // ============================================================================
@@ -794,6 +1014,56 @@ bool PixelGameHud::HandleKeyPressed(const sf::Event::KeyPressed& key) {
     if (context_menu_.IsVisible()) {
         if (key.scancode == sf::Keyboard::Scancode::Escape) {
             context_menu_.CloseMenu();
+            return true;
+        }
+    }
+    if (skill_branch_overlay_.visible) {
+        if (key.scancode == sf::Keyboard::Scancode::Left || key.scancode == sf::Keyboard::Scancode::A) {
+            skill_branch_overlay_.choose_a = true;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Right || key.scancode == sf::Keyboard::Scancode::D) {
+            skill_branch_overlay_.choose_a = false;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Enter || key.scancode == sf::Keyboard::Scancode::Space) {
+            skill_branch_overlay_.submitted_choice = skill_branch_overlay_.choose_a;
+            return true;
+        }
+    }
+    if (fishing_qte_overlay_.visible) {
+        if (key.scancode == sf::Keyboard::Scancode::Enter || key.scancode == sf::Keyboard::Scancode::Space) {
+            fishing_qte_overlay_.confirm_requested = true;
+            return true;
+        }
+    }
+    if (diy_overlay_.visible) {
+        if (key.scancode == sf::Keyboard::Scancode::Left || key.scancode == sf::Keyboard::Scancode::A) {
+            diy_overlay_.move_x -= 1;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Right || key.scancode == sf::Keyboard::Scancode::D) {
+            diy_overlay_.move_x += 1;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Up || key.scancode == sf::Keyboard::Scancode::W) {
+            diy_overlay_.move_y -= 1;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Down || key.scancode == sf::Keyboard::Scancode::S) {
+            diy_overlay_.move_y += 1;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::R) {
+            diy_overlay_.rotate_requested = true;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Enter) {
+            diy_overlay_.confirm_requested = true;
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Backspace || key.scancode == sf::Keyboard::Scancode::Delete) {
+            diy_overlay_.pickup_requested = true;
             return true;
         }
     }
@@ -844,6 +1114,32 @@ bool PixelGameHud::HandleKeyPressed(const sf::Event::KeyPressed& key) {
     if (key.scancode == sf::Keyboard::Scancode::P) { ToggleMail(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::L) { ToggleAchievement(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::V) { ToggleBeastiary(); return true; }
+    if (mail_panel_.IsVisible()
+        && key.scancode == sf::Keyboard::Scancode::Enter
+        && panel_action_callbacks_.mail_collect_arrived) {
+        panel_action_callbacks_.mail_collect_arrived();
+        EmitUiEvent_(UiEventType::Select);
+        return true;
+    }
+    if (contract_panel_.IsVisible() && panel_action_callbacks_.contract_cycle_tracking_volume) {
+        if (key.scancode == sf::Keyboard::Scancode::Left || key.scancode == sf::Keyboard::Scancode::Q) {
+            panel_action_callbacks_.contract_cycle_tracking_volume(-1);
+            EmitUiEvent_(UiEventType::Select);
+            return true;
+        }
+        if (key.scancode == sf::Keyboard::Scancode::Right || key.scancode == sf::Keyboard::Scancode::E) {
+            panel_action_callbacks_.contract_cycle_tracking_volume(1);
+            EmitUiEvent_(UiEventType::Select);
+            return true;
+        }
+    }
+    if (spirit_beast_panel_.IsVisible()
+        && key.scancode == sf::Keyboard::Scancode::T
+        && panel_action_callbacks_.spirit_beast_toggle_dispatch) {
+        panel_action_callbacks_.spirit_beast_toggle_dispatch();
+        EmitUiEvent_(UiEventType::Select);
+        return true;
+    }
     if (key.scancode == sf::Keyboard::Scancode::Escape) {
         CloseAllPanels();
         return true;
@@ -852,6 +1148,11 @@ bool PixelGameHud::HandleKeyPressed(const sf::Event::KeyPressed& key) {
         const int next_tab = (static_cast<int>(inventory_grid_.GetActiveTab()) + 1)
             % static_cast<int>(InventoryTab::Count);
         inventory_grid_.SetActiveTab(static_cast<InventoryTab>(next_tab));
+        if (inventory_grid_.GetActiveTab() != InventoryTab::Social) {
+            npc_detail_panel_.SetVisible(false);
+        } else if (!inventory_grid_.GetSelectedSocialNpc().has_value()) {
+            npc_detail_panel_.SetVisible(false);
+        }
         return true;
     }
     if (key.scancode == sf::Keyboard::Scancode::C) {
@@ -881,6 +1182,23 @@ bool PixelGameHud::HandleKeyPressed(const sf::Event::KeyPressed& key) {
 // ============================================================================
 void PixelGameHud::HandleMouseMove(float mx, float my) {
     last_mouse_pos_ = {mx, my};
+    // UI-129: title-bar dragging for PixelUiPanel based panels.
+    settings_panel_.OnMouseMoved(mx, my);
+    cloud_forecast_panel_.OnMouseMoved(mx, my);
+    player_status_panel_.OnMouseMoved(mx, my);
+    tea_garden_panel_.OnMouseMoved(mx, my);
+    workshop_panel_.OnMouseMoved(mx, my);
+    contract_panel_.OnMouseMoved(mx, my);
+    npc_detail_panel_.OnMouseMoved(mx, my);
+    spirit_beast_panel_.OnMouseMoved(mx, my);
+    festival_panel_.OnMouseMoved(mx, my);
+    spirit_realm_panel_.OnMouseMoved(mx, my);
+    building_panel_.OnMouseMoved(mx, my);
+    shop_panel_.OnMouseMoved(mx, my);
+    mail_panel_.OnMouseMoved(mx, my);
+    achievement_panel_.OnMouseMoved(mx, my);
+    beastiary_panel_.OnMouseMoved(mx, my);
+
     if (panel_state_.inventory_open) {
         inventory_grid_.MouseHover(mx, my);
     }
@@ -929,6 +1247,27 @@ void PixelGameHud::HandleMouseMove(float mx, float my) {
 // ============================================================================
 bool PixelGameHud::HandleMouseClick(float mx, float my, sf::Mouse::Button button) {
     if (button == sf::Mouse::Button::Left) {
+        // UI-129: begin drag if click is on a panel title bar.
+        // Note: order matters (top-most first) - keep roughly "modal" panels earlier.
+        if (settings_panel_.OnMousePressed(mx, my)
+            || cloud_forecast_panel_.OnMousePressed(mx, my)
+            || player_status_panel_.OnMousePressed(mx, my)
+            || tea_garden_panel_.OnMousePressed(mx, my)
+            || workshop_panel_.OnMousePressed(mx, my)
+            || contract_panel_.OnMousePressed(mx, my)
+            || npc_detail_panel_.OnMousePressed(mx, my)
+            || spirit_beast_panel_.OnMousePressed(mx, my)
+            || festival_panel_.OnMousePressed(mx, my)
+            || spirit_realm_panel_.OnMousePressed(mx, my)
+            || building_panel_.OnMousePressed(mx, my)
+            || shop_panel_.OnMousePressed(mx, my)
+            || mail_panel_.OnMousePressed(mx, my)
+            || achievement_panel_.OnMousePressed(mx, my)
+            || beastiary_panel_.OnMousePressed(mx, my)) {
+            return true;
+        }
+    }
+    if (button == sf::Mouse::Button::Left) {
         if (notification_banner_.IsCloudReportBannerHit(mx, my, last_window_width_)) {
             if (!panel_state_.cloud_forecast_open) {
                 ToggleCloudForecast();
@@ -965,23 +1304,37 @@ bool PixelGameHud::HandleMouseClick(float mx, float my, sf::Mouse::Button button
                 if (id.find("Tool") != std::string::npos) {
                     items = {{"use", "使用"}, {"drop", "丢弃"}, {"equip", "装备"}};
                 } else if (id.find("Seed") != std::string::npos || id.find("seed") != std::string::npos) {
-                    items = {{"plant", "种植"}, {"drop", "丢弃"}};
+                    items = {{"plant", "种植"}, {"sell", "出售"}, {"drop", "丢弃"}};
                 } else {
-                    items = {{"use", "使用"}, {"drop", "丢弃"}, {"gift", "送礼"}};
+                    items = {{"use", "使用"}, {"sell", "出售"}, {"drop", "丢弃"}, {"gift", "送礼"}};
                 }
                 context_menu_.OpenAt({mx, my}, items);
                 context_menu_.SetOnSelect([this, hovered](const std::string& action) {
                     EmitUiEvent_(UiEventType::Select);
+                    const auto apply = [&](const auto& fn) -> bool {
+                        if (!fn) return false;
+                        return fn(hovered->item_id, hovered->item_name, hovered->price);
+                    };
                     if (action == "drop") {
-                        PushNotification("已丢弃：" + hovered->item_name);
+                        if (!apply(inventory_action_callbacks_.drop_item)) {
+                            PushNotification("已丢弃：" + hovered->item_name);
+                        }
                     } else if (action == "gift") {
-                        PushNotification("已准备送礼：" + hovered->item_name);
+                        if (!apply(inventory_action_callbacks_.gift_item)) {
+                            PushNotification("已准备送礼：" + hovered->item_name);
+                        }
+                    } else if (action == "sell") {
+                        if (!apply(inventory_action_callbacks_.sell_item)) {
+                            PushNotification("已出售：" + hovered->item_name);
+                        }
                     } else if (action == "plant") {
                         PushNotification("已选择种植：" + hovered->item_name);
                     } else if (action == "equip") {
                         PushNotification("已装备：" + hovered->item_name);
                     } else {
-                        PushNotification("已使用：" + hovered->item_name);
+                        if (!apply(inventory_action_callbacks_.use_item)) {
+                            PushNotification("已使用：" + hovered->item_name);
+                        }
                     }
                 });
                 return true;
@@ -995,6 +1348,27 @@ bool PixelGameHud::HandleMouseClick(float mx, float my, sf::Mouse::Button button
             return true;
         }
         inventory_grid_.MouseClick(mx, my);
+        if (inventory_grid_.GetActiveTab() == InventoryTab::Social) {
+            if (const auto sel = inventory_grid_.GetSelectedSocialNpc()) {
+                const auto inv_r = inventory_grid_.GetRect();
+                const sf::FloatRect detail_r{
+                    {inv_r.position.x + inv_r.size.x + kNpcDetailPanelGap, inv_r.position.y},
+                    {kNpcDetailPanelWidth, inv_r.size.y}
+                };
+                npc_detail_panel_.SetRect(detail_r);
+                npc_detail_panel_.SetVisible(true);
+
+                NpcDetailPanelViewData d;
+                d.name = sel->npc_name;
+                d.favor = sel->favor;
+                d.heart_level = sel->heart_level;
+                npc_detail_panel_.UpdateData(d);
+            } else {
+                npc_detail_panel_.SetVisible(false);
+            }
+        } else {
+            npc_detail_panel_.SetVisible(false);
+        }
         return true;
     }
     if (panel_state_.quest_menu_open) {
@@ -1034,6 +1408,25 @@ bool PixelGameHud::HandleMouseClick(float mx, float my, sf::Mouse::Button button
     return false;
 }
 
+void PixelGameHud::HandleMouseRelease(float /*mx*/, float /*my*/, sf::Mouse::Button button) {
+    if (button != sf::Mouse::Button::Left) return;
+    settings_panel_.OnMouseReleased();
+    cloud_forecast_panel_.OnMouseReleased();
+    player_status_panel_.OnMouseReleased();
+    tea_garden_panel_.OnMouseReleased();
+    workshop_panel_.OnMouseReleased();
+    contract_panel_.OnMouseReleased();
+    npc_detail_panel_.OnMouseReleased();
+    spirit_beast_panel_.OnMouseReleased();
+    festival_panel_.OnMouseReleased();
+    spirit_realm_panel_.OnMouseReleased();
+    building_panel_.OnMouseReleased();
+    shop_panel_.OnMouseReleased();
+    mail_panel_.OnMouseReleased();
+    achievement_panel_.OnMouseReleased();
+    beastiary_panel_.OnMouseReleased();
+}
+
 // ============================================================================
 // 【PixelGameHud::HandleMouseWheel】
 // ============================================================================
@@ -1053,6 +1446,99 @@ bool PixelGameHud::HandleMouseWheel(float mx, float my, float delta) {
     return false;
 }
 
+void PixelGameHud::RenderSkillBranchOverlay_(sf::RenderWindow& window) {
+    if (!skill_branch_overlay_.visible || !HasFont()) {
+        return;
+    }
+    const sf::FloatRect box{{260.0f, 120.0f}, {500.0f, 180.0f}};
+    sf::RectangleShape panel(box.size);
+    panel.setPosition(box.position);
+    panel.setFillColor(sf::Color(249, 242, 225, 236));
+    panel.setOutlineThickness(4.0f);
+    panel.setOutlineColor(ColorPalette::BrownOutline);
+    window.draw(panel);
+    font_renderer_->DrawText(window, "技能分支选择", box.position + sf::Vector2f(20.0f, 18.0f), TextStyle::PanelTitle());
+    font_renderer_->DrawText(window, "技能：" + skill_branch_overlay_.skill_name,
+                             box.position + sf::Vector2f(20.0f, 52.0f), TextStyle::Default());
+    font_renderer_->DrawText(window, "左右切换，Enter 确认",
+                             box.position + sf::Vector2f(20.0f, 80.0f), TextStyle::HotkeyHint());
+    const sf::Vector2f card_size{220.0f, 48.0f};
+    auto draw_card = [&](const sf::Vector2f& pos, const std::string& label, bool active) {
+        sf::RectangleShape card(card_size);
+        card.setPosition(pos);
+        card.setFillColor(active ? sf::Color(255, 230, 154) : sf::Color(236, 226, 206));
+        card.setOutlineThickness(3.0f);
+        card.setOutlineColor(active ? ColorPalette::ActiveGreen : ColorPalette::BrownOutline);
+        window.draw(card);
+        font_renderer_->DrawWrappedText(window, label, pos + sf::Vector2f(10.0f, 12.0f),
+                                        card_size.x - 20.0f, TextStyle::Default(), 1.2f);
+    };
+    draw_card(box.position + sf::Vector2f(20.0f, 112.0f), "A: " + skill_branch_overlay_.option_a,
+              skill_branch_overlay_.choose_a);
+    draw_card(box.position + sf::Vector2f(255.0f, 112.0f), "B: " + skill_branch_overlay_.option_b,
+              !skill_branch_overlay_.choose_a);
+}
+
+void PixelGameHud::RenderFishingQteOverlay_(sf::RenderWindow& window) {
+    if (!fishing_qte_overlay_.visible || !HasFont()) {
+        return;
+    }
+    const sf::FloatRect box{{300.0f, 540.0f}, {420.0f, 96.0f}};
+    sf::RectangleShape panel(box.size);
+    panel.setPosition(box.position);
+    panel.setFillColor(sf::Color(30, 43, 64, 228));
+    panel.setOutlineThickness(3.0f);
+    panel.setOutlineColor(sf::Color(179, 221, 255));
+    window.draw(panel);
+    font_renderer_->DrawText(window,
+                             fishing_qte_overlay_.title.empty() ? "垂钓收线" : fishing_qte_overlay_.title,
+                             box.position + sf::Vector2f(16.0f, 10.0f), TextStyle::Default());
+    font_renderer_->DrawText(window, "让浮标进入亮区后按 Space / Enter",
+                             box.position + sf::Vector2f(16.0f, 30.0f), TextStyle::HotkeyHint());
+    const sf::FloatRect bar{{box.position.x + 18.0f, box.position.y + 58.0f}, {box.size.x - 36.0f, 16.0f}};
+    sf::RectangleShape bar_bg(bar.size);
+    bar_bg.setPosition(bar.position);
+    bar_bg.setFillColor(sf::Color(80, 97, 122));
+    window.draw(bar_bg);
+    const float target_x = bar.position.x + bar.size.x
+        * (fishing_qte_overlay_.target_center - fishing_qte_overlay_.target_width * 0.5f);
+    sf::RectangleShape target({bar.size.x * fishing_qte_overlay_.target_width, bar.size.y});
+    target.setPosition({target_x, bar.position.y});
+    target.setFillColor(sf::Color(160, 255, 170));
+    window.draw(target);
+    sf::RectangleShape cursor({8.0f, 28.0f});
+    cursor.setPosition({bar.position.x + bar.size.x * fishing_qte_overlay_.progress - 4.0f, bar.position.y - 6.0f});
+    cursor.setFillColor(sf::Color(255, 245, 196));
+    cursor.setOutlineThickness(2.0f);
+    cursor.setOutlineColor(sf::Color::Black);
+    window.draw(cursor);
+}
+
+void PixelGameHud::RenderDiyPlacementOverlay_(sf::RenderWindow& window) {
+    if (!diy_overlay_.visible || !HasFont()) {
+        return;
+    }
+    const sf::FloatRect box{{20.0f, 420.0f}, {300.0f, 136.0f}};
+    sf::RectangleShape panel(box.size);
+    panel.setPosition(box.position);
+    panel.setFillColor(sf::Color(31, 27, 22, 228));
+    panel.setOutlineThickness(3.0f);
+    panel.setOutlineColor(sf::Color(214, 183, 133));
+    window.draw(panel);
+    font_renderer_->DrawText(window, "DIY 摆放模式", box.position + sf::Vector2f(16.0f, 12.0f), TextStyle::Default());
+    font_renderer_->DrawText(window, "物件：" + diy_overlay_.object_name,
+                             box.position + sf::Vector2f(16.0f, 36.0f), TextStyle::HotkeyHint());
+    font_renderer_->DrawText(window,
+                             "格位: (" + std::to_string(diy_overlay_.tile_x) + ", "
+                                 + std::to_string(diy_overlay_.tile_y) + ")  角度: "
+                                 + std::to_string(diy_overlay_.rotation),
+                             box.position + sf::Vector2f(16.0f, 58.0f), TextStyle::HotkeyHint());
+    font_renderer_->DrawText(window, "方向键移动  R旋转  Enter确认",
+                             box.position + sf::Vector2f(16.0f, 84.0f), TextStyle::HotkeyHint());
+    font_renderer_->DrawText(window, "Backspace 收回最后摆件",
+                             box.position + sf::Vector2f(16.0f, 106.0f), TextStyle::HotkeyHint());
+}
+
 // ============================================================================
 // 【PixelGameHud::Render】
 // ============================================================================
@@ -1065,6 +1551,9 @@ void PixelGameHud::Render(sf::RenderWindow& window) {
     if (HasFont()) {
         RenderDailyRecommendations_(window);
     }
+    RenderSkillBranchOverlay_(window);
+    RenderFishingQteOverlay_(window);
+    RenderDiyPlacementOverlay_(window);
     // 渲染层次 8：右下角状态（体力条/金币）
     RenderBottomRightStatus_(window);
 
@@ -1446,11 +1935,15 @@ void PixelGameHud::RenderTopRightInfo_(sf::RenderWindow& window) {
         font_renderer_->DrawText(window, top_right_time_text_, ToVec2(tcfg.position), style);
         font_renderer_->DrawText(window, top_right_season_text_, ToVec2(scfg.position), TextStyle::TopRightInfo());
         font_renderer_->DrawText(window, top_right_weather_text_, ToVec2(wcfg.position), TextStyle::TopRightInfo());
+        DrawUiFrame_(window, atlas::WeatherIconForText(top_right_weather_text_),
+                     {cfg_pos.x + 8.0f, cfg_pos.y + 6.0f}, {14.0f, 14.0f});
 
         // 任务感叹号（新任务时闪烁）
         if (top_right_has_new_quest_) {
             const bool show = (static_cast<int>(top_right_blink_timer_ * 2.0f) % 2 == 0);
             if (show) {
+                DrawUiFrame_(window, atlas::kIconQuest,
+                             {cfg_pos.x + cfg_size.x - 32.0f, cfg_pos.y + 6.0f}, {14.0f, 14.0f});
                 font_renderer_->DrawText(window, "!",
                                          cfg_pos.x + cfg_size.x - 16.0f,
                                          cfg_pos.y + 8.0f,
@@ -1540,6 +2033,7 @@ void PixelGameHud::RenderBottomRightStatus_(sf::RenderWindow& window) {
 
     window.draw(coin_bg_, sf::RenderStates::Default);
     stamina_bar_.Render(window);
+    hunger_bar_.Render(window);
 
     // 金币文本
     if (HasFont()) {
@@ -1561,9 +2055,11 @@ void PixelGameHud::RenderBottomRightStatus_(sf::RenderWindow& window) {
             return out;
         };
 
-        PixelArtStyle coin_icon_style;
         const sf::Vector2f coin_pos = ToVec2(ccfg.position);
-        coin_icon_style.DrawCoinIcon(window, {coin_pos.x, coin_pos.y + 2.0f}, 10.0f);
+        DrawUiFrame_(window, atlas::kIconCoin,
+                     {coin_pos.x, coin_pos.y + 2.0f}, {12.0f, 12.0f});
+        DrawUiFrame_(window, atlas::kIconStamina,
+                     {cfg_pos.x + 188.0f, cfg_pos.y + 4.0f}, {14.0f, 14.0f});
         font_renderer_->DrawText(window,
                                  FormatCoins(coin_amount_),
                                  {coin_pos.x + 16.0f, coin_pos.y},
@@ -1578,6 +2074,12 @@ void PixelGameHud::RenderBottomRightStatus_(sf::RenderWindow& window) {
                                      ? std::to_string(static_cast<int>(stamina_bar_.GetProgress() * 100.0f)) + "%"
                                      : "0%",
                                  {cfg_pos.x + 220.0f, cfg_pos.y + 6.0f},
+                                 TextStyle::TopRightInfo());
+        font_renderer_->DrawText(window,
+                                 hunger_bar_.GetProgress() > 0.0f
+                                     ? std::to_string(static_cast<int>(hunger_bar_.GetProgress() * 100.0f)) + "%"
+                                     : "0%",
+                                 {cfg_pos.x + 220.0f, cfg_pos.y + 22.0f},
                                  TextStyle::TopRightInfo());
 
         if (low_stamina_active_) {

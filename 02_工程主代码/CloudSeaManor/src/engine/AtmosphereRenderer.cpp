@@ -52,9 +52,9 @@ void AtmosphereRenderer::Initialize(
     domain::AtmosphereDomain& domain,
     const infrastructure::UiLayoutConfig& ui_layout
 ) {
-    window_ptr_ = &window;
-    domain_ptr_ = &domain;
-    ui_layout_ptr_ = &ui_layout;
+    window_ref_ = window;
+    domain_ref_ = domain;
+    ui_layout_ref_ = ui_layout;
 
     sky_vertices_.setPrimitiveType(sf::PrimitiveType::TriangleStrip);
     sky_vertices_.resize(4);
@@ -71,11 +71,13 @@ void AtmosphereRenderer::Initialize(
 // ============================================================================
 
 void AtmosphereRenderer::Update(float delta_seconds) {
-    if (domain_ptr_ == nullptr || window_ptr_ == nullptr) {
+    if (!domain_ref_.has_value() || !window_ref_.has_value()) {
         return;
     }
+    auto& domain = domain_ref_->get();
+    auto& window = window_ref_->get();
 
-    const auto size = window_ptr_->getSize();
+    const auto size = window.getSize();
     if (size.x != cached_window_width_ || size.y != cached_window_height_) {
         cached_window_width_ = size.x;
         cached_window_height_ = size.y;
@@ -83,10 +85,10 @@ void AtmosphereRenderer::Update(float delta_seconds) {
     }
 
     // 同步粒子参数
-    if (const auto* profile = domain_ptr_->GetActiveWeatherProfile()) {
+    if (const auto* profile = domain.GetActiveWeatherProfile()) {
         if (debug_weather_override_.empty()) {
             current_max_particles_ = static_cast<int>(
-                profile->max_particles * domain_ptr_->GetParticleDensity() * particle_density_multiplier_
+                profile->max_particles * domain.GetParticleDensity() * particle_density_multiplier_
             );
             current_spawn_rate_ = profile->particle_spawn_rate * particle_density_multiplier_;
         } else {
@@ -125,25 +127,26 @@ void AtmosphereRenderer::Update(float delta_seconds) {
 // ============================================================================
 
 void AtmosphereRenderer::DrawSkyGradient(sf::RenderWindow& window) {
-    if (domain_ptr_ == nullptr) {
+    if (!domain_ref_.has_value()) {
         return;
     }
+    const auto& domain = domain_ref_->get();
 
     const float w = static_cast<float>(cached_window_width_);
     const float h = static_cast<float>(cached_window_height_);
 
     if (sky_geometry_dirty_ || sky_vertices_[0].color.a == 0) {
         const sf::Color top_color(
-            static_cast<std::uint8_t>(domain_ptr_->SkyTopR()),
-            static_cast<std::uint8_t>(domain_ptr_->SkyTopG()),
-            static_cast<std::uint8_t>(domain_ptr_->SkyTopB()),
-            static_cast<std::uint8_t>(domain_ptr_->SkyTopA())
+            static_cast<std::uint8_t>(domain.SkyTopR()),
+            static_cast<std::uint8_t>(domain.SkyTopG()),
+            static_cast<std::uint8_t>(domain.SkyTopB()),
+            static_cast<std::uint8_t>(domain.SkyTopA())
         );
         const sf::Color bottom_color(
-            static_cast<std::uint8_t>(domain_ptr_->SkyBottomR()),
-            static_cast<std::uint8_t>(domain_ptr_->SkyBottomG()),
-            static_cast<std::uint8_t>(domain_ptr_->SkyBottomB()),
-            static_cast<std::uint8_t>(domain_ptr_->SkyBottomA())
+            static_cast<std::uint8_t>(domain.SkyBottomR()),
+            static_cast<std::uint8_t>(domain.SkyBottomG()),
+            static_cast<std::uint8_t>(domain.SkyBottomB()),
+            static_cast<std::uint8_t>(domain.SkyBottomA())
         );
 
         sky_vertices_[0] = sf::Vertex(sf::Vector2f(0.0f, 0.0f), top_color);
@@ -345,11 +348,13 @@ sf::Vector2f AtmosphereRenderer::GetMoveDirection_(ParticleDirection dir, float 
 // ============================================================================
 
 void AtmosphereRenderer::DrawAuraOverlay(sf::RenderWindow& window) {
-    if (domain_ptr_ == nullptr || ui_layout_ptr_ == nullptr) {
+    if (!domain_ref_.has_value() || !ui_layout_ref_.has_value()) {
         return;
     }
+    const auto& domain = domain_ref_->get();
+    const auto& ui_layout = ui_layout_ref_->get();
 
-    const auto& cloud = domain_ptr_->GetCurrentCloudState();
+    const auto& cloud = domain.GetCurrentCloudState();
     const std::string key = [&] {
         switch (cloud) {
         case domain::CloudState::Clear:      return "cloud_clear";
@@ -360,10 +365,10 @@ void AtmosphereRenderer::DrawAuraOverlay(sf::RenderWindow& window) {
         return "cloud_clear";
     }();
 
-    const auto aura_config = ui_layout_ptr_->GetCloudColor(key);
+    const auto aura_config = ui_layout.GetCloudColor(key);
     const sf::Color aura_base = adapter::PackedRgbaToColor(aura_config.aura);
 
-    const float intensity = domain_ptr_->GetAtmosphereIntensity();
+    const float intensity = domain.GetAtmosphereIntensity();
     const std::uint8_t alpha = static_cast<std::uint8_t>(
         std::clamp(static_cast<int>(aura_base.a * intensity), 0, 255)
     );
@@ -390,9 +395,10 @@ void AtmosphereRenderer::DrawAuraOverlay(sf::RenderWindow& window) {
 // ============================================================================
 
 void AtmosphereRenderer::DrawDebugPanel(sf::RenderWindow& window) {
-    if (!show_debug_panel_ || domain_ptr_ == nullptr || debug_font_ == nullptr) {
+    if (!show_debug_panel_ || !domain_ref_.has_value() || debug_font_ == nullptr) {
         return;
     }
+    const auto& domain = domain_ref_->get();
 
     const float panel_w = 320.0f;
     const float panel_h = 240.0f;
@@ -410,33 +416,33 @@ void AtmosphereRenderer::DrawDebugPanel(sf::RenderWindow& window) {
     std::ostringstream info;
     info << "=== Atmosphere Debug ===\n";
     info << "Cloud: ";
-    switch (domain_ptr_->GetCurrentCloudState()) {
+    switch (domain.GetCurrentCloudState()) {
     case domain::CloudState::Clear:      info << "Clear\n";      break;
     case domain::CloudState::Mist:       info << "Mist\n";       break;
     case domain::CloudState::DenseCloud: info << "DenseCloud\n"; break;
     case domain::CloudState::Tide:      info << "Tide\n";      break;
     }
     info << "Phase: ";
-    switch (domain_ptr_->GetCurrentDayPhase()) {
+    switch (domain.GetCurrentDayPhase()) {
     case domain::DayPhase::Morning:    info << "Morning\n";    break;
     case domain::DayPhase::Afternoon: info << "Afternoon\n"; break;
     case domain::DayPhase::Evening:   info << "Evening\n";   break;
     case domain::DayPhase::Night:     info << "Night\n";     break;
     }
-    info << "Atmosphere: " << domain_ptr_->GetAtmosphereIntensity() << "\n";
-    info << "Fog Density: " << domain_ptr_->GetFogDensity() << "\n";
+    info << "Atmosphere: " << domain.GetAtmosphereIntensity() << "\n";
+    info << "Fog Density: " << domain.GetFogDensity() << "\n";
     info << "Particles: " << active_particle_count_ << "/" << current_max_particles_ << "\n";
-    info << "Transition: " << (domain_ptr_->IsTransitioning() ? "YES" : "no");
-    if (domain_ptr_->IsTransitioning()) {
-        info << " (" << (domain_ptr_->GetTransitionProgress() * 100.0f) << "%)\n";
+    info << "Transition: " << (domain.IsTransitioning() ? "YES" : "no");
+    if (domain.IsTransitioning()) {
+        info << " (" << (domain.GetTransitionProgress() * 100.0f) << "%)\n";
     } else {
         info << "\n";
     }
     info << "SkyTop: #" << std::hex
-         << domain_ptr_->SkyTopR() << domain_ptr_->SkyTopG() << domain_ptr_->SkyTopB()
+         << domain.SkyTopR() << domain.SkyTopG() << domain.SkyTopB()
          << std::dec << "\n";
     info << "SkyBottom: #" << std::hex
-         << domain_ptr_->SkyBottomR() << domain_ptr_->SkyBottomG() << domain_ptr_->SkyBottomB()
+         << domain.SkyBottomR() << domain.SkyBottomG() << domain.SkyBottomB()
          << std::dec << "\n";
     info << "[1]Clear [2]Mist [3]Dense [4]Tide\n";
     info << "[T] Transition [R] Reset [P] Pause\n";

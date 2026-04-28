@@ -4,3 +4,26 @@ daily_commission_shop,商队补给,为商队准备基础农产,上交 Turnip x2,
 birthday_prepare,生日筹备,本季 NPC 生日前准备礼物,赠送 TeaPack x1,好感 +15
 tool_upgrade_intro,工具升级试炼,在工坊完成一次工具升级,完成一次升级操作,体力上限 +5
 land_clearance,地块开垦,清理并开垦一块新地,完成翻土+播种+浇水,种子礼包
+daily_harvest_three,晨间采收,在早晨完成一次基础采收,收获任意作物 x3,金币 80
+daily_visit_two_npc,走访邻里,与两位村民完成日常交流,和 NPC 对话 x2,好感 +8
+daily_collect_spirit_herb,灵草采集,前往灵界浅层采集灵草,采集 spirit_grass x2,灵尘 x2
+daily_water_all_plots,茶田灌溉,完成今日茶田浇水,浇水地块 x6,体力恢复药 x1
+daily_cook_simple_meal,山庄晚饭,为今日劳作准备简单餐食,制作任意料理 x1,金币 70
+daily_order_board,委托看板,完成任意一条看板委托,提交任意订单 x1,金币 100
+daily_spirit_cleanse,净化巡查,完成一次灵体净化训练,净化灵体 x1,灵气 +20
+daily_market_supply,市集补货,为集市提供新鲜材料,上交任意农产 x4,金币 110
+weekly_crop_delivery,周常农货交付,本周向商队完成集中交付,累计交付农产 x20,金币 420
+weekly_npc_favor,周常人情往来,本周提升村民关系,累计提升任意 NPC 好感 +40,好感礼包
+weekly_workshop_batch,周常工坊批量制作,本周完成一次工坊批量产出,制作物品 x8,稀有材料箱
+weekly_spirit_hunt,周常灵界巡猎,本周完成多次灵界净化,净化灵体 x10,灵尘 x12
+weekly_festival_prep,节庆预备,为节庆周储备物资,上交 TeaPack x5,节庆代币 x3
+weekly_cloud_stabilize,云海稳定计划,通过耕作与净化稳定云海,灵气提升累计 +120,云晶 x2
+side_song_first_order,松的第一单,帮助松完成首笔山货订单,交付 BambooShoot x3,解锁 song 支线
+side_yu_lost_note,雨的手札,替雨找回遗失手札,在竹林拾取 yu_note,好感 +20
+side_mo_repair_tools,墨的修理请求,协助墨修复旧工具,上交 IronOre x4,工具耐久 +10%
+side_qiao_flower_request,桥的花材委托,为桥准备茶宴花材,上交 WildFlower x6,装饰配方
+side_he_spirit_research,禾的灵界研究,收集样本协助禾记录生态,上交 spirit_dust x8,研究点数 +30
+side_ning_guard_patrol,宁的巡防演练,配合宁完成一次巡防,击退污染体 x3,防御药剂 x2
+side_an_market_plan,安的市集计划,协助安完善周末市集规划,完成订单评分达到 A,金币 260
+side_shu_forest_cleanup,书的林地清理,协助书清理林地杂物,清理障碍物 x10,木材包 x1
+side_yan_old_photo,言的旧照片,帮言寻回旧相片并归还,拾取 yan_photo 并交还,好感 +25

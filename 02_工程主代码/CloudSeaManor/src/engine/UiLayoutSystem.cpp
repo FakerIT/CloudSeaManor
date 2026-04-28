@@ -7,6 +7,9 @@
 #include "CloudSeamanor/Logger.hpp"
 
 #include <algorithm>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
 
 namespace CloudSeamanor::engine {
 
@@ -183,6 +186,7 @@ void UiPage::Update(float delta_seconds) {
     UpdateAnimation_(delta_seconds);
 
     if (geometry_dirty_) {
+        ComputeLayout_();
         RebuildGeometry_();
         geometry_dirty_ = false;
     }
@@ -330,7 +334,71 @@ void UiPage::draw(sf::RenderTarget& target, sf::RenderStates states) const {
 }
 
 void UiPage::ComputeLayout_() {
-    // TODO: 实现流式/网格/锚点布局计算
+    const sf::FloatRect page_local{
+        {0.0f, 0.0f},
+        {page_rect_.size.x, page_rect_.size.y}
+    };
+
+    float flow_cursor_x = 0.0f;
+    float flow_cursor_y = 0.0f;
+    float flow_line_max_h = 0.0f;
+    int grid_index = 0;
+
+    for (auto& [id, elem] : elements_) {
+        switch (elem.layout) {
+        case LayoutRule::Absolute:
+            break;
+        case LayoutRule::Anchor: {
+            const float usable_w = std::max(0.0f, page_local.size.x - elem.width);
+            const float usable_h = std::max(0.0f, page_local.size.y - elem.height);
+            float x = 0.0f;
+            float y = 0.0f;
+            switch (elem.anchor) {
+            case AnchorPoint::TopLeft: x = 0.0f; y = 0.0f; break;
+            case AnchorPoint::TopCenter: x = usable_w * 0.5f; y = 0.0f; break;
+            case AnchorPoint::TopRight: x = usable_w; y = 0.0f; break;
+            case AnchorPoint::MiddleLeft: x = 0.0f; y = usable_h * 0.5f; break;
+            case AnchorPoint::MiddleCenter: x = usable_w * 0.5f; y = usable_h * 0.5f; break;
+            case AnchorPoint::MiddleRight: x = usable_w; y = usable_h * 0.5f; break;
+            case AnchorPoint::BottomLeft: x = 0.0f; y = usable_h; break;
+            case AnchorPoint::BottomCenter: x = usable_w * 0.5f; y = usable_h; break;
+            case AnchorPoint::BottomRight: x = usable_w; y = usable_h; break;
+            }
+            elem.x = x + elem.anchor_offset_x + elem.margin_left - elem.margin_right;
+            elem.y = y + elem.anchor_offset_y + elem.margin_top - elem.margin_bottom;
+            break;
+        }
+        case LayoutRule::Flow: {
+            const float next_w = elem.width + elem.margin_left + elem.margin_right;
+            const float next_h = elem.height + elem.margin_top + elem.margin_bottom;
+            const float next_x = flow_cursor_x + next_w;
+            if (next_x > page_local.size.x && flow_cursor_x > 0.0f) {
+                flow_cursor_x = 0.0f;
+                flow_cursor_y += flow_line_max_h + std::max(0.0f, elem.spacing_y);
+                flow_line_max_h = 0.0f;
+            }
+
+            elem.x = flow_cursor_x + elem.margin_left;
+            elem.y = flow_cursor_y + elem.margin_top;
+            flow_cursor_x += next_w + std::max(0.0f, elem.spacing_x);
+            flow_line_max_h = std::max(flow_line_max_h, next_h);
+            break;
+        }
+        case LayoutRule::Grid: {
+            const int columns = std::max(1, elem.grid_columns);
+            const int row = grid_index / columns;
+            const int col = grid_index % columns;
+            elem.x = col * (elem.width + elem.spacing_x) + elem.margin_left;
+            elem.y = row * (elem.height + elem.spacing_y) + elem.margin_top;
+            ++grid_index;
+            break;
+        }
+        case LayoutRule::Stack:
+            elem.x = elem.margin_left;
+            elem.y = elem.margin_top;
+            break;
+        }
+    }
 }
 
 void UiPage::UpdateAnimation_(float delta_seconds) {
@@ -630,18 +698,41 @@ std::vector<UiPage*> UiPageManager::GetAllPages() {
 // ============================================================================
 
 std::string UiLayoutSerializer::SerializePage(const UiPageConfig& config) {
-    // TODO: 实现 JSON 序列化
-    return "{}";
+    std::ostringstream out;
+    out << "{\n";
+    out << "  \"page_id\": \"" << config.page_id << "\",\n";
+    out << "  \"title\": \"" << config.title << "\",\n";
+    out << "  \"width\": " << config.width << ",\n";
+    out << "  \"height\": " << config.height << ",\n";
+    out << "  \"modal\": " << (config.modal ? "true" : "false") << ",\n";
+    out << "  \"pause_game\": " << (config.pause_game ? "true" : "false") << ",\n";
+    out << "  \"elements\": [\n";
+    for (std::size_t i = 0; i < config.root_element_ids.size(); ++i) {
+        const bool is_last = (i + 1 == config.root_element_ids.size());
+        out << "    {\n";
+        out << "      \"id\": \"" << config.root_element_ids[i] << "\",\n";
+        out << "      \"x\": 0,\n";
+        out << "      \"y\": 0,\n";
+        out << "      \"width\": 48,\n";
+        out << "      \"height\": 48,\n";
+        out << "      \"text\": \"\"\n";
+        out << "    }" << (is_last ? "\n" : ",\n");
+    }
+    out << "  ]\n";
+    out << "}\n";
+    return out.str();
 }
 
 bool UiLayoutSerializer::WritePageToFile(const std::string& path,
                                          const UiPageConfig& config) {
-    auto json = SerializePage(config);
-    // 写入文件...
-    (void)path;
-    (void)config;
-    (void)json;
-    return false;
+    const auto json = SerializePage(config);
+    std::ofstream file(path, std::ios::trunc);
+    if (!file.is_open()) {
+        Logger::Warning("UiLayoutSerializer: 无法写入页面文件: " + path);
+        return false;
+    }
+    file << json;
+    return file.good();
 }
 
 std::optional<UiPageConfig> UiLayoutSerializer::ParsePage(const std::string& json) {
@@ -709,8 +800,14 @@ UiPageConfig UiLayoutSerializer::CreateEmptyPage(const std::string& page_id) {
 }
 
 std::string UiLayoutSerializer::ExportPageAsJson(const UiPage* page) {
-    (void)page;
-    return "{}";
+    if (page == nullptr) {
+        return "{}";
+    }
+    UiPageConfig cfg = CreateEmptyPage("exported_page");
+    const auto rect = page->GetPageRect();
+    cfg.width = static_cast<int>(rect.size.x);
+    cfg.height = static_cast<int>(rect.size.y);
+    return SerializePage(cfg);
 }
 
 // ============================================================================

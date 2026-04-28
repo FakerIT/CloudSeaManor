@@ -1,0 +1,11 @@
+skill_id,branch_id,effect
+灵农,abundance,A：交互体力消耗降低
+灵农,conservation,B：次日额外恢复饱食
+灵觅,swiftstep,A：采集节点额外掉落
+灵觅,pathfinder,B：预留：探索视野强化
+灵钓,tidewatch,A：垂钓成功时额外收线
+灵钓,deepcurrent,B：垂钓产出附带材料
+灵矿,refine,A：预留：精炼收益强化
+灵矿,prospect,B：预留：矿点发现强化
+灵卫,ward,A：净化回流持续更久
+灵卫,barrier,B：灵界日上限额外+1

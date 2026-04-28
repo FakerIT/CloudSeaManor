@@ -1,0 +1,6 @@
+Id,DisplayName,Category,Element,Power,Cost,Cooldown,StatusEffects,ComboTags,UnlockCondition,Description
+pet_purr_heal,呼噜疗愈,Pet,Light,18,10,8,"[""heal_small""]","[""support"",""pet""]",default,为玩家与宠物恢复少量生命
+pet_cloud_step,云踏,Pet,Cloud,0,8,10,"[""move_speed_up""]","[""explore""]",default,短时间提升移动速度
+pet_find_seed,寻种,Pet,Wind,0,6,12,"[""drop_seed_bonus""]","[""gather""]",festival_summer_beast_sports,提升采集与战斗种子掉落
+weapon_tide_slash,潮刃斩,Weapon,Cloud,34,16,6,"[""purify_up""]","[""melee"",""tide""]",weapon_cloud_blade,云系近战核心技能
+quest_wind_step,疾风步,Quest,Wind,0,12,14,"[""dash"",""invulnerable_short""]","[""quest"",""mobility""]",chapter_ch2,任务线解锁的位移技能

@@ -32,6 +32,14 @@
       }
     },
     {
+      "name": "vs2022-x64-tests",
+      "displayName": "Visual Studio 2022 x64 (Tests)",
+      "inherits": "vs2022-x64",
+      "cacheVariables": {
+        "BUILD_TESTING": "ON"
+      }
+    },
+    {
       "name": "vs2022-x64-debug",
       "displayName": "Visual Studio 2022 x64 Debug",
       "inherits": "vs2022-x64",
@@ -56,10 +64,27 @@
       "configuration": "Debug"
     },
     {
+      "name": "build-debug-tests",
+      "displayName": "Build Debug (Tests)",
+      "configurePreset": "vs2022-x64-tests",
+      "configuration": "Debug"
+    },
+    {
       "name": "build-release",
       "displayName": "Build Release",
       "configurePreset": "vs2022-x64",
       "configuration": "Release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "test-debug",
+      "displayName": "Run Tests (Debug)",
+      "configurePreset": "vs2022-x64-tests",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
     }
   ]
 }

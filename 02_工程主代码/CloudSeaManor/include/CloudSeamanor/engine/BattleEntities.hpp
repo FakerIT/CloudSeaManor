@@ -129,6 +129,15 @@ struct Buff {
 };
 
 // ============================================================================
+// 【ImbalanceSegment】浊灵失衡段位
+// ============================================================================
+struct ImbalanceSegment {
+    ElementType element = ElementType::Neutral;
+    int durability = 1;
+    bool is_active = true;
+};
+
+// ============================================================================
 // 【PollutedSpirit】污染灵体（敌人）
 // ============================================================================
 struct PollutedSpirit {
@@ -148,6 +157,7 @@ struct PollutedSpirit {
     float max_pollution = 100.0f;
     float current_pollution = 100.0f;
     float pollution_regen_per_second = 0.0f; // 负数=持续被污染
+    std::vector<ImbalanceSegment> imbalance_segments;
 
     // 干扰抗性（类似血量，攻击叠加上限）
     float max_health = 100.0f;
@@ -168,6 +178,8 @@ struct PollutedSpirit {
     bool is_escaped = false;     // 是否暂时退散
     bool is_stunned = false;     // 是否被晕
     float stun_remaining = 0.0f; // 晕眩剩余时间
+    int current_phase = 1;
+    std::vector<float> phase_thresholds;
 
     // 奖励
     std::string defeat_dialogue;
@@ -177,6 +189,15 @@ struct PollutedSpirit {
     // 视觉
     std::string sprite_id;
     std::string particle_effect_id;
+};
+
+struct BattleHitEffect {
+    float x = 0.0f;
+    float y = 0.0f;
+    float radius = 16.0f;
+    float remaining = 0.25f;
+    float total = 0.25f;
+    std::uint32_t color_rgba = 0xFFE090FFu;
 };
 
 // ============================================================================
@@ -210,6 +231,10 @@ struct BattlePlayerState {
     float energy_recover_rate = 5.0f; // 每秒回复
 
     float purification_rate = 1.0f; // 玩家基础净化效率
+    float weapon_attack_power = 20.0f; // 当前武器基础攻击力
+    float crit_multiplier = 1.5f;      // 当前暴击倍率
+    float skill_cooldown_scale = 1.0f; // 技能冷却缩放（<1 更快）
+    std::string equipped_weapon_id;    // 当前装备武器 ID
 
     // 技能
     std::vector<std::string> unlocked_skill_ids;

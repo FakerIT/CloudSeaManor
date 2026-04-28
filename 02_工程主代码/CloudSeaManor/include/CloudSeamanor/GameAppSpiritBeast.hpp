@@ -4,8 +4,6 @@
 #include "CloudSeamanor/GameClock.hpp"
 #include "CloudSeamanor/Stamina.hpp"
 
-#include <SFML/System/Vector2.hpp>
-
 #include <functional>
 #include <string>
 #include <vector>
@@ -39,7 +37,7 @@ void BuildSpiritBeast(SpiritBeast& spirit_beast,
  * @param center 粒子发射中心点。
  * @param heart_particles 输出粒子列表。
  */
-void SpawnHeartParticles(sf::Vector2f center, std::vector<HeartParticle>& heart_particles);
+void SpawnHeartParticles(CloudSeamanor::domain::Vec2f center, std::vector<HeartParticle>& heart_particles);
 
 /**
  * @brief 触发灵兽的每日协助能力。

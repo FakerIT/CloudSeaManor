@@ -14,7 +14,7 @@
 // - SleepToNextMorning
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 #include "CloudSeamanor/GameClock.hpp"
 
 using CloudSeamanor::domain::DayPhase;

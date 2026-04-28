@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/WorkshopSystem.hpp"
 
 #include "CloudSeamanor/Logger.hpp"
@@ -9,15 +7,29 @@
 
 namespace CloudSeamanor::domain {
 
+namespace {
+
+bool HasTag_(const RecipeDefinition& recipe, const std::string& tag) {
+    for (const auto& t : recipe.tags) {
+        if (t == tag) {
+            return true;
+        }
+    }
+    return false;
+}
+
+}  // namespace
+
 // ============================================================================
 // 【Initialize】初始化工坊系统
 // ============================================================================
 void WorkshopSystem::Initialize() {
-    // Week4 约定：优先读取 recipes.csv，失败时回退到旧表 RecipeTable.csv。
+    // 统一真值源：仅允许从 recipes.csv 加载，避免双表漂移。
     auto& recipe_table = GetGlobalRecipeTable();
     if (!recipe_table.LoadFromFile("assets/data/recipes.csv")) {
-        infrastructure::Logger::Warning("recipes.csv 加载失败，回退到 RecipeTable.csv。");
-        recipe_table.LoadFromFile("assets/data/RecipeTable.csv");
+        infrastructure::Logger::Error(
+            "WorkshopSystem: recipes.csv 加载失败，工坊配方不可用。"
+            "（RecipeTable.csv 已下线为弃用表，不再作为运行时回退）");
     }
 
     machines_.clear();
@@ -25,6 +37,7 @@ void WorkshopSystem::Initialize() {
     machines_.push_back({"ferment_machine", "", 0.0f, false, 2});
     level_ = 1;
     unlocked_slots_ = 1;
+    unlocked_recipe_ids_.clear();
 }
 
 // ============================================================================
@@ -75,6 +88,9 @@ bool WorkshopSystem::StartProcessing(
     if (!recipe) {
         return false;
     }
+    if (!IsRecipeUnlocked(*recipe)) {
+        return false;
+    }
 
     if (inventory.CountOf(recipe->input_item) < recipe->input_count) {
         return false;
@@ -113,6 +129,39 @@ bool WorkshopSystem::Upgrade(int level, int slots) {
     level_ = level;
     unlocked_slots_ = slots;
     return true;
+}
+
+int WorkshopSystem::RequiredLevelForRecipe(const RecipeDefinition& recipe) const noexcept {
+    if (recipe.machine_id == "ferment_machine") {
+        return 2;
+    }
+    if (HasTag_(recipe, "legendary")) {
+        return 4;
+    }
+    if (HasTag_(recipe, "advanced") || HasTag_(recipe, "upgrade") || HasTag_(recipe, "craft")) {
+        return 3;
+    }
+    if (HasTag_(recipe, "spirit") || HasTag_(recipe, "tool")) {
+        return 2;
+    }
+    return 1;
+}
+
+bool WorkshopSystem::IsRecipeUnlocked(const RecipeDefinition& recipe) const noexcept {
+    if (unlocked_recipe_ids_.count(recipe.id) > 0) {
+        return true;
+    }
+    return level_ >= RequiredLevelForRecipe(recipe);
+}
+
+void WorkshopSystem::UnlockRecipe(const std::string& recipe_id) {
+    if (!recipe_id.empty()) {
+        unlocked_recipe_ids_.insert(recipe_id);
+    }
+}
+
+void WorkshopSystem::ResetUnlockedRecipes() {
+    unlocked_recipe_ids_.clear();
 }
 
 // ============================================================================

@@ -1,0 +1,33 @@
+{
+  "$schema": "../../../docs/atlas_schema.json",
+  "id": "items_food",
+  "texture": "assets/textures/third_party/kenney_pixel-platformer-food-expansion/PNG/tilemap.png",
+  "width": 256,
+  "height": 128,
+  "description": "食物与料理图集 - Food Expansion (Kenney)",
+  "grid": {
+    "frame_width": 32,
+    "frame_height": 32,
+    "columns": 8,
+    "rows": 4
+  },
+  "frames": [
+    {"id": "apple",         "x": 0,   "y": 0,   "w": 32, "h": 32},
+    {"id": "bread",         "x": 32,  "y": 0,   "w": 32, "h": 32},
+    {"id": "cheese",        "x": 64,  "y": 0,   "w": 32, "h": 32},
+    {"id": "meat",          "x": 96,  "y": 0,   "w": 32, "h": 32},
+    {"id": "fish",          "x": 128, "y": 0,   "w": 32, "h": 32},
+    {"id": "carrot",        "x": 160, "y": 0,   "w": 32, "h": 32},
+    {"id": "mushroom",      "x": 192, "y": 0,   "w": 32, "h": 32},
+    {"id": "herb",          "x": 224, "y": 0,   "w": 32, "h": 32},
+    {"id": "cake",          "x": 0,   "y": 32,  "w": 32, "h": 32},
+    {"id": "pie",           "x": 32,  "y": 32,  "w": 32, "h": 32},
+    {"id": "potion_red",    "x": 64,  "y": 32,  "w": 32, "h": 32},
+    {"id": "potion_blue",   "x": 96,  "y": 32,  "w": 32, "h": 32},
+    {"id": "potion_green",   "x": 128, "y": 32,  "w": 32, "h": 32},
+    {"id": "potion_yellow",  "x": 160, "y": 32,  "w": 32, "h": 32},
+    {"id": "egg_cooked",    "x": 192, "y": 32,  "w": 32, "h": 32},
+    {"id": "soup",          "x": 224, "y": 32,  "w": 32, "h": 32}
+  ],
+  "animations": []
+}

@@ -2,5 +2,14 @@
   "acha": { "season": "Spring", "day": 8 },
   "xiaoman": { "season": "Summer", "day": 15 },
   "wanxing": { "season": "Winter", "day": 21 },
-  "lin": { "season": "Autumn", "day": 12 }
+  "lin": { "season": "Autumn", "day": 12 },
+  "song": { "season": "Spring", "day": 19 },
+  "yu": { "season": "Summer", "day": 7 },
+  "mo": { "season": "Winter", "day": 3 },
+  "qiao": { "season": "Autumn", "day": 6 },
+  "he": { "season": "Spring", "day": 24 },
+  "ning": { "season": "Summer", "day": 28 },
+  "an": { "season": "Autumn", "day": 18 },
+  "shu": { "season": "Spring", "day": 12 },
+  "yan": { "season": "Winter", "day": 26 }
 }

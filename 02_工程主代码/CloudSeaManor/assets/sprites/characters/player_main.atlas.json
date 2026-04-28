@@ -1,10 +1,10 @@
 {
   "$schema": "../docs/atlas_schema.json",
   "id": "player_main",
-  "texture": "assets/sprites/characters/player_main.png",
+  "texture": "assets/textures/third_party/kenney_tiny-town/PNG/tilemap.png",
   "width": 256,
   "height": 512,
-  "description": "主角精灵表 - 256×512px，每帧 32×32px，8列×16行",
+  "description": "主角精灵表 - 256×512px，每帧 32×32px，8列×16行 - Tiny Town (Kenney)",
   "grid": {
     "frame_width": 32,
     "frame_height": 32,

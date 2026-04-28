@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameAppScene.hpp"
 
 #include "CloudSeamanor/GameAppFarming.hpp"
@@ -39,8 +37,11 @@ void UpdatePlotHighlightState(
     const std::function<void(TeaPlot&, bool)>& refresh_tea_plot_visual) {
     highlighted_plot_index = -1;
     for (std::size_t i = 0; i < tea_plots.size(); ++i) {
+        const sf::FloatRect plot_bounds(
+            CloudSeamanor::adapter::ToSf(tea_plots[i].position),
+            CloudSeamanor::adapter::ToSf(tea_plots[i].size));
         const bool highlighted = CloudSeamanor::domain::Intersection(
-            CloudSeamanor::adapter::ToDomain(tea_plots[i].shape.getGlobalBounds()),
+            CloudSeamanor::adapter::ToDomain(plot_bounds),
             player.Bounds()).has_value();
         refresh_tea_plot_visual(tea_plots[i], highlighted);
         if (highlighted && highlighted_plot_index == -1) {
@@ -56,15 +57,18 @@ void UpdateNpcHighlightState(
     highlighted_npc_index = -1;
     for (std::size_t i = 0; i < npcs.size(); ++i) {
         if (!npcs[i].visible) {
-            npcs[i].shape.setOutlineColor(npcs[i].base_outline);
-            npcs[i].shape.setOutlineThickness(2.0f);
+            npcs[i].outline_rgba = npcs[i].base_outline_rgba;
+            npcs[i].outline_thickness = 2.0f;
             continue;
         }
+        const sf::FloatRect npc_bounds(
+            CloudSeamanor::adapter::ToSf(npcs[i].position),
+            CloudSeamanor::adapter::ToSf(npcs[i].size));
         const bool highlighted = CloudSeamanor::domain::Intersection(
-            CloudSeamanor::adapter::ToDomain(npcs[i].shape.getGlobalBounds()),
+            CloudSeamanor::adapter::ToDomain(npc_bounds),
             player.Bounds()).has_value();
-        npcs[i].shape.setOutlineColor(highlighted ? sf::Color::White : npcs[i].base_outline);
-        npcs[i].shape.setOutlineThickness(highlighted ? 4.0f : 2.0f);
+        npcs[i].outline_rgba = highlighted ? PackRgba(255, 255, 255) : npcs[i].base_outline_rgba;
+        npcs[i].outline_thickness = highlighted ? 4.0f : 2.0f;
         if (highlighted && highlighted_npc_index == -1) {
             highlighted_npc_index = static_cast<int>(i);
         }
@@ -76,8 +80,13 @@ void UpdateSpiritBeastHighlightState(
     SpiritBeast& spirit_beast,
     bool& spirit_beast_highlighted,
     const std::function<void(SpiritBeast&, bool)>& refresh_spirit_beast_visual) {
+    const sf::FloatRect beast_bounds(
+        {spirit_beast.position.x - spirit_beast.radius,
+         spirit_beast.position.y - spirit_beast.radius},
+        {spirit_beast.radius * 2.0f,
+         spirit_beast.radius * 2.0f});
     spirit_beast_highlighted = CloudSeamanor::domain::Intersection(
-        CloudSeamanor::adapter::ToDomain(spirit_beast.shape.getGlobalBounds()),
+        CloudSeamanor::adapter::ToDomain(beast_bounds),
         player.Bounds()).has_value();
     refresh_spirit_beast_visual(spirit_beast, spirit_beast_highlighted);
 }
@@ -153,7 +162,7 @@ void BuildSceneFallback(std::vector<sf::RectangleShape>& ground_tiles,
     interactables.emplace_back(sf::Vector2f(860.0f, 180.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::GatheringNode, "Spirit Gateway Return", "", 1);
     interactables.emplace_back(sf::Vector2f(860.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Workstation, "General Store", "", 1);
     interactables.emplace_back(sf::Vector2f(920.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Workstation, "Tide Shop", "", 1);
-    interactables.emplace_back(sf::Vector2f(980.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::GatheringNode, "Spirit Beast", "spirit_dust", 1);
+    interactables.emplace_back(sf::Vector2f(980.0f, 120.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::GatheringNode, "Spirit Beast Zone", "spirit_dust", 1);
     interactables.emplace_back(sf::Vector2f(860.0f, 300.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Greenhouse Gate", "", 1);
     interactables.emplace_back(sf::Vector2f(920.0f, 300.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Inn Desk", "", 1);
     interactables.emplace_back(sf::Vector2f(980.0f, 300.0f), sf::Vector2f(56.0f, 56.0f), CloudSeamanor::domain::InteractableType::Storage, "Coop Barn", "", 1);
@@ -228,8 +237,12 @@ void BuildSceneFromMap(const CloudSeamanor::infrastructure::TmxMap& tmx_map,
             label = "Spirit Gateway Return";
         } else if (entry.type == "spirit_plant") {
             label = "Spirit Plant";
-        } else if (entry.type == "spirit_beast_zone") {
+        } else if (entry.type == "SpiritRoamArea" || entry.type == "spirit_beast_zone" || entry.type == "spirit_beast") {
             label = "Spirit Beast Zone";
+        } else if (entry.type == "BossSpawn") {
+            label = "Spirit Beast Zone";
+        } else if (entry.type == "festival_booth") {
+            label = "Festival Booth";
         }
         interactables.emplace_back(
             sf::Vector2f(40.0f + entry.rect.x, 40.0f + entry.rect.y),
@@ -237,7 +250,8 @@ void BuildSceneFromMap(const CloudSeamanor::infrastructure::TmxMap& tmx_map,
             type,
             label,
             entry.item,
-            entry.count);
+            entry.count,
+            entry.enemy_id);
     }
 }
 

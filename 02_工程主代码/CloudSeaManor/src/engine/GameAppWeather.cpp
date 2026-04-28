@@ -1,5 +1,3 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameAppWeather.hpp"
 
 namespace CloudSeamanor::engine {

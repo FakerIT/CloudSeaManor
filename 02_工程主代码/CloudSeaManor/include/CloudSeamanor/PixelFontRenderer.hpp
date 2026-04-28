@@ -21,6 +21,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include <algorithm>
 #include <string>
 #include <unordered_map>
 
@@ -128,6 +129,18 @@ struct TextStyle {
         };
     }
 
+    static TextStyle Tooltip() {
+        return {
+            .character_size = 11,
+            .fill_color = ColorPalette::DeepBrown,
+            .outline_color = sf::Color::Transparent,
+            .shadow_color = sf::Color::Transparent,
+            .shadow_offset = {1.0f, 1.0f},
+            .outline_thickness = 0.0f,
+            .bold = false
+        };
+    }
+
     static TextStyle CoinText() {
         return {
             .character_size = 14,
@@ -149,6 +162,8 @@ public:
     explicit PixelFontRenderer(const sf::Font& font);
     PixelFontRenderer(const sf::Font& font, const sf::Font* fallback_font);
     void SetFallbackFont(const sf::Font* fallback_font) { fallback_font_ = fallback_font; }
+    void SetUiScale(float scale) { ui_scale_ = std::max(0.75f, scale); }
+    [[nodiscard]] float GetUiScale() const { return ui_scale_; }
 
     // ========================================================================
     // 【绘制方法】
@@ -213,9 +228,14 @@ public:
     [[nodiscard]] bool IsLoaded() const { return font_loaded_; }
 
 private:
+    [[nodiscard]] unsigned int ScaledCharacterSize_(unsigned int base) const;
+    [[nodiscard]] float ScaledOutlineThickness_(float base) const;
+    [[nodiscard]] sf::Vector2f ScaledShadowOffset_(const sf::Vector2f& base) const;
+
     const sf::Font& font_;
     const sf::Font* fallback_font_ = nullptr;
     bool font_loaded_ = false;
+    float ui_scale_ = 1.0f;
 };
 
 }  // namespace CloudSeamanor::engine

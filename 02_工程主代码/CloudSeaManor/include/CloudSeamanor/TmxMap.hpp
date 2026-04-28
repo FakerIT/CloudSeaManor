@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CloudSeamanor/Result.hpp"
+
 #include <SFML/System/Vector2.hpp>
 
 #include <string>
@@ -17,13 +19,14 @@ struct TmxObjectRect {
 };
 
 // TMX 中的可交互对象数据。
-// 除了矩形位置，还会记录名字、类型、奖励物品和数量，
-// 以便地图数据能直接驱动交互对象生成。
+// 除了矩形位置，还会记录名字、类型、奖励物品、敌人ID和数量，
+// 以便地图数据能直接驱动交互对象生成和战斗触发。
 struct TmxInteractableObject {
     TmxObjectRect rect;
     std::string name;
     std::string type;
     std::string item;
+    std::string enemy_id;  // BOSS 刷新区专用：指定敌人ID
     int count = 1;
 };
 
@@ -34,6 +37,7 @@ class TmxMap {
 public:
     // 从 TMX 文件读取地图。
     bool LoadFromFile(const std::string& path);
+    [[nodiscard]] CloudSeamanor::Result<void> LoadFromFileResult(const std::string& path);
 
     [[nodiscard]] const std::vector<TmxObjectRect>& Obstacles() const noexcept { return obstacles_; }
     [[nodiscard]] const std::vector<TmxInteractableObject>& Interactables() const noexcept { return interactables_; }
@@ -43,6 +47,7 @@ public:
     [[nodiscard]] int MapHeight() const noexcept { return map_height_; }
     [[nodiscard]] int TileWidth() const noexcept { return tile_width_; }
     [[nodiscard]] int TileHeight() const noexcept { return tile_height_; }
+    [[nodiscard]] const std::string& LastLoadedPath() const noexcept { return last_loaded_path_; }
 
 private:
     // 从文本中解析浮点属性。
@@ -62,6 +67,7 @@ private:
     std::vector<TmxObjectRect> obstacles_;
     std::vector<TmxInteractableObject> interactables_;
     std::vector<int> ground_tiles_;
+    std::string last_loaded_path_;  // 追踪最后加载的地图路径，用于战斗区域判定
 };
 
 } // namespace CloudSeamanor::infrastructure

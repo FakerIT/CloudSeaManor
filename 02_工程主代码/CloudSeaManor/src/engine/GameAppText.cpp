@@ -1,10 +1,9 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameAppText.hpp"
 
 #include "CloudSeamanor/CloudSystem.hpp"
 #include "CloudSeamanor/CropData.hpp"
 #include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/InputManager.hpp"
 #include "CloudSeamanor/Inventory.hpp"
 #include "CloudSeamanor/PixelArtStyle.hpp"
 #include "CloudSeamanor/RecipeData.hpp"
@@ -13,6 +12,20 @@
 #include <cstdint>
 
 namespace CloudSeamanor::engine {
+
+namespace {
+
+std::string MainHouseLevelText_(int level) {
+    switch (level) {
+    case 1: return "帐篷";
+    case 2: return "小木屋";
+    case 3: return "砖房";
+    case 4: return "大宅";
+    default: return "未知";
+    }
+}
+
+}  // namespace
 
 namespace {
 
@@ -440,13 +453,16 @@ std::string BuildDailyGoalText(const RepairProject& main_house_repair,
                               const SpiritBeast& spirit_beast,
                               const std::vector<NpcActor>& npcs) {
     (void)spirit_beast;
-    if (!main_house_repair.completed) {
-        return "目标：修缮主屋（木材 x" + std::to_string(main_house_repair.wood_cost)
-               + " + 萝卜 x" + std::to_string(main_house_repair.turnip_cost) + "）。";
+    if (main_house_repair.level < kMainHouseMaxLevel) {
+        const auto cost = QueryMainHouseUpgradeCost(main_house_repair.level);
+        return "目标：主屋升级至 Lv." + std::to_string(cost.next_level)
+            + "（木材 x" + std::to_string(cost.wood_cost)
+            + " + 萝卜 x" + std::to_string(cost.turnip_cost)
+            + " + 金币 x" + std::to_string(cost.gold_cost) + "）。";
     }
     if (inventory.CountOf("TeaLeaf") >= 2 && !tea_machine.running
         && inventory.CountOf("TeaPack") == 0) {
-        return "目标：烘制茶包（茶叶 x2 -> 茶包 x1），然后送给 NPC。";
+        return "目标：完成一轮制茶（萎凋→杀青→揉捻→干燥），做出茶包并送给 NPC。";
     }
     if (inventory.CountOf("TeaPack") > 0) {
         const auto ungifted = std::find_if(npcs.begin(), npcs.end(),
@@ -456,7 +472,8 @@ std::string BuildDailyGoalText(const RepairProject& main_house_repair,
                    + " 并送出茶包推进关系。";
         }
     }
-    return "目标：今天的三件事已完成，剩下的时间自由安排。";
+    return "目标：主屋已达 " + MainHouseLevelText_(main_house_repair.level)
+        + "，今天可自由安排经营与探索。";
 }
 
 // ============================================================================
@@ -538,6 +555,9 @@ sf::Color PhaseTint(CloudSeamanor::domain::DayPhase phase) {
 sf::Color PickupColorFor(const std::string& item_id) {
     if (item_id == "TeaLeaf") return ColorPalette::StaminaNormal;
     if (item_id == "TeaPack") return ColorPalette::LightBrown;
+    if (item_id == "withered_tea_leaf") return ColorPalette::LightBrown;
+    if (item_id == "killed_green_tea_leaf") return ColorPalette::LightBrown;
+    if (item_id == "rolled_tea_leaf") return ColorPalette::LightBrown;
     if (item_id == "Wood") return ColorPalette::DeepBrown;
     if (item_id == "Turnip") return ColorPalette::Season::SpringPink;
     return ColorPalette::CoinGold;
@@ -551,10 +571,17 @@ std::string ItemDisplayName(const std::string& item_id) {
     if (item_id == "TurnipSeed") return "萝卜种子";
     if (item_id == "TeaLeaf") return "茶叶";
     if (item_id == "TeaPack") return "茶包";
+    if (item_id == "withered_tea_leaf") return "萎凋茶叶";
+    if (item_id == "killed_green_tea_leaf") return "杀青茶叶";
+    if (item_id == "rolled_tea_leaf") return "揉捻茶叶";
     if (item_id == "Turnip") return "萝卜";
     if (item_id == "Wood") return "木材";
     if (item_id == "SprinklerItem") return "洒水器";
-    if (item_id == "FertilizerItem") return "肥料";
+    if (item_id == "FertilizerItem") return "普通肥料";
+    if (item_id == "premium_fertilizer") return "优质肥料";
+    if (item_id == "spirit_fertilizer") return "灵肥";
+    if (item_id == "cloud_fertilizer") return "云华肥";
+    if (item_id == "tea_soul_fertilizer") return "茶魂肥";
     if (item_id == "spirit_grass") return "灵草";
     if (item_id == "cloud_dew") return "云露";
     if (item_id == "spirit_dust") return "灵尘";
@@ -568,10 +595,77 @@ std::string ItemDisplayName(const std::string& item_id) {
     if (item_id == "spirit_essence") return "灵粹";
     if (item_id == "cloud_elixir") return "云华灵药";
     if (item_id == "immortal_tea") return "不朽灵茶";
+    if (item_id == "taichu_tea") return "太初灵茶";
+    if (item_id == "taichu_tea_base") return "太初灵茶原液";
+
+    // ========== 灵茶种类名称 ==========
+    // 入门级灵茶
+    if (item_id == "mist_green_tea") return "初雾绿茶";
+    if (item_id == "dew_white_tea") return "晨露白茶";
+    // 中级灵茶
+    if (item_id == "sunset_oolong") return "暮霞乌龙";
+    if (item_id == "cloudberry_red") return "云莓红茶";
+    if (item_id == "moonlight_silver") return "望月银茶";
+    if (item_id == "autumn_frost_oolong") return "秋霜乌龙";
+    if (item_id == "pine_smoke_black") return "松烟黑茶";
+    if (item_id == "summer_cloud_tea") return "夏云白茶";
+    // 高级灵茶
+    if (item_id == "spirit_orchid_tea") return "灵兰花茶";
+    if (item_id == "frost_needle_tea") return "霜针灵茶";
+    if (item_id == "winter_snow_silver") return "冬雪银针";
+    if (item_id == "rock_bone_tea") return "岩骨黑茶";
+    if (item_id == "star_frost_tea") return "星霜雪茶";
+    // 特殊/传说级灵茶
+    if (item_id == "cloud_top_golden") return "云巅金芽";
+    if (item_id == "dream_cloud_purple") return "梦云紫茶";
+    if (item_id == "tide_heart_tea") return "潮心古茶";
+    if (item_id == "origin_tea") return "太初元茶";
+
+    // ========== 灵茶加工品名称 ==========
+    if (item_id == "mist_green_tea_pack") return "初雾绿茶包";
+    if (item_id == "dew_white_tea_pack") return "晨露白茶包";
+    if (item_id == "sunset_oolong_pack") return "暮霞乌龙包";
+    if (item_id == "cloudberry_red_pack") return "云莓红茶包";
+    if (item_id == "moonlight_silver_pack") return "望月银茶包";
+    if (item_id == "autumn_frost_oolong_pack") return "秋霜乌龙包";
+    if (item_id == "pine_smoke_black_pack") return "松烟黑茶包";
+    if (item_id == "summer_cloud_tea_pack") return "夏云白茶包";
+    if (item_id == "spirit_orchid_tea_pack") return "灵兰花茶包";
+    if (item_id == "frost_needle_tea_pack") return "霜针灵茶包";
+    if (item_id == "winter_snow_silver_pack") return "冬雪银针包";
+    if (item_id == "rock_bone_tea_pack") return "岩骨黑茶包";
+    if (item_id == "star_frost_tea_pack") return "星霜雪茶包";
+    if (item_id == "cloud_top_golden_pack") return "云巅金芽礼盒";
+    if (item_id == "dream_cloud_purple_pack") return "梦云紫茶包";
+    if (item_id == "tide_heart_tea_pack") return "潮心古茶包";
+    if (item_id == "origin_tea_pack") return "太初元茶包";
+    if (item_id == "tide_heart_tea_brew") return "潮心古茶酿";
+    if (item_id == "tea_essence") return "茶灵精华";
+    if (item_id == "spirit_tea_blend") return "灵雾拼配茶";
+    if (item_id == "steamed_tea") return "蒸汽茶";
+    if (item_id == "fermented_tea") return "发酵茶";
+    if (item_id == "fermented_tea_plus") return "熟成发酵茶";
+
     if (item_id == "JadeRing") return "翡翠戒指";
     if (item_id == "Feed") return "饲料";
     if (item_id == "Egg") return "鸡蛋";
     if (item_id == "Milk") return "牛奶";
+    if (item_id == "tea_egg") return "茶叶蛋";
+    if (item_id == "veggie_soup") return "蔬菜汤";
+    if (item_id == "warm_milk") return "热牛奶";
+    if (item_id == "mist_carp") return "雾鲤";
+    if (item_id == "cloud_koi") return "云锦鲤";
+    if (item_id == "moon_silverfish") return "月银鱼";
+    if (item_id == "tea_shrimp") return "茶虾";
+    if (item_id == "tide_eel") return "潮鳗";
+    if (item_id == "fish_oil") return "鱼油凝脂";
+    if (item_id == "tea_room_screen") return "茶室屏风";
+    if (item_id == "tea_room_lamp") return "茶室灯盏";
+    if (item_id == "tea_room_vase") return "茶室花瓶";
+    if (item_id == "tea_room_scroll") return "茶室挂轴";
+    if (item_id == "tea_room_mat") return "茶室蒲团";
+    if (item_id == "tea_room_bonsai") return "茶室盆景";
+    if (item_id == "heirloom_album") return "传承册";
     if (item_id == "pet_cat_license") return "猫咪认养证";
     if (item_id == "pet_dog_license") return "小狗认养证";
     if (item_id == "pet_bird_license") return "飞鸟认养证";
@@ -580,6 +674,62 @@ std::string ItemDisplayName(const std::string& item_id) {
     if (item_id == "oolong_tea_pack") return "乌龙茶包";
     if (item_id == "spirit_tea_pack") return "灵茶包";
     if (item_id == "fermented_tea_pack") return "发酵茶包";
+    // 洒水器名称
+    if (item_id == "sprinkler_copper") return "铜洒水器";
+    if (item_id == "sprinkler_silver") return "银洒水器";
+    if (item_id == "sprinkler_gold") return "金洒水器";
+    if (item_id == "sprinkler_spirit") return "灵金洒水器";
+    // 锄头名称
+    if (item_id == "hoe_copper") return "铜锄";
+    if (item_id == "hoe_silver") return "银锄";
+    if (item_id == "hoe_gold") return "金锄";
+    if (item_id == "hoe_spirit") return "灵金锄";
+    // 水壶名称
+    if (item_id == "watering_can_copper") return "铜水壶";
+    if (item_id == "watering_can_silver") return "银水壶";
+    if (item_id == "watering_can_gold") return "金水壶";
+    if (item_id == "watering_can_spirit") return "灵金水壶";
+    // 金属锭
+    if (item_id == "copper_ingot") return "铜锭";
+    if (item_id == "silver_ingot") return "银锭";
+    if (item_id == "gold_ingot") return "金锭";
+    if (item_id == "spirit_ingot") return "灵金锭";
+    // 镰刀名称
+    if (item_id == "sickle_copper") return "铜镰刀";
+    if (item_id == "sickle_silver") return "银镰刀";
+    if (item_id == "sickle_gold") return "金镰刀";
+    if (item_id == "sickle_spirit") return "灵金镰刀";
+    // 剪刀名称
+    if (item_id == "scissors_copper") return "铜剪刀";
+    if (item_id == "scissors_silver") return "银剪刀";
+    if (item_id == "scissors_gold") return "金剪刀";
+    if (item_id == "scissors_spirit") return "灵金剪刀";
+    // 斧头名称
+    if (item_id == "axe_copper") return "铜斧头";
+    if (item_id == "axe_silver") return "银斧头";
+    if (item_id == "axe_gold") return "金斧头";
+    if (item_id == "axe_spirit") return "灵金斧头";
+    // 镐子名称
+    if (item_id == "pickaxe_copper") return "铜镐子";
+    if (item_id == "pickaxe_silver") return "银镐子";
+    if (item_id == "pickaxe_gold") return "金镐子";
+    if (item_id == "pickaxe_spirit") return "灵金镐子";
+
+    // ========== Buff效果名称 ==========
+    if (item_id == "buff_focus_small") return "清心（灵茶Buff）";
+    if (item_id == "buff_stamina_small") return "养气（灵茶Buff）";
+    if (item_id == "buff_trade_bonus") return "通商（灵茶Buff）";
+    if (item_id == "buff_mood_soft") return "悦心（灵茶Buff）";
+    if (item_id == "buff_agility_small") return "轻身（灵茶Buff）";
+    if (item_id == "buff_defense_small") return "护体（灵茶Buff）";
+    if (item_id == "buff_creativity") return "灵感（灵茶Buff）";
+    if (item_id == "buff_defense_mid") return "金钟（灵茶Buff）";
+    if (item_id == "buff_focus_mid") return "入定（灵茶Buff）";
+    if (item_id == "buff_spirit_rate") return "灵聚（灵茶Buff）";
+    if (item_id == "buff_dream_creative") return "梦创（灵茶Buff）";
+    if (item_id == "buff_spirit_rate_legendary") return "灵潮（灵茶Buff）";
+    if (item_id == "buff_mastery") return "通玄（灵茶Buff）";
+
     return item_id;
 }
 

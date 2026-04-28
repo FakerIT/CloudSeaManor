@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/systems/PlayerMovementSystem.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
@@ -13,7 +11,7 @@ void PlayerMovementSystem::Update(
     float delta_seconds,
     const sf::Vector2f& direction
 ) {
-    auto& player = world_state.GetPlayer();
+    auto& player = world_state.MutablePlayer();
     const float speed = world_state.GetConfig().player_speed;
     const sf::Vector2f movement(direction.x * speed * delta_seconds, direction.y * speed * delta_seconds);
 

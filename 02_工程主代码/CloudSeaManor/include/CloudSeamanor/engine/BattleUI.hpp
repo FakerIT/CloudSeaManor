@@ -37,6 +37,7 @@ namespace detail {
 // ============================================================================
 struct SkillButton {
     sf::RectangleShape background;   // 背景
+    sf::RectangleShape icon_placeholder; // 图标占位
     sf::RectangleShape cooldown_overlay; // 冷却遮罩
     sf::Text key_label{detail::BattleUiFallbackFont()};              // 按键标签（Q/W/E/R）
     sf::Text cooldown_label{detail::BattleUiFallbackFont()};         // 冷却倒计时
@@ -50,6 +51,7 @@ struct SkillButton {
     float cooldown_remaining = 0.0f; // 当前冷却剩余
     float cooldown_total = 0.0f;      // 总冷却时间
     float energy_cost = 0.0f;        // 能量消耗
+    ElementType element = ElementType::Neutral;
     bool is_hovered = false;         // 鼠标悬停
 };
 
@@ -60,8 +62,10 @@ struct SpiritHealthBar {
     sf::RectangleShape background;
     sf::RectangleShape pollution_fill;  // 污染值条（满=被污染）
     sf::RectangleShape purity_fill;     // 纯净值条（满=已净化）
+    std::vector<sf::RectangleShape> imbalance_segments; // 失衡段位占位色块
     sf::Text name_label{detail::BattleUiFallbackFont()};
     sf::Text type_label{detail::BattleUiFallbackFont()};  // 普通/精英/BOSS标签
+    sf::Text recommend_label{detail::BattleUiFallbackFont()}; // 建议克制元素提示
 
     std::string spirit_id;
     float bar_width = 120.0f;

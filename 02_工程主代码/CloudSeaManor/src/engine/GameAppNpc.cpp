@@ -1,6 +1,5 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameAppNpc.hpp"
+#include "CloudSeamanor/DataRegistry.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 
@@ -19,43 +18,54 @@ std::string NpcDisplayName(const NpcTextMappings& npc_text_mappings, const std::
 
 namespace {
 
+using CloudSeamanor::infrastructure::DataRegistry;
+
+std::string TrimText(std::string text) {
+    const auto first = text.find_first_not_of(" \t\r\n");
+    if (first == std::string::npos) {
+        return {};
+    }
+    const auto last = text.find_last_not_of(" \t\r\n");
+    return text.substr(first, last - first + 1);
+}
+
 void SeedCoreNpcs(const NpcTextMappings& npc_text_mappings,
                   std::unordered_map<std::string, NpcActor>& npc_map) {
     npc_map["lin"].id = "lin";
     npc_map["lin"].display_name = NpcDisplayName(npc_text_mappings, "lin");
-    npc_map["lin"].shape.setSize({28.0f, 40.0f});
-    npc_map["lin"].shape.setFillColor(sf::Color(220, 170, 200));
-    npc_map["lin"].shape.setOutlineThickness(2.0f);
-    npc_map["lin"].base_outline = sf::Color(100, 64, 88);
-    npc_map["lin"].shape.setOutlineColor(npc_map["lin"].base_outline);
-    npc_map["lin"].shape.setPosition({420.0f, 320.0f});
+    npc_map["lin"].size = {28.0f, 40.0f};
+    npc_map["lin"].fill_rgba = PackRgba(220, 170, 200);
+    npc_map["lin"].outline_thickness = 2.0f;
+    npc_map["lin"].base_outline_rgba = PackRgba(100, 64, 88);
+    npc_map["lin"].outline_rgba = npc_map["lin"].base_outline_rgba;
+    npc_map["lin"].position = {420.0f, 320.0f};
 
     npc_map["acha"].id = "acha";
     npc_map["acha"].display_name = NpcDisplayName(npc_text_mappings, "acha");
-    npc_map["acha"].shape.setSize({26.0f, 44.0f});
-    npc_map["acha"].shape.setFillColor(sf::Color(180, 240, 200));
-    npc_map["acha"].shape.setOutlineThickness(2.0f);
-    npc_map["acha"].base_outline = sf::Color(80, 140, 100);
-    npc_map["acha"].shape.setOutlineColor(npc_map["acha"].base_outline);
-    npc_map["acha"].shape.setPosition({430.0f, 330.0f});
+    npc_map["acha"].size = {26.0f, 44.0f};
+    npc_map["acha"].fill_rgba = PackRgba(180, 240, 200);
+    npc_map["acha"].outline_thickness = 2.0f;
+    npc_map["acha"].base_outline_rgba = PackRgba(80, 140, 100);
+    npc_map["acha"].outline_rgba = npc_map["acha"].base_outline_rgba;
+    npc_map["acha"].position = {430.0f, 330.0f};
 
     npc_map["xiaoman"].id = "xiaoman";
     npc_map["xiaoman"].display_name = NpcDisplayName(npc_text_mappings, "xiaoman");
-    npc_map["xiaoman"].shape.setSize({28.0f, 38.0f});
-    npc_map["xiaoman"].shape.setFillColor(sf::Color(255, 210, 100));
-    npc_map["xiaoman"].shape.setOutlineThickness(2.0f);
-    npc_map["xiaoman"].base_outline = sf::Color(180, 140, 40);
-    npc_map["xiaoman"].shape.setOutlineColor(npc_map["xiaoman"].base_outline);
-    npc_map["xiaoman"].shape.setPosition({320.0f, 450.0f});
+    npc_map["xiaoman"].size = {28.0f, 38.0f};
+    npc_map["xiaoman"].fill_rgba = PackRgba(255, 210, 100);
+    npc_map["xiaoman"].outline_thickness = 2.0f;
+    npc_map["xiaoman"].base_outline_rgba = PackRgba(180, 140, 40);
+    npc_map["xiaoman"].outline_rgba = npc_map["xiaoman"].base_outline_rgba;
+    npc_map["xiaoman"].position = {320.0f, 450.0f};
 
     npc_map["wanxing"].id = "wanxing";
     npc_map["wanxing"].display_name = NpcDisplayName(npc_text_mappings, "wanxing");
-    npc_map["wanxing"].shape.setSize({24.0f, 46.0f});
-    npc_map["wanxing"].shape.setFillColor(sf::Color(140, 120, 200));
-    npc_map["wanxing"].shape.setOutlineThickness(2.0f);
-    npc_map["wanxing"].base_outline = sf::Color(80, 60, 140);
-    npc_map["wanxing"].shape.setOutlineColor(npc_map["wanxing"].base_outline);
-    npc_map["wanxing"].shape.setPosition({180.0f, 160.0f});
+    npc_map["wanxing"].size = {24.0f, 46.0f};
+    npc_map["wanxing"].fill_rgba = PackRgba(140, 120, 200);
+    npc_map["wanxing"].outline_thickness = 2.0f;
+    npc_map["wanxing"].base_outline_rgba = PackRgba(80, 60, 140);
+    npc_map["wanxing"].outline_rgba = npc_map["wanxing"].base_outline_rgba;
+    npc_map["wanxing"].position = {180.0f, 160.0f};
 }
 
 void SeedExtraNpcs(const NpcTextMappings& npc_text_mappings,
@@ -67,16 +77,16 @@ void SeedExtraNpcs(const NpcTextMappings& npc_text_mappings,
         NpcActor actor;
         actor.id = extra_ids[i];
         actor.display_name = NpcDisplayName(npc_text_mappings, extra_ids[i]);
-        actor.shape.setSize({24.0f, 38.0f});
-        actor.shape.setFillColor(sf::Color(
+        actor.size = {24.0f, 38.0f};
+        actor.fill_rgba = PackRgba(
             static_cast<std::uint8_t>(120 + (i * 13) % 110),
             static_cast<std::uint8_t>(130 + (i * 17) % 100),
-            static_cast<std::uint8_t>(140 + (i * 19) % 90)));
-        actor.shape.setOutlineThickness(2.0f);
-        actor.base_outline = sf::Color(72, 72, 88);
-        actor.shape.setOutlineColor(actor.base_outline);
-        actor.shape.setPosition({540.0f + static_cast<float>(i % 3) * 36.0f,
-                                 250.0f + static_cast<float>(i / 3) * 44.0f});
+            static_cast<std::uint8_t>(140 + (i * 19) % 90));
+        actor.outline_thickness = 2.0f;
+        actor.base_outline_rgba = PackRgba(72, 72, 88);
+        actor.outline_rgba = actor.base_outline_rgba;
+        actor.position = {540.0f + static_cast<float>(i % 3) * 36.0f,
+                          250.0f + static_cast<float>(i / 3) * 44.0f};
         npc_map[extra_ids[i]] = actor;
     }
 }
@@ -124,14 +134,40 @@ void ParseNpcSchedules(const std::string& schedule_text,
 }
 
 void FinalizeNpcs(const std::string& gift_text,
+                  const std::unordered_map<std::string, NpcDataRow>& npc_rows,
                   std::unordered_map<std::string, NpcActor>& npc_map,
                   std::vector<NpcActor>& npcs) {
     for (auto& [id, npc] : npc_map) {
         npc.prefs = ParseGiftPrefsForNpc(gift_text, id);
+        const auto data_it = npc_rows.find(id);
+        if (data_it != npc_rows.end()) {
+            const auto& row = data_it->second;
+            if (!row.display_name.empty()) {
+                npc.display_name = row.display_name;
+            }
+            npc.position = {row.position_x, row.position_y};
+            if (!row.home_location.empty()) {
+                npc.current_location = row.home_location;
+            }
+        }
         if (npc.schedule.empty()) {
-            npc.schedule.push_back({360, 720, "VillageCenter", "Trading"});
-            npc.schedule.push_back({720, 1080, "Market", "Trading"});
-            npc.schedule.push_back({1080, 1320, "MainHouse", "BreakfastAndChores"});
+            const std::string home_location =
+                (data_it != npc_rows.end() && !data_it->second.home_location.empty())
+                    ? data_it->second.home_location
+                    : "MainHouse";
+            const std::string work_location =
+                (data_it != npc_rows.end() && !data_it->second.work_location.empty())
+                    ? data_it->second.work_location
+                    : "Market";
+            npc.schedule.push_back({360, 720, home_location, "BreakfastAndChores"});
+            npc.schedule.push_back({720, 1080, work_location, "Trading"});
+            npc.schedule.push_back({1080, 1320, home_location, "BreakfastAndChores"});
+        }
+        if (npc.current_location.empty()) {
+            npc.current_location = npc.schedule.front().location;
+        }
+        if (npc.current_activity.empty()) {
+            npc.current_activity = npc.schedule.front().activity;
         }
         npcs.push_back(npc);
     }
@@ -150,18 +186,7 @@ int ParseTimeToMinutes(const std::string& time_text) {
 }
 
 std::vector<std::string> SplitCsvLine(const std::string& line) {
-    std::vector<std::string> cells;
-    std::string current;
-    for (char ch : line) {
-        if (ch == ',') {
-            cells.push_back(current);
-            current.clear();
-        } else {
-            current.push_back(ch);
-        }
-    }
-    cells.push_back(current);
-    return cells;
+    return DataRegistry::SplitCsvLine(line);
 }
 
 sf::Vector2f AnchorForLocation(const std::string& location) {
@@ -284,6 +309,56 @@ bool LoadNpcTextMappings(const std::string& path, NpcTextMappings& npc_text_mapp
     return true;
 }
 
+bool LoadNpcDataTable(const std::string& path,
+                      std::unordered_map<std::string, NpcDataRow>& out_rows) {
+    out_rows.clear();
+
+    std::ifstream data_stream(path);
+    if (!data_stream.is_open()) {
+        return false;
+    }
+
+    std::string line;
+    bool is_header = true;
+    while (std::getline(data_stream, line)) {
+        const std::string trimmed = TrimText(line);
+        if (trimmed.empty() || trimmed[0] == '#') {
+            continue;
+        }
+        if (is_header) {
+            is_header = false;
+            continue;
+        }
+
+        const auto cells = SplitCsvLine(line);
+        if (cells.size() < 14) {
+            continue;
+        }
+
+        NpcDataRow row;
+        row.id = TrimText(cells[0]);
+        row.display_name = TrimText(cells[1]);
+        row.home_location = TrimText(cells[5]);
+        row.work_location = TrimText(cells[6]);
+        row.schedule_profile_id = TrimText(cells[9]);
+        row.gift_profile_id = TrimText(cells[10]);
+        row.life_stage_profile_id = TrimText(cells[11]);
+        try {
+            row.position_x = std::stof(TrimText(cells[12]));
+            row.position_y = std::stof(TrimText(cells[13]));
+        } catch (...) {
+            row.position_x = 0.0f;
+            row.position_y = 0.0f;
+        }
+
+        if (!row.id.empty()) {
+            out_rows[row.id] = std::move(row);
+        }
+    }
+
+    return !out_rows.empty();
+}
+
 std::string NpcDisplayName(const NpcTextMappings& npc_text_mappings, const std::string& npc_id) {
     const auto it = npc_text_mappings.names.find(npc_id);
     return it != npc_text_mappings.names.end() ? it->second : npc_id;
@@ -305,6 +380,7 @@ bool ContainsItem(const std::vector<std::string>& items, const std::string& item
 
 void BuildNpcs(const std::string& schedule_path,
                const std::string& gift_path,
+               const std::string& npc_data_path,
                const NpcTextMappings& npc_text_mappings,
                std::vector<NpcActor>& npcs) {
     npcs.clear();
@@ -316,11 +392,30 @@ void BuildNpcs(const std::string& schedule_path,
     std::ifstream gift_stream(gift_path);
     const std::string gift_text((std::istreambuf_iterator<char>(gift_stream)), std::istreambuf_iterator<char>());
 
+    std::unordered_map<std::string, NpcDataRow> npc_rows;
+    const bool loaded_npc_rows = LoadNpcDataTable(npc_data_path, npc_rows);
+
     std::unordered_map<std::string, NpcActor> npc_map;
     SeedCoreNpcs(npc_text_mappings, npc_map);
     SeedExtraNpcs(npc_text_mappings, npc_map);
+    if (loaded_npc_rows) {
+        for (const auto& [id, row] : npc_rows) {
+            auto& actor = npc_map[id];
+            actor.id = id;
+            actor.display_name = !row.display_name.empty()
+                ? row.display_name
+                : NpcDisplayName(npc_text_mappings, id);
+            if (row.position_x != 0.0f || row.position_y != 0.0f) {
+                actor.position = {row.position_x, row.position_y};
+            } else {
+                const sf::Vector2f anchor =
+                    AnchorForLocation(!row.home_location.empty() ? row.home_location : row.work_location);
+                actor.position = {anchor.x, anchor.y};
+            }
+        }
+    }
     ParseNpcSchedules(schedule_text, npc_map);
-    FinalizeNpcs(gift_text, npc_map, npcs);
+    FinalizeNpcs(gift_text, npc_rows, npc_map, npcs);
 }
 
 } // namespace CloudSeamanor::engine

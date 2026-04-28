@@ -59,6 +59,43 @@ const PriceTableEntry* ShopSystem::SelectFirstSellable(
     return nullptr;
 }
 
+std::vector<const PriceTableEntry*> ShopSystem::CollectSellableBySource(
+    const std::vector<PriceTableEntry>& price_table,
+    const std::string& source,
+    const CloudSeamanor::domain::Inventory& inventory) const {
+    std::vector<const PriceTableEntry*> options;
+    for (const auto& entry : price_table) {
+        if (entry.buy_from != source) {
+            continue;
+        }
+        if (inventory.CountOf(entry.item_id) <= 0 || entry.sell_price <= 0) {
+            continue;
+        }
+        options.push_back(&entry);
+    }
+    std::sort(options.begin(), options.end(), [](const PriceTableEntry* lhs, const PriceTableEntry* rhs) {
+        if (lhs->sell_price != rhs->sell_price) {
+            return lhs->sell_price > rhs->sell_price;
+        }
+        return lhs->item_id < rhs->item_id;
+    });
+    return options;
+}
+
+bool ShopSystem::CanPurchaseByWeeklyLimit(
+    const PriceTableEntry& selected,
+    const std::unordered_map<std::string, int>& weekly_buy_count) const {
+    const auto it = weekly_buy_count.find(selected.item_id);
+    if (it == weekly_buy_count.end()) {
+        return true;
+    }
+    return it->second < WeeklyPurchaseLimitPerItem();
+}
+
+int ShopSystem::WeeklyPurchaseLimitPerItem() const {
+    return 7;
+}
+
 bool ShopSystem::TryPurchase(
     const PriceTableEntry& selected,
     int& gold,

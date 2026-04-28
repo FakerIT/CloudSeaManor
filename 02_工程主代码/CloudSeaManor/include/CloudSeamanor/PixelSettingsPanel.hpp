@@ -3,6 +3,10 @@
 #include "CloudSeamanor/PixelUiPanel.hpp"
 #include "CloudSeamanor/SaveSlotManager.hpp"
 
+namespace CloudSeamanor::infrastructure {
+class ResourceManager;
+}
+
 #include <SFML/Graphics/Texture.hpp>
 
 #include <array>
@@ -32,6 +36,7 @@ public:
     PixelSettingsPanel();
 
     void SetFontRenderer(const PixelFontRenderer* renderer) { font_renderer_ = renderer; }
+    void SetResourceManager(infrastructure::ResourceManager* rm) { resource_manager_ = rm; }
     void SetVisible(bool visible);
     [[nodiscard]] bool IsVisible() const { return visible_; }
 
@@ -39,6 +44,7 @@ public:
     void AdjustValue(int delta);
     void SetSlots(const std::vector<CloudSeamanor::infrastructure::SaveSlotMetadata>& slots);
     void SetTextConfig(const TextConfig& text_config) { text_config_ = text_config; }
+    void SetRuntimeValues(float bgm_volume, float sfx_volume, bool fullscreen);
 
     [[nodiscard]] int SelectedSlot() const { return selected_slot_; }
     [[nodiscard]] int SelectedRow() const { return selected_row_; }
@@ -52,6 +58,7 @@ private:
     void RefreshThumbnails_();
 
     const PixelFontRenderer* font_renderer_ = nullptr;
+    infrastructure::ResourceManager* resource_manager_ = nullptr;
     bool visible_ = false;
     int selected_row_ = 0;
     int selected_slot_ = 1;

@@ -1,12 +1,175 @@
 item_id,buy_price,sell_price,buy_from,category
+# ============================================================================
+# 种子价格（商店出售）
+# ============================================================================
 TurnipSeed,20,10,shop,seed
+RootSeed,25,12,shop,seed
+RutabagaSeed,25,12,shop,seed
+BeanSeed,30,15,shop,seed
+CauliflowerSeed,40,20,shop,seed
+LettuceSeed,20,10,shop,seed
+WheatSeed,15,8,shop,seed
+CloudRiceSeed,30,15,shop,seed
+BambooSeed,25,12,shop,seed
+PurpleBeanSeed,35,18,shop,seed
+StrawberrySeed,50,25,shop,seed
+CloudEarSeed,60,30,shop,seed
+PepperSeed,30,15,shop,seed
+TomatoSeed,25,12,shop,seed
+BlueberrySeed,45,22,shop,seed
+CloudBerrySeed,35,18,shop,seed
+SunflowerSeed,20,10,shop,seed
+CornSeed,30,15,shop,seed
+EggplantSeed,25,12,shop,seed
+WatermelonSeed,60,30,shop,seed
+RockMelonSeed,80,40,shop,seed
+GoldenPumpkinSeed,100,50,shop,seed
+DragonFruitSeed,200,100,shop,seed
+MistFlowerSeed,45,22,shop,seed
+PumpkinSeed,40,20,shop,seed
+YamSeed,30,15,shop,seed
+AppleSeed,50,25,shop,seed
+GrapeSeed,35,18,shop,seed
+ChrysanthemumSeed,20,10,shop,seed
+SweetPotatoSeed,25,12,shop,seed
+TaroSeed,30,15,shop,seed
+ChestnutSeed,45,22,shop,seed
+SpiritGrassSeed,80,40,shop,seed
+CloudOilFruitSeed,70,35,shop,seed
+SnowLotusSeed,90,45,shop,seed
+WinterWheatSeed,18,9,shop,seed
+KaleSeed,22,11,shop,seed
+FrostTurnipSeed,28,14,shop,seed
+IceBeanSeed,30,15,shop,seed
+SnowFlowerSeed,60,30,shop,seed
+WinterMushroomSeed,55,28,shop,seed
+StarSeed,150,75,shop,seed
+MushroomSeed,50,25,shop,seed
+MoonRiceSeed,40,20,shop,seed
 TeaSeed,30,15,shop,seed
+EarlyMistTeaSeed,45,22,shop,seed
+SpiritMistTeaSeed,60,30,shop,seed
+BambooShadowTeaSeed,80,40,shop,seed
+SummerCloudTeaSeed,70,35,shop,seed
+AutumnFrostTeaSeed,75,38,shop,seed
+WinterSnowTeaSeed,85,42,shop,seed
+RockBoneTeaSeed,100,50,shop,seed
+StarHideTeaSeed,120,60,shop,seed
+GuardianPineTeaSeed,150,75,shop,seed
+CloudTopGoldTeaSeed,200,100,shop,seed
+DreamCloudTeaSeed,250,125,shop,seed
+TaichuTeaSeed,500,250,shop,seed
+# ============================================================================
+# 作物收获价格（出售给收购商）
+# ============================================================================
+Turnip,0,18,purchaser,crop
+RootTurnip,0,25,purchaser,crop
+Rutabaga,0,20,purchaser,crop
+BeanPod,0,22,purchaser,crop
+Cauliflower,0,35,purchaser,crop
+Lettuce,0,18,purchaser,crop
+Wheat,0,15,purchaser,crop
+CloudRice,0,30,purchaser,crop
+BambooShoot,0,25,purchaser,crop
+PurpleBean,0,28,purchaser,crop
+Strawberry,0,45,purchaser,crop
+CloudEar,0,55,purchaser,crop
+Pepper,0,22,purchaser,crop
+Tomato,0,25,purchaser,crop
+Blueberry,0,40,purchaser,crop
+CloudBerry,0,30,purchaser,crop
+Sunflower,0,20,purchaser,crop
+Corn,0,28,purchaser,crop
+Eggplant,0,22,purchaser,crop
+Watermelon,0,80,purchaser,crop
+RockMelon,0,120,purchaser,crop
+GoldenPumpkin,0,100,purchaser,crop
+DragonFruit,0,250,purchaser,crop
+MistFlower,0,40,purchaser,crop
+Pumpkin,0,45,purchaser,crop
+Yam,0,28,purchaser,crop
+Apple,0,50,purchaser,crop
+Grape,0,35,purchaser,crop
+Chrysanthemum,0,22,purchaser,crop
+SweetPotato,0,30,purchaser,crop
+Taro,0,28,purchaser,crop
+Chestnut,0,45,purchaser,crop
+SpiritGrass,0,100,purchaser,crop
+CloudOilFruit,0,80,purchaser,crop
+SnowLotusRoot,0,90,purchaser,crop
+WinterWheat,0,20,purchaser,crop
+Kale,0,22,purchaser,crop
+FrostTurnip,0,28,purchaser,crop
+IceBean,0,30,purchaser,crop
+SnowFlower,0,60,purchaser,crop
+WinterMushroom,0,55,purchaser,crop
+StarFruit,0,200,purchaser,crop
+SpiritMushroom,0,120,purchaser,crop
+MoonRice,0,45,purchaser,crop
+TeaLeaf,0,15,purchaser,crop
+EarlyMistTeaLeaf,0,25,purchaser,crop
+SpiritMistTeaLeaf,0,35,purchaser,crop
+BambooShadowTeaLeaf,0,50,purchaser,crop
+SummerCloudTeaLeaf,0,45,purchaser,crop
+AutumnFrostTeaLeaf,0,55,purchaser,crop
+WinterSnowTeaLeaf,0,60,purchaser,crop
+RockBoneTeaLeaf,0,80,purchaser,crop
+StarHideTeaLeaf,0,100,purchaser,crop
+GuardianPineTeaLeaf,0,120,purchaser,crop
+CloudTopGoldTeaLeaf,0,180,purchaser,crop
+DreamCloudTeaLeaf,0,220,purchaser,crop
+TaichuTeaLeaf,0,500,purchaser,crop
+TeaPack,0,100,purchaser,processed
+# ============================================================================
+# 加工产物价格
+# ============================================================================
+spirit_essence,0,130,purchaser,spirit_processed
+cloud_elixir,0,220,purchaser,spirit_processed
+immortal_tea,0,680,purchaser,legendary_processed
+steamed_tea,0,60,purchaser,processed
+fermented_tea,0,120,purchaser,processed
+spirit_tea_blend,0,200,purchaser,processed
+# ============================================================================
+# 工具价格
+# ============================================================================
 FertilizerItem,60,30,shop,fertilizer
 SprinklerItem,180,90,shop,tool
-TeaLeaf,0,15,purchaser,crop
-TeaPack,0,100,purchaser,processed
-PesticideItem,45,12,general_store,tool
-SpiritSickle,260,120,general_store,tool
+PesticideItem,45,12,shop,tool
+SpiritSickle,260,120,shop,tool
+hoe_copper,150,75,shop,tool
+hoe_silver,300,150,shop,tool
+hoe_gold,600,300,shop,tool
+hoe_spirit,1200,600,shop,tool
+watering_can_copper,120,60,shop,tool
+watering_can_silver,240,120,shop,tool
+watering_can_gold,480,240,shop,tool
+watering_can_spirit,960,480,shop,tool
+sickle_copper,120,60,shop,tool
+sickle_silver,250,125,shop,tool
+sickle_gold,500,250,shop,tool
+sickle_spirit,1000,500,shop,tool
+scissors_copper,100,50,shop,tool
+scissors_silver,200,100,shop,tool
+scissors_gold,400,200,shop,tool
+scissors_spirit,800,400,shop,tool
+axe_copper,130,65,shop,tool
+axe_silver,260,130,shop,tool
+axe_gold,520,260,shop,tool
+axe_spirit,1040,520,shop,tool
+pickaxe_copper,130,65,shop,tool
+pickaxe_silver,260,130,shop,tool
+pickaxe_gold,520,260,shop,tool
+pickaxe_spirit,1040,520,shop,tool
+# ============================================================================
+# 金属锭价格
+# ============================================================================
+copper_ingot,0,50,general_store,material
+silver_ingot,0,150,general_store,material
+gold_ingot,0,400,general_store,material
+spirit_ingot,0,1000,tide_shop,material
+# ============================================================================
+# 特殊物品
+# ============================================================================
 JadeRing,1280,640,tide_shop,special
 star_fragment,900,450,tide_shop,special
 Feed,25,8,general_store,farm

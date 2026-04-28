@@ -1,22 +1,97 @@
 {
-  "acha": {
-    "loved": ["spirit_tea_pack", "MistFlower", "MoonRice"],
-    "liked": ["TeaPack", "TeaLeaf", "CloudBerry"],
-    "disliked": ["Stone", "Weed"]
+  "version": "2.0",
+  "update_date": "2026-04-28",
+  "description": "NPC礼物喜好表 - 匹配代码中的物品ID",
+  "tiers": {
+    "loved": { "affection": 100, "multiplier": 1.0 },
+    "liked": { "affection": 20, "multiplier": 1.0 },
+    "neutral": { "affection": 8, "multiplier": 1.0 },
+    "disliked": { "affection": -15, "multiplier": 1.0 }
   },
-  "xiaoman": {
-    "loved": ["BeastTreat", "MoonRice", "CloudBerry"],
-    "liked": ["SpiritMushroom", "Wood", "RootTurnip"],
-    "disliked": ["Stone"]
+  "npcs": {
+    "acha": {
+      "name": "阿茶",
+      "loved": ["spirit_tea_pack", "MistFlower", "MoonRice", "early_mist_tea_pack", "autumn_frost_oolong_pack"],
+      "liked": ["TeaPack", "TeaLeaf", "CloudBerry", "MistFlower", "sunset_oolong_pack"],
+      "disliked": ["Stone", "Weed"]
+    },
+    "xiaoman": {
+      "name": "小满",
+      "loved": ["BeastTreat", "MoonRice", "CloudBerry", "spirit_mist_tea_pack"],
+      "liked": ["SpiritMushroom", "Wood", "RootTurnip", "frost_needle_tea_pack"],
+      "disliked": ["Stone"]
+    },
+    "wanxing": {
+      "name": "晚星",
+      "loved": ["StarFruit", "CrystalBall", "MoonRice", "frost_needle_tea_pack", "winter_snow_silver_pack"],
+      "liked": ["SpiritTeaPack", "MistFlower", "SpiritMushroom", "star_frost_tea_pack"],
+      "disliked": ["Turnip", "Weed"]
+    },
+    "lin": {
+      "name": "老槐",
+      "loved": ["TeaPack", "mist_green_tea_pack", "CloudHerb", "rock_bone_tea_pack"],
+      "liked": ["TeaLeaf", "sunset_oolong_pack", "Wood", "autumn_frost_oolong_pack"],
+      "disliked": ["Stone"]
+    },
+    "song": {
+      "name": "松年",
+      "loved": ["BambooShoot", "WildFlower", "TeaPack", "spirit_orchid_tea_pack"],
+      "liked": ["Wood", "Turnip", "CloudBerry", "moonlight_silver_pack"],
+      "disliked": ["Stone", "IronOre"]
+    },
+    "yu": {
+      "name": "雾川",
+      "loved": ["CloudBerry", "TeaLeaf", "MistFlower", "rock_bone_tea_pack", "guardian_pine_tea_pack"],
+      "liked": ["TeaPack", "SpiritMushroom", "Wood", "star_hide_tea_pack"],
+      "disliked": ["Stone", "Weed"]
+    },
+    "mo": {
+      "name": "墨",
+      "loved": ["IronOre", "Wood", "SpiritDust", "pine_smoke_black_pack"],
+      "liked": ["TeaPack", "TeaLeaf", "CloudHerb", "rock_bone_tea_pack"],
+      "disliked": ["Weed", "RootTurnip"]
+    },
+    "qiao": {
+      "name": "锦时",
+      "loved": ["WildFlower", "TeaPack", "MistFlower", "cloud_top_golden_pack"],
+      "liked": ["CloudBerry", "TeaLeaf", "SpiritMushroom", "spirit_orchid_tea_pack"],
+      "disliked": ["Stone", "IronOre"]
+    },
+    "he": {
+      "name": "秋棠",
+      "loved": ["SpiritGrass", "CloudDew", "TideHeartTeaBrew", "autumn_frost_oolong_pack"],
+      "liked": ["TeaLeaf", "frost_needle_tea_pack", "CloudBerry", "summer_cloud_tea_pack"],
+      "disliked": ["Weed", "Stone"]
+    },
+    "ning": {
+      "name": "宁",
+      "loved": ["IronOre", "TeaPack", "CloudHerb", "tide_heart_tea_pack"],
+      "liked": ["Wood", "TeaLeaf", "RootTurnip", "cloudberry_red_pack"],
+      "disliked": ["Weed", "WildFlower"]
+    },
+    "an": {
+      "name": "阿巳",
+      "loved": ["TeaPack", "CloudBerry", "MistFlower", "summer_cloud_tea_pack"],
+      "liked": ["TeaLeaf", "Wood", "Turnip", "sunset_oolong_pack"],
+      "disliked": ["Stone", "Weed"]
+    },
+    "shu": {
+      "name": "素锦",
+      "loved": ["BambooShoot", "WildFlower", "SpiritGrass", "bamboo_shadow_tea_pack"],
+      "liked": ["Wood", "TeaLeaf", "CloudHerb", "spirit_orchid_tea_pack"],
+      "disliked": ["IronOre", "Stone"]
+    },
+    "yan": {
+      "name": "玄清",
+      "loved": ["StarFruit", "MoonRice", "TaichuTea", "winter_snow_silver_pack", "guardian_pine_tea_pack"],
+      "liked": ["TeaPack", "MistFlower", "TideHeartTeaBrew", "star_frost_tea_pack", "origin_tea_pack"],
+      "disliked": ["Turnip", "Weed"]
+    }
   },
-  "wanxing": {
-    "loved": ["StarFruit", "CrystalBall", "MoonRice"],
-    "liked": ["SpiritTeaPack", "MistFlower", "SpiritMushroom"],
-    "disliked": ["Turnip", "Weed"]
-  },
-  "lin": {
-    "loved": ["TeaPack", "CloudHerb"],
-    "liked": ["TeaLeaf", "Wood"],
-    "disliked": ["Stone"]
+  "notes": {
+    "spirit_tea_pack": "灵茶包 - 通用的灵茶加工品",
+    "TaichuTea": "太初元茶 - 传说级礼物",
+    "TideHeartTeaBrew": "潮心古茶酿 - 高级加工品",
+    "spirit_grass": "灵芝草 - 高级加工材料"
   }
 }

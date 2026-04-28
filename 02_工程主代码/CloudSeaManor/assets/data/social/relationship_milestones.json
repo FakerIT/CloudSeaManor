@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "favor_thresholds": {
+    "close": 600,
+    "confession_available": 1000
+  },
+  "required_heart_events": [
+    "h1",
+    "h2",
+    "h3"
+  ],
+  "confession": {
+    "required_item_id": "confession_token",
+    "allowed_time": {
+      "start_hour": 18,
+      "end_hour": 22
+    },
+    "allowed_weather": [
+      "clear",
+      "mist"
+    ],
+    "failure_penalty_favor": 30,
+    "cooldown_days": 3
+  },
+  "wedding": {
+    "reservation_min_days_ahead": 2,
+    "blocked_festival_priorities": [
+      "critical",
+      "mainline"
+    ]
+  }
+}

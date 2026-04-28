@@ -1,0 +1,5 @@
+id,name,tea_id,harvest_interval_days,unlock_condition
+mist_bush,初雾茶灌木,mist_green_tea,5,default
+moon_bush,望月茶灌木,moonlight_tea,6,favor_3
+frost_bush,霜针茶灌木,frost_needle_tea,7,contract_cloud_1
+tide_bush,潮心古茶灌木,tide_heart_tea,8,contract_tide_1

@@ -1,4 +1,5 @@
 #include "CloudSeamanor/TextRenderUtils.hpp"
+#include "CloudSeamanor/ResourceManager.hpp"
 
 #include <algorithm>
 #include <stdexcept>
@@ -87,9 +88,21 @@ std::string toUtf8(const sf::String& sf_string) {
 // ============================================================================
 namespace detail {
 struct FontStorage {
+    infrastructure::ResourceManager* rm = nullptr;
     std::unique_ptr<sf::Font> font;
     std::string loaded_path; // 记录哪个路径加载成功
     bool loaded = false;
+
+    void setResourceManager(infrastructure::ResourceManager* res_mgr) { rm = res_mgr; }
+
+    bool tryLoadFromResourceManager(const std::string& id) {
+        if (rm == nullptr) return false;
+        if (!rm->HasFont(id)) return false;
+        font = std::make_unique<sf::Font>(rm->GetFont(id));
+        loaded = true;
+        loaded_path = "[ResourceManager:" + id + "]";
+        return true;
+    }
 
     bool tryLoad(const std::vector<std::string>& paths) {
         for (const auto& path : paths) {
@@ -111,7 +124,16 @@ inline FontStorage& GlobalFontStorage() {
 }
 } // namespace detail
 
+void TextFactory::SetResourceManager(infrastructure::ResourceManager* rm) {
+    detail::GlobalFontStorage().setResourceManager(rm);
+}
+
 const std::string& TextFactory::LoadFont(const std::vector<std::string>& paths) {
+    // 优先从 ResourceManager 获取（统一资源路径）
+    if (!paths.empty() && detail::GlobalFontStorage().tryLoadFromResourceManager(paths.front())) {
+        return detail::GlobalFontStorage().loaded_path;
+    }
+    // 回退：直接文件加载
     detail::GlobalFontStorage().tryLoad(paths);
     static std::string empty;
     if (detail::GlobalFontStorage().loaded) {

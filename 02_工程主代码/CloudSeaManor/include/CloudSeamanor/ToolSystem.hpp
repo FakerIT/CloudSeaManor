@@ -31,9 +31,13 @@ namespace CloudSeamanor::domain {
 // 【ToolType】工具类型
 // ============================================================================
 enum class ToolType : std::uint8_t {
-    Hoe,     // 锄头（翻土效率）
+    Hoe,         // 锄头（翻土效率）
     WateringCan,  // 水壶（浇水范围/容量）
-    Sprinkler,    // 洒水器（自动浇水范围）
+    Sprinkler,   // 洒水器（自动浇水范围）
+    Sickle,      // 镰刀（收割效率/范围）
+    Scissors,    // 剪刀（采集效率）
+    Axe,         // 斧头（清除障碍效率）
+    Pickaxe,     // 镐子（采矿效率）
     Count
 };
 
@@ -83,6 +87,12 @@ struct ToolEffect {
 
     /** 洒水器：每次自动浇水覆盖的地块数 */
     int sprinkler_coverage = 1;
+
+    /** 收集效率倍率（镰刀/剪刀收割时产量加成） */
+    float collect_efficiency = 1.0f;
+
+    /** 收集范围倍率（镰刀/剪刀收割范围） */
+    float collect_range = 1.0f;
 };
 
 // ============================================================================
@@ -105,6 +115,7 @@ public:
     // 【初始化】
     // ========================================================================
     void Initialize(const ToolUpgradeConfig& config);
+    bool LoadFromFile(const std::string& file_path = "assets/data/tool/tool_data.csv");
 
     // ========================================================================
     // 【状态查询】
@@ -137,6 +148,12 @@ public:
 
     /** 获取洒水器覆盖数 */
     [[nodiscard]] int GetSprinklerCoverage(ToolType type) const;
+
+    /** 获取收集效率倍率（镰刀/剪刀等） */
+    [[nodiscard]] float GetCollectEfficiency(ToolType type) const;
+
+    /** 获取收集范围倍率 */
+    [[nodiscard]] float GetCollectRange(ToolType type) const;
 
     /** 计算实际体力消耗（含减免） */
     [[nodiscard]] float CalcActualStaminaCost(ToolType type, float base_cost) const;

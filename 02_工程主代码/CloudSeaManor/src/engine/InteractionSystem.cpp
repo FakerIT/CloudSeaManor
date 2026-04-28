@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/InteractionSystem.hpp"
 
 #include "CloudSeamanor/FarmingSystem.hpp"
@@ -214,7 +212,7 @@ InteractionResult InteractionSystem::InteractWithSpiritBeast(
     beast.state = SpiritBeastState::Interact;
     beast.interact_timer = 1.5f;
 
-    SpawnHeartParticles(beast.shape.getPosition(), heart_particles);
+    SpawnHeartParticles(beast.position, heart_particles);
 
     result.success = true;
     result.message = "You bonded with the Spirit Beast. Its assistance is activated for today.";

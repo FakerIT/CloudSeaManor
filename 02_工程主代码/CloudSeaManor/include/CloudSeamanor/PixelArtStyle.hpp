@@ -254,7 +254,7 @@ public:
     // 【属性】
     // ========================================================================
     [[nodiscard]] const PixelBorderStyle& GetStyle() const { return style_; }
-    [[nodiscard]] PixelBorderStyle& GetStyle() { return style_; }
+    [[nodiscard]] PixelBorderStyle& MutableStyle() { return style_; }
 
 private:
     PixelBorderStyle style_;

@@ -20,10 +20,13 @@
 
 #include "CloudSeamanor/engine/BattleEntities.hpp"
 #include "CloudSeamanor/CloudSystem.hpp"
+#include "CloudSeamanor/SeedDropTable.hpp"
 #include <unordered_map>
 #include <vector>
 #include <string>
 #include <optional>
+#include <random>
+#include <deque>
 
 namespace CloudSeamanor::engine {
 
@@ -35,6 +38,24 @@ class BattleManager;
 // ============================================================================
 class BattleField {
 public:
+    // 怪物（污染灵体）数据结构，作为 BattleField 的标准输入。
+    struct MonsterTableEntry {
+        std::string id;
+        std::string name;
+        std::string zone;
+        int star = 1;
+        SpiritType type = SpiritType::Common;
+        ElementType element = ElementType::Neutral;
+        float pollution = 100.0f;
+        float health = 100.0f;
+        float speed = 60.0f;
+        float attack_cooldown = 3.0f;
+        float attack_damage = 10.0f;
+        float reward_exp = 10.0f;
+        std::vector<std::string> reward_item_ids;
+        std::string behavior_type;
+    };
+
     struct SkillTableEntry {
         std::string id;
         std::string name;
@@ -44,12 +65,39 @@ public:
         ElementType element = ElementType::Neutral;
     };
 
+    // 武器结构：用于玩家战斗前构建属性面板/战斗修正。
+    struct WeaponTableEntry {
+        std::string id;
+        std::string name;
+        std::string weapon_type;
+        ElementType element = ElementType::Neutral;
+        float base_attack = 20.0f;
+        float purify_rate_bonus = 0.0f;
+        float crit_chance_bonus = 0.0f;
+        float crit_multiplier_bonus = 0.0f;
+        float energy_recover_bonus = 0.0f;
+        float skill_cooldown_scale = 1.0f;
+        int quality = 1;
+    };
+
+    // 数值总表：用于战斗统一调参，替代硬编码魔法数。
+    struct BattleTuningConfig {
+        float player_base_crit_chance = 0.05f;
+        float player_base_purify_rate = 1.0f;
+        float partner_base_skill_power = 25.0f;
+        float partner_default_cooldown = 15.0f;
+        float area_skill_hit_radius = 160.0f;
+    };
+
     // ========================================================================
     // 【CSV加载】
     // ========================================================================
     bool LoadSpiritTableFromCsv(const std::string& file_path);
     bool LoadSkillTableFromCsv(const std::string& file_path);
     bool LoadZoneTableFromCsv(const std::string& file_path);
+    bool LoadWeaponTableFromCsv(const std::string& file_path);
+    bool LoadBattleTuningFromCsv(const std::string& file_path);
+    bool LoadSeedDropTableFromCsv(const std::string& file_path);
 
     // ========================================================================
     // 【初始化】
@@ -123,18 +171,22 @@ public:
     [[nodiscard]] float ElapsedTime() const { return elapsed_time_; }
 
     [[nodiscard]] const std::vector<PollutedSpirit>& GetSpirits() const { return spirits_; }
-    [[nodiscard]] std::vector<PollutedSpirit>& GetSpirits() { return spirits_; }
+    [[nodiscard]] std::vector<PollutedSpirit>& MutableSpirits() { return spirits_; }
 
     [[nodiscard]] const BattlePlayerState& GetPlayerState() const { return player_state_; }
-    [[nodiscard]] BattlePlayerState& GetPlayerState() { return player_state_; }
+    [[nodiscard]] BattlePlayerState& MutablePlayerState() { return player_state_; }
 
     [[nodiscard]] const std::vector<BattlePartner>& GetPartners() const { return partners_; }
-    [[nodiscard]] std::vector<BattlePartner>& GetPartners() { return partners_; }
+    [[nodiscard]] std::vector<BattlePartner>& MutablePartners() { return partners_; }
 
     [[nodiscard]] const std::vector<BattleLogEntry>& GetLog() const { return battle_log_; }
     [[nodiscard]] float GetWeatherMultiplier() const { return weather_multiplier_; }
 
     [[nodiscard]] const BattleResult& GetResult() const { return result_; }
+    [[nodiscard]] const std::vector<BattleHitEffect>& GetHitEffects() const { return hit_effects_; }
+    [[nodiscard]] const std::unordered_map<std::string, WeaponTableEntry>& GetWeaponTable() const { return weapon_table_; }
+    [[nodiscard]] const std::unordered_map<std::string, MonsterTableEntry>& GetMonsterTable() const { return monster_table_; }
+    [[nodiscard]] const BattleTuningConfig& GetTuningConfig() const { return tuning_config_; }
 
     // ========================================================================
     // 【灵兽伙伴管理】
@@ -152,6 +204,9 @@ public:
 
     void AddLog(const std::string& message, bool is_player_action = true, bool important = false);
     void ClearLog();
+    bool EquipWeapon(const std::string& weapon_id);
+    [[nodiscard]] const std::string& GetEquippedWeaponId() const { return equipped_weapon_id_; }
+    void SetQuestSkills(const std::vector<std::string>& quest_skill_ids);
 
 private:
     // ========================================================================
@@ -194,6 +249,14 @@ private:
 
     // 结算奖励
     void CalculateRewards_();
+    void RollSeedDrops_();
+    void ApplyWeaponStatsToPlayer_();
+    bool RollCritical_();
+    [[nodiscard]] bool HasQuestSkill_(const std::string& id) const;
+    void ResetQuestSkillRuntime_();
+    void InitializeImbalanceSegments_(PollutedSpirit& spirit);
+    void PushTeaAction_(const std::string& skill_id);
+    void TryTriggerTeaCombo_();
 
     [[nodiscard]] std::string GetWeatherText_() const;
 
@@ -215,12 +278,26 @@ private:
 
     std::vector<BattleLogEntry> battle_log_;
     std::vector<BattleAction> battle_history_;
+    std::vector<BattleHitEffect> hit_effects_;
 
     BattleResult result_;
 
     std::unordered_map<std::string, PollutedSpirit> spirit_table_;
+    std::unordered_map<std::string, MonsterTableEntry> monster_table_;
     std::unordered_map<std::string, SkillTableEntry> skill_table_;
+    std::unordered_map<std::string, WeaponTableEntry> weapon_table_;
     std::unordered_map<std::string, BattleZone> zone_table_;
+    BattleTuningConfig tuning_config_;
+    std::string equipped_weapon_id_;
+    std::mt19937 random_engine_;
+    std::uniform_real_distribution<float> random_unit_{0.0f, 1.0f};
+    std::vector<std::string> active_quest_skill_ids_;
+    bool quest_first_hit_reduction_available_ = false;
+    std::deque<std::string> tea_combo_history_;
+
+    // 种子掉落系统
+    CloudSeamanor::domain::SeedDropTable seed_drop_table_;
+    std::vector<std::string> rolled_seed_drops_;
 
     // 净化计数器
     int spirits_purified_count_ = 0;

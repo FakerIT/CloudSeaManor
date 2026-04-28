@@ -1,0 +1,5 @@
+Id,DisplayName,StageId,BirthdaySeason,BirthdayDay,HomeLocation,WorkLocation,FavoriteTeaIds,DialogueProfileId,ScheduleProfileId,GiftProfileId,LifeStageProfileId,PositionX,PositionY,Notes
+lin,林茶师,tea_master,Spring,12,TeaField,Workshop,"[""tea_green_bud"",""tea_cloud_mist""]",npc_lin_daily,schedule_lin,gift_lin,life_lin,420,320,茶园与制茶主线 NPC
+bo,伯舟夫,harbor_keeper,Summer,8,Dock,Workshop,"[""tea_smoked""]",npc_bo_daily,schedule_bo,gift_bo,life_bo,520,360,运输与修缮线 NPC
+acha,阿茶,inn_host,Autumn,15,MainHouse,MainHouse,"[""tea_flower"",""tea_pack_basic""]",npc_acha_daily,schedule_acha,gift_acha,life_acha,430,330,旅店与关系线 NPC
+xiaoman,小满,market_helper,Winter,5,Market,VillageCenter,"[""tea_sweet_dew""]",npc_xiaoman_daily,schedule_xiaoman,gift_xiaoman,life_xiaoman,320,450,交易与节庆线 NPC

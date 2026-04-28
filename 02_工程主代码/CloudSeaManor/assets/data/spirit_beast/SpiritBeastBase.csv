@@ -1,0 +1,35 @@
+id,name,description,rarity,personality,element,base_stats,loyalty_cap,growth_rate,personality_bonus,preferred_skill_type,unlock_heart_level,base_sprite_id
+# ===== 云系灵兽 =====
+spirit_cloud_puff,云绒团,一团软绵绵的云朵，喜爱在晴空下漂浮,common,lazy,cloud,"hp=80/mp=50/atk=15/def=10/spd=30",0.9,1.0,watering=1.2,buff,1,spirit_cloud_basic
+spirit_mist_fairy,雾灵仙,轻盈飘逸的雾气精灵，能见度低时更加活跃,uncommon,curious,cloud,"hp=95/mp=65/atk=18/def=12/spd=40",0.85,1.1,exploration=1.3,buff,2,spirit_mist_fairy
+spirit_rain_dragon,雨灵龙,掌管降雨的幼龙，性格温顺但力量强大,rare,lively,cloud,"hp=150/mp=100/atk=28/def=22/spd=35",0.8,1.3,combat=1.2,purify,4,spirit_rain_dragon
+
+# ===== 风系灵兽 =====
+spirit_wind_sprite,风精灵,追逐风的脚步，好奇心旺盛的小家伙,common,lively,wind,"hp=70/mp=55/atk=20/def=8/spd=55",0.9,1.1,harvest=1.2,purify,1,spirit_wind_basic
+spirit_leaf_herald,叶信使,随风传播信息的叶子精灵，消息灵通,uncommon,curious,wind,"hp=85/mp=60/atk=16/def=14/spd=45",0.85,1.2,scouting=1.3,buff,2,spirit_leaf_herald
+spirit_typhoon_king,风神幼崽,风神的子嗣，潜力无限但需要细心培养,rare,lazy,wind,"hp=130/mp=110/atk=32/def=18/spd=50",0.75,1.4,combat=1.3,purify,4,spirit_typhoon_king
+
+# ===== 光系灵兽 =====
+spirit_starlight_fawn,星辉幼鹿,沐浴星光长大的幼鹿，纯洁善良,common,lively,light,"hp=90/mp=70/atk=14/def=16/spd=38",0.9,1.0,healing=1.3,heal,1,spirit_starlight_basic
+spirit_dawn_butterfly,曦光蝶,清晨第一缕阳光化成的蝴蝶,uncommon,curious,light,"hp=75/mp=80/atk=18/def=10/spd=52",0.85,1.15,quality=1.3,buff,2,spirit_dawn_butterfly
+spirit_solar_peacock,阳凤雏,太阳神的使者，成长后拥有绚烂羽翼,rare,lively,light,"hp=160/mp=120/atk=30/def=25/spd=42",0.8,1.35,combat=1.2,heal,4,spirit_solar_peacock
+
+# ===== 土系灵兽 =====
+spirit_earth_gem,土灵石,大地精华凝聚的晶石，沉稳可靠,common,lazy,earth,"hp=120/mp=40/atk=12/def=25/spd=20",0.95,1.0,defense=1.3,shield,1,spirit_earth_basic
+spirit_mountain_mouse,山岭鼠,守护山林的可爱小鼠，勤勤恳恳,uncommon,lively,earth,"hp=100/mp=50/atk=16/def=20/spd=32",0.85,1.2,farming=1.3,buff,2,spirit_mountain_mouse
+spirit_golem_core,石灵核,远古石灵的核心，蕴含着惊人的力量,rare,lazy,earth,"hp=200/mp=60/atk=25/def=35/spd=15",0.7,1.5,defense=1.4,shield,4,spirit_golem_core
+
+# ===== 露系灵兽 =====
+spirit_dew_drop,灵露珠,清晨荷叶上凝聚的纯净露珠,common,curious,dew,"hp=80/mp=75/atk=14/def=12/spd=42",0.9,1.1,growth=1.3,heal,1,spirit_dew_basic
+spirit_lotus_fairy,莲心仙子,莲花中诞生的仙子，清新脱俗,uncommon,lively,dew,"hp=95/mp=85/atk=18/def=14/spd=38",0.85,1.2,healing=1.3,heal,2,spirit_lotus_fairy
+spirit_rainbow_crane,虹羽鹤,雨后彩虹映照下的仙鹤，优雅高贵,rare,curious,dew,"hp=140/mp=130/atk=28/def=20/spd=48",0.75,1.4,combat=1.2,buff,4,spirit_rainbow_crane
+
+# ===== 潮系灵兽 =====
+spirit_tide_orb,潮汐球,随潮汐涨落的能量球，神秘莫测,common,lazy,tide,"hp=100/mp=90/atk=18/def=14/spd=30",0.9,1.1,tide=1.3,purify,1,spirit_tide_basic
+spirit_wave_rider,浪行者,追逐海浪的精灵，从不停歇,uncommon,lively,tide,"hp=110/mp=95/atk=22/def=16/spd=45",0.85,1.25,tide=1.4,purify,2,spirit_wave_rider
+spirit_ocean_serpent,海渊蛇,深海中诞生的巨蛇，掌控潮汐之力,rare,lazy,tide,"hp=180/mp=150/atk=35/def=28/spd=35",0.7,1.5,tide=1.5,purify,5,spirit_ocean_serpent
+
+# ===== 暗系灵兽 =====
+spirit_night_cat,夜灵猫,在月光下活动的神秘猫咪,common,curious,dark,"hp=85/mp=65/atk=20/def=10/spd=50",0.9,1.1,scouting=1.3,debuff,2,spirit_night_cat
+spirit_shadow_fox,影狐,穿梭于光影之间的狐狸，狡黠聪慧,uncommon,lively,dark,"hp=100/mp=80/atk=24/def=14/spd=48",0.85,1.3,combat=1.2,debuff,3,spirit_shadow_fox
+spirit_void_owl,虚空鸮,知晓一切的智慧之鸟,rare,curious,dark,"hp=130/mp=110/atk=28/def=22/spd=40",0.75,1.4,scouting=1.5,buff,4,spirit_void_owl

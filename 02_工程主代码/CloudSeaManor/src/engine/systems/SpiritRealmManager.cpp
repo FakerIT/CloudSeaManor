@@ -9,7 +9,7 @@ namespace CloudSeamanor::engine {
 void SpiritRealmManager::RefreshDailyNodes(
     GameWorldState& world_state,
     const CloudSeamanor::domain::CloudSystem& cloud_system) const {
-    auto& interactables = world_state.GetInteractables();
+    auto& interactables = world_state.MutableInteractables();
     const auto remove_begin = std::remove_if(
         interactables.begin(),
         interactables.end(),

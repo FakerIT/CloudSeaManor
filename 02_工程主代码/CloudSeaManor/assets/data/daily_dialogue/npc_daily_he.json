@@ -1,0 +1,17 @@
+{
+  "npc_id": "he",
+  "greetings": [
+    {"id":"he_greet_morning","text":"早，$[PLAYER_NAME]。灵界样本我刚分类完，今天的数据会很好看。","favor_min":0,"favor_max":999,"season":"","time_of_day":"清晨","weather":"","heart_min":0,"heart_max":10},
+    {"id":"he_greet_evening","text":"傍晚好。你要去灵界的话，记得先看云海状态。","favor_min":0,"favor_max":999,"season":"","time_of_day":"傍晚","weather":"","heart_min":0,"heart_max":10},
+    {"id":"he_greet_dense","text":"浓云天最适合采集灵物。$[PLAYER_NAME]，今天说不定有稀有样本。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"浓云","heart_min":0,"heart_max":10}
+  ],
+  "small_talks": [
+    {"id":"he_talk_1","text":"我在做灵界生态记录，数据越连续，结论越可靠。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"he_talk_2","text":"你采回来的灵草品质很稳定，说明处理流程已经成熟了。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"he_talk_high","text":"如果你愿意，我们可以一起做长期观测。你很适合这件事。","favor_min":170,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":5,"heart_max":10}
+  ],
+  "farewells": [
+    {"id":"he_bye_1","text":"先这样，实验台我会继续盯着。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"he_bye_2","text":"注意安全，灵界边缘今天风压有点不稳。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ]
+}

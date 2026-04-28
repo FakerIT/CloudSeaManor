@@ -13,7 +13,7 @@
 // - Boundary conditions (empty id, negative count, etc.)
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 #include "CloudSeamanor/Inventory.hpp"
 
 using CloudSeamanor::domain::Inventory;

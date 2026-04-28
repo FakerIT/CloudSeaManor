@@ -1,36 +1,33 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameAppSpiritBeast.hpp"
 
 #include "CloudSeamanor/GameClock.hpp"
 #include "CloudSeamanor/GameConstants.hpp"
 #include "CloudSeamanor/Stamina.hpp"
 
-#include <SFML/Graphics/Color.hpp>
-
 #include <cmath>
+#include <cstdint>
 
 namespace CloudSeamanor::engine {
 
 void RefreshSpiritBeastVisual(SpiritBeast& spirit_beast, bool highlighted) {
-    sf::Color fill(196, 235, 255);
+    std::uint32_t fill_rgba = PackRgba(196, 235, 255);
     switch (spirit_beast.state) {
     case SpiritBeastState::Idle:
-        fill = sf::Color(196, 235, 255);
+        fill_rgba = PackRgba(196, 235, 255);
         break;
     case SpiritBeastState::Wander:
-        fill = sf::Color(168, 220, 255);
+        fill_rgba = PackRgba(168, 220, 255);
         break;
     case SpiritBeastState::Follow:
-        fill = sf::Color(255, 214, 168);
+        fill_rgba = PackRgba(255, 214, 168);
         break;
     case SpiritBeastState::Interact:
-        fill = sf::Color(255, 174, 206);
+        fill_rgba = PackRgba(255, 174, 206);
         break;
     }
-    spirit_beast.shape.setFillColor(fill);
-    spirit_beast.shape.setOutlineThickness(highlighted ? 4.0f : 2.0f);
-    spirit_beast.shape.setOutlineColor(highlighted ? sf::Color::White : sf::Color(86, 114, 148));
+    spirit_beast.fill_rgba = fill_rgba;
+    spirit_beast.outline_thickness = highlighted ? 4.0f : 2.0f;
+    spirit_beast.outline_rgba = highlighted ? PackRgba(255, 255, 255) : PackRgba(86, 114, 148);
 }
 
 void BuildSpiritBeast(SpiritBeast& spirit_beast,
@@ -41,10 +38,10 @@ void BuildSpiritBeast(SpiritBeast& spirit_beast,
     spirit_beast.personality = SpiritBeastPersonality::Lively;
     spirit_beast.favor = 0;
     spirit_beast.dispatched_for_pest_control = false;
-    spirit_beast.shape = sf::CircleShape(GameConstants::SpiritBeast::BodyRadius, GameConstants::SpiritBeast::BodyPointCount);
-    spirit_beast.shape.setOrigin({GameConstants::SpiritBeast::BodyRadius, GameConstants::SpiritBeast::BodyRadius});
+    spirit_beast.radius = GameConstants::SpiritBeast::BodyRadius;
+    spirit_beast.point_count = GameConstants::SpiritBeast::BodyPointCount;
     spirit_beast.home_position = {620.0f, 250.0f};
-    spirit_beast.shape.setPosition(spirit_beast.home_position);
+    spirit_beast.position = spirit_beast.home_position;
     spirit_beast.patrol_points = {
         {560.0f, 240.0f},
         {650.0f, 250.0f},
@@ -62,13 +59,13 @@ void BuildSpiritBeast(SpiritBeast& spirit_beast,
     RefreshSpiritBeastVisual(spirit_beast, spirit_beast_highlighted);
 }
 
-void SpawnHeartParticles(sf::Vector2f center, std::vector<HeartParticle>& heart_particles) {
+void SpawnHeartParticles(CloudSeamanor::domain::Vec2f center, std::vector<HeartParticle>& heart_particles) {
     constexpr float offsets[5] = {-18.0f, -9.0f, 0.0f, 9.0f, 18.0f};
     for (float offset : offsets) {
         HeartParticle particle;
-        particle.shape = sf::CircleShape(GameConstants::SpiritBeast::ParticleRadius, GameConstants::SpiritBeast::ParticlePointCount);
-        particle.shape.setFillColor(sf::Color(255, 120, 170, 220));
-        particle.shape.setPosition(center + sf::Vector2f(offset, -6.0f));
+        particle.position = {center.x + offset, center.y - 6.0f};
+        particle.radius = GameConstants::SpiritBeast::ParticleRadius;
+        particle.color_rgba = PackRgba(255, 120, 170, 220);
         particle.velocity = {offset * 0.2f, -GameConstants::SpiritBeast::ParticleRiseSpeed - std::abs(offset)};
         particle.lifetime = GameConstants::SpiritBeast::ParticleLifetime;
         heart_particles.push_back(particle);

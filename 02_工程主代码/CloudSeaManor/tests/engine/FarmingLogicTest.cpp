@@ -25,18 +25,18 @@ TEST_CASE("FarmingLogic: non-greenhouse plot wilts when crop_id lacks season tag
 
 TEST_CASE("FarmingLogic: sprinkler auto-water within radius") {
     TeaPlot sprinkler;
-    sprinkler.shape.setPosition({0.0f, 0.0f});
+    sprinkler.position = {0.0f, 0.0f};
     sprinkler.sprinkler_installed = true;
     sprinkler.sprinkler_days_left = 10;
 
     TeaPlot near_plot;
-    near_plot.shape.setPosition({10.0f, 0.0f});
+    near_plot.position = {10.0f, 0.0f};
     near_plot.cleared = true;
     near_plot.seeded = true;
     near_plot.watered = false;
 
     TeaPlot far_plot;
-    far_plot.shape.setPosition({200.0f, 0.0f});
+    far_plot.position = {200.0f, 0.0f};
     far_plot.cleared = true;
     far_plot.seeded = true;
     far_plot.watered = false;
@@ -54,12 +54,12 @@ TEST_CASE("FarmingLogic: sprinkler auto-water within radius") {
 
 TEST_CASE("FarmingLogic: sprinkler does nothing when days_left <= 0") {
     TeaPlot sprinkler;
-    sprinkler.shape.setPosition({0.0f, 0.0f});
+    sprinkler.position = {0.0f, 0.0f};
     sprinkler.sprinkler_installed = true;
     sprinkler.sprinkler_days_left = 0;
 
     TeaPlot near_plot;
-    near_plot.shape.setPosition({10.0f, 0.0f});
+    near_plot.position = {10.0f, 0.0f};
     near_plot.cleared = true;
     near_plot.seeded = true;
     near_plot.watered = false;

@@ -1,0 +1,4 @@
+Id,DisplayName,Element,Rarity,BaseHealth,BaseAttack,BaseDefense,GrowthCurveId,SkillIds,BehaviorPresetId,FavorItemIds,UnlockCondition,Notes
+pet_cat_cloud,云绒猫,Cloud,Common,45,12,8,growth_pet_light,"[""pet_purr_heal"",""pet_cloud_step""]",pet_follow_gentle,"[""Feed"",""TeaPack""]",default,偏探索陪伴型灵宠
+pet_fox_mist,雾尾狐,Mist,Rare,52,16,10,growth_pet_agile,"[""pet_mist_burst"",""pet_find_seed""]",pet_patrol_swift,"[""Feed"",""HerbalPouch""]",festival_summer_beast_sports,偏采集与掉落辅助
+pet_crane_light,晴羽鹤,Light,Epic,60,18,14,growth_pet_support,"[""pet_light_barrier"",""pet_wind_lift""]",pet_support_guard,"[""TeaPack"",""MoonCake""]",plot_ch3_fix_realm,偏护盾与移动强化

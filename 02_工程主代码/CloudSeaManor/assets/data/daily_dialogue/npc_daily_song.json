@@ -1,0 +1,49 @@
+{
+  "npc_id": "song",
+  "greetings": [
+    {
+      "id": "song_greet_morning",
+      "text": "早啊，$[PLAYER_NAME]。竹林今天风不错，适合采山货。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "清晨", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "song_greet_afternoon",
+      "text": "午后市集正热闹，$[PLAYER_NAME]，要不要看看新到的山货？",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "午后", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "song_greet_rain",
+      "text": "这天气水汽重，竹笋会长得快些。$[PLAYER_NAME]，你来得正好。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "薄雾", "heart_min": 0, "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "song_talk_1",
+      "text": "我这人不爱绕弯子，货好价稳，大家才愿意常来。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "song_talk_2",
+      "text": "你最近跑灵界挺勤。要是采到好材料，第一时间来找我。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "song_talk_heart_high",
+      "text": "说实话，$[PLAYER_NAME]，你回来之后，山庄的生意和人气都不一样了。",
+      "favor_min": 150, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 5, "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "song_bye_1",
+      "text": "行，先去忙。晚点回来我给你留点新货。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    },
+    {
+      "id": "song_bye_2",
+      "text": "路上小心，竹林那段路晚上有点滑。",
+      "favor_min": 0, "favor_max": 999, "season": "", "time_of_day": "", "weather": "", "heart_min": 0, "heart_max": 10
+    }
+  ]
+}

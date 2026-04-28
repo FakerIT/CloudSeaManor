@@ -1,12 +1,14 @@
 #include "CloudSeamanor/engine/systems/NpcDeliverySystem.hpp"
 
 #include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/Logger.hpp"
 
 #include <algorithm>
 #include <cctype>
 #include <fstream>
 #include <random>
 #include <sstream>
+#include <stdexcept>
 
 namespace CloudSeamanor::engine {
 
@@ -15,7 +17,9 @@ namespace {
 int ParsePositiveInt_(const std::string& s, int fallback) {
     try {
         return std::max(0, std::stoi(s));
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        return fallback;
+    } catch (const std::out_of_range&) {
         return fallback;
     }
 }
@@ -32,11 +36,15 @@ bool NpcDeliverySystem::LoadFromCsv(const std::string& path) {
 
     std::ifstream in(path);
     if (!in.is_open()) {
+        CloudSeamanor::infrastructure::Logger::LogConfigLoadFailure(
+            std::string("NpcDelivery CSV open failed: ") + path);
         return false;
     }
 
     std::string line;
     if (!std::getline(in, line)) {
+        CloudSeamanor::infrastructure::Logger::LogConfigLoadFailure(
+            std::string("NpcDelivery CSV header read failed: ") + path);
         return false;
     }
 
@@ -66,16 +74,23 @@ bool NpcDeliverySystem::LoadFromCsv(const std::string& path) {
             pool_.push_back(std::move(q));
         }
     }
-    return !pool_.empty();
+    if (pool_.empty()) {
+        CloudSeamanor::infrastructure::Logger::Warning(
+            std::string("NpcDeliverySystem: no valid rows loaded from ") + path);
+        return false;
+    }
+    CloudSeamanor::infrastructure::Logger::Info(
+        std::string("NpcDeliverySystem: loaded rows = ") + std::to_string(pool_.size()));
+    return true;
 }
 
 void NpcDeliverySystem::Update(GameWorldState& world_state, int current_day, int current_hour) {
     if (current_hour >= 6 && current_day != last_refresh_day_) {
-        RefreshDaily_(world_state.GetRuntimeQuests(), current_day);
+        RefreshDaily_(world_state.MutableRuntimeQuests(), current_day);
         last_refresh_day_ = current_day;
     }
 
-    EvaluateCompletion_(world_state.GetRuntimeQuests(), world_state.GetInventory());
+    EvaluateCompletion_(world_state.MutableRuntimeQuests(), world_state.GetInventory());
 }
 
 bool NpcDeliverySystem::TryClaimRewards(
@@ -83,9 +98,9 @@ bool NpcDeliverySystem::TryClaimRewards(
     const std::string& npc_id
 ) {
     bool claimed_any = false;
-    auto& quests = world_state.GetRuntimeQuests();
-    auto& inventory = world_state.GetInventory();
-    auto& gold = world_state.GetGold();
+    auto& quests = world_state.MutableRuntimeQuests();
+    auto& inventory = world_state.MutableInventory();
+    auto& gold = world_state.MutableGold();
 
     for (auto& q : quests) {
         if (q.state != QuestState::Completed) {
@@ -108,7 +123,7 @@ bool NpcDeliverySystem::TryClaimRewards(
         }
 
         // 好感奖励：直接加到目标 NPC（避免引入额外依赖链）
-        for (auto& npc : world_state.GetNpcs()) {
+        for (auto& npc : world_state.MutableNpcs()) {
             if (npc.id == npc_id) {
                 npc.favor += parsed->reward_favor;
                 npc.heart_level = NpcHeartLevelFromFavor(npc.favor);
@@ -169,7 +184,8 @@ void NpcDeliverySystem::RefreshDaily_(
     if (hint_callback_) {
         hint_callback_("今日 NPC 委托已刷新（6:00）。", 2.4f);
     }
-    (void)day;
+    CloudSeamanor::infrastructure::Logger::Info(
+        "NpcDeliverySystem: refreshed daily quests for day " + std::to_string(day));
 }
 
 void NpcDeliverySystem::EvaluateCompletion_(

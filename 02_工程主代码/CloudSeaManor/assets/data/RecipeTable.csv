@@ -1,3 +1,6 @@
+# DEPRECATED: 该文件已下线，不再作为运行时生产配方表。
+# 统一真值源：assets/data/recipes.csv
+# 保留本文件仅用于历史比对，勿新增或修改生产配方。
 id,name,machine_id,input_item,input_count,output_item,output_count,process_time,base_success_rate,tags
 green_tea,绿茶,tea_machine,TeaLeaf,2,TeaPack,1,60,0.85,core;entry
 white_tea,白茶,tea_machine,white_leaf,5,white_tea_pack,1,90,0.80,premium
@@ -12,3 +15,31 @@ spirit_essence,灵粹,tea_machine,spirit_grass,3,spirit_essence,1,60,0.95,spirit
 cloud_elixir,云华灵药,tea_machine,cloud_dew,2,cloud_elixir,1,120,0.90,spirit
 immortal_tea,不朽灵茶,tea_machine,cloud_elixir,1,immortal_tea,1,300,0.85,legendary
 tea_tree_leaf,茶树采叶,tea_machine,TeaLeaf,3,TeaPack,2,160,0.92,tea_garden
+spirit_dust_pack,灵尘压缩包,tea_machine,spirit_dust,3,spirit_dust_pack,1,50,0.96,spirit;utility
+spirit_dust_essence,灵尘精华,ferment_machine,spirit_dust_pack,1,dust_essence,1,110,0.90,spirit;utility
+cloud_crystal_cut,云晶切割,tea_machine,cloud_crystal,1,cloud_fragment,2,80,0.92,spirit;craft
+realm_shard_polish,界桥碎片抛光,ferment_machine,realm_shard,1,realm_polished_shard,1,140,0.86,spirit;craft
+tea_essence_extract,茶灵萃取,tea_machine,spirit_tea,2,tea_essence,1,100,0.90,tea;spirit
+taichu_tea_proto,太初灵茶原液,ferment_machine,tea_essence,1,taichu_tea_base,1,180,0.82,tea;legendary
+taichu_tea_finish,太初灵茶,tea_machine,taichu_tea_base,1,taichu_tea,1,260,0.78,tea;legendary
+fermented_tea_plus,熟成发酵茶,ferment_machine,fermented_tea_pack,1,fermented_tea_plus,1,180,0.80,core;upgrade
+spirit_tea_blend,灵雾拼配茶,tea_machine,TeaPack,2,spirit_tea_blend,1,90,0.88,tea;blend
+mist_recovery_potion,云雾恢复药,tea_machine,cloud_elixir,1,mist_recovery_potion,1,90,0.90,spirit;medicine
+guardian_incense,守护香,ferment_machine,dust_essence,1,guardian_incense,1,160,0.84,spirit;buff
+bamboo_tea_snack,竹韵茶点,tea_machine,BambooShoot,2,bamboo_tea_snack,1,70,0.93,food;tea
+wildflower_tea,花韵清茶,tea_machine,WildFlower,3,wildflower_tea,1,80,0.91,food;tea
+iron_infused_kettle,玄铁茶釜,ferment_machine,IronOre,4,iron_infused_kettle,1,220,0.72,tool;advanced
+spirit_dust_pack,灵尘压缩包,tea_machine,spirit_dust,3,spirit_dust_pack,1,50,0.96,spirit;utility
+spirit_dust_essence,灵尘精华,ferment_machine,spirit_dust_pack,1,dust_essence,1,110,0.90,spirit;utility
+cloud_crystal_cut,云晶切割,tea_machine,cloud_crystal,1,cloud_fragment,2,80,0.92,spirit;craft
+realm_shard_polish,界桥碎片抛光,ferment_machine,realm_shard,1,realm_polished_shard,1,140,0.86,spirit;craft
+tea_essence_extract,茶灵萃取,tea_machine,spirit_tea,2,tea_essence,1,100,0.90,tea;spirit
+taichu_tea_proto,太初灵茶原液,ferment_machine,tea_essence,1,taichu_tea_base,1,180,0.82,tea;legendary
+taichu_tea_finish,太初灵茶,tea_machine,taichu_tea_base,1,taichu_tea,1,260,0.78,tea;legendary
+fermented_tea_plus,熟成发酵茶,ferment_machine,fermented_tea,1,fermented_tea_plus,1,180,0.80,core;upgrade
+spirit_tea_blend,灵雾拼配茶,tea_machine,TeaPack,2,spirit_tea_blend,1,90,0.88,tea;blend
+mist_recovery_potion,云雾恢复药,tea_machine,cloud_elixir,1,mist_recovery_potion,1,90,0.90,spirit;medicine
+guardian_incense,守护香,ferment_machine,dust_essence,1,guardian_incense,1,160,0.84,spirit;buff
+bamboo_tea_snack,竹韵茶点,tea_machine,BambooShoot,2,bamboo_tea_snack,1,70,0.93,food;tea
+wildflower_tea,花韵清茶,tea_machine,WildFlower,3,wildflower_tea,1,80,0.91,food;tea
+iron_infused_kettle,玄铁茶釜,ferment_machine,IronOre,4,iron_infused_kettle,1,220,0.72,tool;advanced

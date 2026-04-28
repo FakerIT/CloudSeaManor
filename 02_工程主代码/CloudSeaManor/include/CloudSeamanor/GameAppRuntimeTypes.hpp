@@ -12,11 +12,7 @@
 // ============================================================================
 
 #include "CloudSeamanor/CropData.hpp"
-
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <SFML/System/Vector2.hpp>
+#include "CloudSeamanor/MathTypes.hpp"
 
 #include <cstdint>
 #include <string>
@@ -24,6 +20,17 @@
 #include <vector>
 
 namespace CloudSeamanor::engine {
+
+[[nodiscard]] constexpr std::uint32_t PackRgba(
+    std::uint8_t r,
+    std::uint8_t g,
+    std::uint8_t b,
+    std::uint8_t a = 255) noexcept {
+    return (static_cast<std::uint32_t>(r) << 24)
+        | (static_cast<std::uint32_t>(g) << 16)
+        | (static_cast<std::uint32_t>(b) << 8)
+        | static_cast<std::uint32_t>(a);
+}
 
 // ============================================================================
 // 【PlotObstacleType】地块障碍物类型（开垦系统）
@@ -35,17 +42,29 @@ enum class PlotObstacleType : std::uint8_t {
     Weed = 3,   // 1 次镰刀清除
 };
 
+enum class TeaPlotLayer : std::uint8_t {
+    NormalFarm = 0,
+    TeaGardenExclusive = 1,
+};
+
 // ============================================================================
 // 【TeaPlot】茶田地块运行时状态
 // ============================================================================
 // 描述一块地从翻土到收获的全流程状态。
 // 作物参数（生长时间、阶段数、品质）由 CropTable 驱动。
 struct TeaPlot {
-    /** 地块在世界中的可视矩形。 */
-    sf::RectangleShape shape;
+    /** 地块几何：世界坐标位置与尺寸（渲染 shape 由 SceneVisualStore 生成）。 */
+    CloudSeamanor::domain::Vec2f position{0.0f, 0.0f};
+    CloudSeamanor::domain::Vec2f size{52.0f, 52.0f};
+
+    /** 地块视觉数据（渲染层使用）。 */
+    std::uint32_t fill_rgba = PackRgba(58, 62, 66);
+    std::uint32_t outline_rgba = PackRgba(34, 34, 34);
+    float outline_thickness = 2.0f;
 
     /** 作物唯一标识（对应 CropTable.csv 中的 id）。 */
     std::string crop_id;
+    TeaPlotLayer layer = TeaPlotLayer::NormalFarm;
 
     /** 作物展示名称。 */
     std::string crop_name;
@@ -99,6 +118,26 @@ struct TeaPlot {
     bool disease = false;
     bool pest = false;
     int disease_days = 0;
+
+    // ========== 品质快照系统 ==========
+    /** 播种时的云海密度（快照，用于品质判定） */
+    float cloud_density_at_planting = 0.0f;
+    /** 播种时的灵气值（快照） */
+    int aura_at_planting = 0;
+    /** 播种时的天气状态（快照） */
+    CloudSeamanor::domain::CloudState weather_at_planting = CloudSeamanor::domain::CloudState::Clear;
+    /** 累积浓云海天数（每日睡觉时更新） */
+    int dense_cloud_days_accumulated = 0;
+    /** 累积大潮天数（每日睡觉时更新） */
+    int tide_days_accumulated = 0;
+    /** 是否处于茶魂花地块（提升品质） */
+    bool tea_soul_flower_nearby = false;
+    /** 施肥类型（影响品质） */
+    std::string fertilizer_type_for_quality = "none";
+    /** 是否灵化变种（浓云海/大潮触发） */
+    bool spirit_mutated = false;
+    /** 收获时的饱食恢复值 */
+    int hunger_restore = 0;
 };
 
 struct PriceTableEntry {
@@ -113,6 +152,35 @@ struct MailOrderEntry {
     std::string item_id;
     int count = 1;
     int deliver_day = 1;
+    bool claimed = false;
+    std::string source_rule_id;
+    std::string sender;
+    std::string subject;
+    std::string body;
+};
+
+struct InnOrderEntry {
+    std::string order_id;
+    std::string item_id;
+    int required_count = 1;
+    int reward_gold = 0;
+    float npc_visit_weight = 1.0f;
+    bool fulfilled = false;
+};
+
+struct MailTriggerRule {
+    std::string id;
+    std::string trigger_type;
+    std::string trigger_arg;
+    std::string item_id;
+    int count = 1;
+    int delay_days = 1;
+    std::string hint_text;
+    bool enabled = true;
+    std::string sender_template;
+    std::string subject_template;
+    std::string body_template;
+    std::string cooldown_policy = "daily";
 };
 
 // ============================================================================
@@ -127,6 +195,52 @@ struct RepairProject {
     int gold_cost = 0;
 };
 
+struct MainHouseUpgradeCost {
+    int next_level = 0;
+    int wood_cost = 0;
+    int turnip_cost = 0;
+    int gold_cost = 0;
+    int workshop_level = 0;
+    int workshop_slots = 0;
+    bool unlock_greenhouse = false;
+};
+
+constexpr int kMainHouseMaxLevel = 4;
+
+inline MainHouseUpgradeCost QueryMainHouseUpgradeCost(int current_level) {
+    switch (current_level + 1) {
+    case 2:
+        return MainHouseUpgradeCost{
+            .next_level = 2,
+            .wood_cost = 10,
+            .turnip_cost = 2,
+            .gold_cost = 500,
+            .workshop_level = 2,
+            .workshop_slots = 2,
+            .unlock_greenhouse = false};
+    case 3:
+        return MainHouseUpgradeCost{
+            .next_level = 3,
+            .wood_cost = 20,
+            .turnip_cost = 4,
+            .gold_cost = 2000,
+            .workshop_level = 3,
+            .workshop_slots = 4,
+            .unlock_greenhouse = true};
+    case 4:
+        return MainHouseUpgradeCost{
+            .next_level = 4,
+            .wood_cost = 36,
+            .turnip_cost = 8,
+            .gold_cost = 6000,
+            .workshop_level = 4,
+            .workshop_slots = 6,
+            .unlock_greenhouse = true};
+    default:
+        return MainHouseUpgradeCost{};
+    }
+}
+
 // ============================================================================
 // 【TeaMachine】制茶机运行时状态
 // ============================================================================
@@ -135,6 +249,35 @@ struct TeaMachine {
     float progress = 0.0f;
     float duration = 20.0f;
     int queued_output = 0;
+};
+
+// ============================================================================
+// 【PlacedObject】DIY/摆放对象（P3-002）
+// ============================================================================
+struct PlacedObject {
+    std::string object_id;
+    int tile_x = 0;
+    int tile_y = 0;
+    int rotation = 0;  // 0/90/180/270
+    std::string room;  // main_house / tea_room / yard / workshop / tea_garden ...
+    std::string custom_data;
+};
+
+// ============================================================================
+// 【DiaryEntryState】日记条目状态（P2-001）
+// ============================================================================
+struct DiaryEntryState {
+    std::string entry_id;
+    int day_unlocked = 0;
+    bool has_been_read = false;
+};
+
+// ============================================================================
+// 【SkillBranchChoice】技能分支选择（P2-002）
+// ============================================================================
+struct SkillBranchChoice {
+    std::string skill_id;
+    std::string branch_id;  // A / B / custom id
 };
 
 // ============================================================================
@@ -157,8 +300,10 @@ enum class SpiritBeastPersonality : std::uint8_t {
 // 【HeartParticle】爱心粒子
 // ============================================================================
 struct HeartParticle {
-    sf::CircleShape shape;
-    sf::Vector2f velocity;
+    CloudSeamanor::domain::Vec2f position;
+    CloudSeamanor::domain::Vec2f velocity;
+    float radius = 3.0f;
+    std::uint32_t color_rgba = PackRgba(255, 120, 170, 220);
     float lifetime = 0.0f;
 };
 
@@ -170,16 +315,22 @@ struct SpiritBeast {
     SpiritBeastPersonality personality = SpiritBeastPersonality::Lively;
     int favor = 0;
     bool dispatched_for_pest_control = false;
-    sf::CircleShape shape;
+    /** 灵兽几何与视觉（渲染 shape 由 SceneVisualStore 生成）。 */
+    CloudSeamanor::domain::Vec2f position{620.0f, 250.0f};
+    float radius = 22.0f;
+    int point_count = 18;
+    std::uint32_t fill_rgba = PackRgba(196, 235, 255);
+    std::uint32_t outline_rgba = PackRgba(86, 114, 148);
+    float outline_thickness = 2.0f;
     SpiritBeastState state = SpiritBeastState::Wander;
-    std::vector<sf::Vector2f> patrol_points;
+    std::vector<CloudSeamanor::domain::Vec2f> patrol_points;
     std::size_t patrol_index = 0;
     float idle_timer = 0.0f;
     float interact_timer = 0.0f;
     bool daily_interacted = false;
     int last_interaction_day = 0;
     std::string trait = "Watering Aid";
-    sf::Vector2f home_position{620.0f, 250.0f};
+    CloudSeamanor::domain::Vec2f home_position{620.0f, 250.0f};
 };
 
 // ============================================================================
@@ -231,7 +382,12 @@ enum class NpcMood : std::uint8_t {
 struct NpcActor {
     std::string id;
     std::string display_name;
-    sf::RectangleShape shape;
+    /** NPC 几何与视觉（渲染 shape 由 SceneVisualStore 生成）。 */
+    CloudSeamanor::domain::Vec2f position{0.0f, 0.0f};
+    CloudSeamanor::domain::Vec2f size{24.0f, 38.0f};
+    std::uint32_t fill_rgba = PackRgba(180, 180, 180);
+    std::uint32_t outline_rgba = PackRgba(96, 96, 96);
+    float outline_thickness = 2.0f;
     std::vector<NpcScheduleEntry> schedule;
     NpcGiftPrefs prefs;
     NpcState state = NpcState::Patrol;
@@ -245,7 +401,7 @@ struct NpcActor {
     bool daily_talked = false;
     int last_talk_day = 0;
     bool visible = true;
-    sf::Color base_outline = sf::Color(96, 96, 96);
+    std::uint32_t base_outline_rgba = PackRgba(96, 96, 96);
     NpcMood mood = NpcMood::Normal;
     bool married = false;
 };

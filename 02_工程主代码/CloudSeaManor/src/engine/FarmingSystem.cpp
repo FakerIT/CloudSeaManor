@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/FarmingSystem.hpp"
 
 #include "CloudSeamanor/GameAppText.hpp"
@@ -33,8 +31,8 @@ void FarmingSystem::BuildDefaultPlots() {
 
     for (int i = 0; i < 3; ++i) {
         TeaPlot plot;
-        plot.shape.setSize({52.0f, 52.0f});
-        plot.shape.setPosition({start_x + gap * static_cast<float>(i), start_y});
+        plot.size = {52.0f, 52.0f};
+        plot.position = {start_x + gap * static_cast<float>(i), start_y};
         if (i < 2) {
             plot.crop_name = "云雾茶";
             plot.seed_item_id = "TeaSeed";
@@ -70,8 +68,11 @@ FarmingResult FarmingSystem::HandleInteraction(
     int plot_index,
     CloudSeamanor::domain::Inventory& inventory,
     CloudSeamanor::domain::SkillSystem& skills,
-    float cloud_density,
-    bool spirit_beast_interacted
+    const float,
+    const bool spirit_beast_interacted,
+    const CloudSeamanor::domain::CloudSystem& cloud_system,
+    const CloudSeamanor::domain::CropTable& crop_table,
+    const CloudSeamanor::domain::ToolSystem* tool_system
 ) {
     FarmingResult result;
 
@@ -82,13 +83,26 @@ FarmingResult FarmingSystem::HandleInteraction(
 
     TeaPlot& plot = plots_[static_cast<std::size_t>(plot_index)];
 
-    // 翻土
+    // ── 工具效果倍率（从 ToolSystem 获取）───────────────────────────────
+    float hoe_efficiency = 1.0f;
+    float can_range = 1.0f;
+    float sickle_efficiency = 1.0f;
+    if (tool_system) {
+        hoe_efficiency = tool_system->GetEfficiency(CloudSeamanor::domain::ToolType::Hoe);
+        can_range = tool_system->GetRange(CloudSeamanor::domain::ToolType::WateringCan);
+        sickle_efficiency = tool_system->GetCollectEfficiency(CloudSeamanor::domain::ToolType::Sickle);
+    }
+
+    // 翻土（锄头效率加成）
     if (!plot.tilled) {
         plot.tilled = true;
         result.success = true;
-        result.message = plot.crop_name + " 地块已翻土。下一步：播种。";
+        const std::string hoe_hint = (hoe_efficiency > 1.0f)
+            ? "（锄头加成 +" + std::to_string(static_cast<int>((hoe_efficiency - 1.0f) * 100)) + "%）"
+            : "";
+        result.message = plot.crop_name + " 地块已翻土。下一步：播种。" + hoe_hint;
         if (callbacks_.push_hint) callbacks_.push_hint(result.message, 2.4f);
-        if (callbacks_.log_info) callbacks_.log_info(plot.crop_name + " 地块已翻土。");
+        if (callbacks_.log_info) callbacks_.log_info(plot.crop_name + " 地块已翻土。" + hoe_hint);
         if (callbacks_.refresh_plot_visual) callbacks_.refresh_plot_visual(plot, true);
         return result;
     }
@@ -100,6 +114,14 @@ FarmingResult FarmingSystem::HandleInteraction(
             plot.seeded = true;
             plot.growth = 0.0f;
             plot.stage = 1;
+            // 记录品质快照（播种时的云海密度和灵气值）
+            if (callbacks_.apply_planting_snapshot) {
+                callbacks_.apply_planting_snapshot(plot, cloud_system);
+            }
+            // 获取作物定义的饱食恢复值
+            if (const auto* def = crop_table.Get(plot.crop_id)) {
+                plot.hunger_restore = def->hunger_restore;
+            }
             result.success = true;
             result.message = plot.crop_name + " 已播种。给它浇水后就会开始生长。";
             if (callbacks_.push_hint) callbacks_.push_hint(result.message, 2.6f);
@@ -126,6 +148,7 @@ FarmingResult FarmingSystem::HandleInteraction(
 
     // 收获
     if (plot.ready) {
+        const float cloud_density = cloud_system.CurrentSpiritDensity();
         const float tea_buff = 1.0f + skills.GetBonus(CloudSeamanor::domain::SkillType::SpiritFarm) * 0.1f;
         const float beast_share = spirit_beast_interacted ? 1.2f : 1.0f;
 
@@ -138,7 +161,26 @@ FarmingResult FarmingSystem::HandleInteraction(
             if (callbacks_.log_info) callbacks_.log_info("灵农技能升级至 Lv." + std::to_string(result.new_level) + "！");
         }
 
-        auto add_result = inventory.TryAddItem(plot.harvest_item_id, plot.harvest_amount);
+        // 计算最终品质（快照 + 累积加成）
+        const auto* def = crop_table.Get(plot.crop_id);
+        const float harvest_multiplier = def
+            ? CloudSeamanor::domain::CropTable::QualityHarvestMultiplier(plot.quality)
+            : 1.0f;
+
+        // 镰刀收割效率加成
+        int final_harvest = static_cast<int>(plot.harvest_amount * harvest_multiplier * sickle_efficiency);
+        if (plot.spirit_mutated) {
+            final_harvest = static_cast<int>(final_harvest * 2.0f);
+        }
+        final_harvest = std::max(1, final_harvest);
+
+        // 确定收获物品ID（灵化变种加前缀）
+        std::string harvest_item_id = plot.harvest_item_id;
+        if (plot.spirit_mutated) {
+            harvest_item_id = "spirit_" + harvest_item_id;
+        }
+
+        auto add_result = inventory.TryAddItem(harvest_item_id, final_harvest);
         if (!add_result) {
             result.success = false;
             result.message = "收获失败，背包无法添加物品。";
@@ -151,11 +193,35 @@ FarmingResult FarmingSystem::HandleInteraction(
         plot.ready = false;
         plot.growth = 0.0f;
         plot.stage = 0;
+        plot.spirit_mutated = false;
 
         result.success = true;
-        result.harvested_item_id = plot.harvest_item_id;
-        result.harvested_amount = plot.harvest_amount;
-        std::string harvest_msg = "已收获 " + ItemDisplayName(plot.harvest_item_id) + " x" + std::to_string(plot.harvest_amount) + "。";
+        result.harvested_item_id = harvest_item_id;
+        result.harvested_amount = final_harvest;
+        result.quality = plot.quality;
+        result.spirit_mutated = plot.spirit_mutated;
+        // 饱食恢复（灵化变种 1.5x）
+        int hunger = plot.hunger_restore;
+        if (plot.spirit_mutated && hunger > 0) {
+            hunger = static_cast<int>(hunger * 1.5f);
+        }
+        result.hunger_restore = hunger;
+
+        // 镰刀加成提示
+        std::string sickle_hint = (sickle_efficiency > 1.0f)
+            ? "（镰刀加成 +" + std::to_string(static_cast<int>((sickle_efficiency - 1.0f) * 100)) + "%）"
+            : "";
+
+        std::string quality_prefix = "";
+        if (def) {
+            quality_prefix = CloudSeamanor::domain::CropTable::QualityToPrefixText(plot.quality);
+        }
+        std::string harvest_msg = quality_prefix + "已收获 " + ItemDisplayName(harvest_item_id)
+            + " x" + std::to_string(final_harvest) + sickle_hint;
+        if (plot.spirit_mutated) {
+            harvest_msg += "【灵化变种】";
+        }
+        harvest_msg += "。";
         if (callbacks_.push_hint) callbacks_.push_hint(harvest_msg, 2.8f);
         if (callbacks_.log_info) callbacks_.log_info(plot.crop_name + " 已收获。");
         if (callbacks_.refresh_plot_visual) callbacks_.refresh_plot_visual(plot, true);
@@ -174,33 +240,10 @@ FarmingResult FarmingSystem::HandleInteraction(
 // 【UpdateGrowth】更新作物生长
 // ============================================================================
 void FarmingSystem::UpdateGrowth(float delta_seconds, float cloud_multiplier) {
-    for (auto& plot : plots_) {
-        if (!plot.seeded || !plot.watered || plot.ready) {
-            continue;
-        }
-
-        const int previous_stage = plot.stage;
-        plot.growth += delta_seconds * cloud_multiplier;
-
-        const int next_stage = std::min(4, static_cast<int>(plot.growth / 20.0f) + 1);
-        if (next_stage != plot.stage) {
-            plot.stage = next_stage;
-            if (plot.stage > previous_stage) {
-                if (callbacks_.push_hint) {
-                    callbacks_.push_hint(plot.crop_name + " 进入了生长阶段 " + std::to_string(plot.stage) + "。", 2.0f);
-                }
-            }
-        }
-
-        constexpr float kHarvestThreshold = 1.0f;
-        if (plot.growth >= plot.growth_time * kHarvestThreshold) {
-            plot.ready = true;
-            plot.stage = 4;
-            if (callbacks_.push_hint) {
-                callbacks_.push_hint(plot.crop_name + " 已经可以收获了。", 2.6f);
-            }
-        }
-    }
+    // Growth updates are unified in CropGrowthSystem::Update.
+    // Keep this method as a compatibility no-op to avoid dual growth paths.
+    (void)delta_seconds;
+    (void)cloud_multiplier;
 }
 
 // ============================================================================
@@ -282,12 +325,14 @@ std::string FarmingSystem::GetPlotStatusText(const TeaPlot& plot) const {
 FarmingCallbacks CreateDefaultPlotCallbacks(
     const std::function<void(const std::string&, float)>& push_hint,
     const std::function<void(const std::string&)>& log_info,
-    const std::function<void(TeaPlot&, bool)>& refresh_visual
+    const std::function<void(TeaPlot&, bool)>& refresh_visual,
+    const std::function<void(TeaPlot&, const CloudSeamanor::domain::CloudSystem&)>& apply_snapshot
 ) {
     FarmingCallbacks callbacks;
     callbacks.push_hint = push_hint;
     callbacks.log_info = log_info;
     callbacks.refresh_plot_visual = refresh_visual;
+    callbacks.apply_planting_snapshot = apply_snapshot;
     return callbacks;
 }
 

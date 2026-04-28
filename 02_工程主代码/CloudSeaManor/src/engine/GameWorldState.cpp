@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameWorldState.hpp"
 
 #include "CloudSeamanor/GameConstants.hpp"
@@ -30,7 +28,9 @@ GameWorldState::GameWorldState()
     , level_up_skill_type_(CloudSeamanor::domain::SkillType::SpiritFarm)
     , low_stamina_warning_active_(false)
     , world_tip_pulse_(0.0f)
-    , font_loaded_(false) {
+    , font_loaded_(false)
+    , in_battle_mode_(false)
+    , battle_available_(true) {
 }
 
 // ============================================================================
@@ -62,11 +62,34 @@ void GameWorldState::InitializeWorld(const WorldConfig& config) {
     low_stamina_warning_active_ = false;
     world_tip_pulse_ = 0.0f;
     festival_notice_text_.clear();
+    active_festival_id_.clear();
+    festival_runtime_.Reset();
     gold_ = 500;
+    inn_orders_.clear();
+    inn_gold_reserve_ = 0;
+    inn_visitors_today_ = 0;
+    inn_income_today_ = 0;
+    inn_reputation_ = 0;
+    coop_fed_today_ = 0;
+    livestock_eggs_today_ = 0;
+    livestock_milk_today_ = 0;
+    weekly_reports_.clear();
+    diary_entries_.clear();
+    recipe_unlocks_.clear();
+    skill_branches_.clear();
+    pending_skill_branches_.clear();
+    placed_objects_.clear();
+    purify_return_days_ = 0;
+    purify_return_spirits_ = 0;
+    fishing_attempts_ = 0;
+    last_fish_catch_.clear();
     greenhouse_unlocked_ = false;
     greenhouse_tag_next_planting_ = false;
     spirit_realm_daily_max_ = 5;
     spirit_realm_daily_remaining_ = spirit_realm_daily_max_;
+    in_battle_mode_ = false;
+    battle_available_ = true;
+    battle_active_partners_.clear();
 
     interaction_.highlighted_index = -1;
     interaction_.highlighted_plot_index = -1;
@@ -92,14 +115,21 @@ void GameWorldState::InitializeWorld(const WorldConfig& config) {
     if (npcs_.capacity() < 13) {
         npcs_.reserve(13);
     }
+    SyncSceneVisuals();
+}
+
+void GameWorldState::SyncSceneVisuals() {
+    scene_visuals_.SyncTeaPlots(tea_plots_);
+    scene_visuals_.SyncNpcs(npcs_);
+    scene_visuals_.SyncSpiritBeast(spirit_beast_);
 }
 
 // ============================================================================
 // 【SetHintMessage】设置提示消息
 // ============================================================================
 void SetHintMessage(GameWorldState& state, const std::string& message, float duration) {
-    state.GetInteraction().hint_message = message;
-    state.GetInteraction().hint_timer = duration;
+    state.MutableInteraction().hint_message = message;
+    state.MutableInteraction().hint_timer = duration;
 }
 
 // ============================================================================
@@ -107,8 +137,8 @@ void SetHintMessage(GameWorldState& state, const std::string& message, float dur
 // ============================================================================
 void UpdateStaminaBar(GameWorldState& state) {
     const float ratio = state.GetStamina().Ratio();
-    const sf::Vector2f bg_size = state.GetPanels().stamina_bar_bg.getSize();
-    state.GetPanels().stamina_bar_fill.setSize({bg_size.x * ratio, bg_size.y});
+    const sf::Vector2f bg_size = state.MutablePanels().stamina_bar_bg.getSize();
+    state.MutablePanels().stamina_bar_fill.setSize({bg_size.x * ratio, bg_size.y});
 }
 
 // ============================================================================
@@ -119,8 +149,8 @@ void UpdateWorkshopProgressBar(GameWorldState& state, const CloudSeamanor::domai
     if (const auto* machine = workshop.GetMachine("tea_machine")) {
         ratio = machine->is_processing ? machine->progress / 100.0f : 0.0f;
     }
-    const sf::Vector2f bg_size = state.GetPanels().workshop_progress_bg.getSize();
-    state.GetPanels().workshop_progress_fill.setSize({bg_size.x * ratio, bg_size.y});
+    const sf::Vector2f bg_size = state.MutablePanels().workshop_progress_bg.getSize();
+    state.MutablePanels().workshop_progress_fill.setSize({bg_size.x * ratio, bg_size.y});
 }
 
 // ============================================================================
@@ -135,7 +165,7 @@ void UpdateWorldTipPulse(GameWorldState& state, float delta_seconds) {
     world_tip_pulse += delta_seconds * GameConstants::Ui::Pulse::TimeScale;
     state.SetWorldTipPulse(world_tip_pulse);
 
-    auto* world_tip_text = state.GetTexts().world_tip_text.get();
+    auto* world_tip_text = state.MutableTexts().world_tip_text.get();
     if (world_tip_text == nullptr) {
         return;
     }
@@ -181,17 +211,17 @@ void UpdateWorldTipPulse(GameWorldState& state, float delta_seconds) {
 // 【ResetDailyInteractionState】重置每日交互状态
 // ============================================================================
 void ResetDailyInteractionState(GameWorldState& state, int current_day) {
-    auto& spirit_beast = state.GetSpiritBeast();
+    auto& spirit_beast = state.MutableSpiritBeast();
     spirit_beast.daily_interacted = false;
     spirit_beast.last_interaction_day = current_day;
     spirit_beast.interact_timer = 0.0f;
     spirit_beast.idle_timer = 0.0f;
     spirit_beast.state = SpiritBeastState::Idle;
-    spirit_beast.shape.setPosition(spirit_beast.home_position);
+    spirit_beast.position = spirit_beast.home_position;
     spirit_beast.patrol_index = 0;
     state.SetSpiritBeastWateredToday(false);
 
-    for (auto& npc : state.GetNpcs()) {
+    for (auto& npc : state.MutableNpcs()) {
         npc.daily_gifted = false;
         npc.daily_favor_gain = 0;
         npc.daily_talked = false;
@@ -205,7 +235,7 @@ void ResetDailyInteractionState(GameWorldState& state, int current_day) {
 // ============================================================================
 void ResetPlotsWateredState(GameWorldState& state,
                               const std::function<void(TeaPlot&, bool)>& refresh_visual) {
-    for (auto& plot : state.GetTeaPlots()) {
+    for (auto& plot : state.MutableTeaPlots()) {
         plot.watered = false;
         refresh_visual(plot, false);
     }

@@ -6,6 +6,9 @@
 // Responsibilities:
 // - Parse simplified dialogue JSON into plain data structs (no engine dependency)
 // - Provide stable parsing for "nodes" and "choices" blocks without third-party JSON
+//
+// CQ-103: ConvertDialogueNodes defined here to eliminate duplication between
+// DialogueEngine.cpp and NpcDialogueManager.cpp (each previously had an identical copy).
 // ============================================================================
 
 #include <cstddef>
@@ -13,7 +16,13 @@
 #include <string>
 #include <vector>
 
-namespace CloudSeamanor::infrastructure {
+namespace CloudSeamanor {
+
+// Forward-declare engine types to avoid including DialogueEngine.hpp here
+// (prevents infrastructure ↔ engine circular dependency at header level).
+namespace engine { struct DialogueNode; }
+
+namespace infrastructure {
 
 struct DialogueChoiceData {
     std::string id;
@@ -42,5 +51,12 @@ struct DialogueNodeData {
  */
 [[nodiscard]] std::vector<DialogueNodeData> ParseDialogueNodes(const std::string& json);
 
-}  // namespace CloudSeamanor::infrastructure
+/**
+ * @brief Convert raw ParseDialogueNodes output to engine-level DialogueNode/Choice structs.
+ * @note Used by both DialogueEngine and NpcDialogueManager — defined once here to eliminate CQ-103 duplication.
+ */
+[[nodiscard]] std::vector<CloudSeamanor::engine::DialogueNode> ConvertDialogueNodes(
+    const std::vector<DialogueNodeData>& data_nodes);
 
+}  // namespace CloudSeamanor::infrastructure
+}  // namespace CloudSeamanor

@@ -1,4 +1,4 @@
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/Inventory.hpp"

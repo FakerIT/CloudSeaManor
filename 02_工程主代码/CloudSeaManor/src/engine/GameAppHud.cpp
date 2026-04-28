@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameAppHud.hpp"
 
 #include "CloudSeamanor/CloudSystem.hpp"
@@ -8,6 +6,7 @@
 #include "CloudSeamanor/GameAppText.hpp"
 #include "CloudSeamanor/GameAppFarming.hpp"
 #include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/GameConfig.hpp"
 #include "CloudSeamanor/Inventory.hpp"
 #include "CloudSeamanor/Player.hpp"
 #include "CloudSeamanor/SkillSystem.hpp"
@@ -18,17 +17,50 @@
 #include "CloudSeamanor/TextRenderUtils.hpp"
 
 #include <algorithm>
+#include <array>
 #include <sstream>
 
 namespace CloudSeamanor::engine {
 
 namespace {
 using CloudSeamanor::rendering::toSfString;
+struct NewbieGoalView {
+    std::string title;
+    std::array<std::string, 3> items{};
+};
+
+const CloudSeamanor::infrastructure::GameConfig& NewbieGoalsConfig_() {
+    static CloudSeamanor::infrastructure::GameConfig cfg;
+    static bool loaded = false;
+    if (!loaded) {
+        loaded = true;
+        (void)cfg.LoadFromFile("configs/newbie_7day_goals.cfg");
+    }
+    return cfg;
+}
+
+NewbieGoalView BuildNewbieGoalView_(
+    int day,
+    const std::array<std::string, 3>& fallback_recommendations) {
+    const auto& cfg = NewbieGoalsConfig_();
+    const int day_bucket = std::clamp(day, 1, 7);
+    const std::string day_key = "newbie_day" + std::to_string(day_bucket);
+
+    NewbieGoalView view;
+    view.title = cfg.GetString(day_key + "_title", "三件事推荐：");
+    view.items[0] = cfg.GetString(day_key + "_goal_1", fallback_recommendations[0]);
+    view.items[1] = cfg.GetString(day_key + "_goal_2", fallback_recommendations[1]);
+    view.items[2] = cfg.GetString(day_key + "_goal_3", fallback_recommendations[2]);
+    return view;
+}
+
 
 struct PlotStatusSummary {
     int ready_plots = 0;
     int dry_plots = 0;
     int growing_plots = 0;
+    int tea_garden_plots = 0;
+    int normal_farm_plots = 0;
 };
 
 PlotStatusSummary BuildPlotStatusSummary(const std::vector<TeaPlot>& tea_plots) {
@@ -40,6 +72,11 @@ PlotStatusSummary BuildPlotStatusSummary(const std::vector<TeaPlot>& tea_plots) 
             ++summary.dry_plots;
         } else if (plot.seeded) {
             ++summary.growing_plots;
+        }
+        if (plot.layer == TeaPlotLayer::TeaGardenExclusive) {
+            ++summary.tea_garden_plots;
+        } else {
+            ++summary.normal_farm_plots;
         }
     }
     return summary;
@@ -82,7 +119,16 @@ std::string BuildInventorySummaryText(const CloudSeamanor::domain::Inventory& in
                          << "，" << ItemDisplayName("TurnipSeed") << " x" << turnip_seed;
     }
 
-    inventory_stream << "\n\n主屋：" << (main_house_repair.completed ? "已修复" : "待修缮")
+    const std::string house_stage = [&]() {
+        switch (main_house_repair.level) {
+        case 1: return std::string("帐篷");
+        case 2: return std::string("小木屋");
+        case 3: return std::string("砖房");
+        case 4: return std::string("大宅");
+        default: return std::string("未知");
+        }
+    }();
+    inventory_stream << "\n\n主屋：Lv." << main_house_repair.level << "（" << house_stage << "）"
                      << "\n制茶机：" << (workshop_running ? "加工中 " + std::to_string(static_cast<int>(workshop_progress)) + "%" : "空闲")
                      << "\n待领取：" << tea_machine.queued_output
                      << "\n灵兽结缘：" << (spirit_beast.daily_interacted ? "已完成" : "可进行")
@@ -113,6 +159,8 @@ std::string BuildWorldTipText(const std::string& current_target_text,
                     " | 今日赠礼：" + (npc.daily_gifted ? std::string("已完成") : std::string("可进行"));
     } else if (highlighted_plot_index >= 0) {
         const auto& plot = tea_plots[static_cast<std::size_t>(highlighted_plot_index)];
+        const std::string layer_text =
+            (plot.layer == TeaPlotLayer::TeaGardenExclusive) ? "茶园专属" : "普通农田";
         const std::string quality_prefix =
             CloudSeamanor::domain::CropTable::QualityToText(plot.quality);
         const std::string quality_line =
@@ -120,7 +168,7 @@ std::string BuildWorldTipText(const std::string& current_target_text,
                 ? " | 品质：" + std::string(quality_prefix) + " x" +
                   std::to_string(CloudSeamanor::domain::CropTable::QualityHarvestMultiplier(plot.quality)) + "产"
                 : "";
-        world_tip = plot.crop_name + " | " + PlotStatusText(plot) +
+        world_tip = plot.crop_name + " | " + layer_text + " | " + PlotStatusText(plot) +
                     " | 种子 " + ItemDisplayName(plot.seed_item_id) + " -> 收获 " +
                     ItemDisplayName(plot.harvest_item_id) + quality_line;
     }
@@ -184,7 +232,7 @@ void UpdateHudText(bool font_loaded,
 
     const PlotStatusSummary plot_summary = BuildPlotStatusSummary(tea_plots);
 
-    const auto recommendations = BuildDailyRecommendations(
+    const auto base_recommendations = BuildDailyRecommendations(
         clock,
         cloud_system.CurrentState(),
         cloud_system,
@@ -195,6 +243,9 @@ void UpdateHudText(bool font_loaded,
         spirit_beast_watered_today,
         tea_plots,
         npcs);
+    const std::array<std::string, 3> fallback_recommendations = {
+        base_recommendations[0], base_recommendations[1], base_recommendations[2]};
+    const NewbieGoalView newbie_goals = BuildNewbieGoalView_(clock.Day(), fallback_recommendations);
 
     std::ostringstream hud_stream;
     hud_stream << "第 " << clock.Day() << " 天"
@@ -209,12 +260,14 @@ void UpdateHudText(bool font_loaded,
                << "\n可收获地块 " << plot_summary.ready_plots
                << "  缺水 " << plot_summary.dry_plots
                << "  生长中 " << plot_summary.growing_plots
+               << "\n茶园地块 " << plot_summary.tea_garden_plots
+               << "  普通农田 " << plot_summary.normal_farm_plots
                << "\n目标对象：" << current_target_text
                << "\n今日目标：" << BuildDailyGoalText(main_house_repair, inventory, tea_machine, spirit_beast, npcs)
-               << "\n三件事推荐："
-               << "\n1. " << recommendations[0]
-               << "\n2. " << recommendations[1]
-               << "\n3. " << recommendations[2]
+               << "\n" << newbie_goals.title
+               << "\n1. " << newbie_goals.items[0]
+               << "\n2. " << newbie_goals.items[1]
+               << "\n3. " << newbie_goals.items[2]
                << "\n天气建议：" << BuildWeatherAdviceText(cloud_system.CurrentState(), cloud_system.IsForecastVisible());
     if (skills) {
         hud_stream << "\n--- 技能成长 ---";

@@ -19,6 +19,7 @@
 
 #include "CloudSeamanor/engine/BattleField.hpp"
 #include "CloudSeamanor/engine/BattleEntities.hpp"
+#include "CloudSeamanor/engine/BattleRenderer.hpp"
 #include "CloudSeamanor/CloudSystem.hpp"
 #include <memory>
 #include <functional>
@@ -27,6 +28,7 @@ namespace CloudSeamanor::engine {
 
 // 前向声明
 class BattleUI;
+class BattleRenderer;
 
 // ============================================================================
 // 【BattleManager】战斗总管理器
@@ -119,7 +121,7 @@ public:
     [[nodiscard]] bool IsInBattle() const;
     [[nodiscard]] BattleState CurrentState() const;
     [[nodiscard]] const BattleField& GetField() const { return field_; }
-    [[nodiscard]] BattleField& GetField() { return field_; }
+    [[nodiscard]] BattleField& MutableField() { return field_; }
     [[nodiscard]] const BattleResult& GetLastResult() const;
 
     // ========================================================================
@@ -136,6 +138,13 @@ public:
 
     [[nodiscard]] const BattleUI& GetUI() const;
     [[nodiscard]] BattleUI& GetUI();
+
+    // ========================================================================
+    // 【渲染访问】
+    // ========================================================================
+
+    [[nodiscard]] const BattleRenderer& GetRenderer() const;
+    [[nodiscard]] BattleRenderer& GetRenderer();
 
     // ========================================================================
     // 【战斗触发检测】
@@ -166,6 +175,12 @@ public:
      */
     void LoadPartnersFromSpiritBeasts(const std::vector<std::string>& spirit_beast_ids);
     void SetRewardCallbacks(const RewardCallbacks& callbacks) { reward_callbacks_ = callbacks; }
+    void SetPartnerHeartLevelResolver(const std::function<int(const std::string&)>& resolver) {
+        partner_heart_level_resolver_ = resolver;
+    }
+    bool SetEquippedWeapon(const std::string& weapon_id);
+    [[nodiscard]] const std::string& GetEquippedWeapon() const { return equipped_weapon_id_; }
+    void SetQuestSkills(const std::vector<std::string>& quest_skill_ids);
 
 private:
     // ========================================================================
@@ -189,6 +204,7 @@ private:
 
     BattleField field_;
     std::unique_ptr<BattleUI> ui_;
+    std::unique_ptr<BattleRenderer> renderer_;
 
     BattleState state_ = BattleState::Inactive;
     bool is_paused_ = false;
@@ -199,6 +215,9 @@ private:
     // 当前选中的目标
     std::string selected_target_id_;
     RewardCallbacks reward_callbacks_{};
+    std::function<int(const std::string&)> partner_heart_level_resolver_{};
+    std::string equipped_weapon_id_;
+    std::vector<std::string> quest_skill_ids_;
 
     // 战斗触发距离阈值
     float trigger_distance_ = 60.0f;

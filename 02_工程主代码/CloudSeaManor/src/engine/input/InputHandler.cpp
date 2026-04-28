@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/input/InputHandler.hpp"
 
 #include "CloudSeamanor/GameWorldState.hpp"
@@ -67,6 +65,8 @@ void InputHandler::HandlePanelAction(const GameWorldState& ws) const {
                 game_callbacks_->save_game_to_slot(slot);
             } else if (row == 1 && game_callbacks_ && game_callbacks_->load_game_from_slot) {
                 game_callbacks_->load_game_from_slot(slot);
+            } else if (panel_callbacks_->settings_apply) {
+                panel_callbacks_->settings_apply();
             }
             return;
         }
@@ -136,9 +136,9 @@ void InputHandler::HandleGameAction(
 
     // 调试开关
     if (IsActionJustPressed(Action::DebugToggle)) {
-        ws.GetTutorial().show_debug_overlay = !ws.GetTutorial().show_debug_overlay;
+        ws.MutableTutorial().show_debug_overlay = !ws.MutableTutorial().show_debug_overlay;
         game_callbacks_->push_hint(
-            ws.GetTutorial().show_debug_overlay ? "调试面板已开启。" : "调试面板已隐藏。",
+            ws.MutableTutorial().show_debug_overlay ? "调试面板已开启。" : "调试面板已隐藏。",
             2.0f);
         return;
     }
@@ -191,6 +191,14 @@ void InputHandler::HandleGameAction(
     // NPC 送礼
     if (IsActionJustPressed(Action::GiftNpc)) {
         game_callbacks_->gift_npc();
+        return;
+    }
+
+    // 快捷食用
+    if (IsActionJustPressed(Action::EatFood)) {
+        if (game_callbacks_->eat_food) {
+            game_callbacks_->eat_food();
+        }
         return;
     }
 

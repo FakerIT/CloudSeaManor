@@ -14,10 +14,13 @@ struct MailPanelEntryViewData {
 };
 
 struct MailPanelViewData {
-    std::vector<MailPanelEntryViewData> entries;
+    std::vector<MailPanelEntryViewData> arrived_entries;
+    std::vector<MailPanelEntryViewData> pending_entries;
     std::string detail_text;
     int unread_count = 0;
     std::string list_title_text = "邮件列表: 发件人 / 主题 / 时间";
+    std::string arrived_title_text = "已到达";
+    std::string pending_title_text = "未到达";
     std::string empty_detail_text = "详情: 暂无邮件内容";
     std::string unread_prefix_text = "❗ 新邮件";
     std::string unread_suffix_text = "封";

@@ -12,7 +12,7 @@
 // - Save/Load state
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 #include "CloudSeamanor/AtmosphereState.hpp"
 
 using CloudSeamanor::domain::AtmosphereDomain;

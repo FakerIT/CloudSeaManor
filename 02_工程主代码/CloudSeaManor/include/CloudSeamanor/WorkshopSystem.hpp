@@ -27,6 +27,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace CloudSeamanor::domain {
@@ -113,6 +114,10 @@ public:
     // 【GetRecipe】获取配方（委托 RecipeTable）
     // ========================================================================
     [[nodiscard]] const RecipeDefinition* GetRecipe(const std::string& recipe_id) const;
+    [[nodiscard]] int RequiredLevelForRecipe(const RecipeDefinition& recipe) const noexcept;
+    [[nodiscard]] bool IsRecipeUnlocked(const RecipeDefinition& recipe) const noexcept;
+    void UnlockRecipe(const std::string& recipe_id);
+    void ResetUnlockedRecipes();
 
     // ========================================================================
     // 【GetRecipesForMachine】获取指定机器的所有配方
@@ -134,6 +139,7 @@ private:
     std::vector<MachineState> machines_;
     int level_ = 1;
     int unlocked_slots_ = 1;
+    std::unordered_set<std::string> unlocked_recipe_ids_;
 };
         
 } // namespace CloudSeamanor::domain

@@ -6,7 +6,7 @@
 // 负责从 CSV 加载工坊配方，提供配方查询和机器绑定。
 //
 // 主要职责：
-// - 从 `assets/data/RecipeTable.csv` 加载配方定义
+// - 从 `assets/data/recipes.csv` 加载配方定义（唯一真值源）
 // - 按配方 ID 查询
 // - 按机器 ID 筛选可用配方
 // - 提供配方文本构建（用于 HUD 显示）

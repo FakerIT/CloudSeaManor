@@ -48,7 +48,11 @@ bool ParseHexColor(const std::string& hex, int& out_r, int& out_g, int& out_b, i
             out_b = std::stoi(h.substr(4, 2), nullptr, 16);
             out_a = 255;
             return true;
-        } catch (...) {
+        } catch (const std::invalid_argument&) {
+            return false;
+        } catch (const std::out_of_range&) {
+            return false;
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -59,7 +63,11 @@ bool ParseHexColor(const std::string& hex, int& out_r, int& out_g, int& out_b, i
             out_b = std::stoi(h.substr(4, 2), nullptr, 16);
             out_a = std::stoi(h.substr(6, 2), nullptr, 16);
             return true;
-        } catch (...) {
+        } catch (const std::invalid_argument&) {
+            return false;
+        } catch (const std::out_of_range&) {
+            return false;
+        } catch (const std::exception&) {
             return false;
         }
     }
@@ -132,10 +140,16 @@ bool AtmosphereDataLoader::LoadSkyProfiles(
         }
 
         auto safe_float = [&](const std::string& s, float def) -> float {
-            try { return std::stof(s); } catch (...) { return def; }
+            try { return std::stof(s); }
+            catch (const std::invalid_argument&) { return def; }
+            catch (const std::out_of_range&) { return def; }
+            catch (const std::exception&) { return def; }
         };
         auto safe_int = [&](const std::string& s, int def) -> int {
-            try { return std::stoi(s); } catch (...) { return def; }
+            try { return std::stoi(s); }
+            catch (const std::invalid_argument&) { return def; }
+            catch (const std::out_of_range&) { return def; }
+            catch (const std::exception&) { return def; }
         };
 
         profile.fog_density = safe_float(tokens[col++], 0.0f);
@@ -215,7 +229,10 @@ bool AtmosphereDataLoader::LoadWeatherProfiles(
             while (start < obj_str.size() && std::isspace(static_cast<unsigned char>(obj_str[start]))) ++start;
             auto num_end = start;
             while (num_end < obj_str.size() && (std::isdigit(static_cast<unsigned char>(obj_str[num_end])) || obj_str[num_end] == '.')) ++num_end;
-            try { return std::stoi(obj_str.substr(start, num_end - start)); } catch (...) { return def; }
+            try { return std::stoi(obj_str.substr(start, num_end - start)); }
+            catch (const std::invalid_argument&) { return def; }
+            catch (const std::out_of_range&) { return def; }
+            catch (const std::exception&) { return def; }
         };
 
         auto get_float = [&](const std::string& field, float def) -> float {
@@ -228,7 +245,10 @@ bool AtmosphereDataLoader::LoadWeatherProfiles(
             while (start < obj_str.size() && std::isspace(static_cast<unsigned char>(obj_str[start]))) ++start;
             auto num_end = start;
             while (num_end < obj_str.size() && (std::isdigit(static_cast<unsigned char>(obj_str[num_end])) || obj_str[num_end] == '.' || obj_str[num_end] == '-')) ++num_end;
-            try { return std::stof(obj_str.substr(start, num_end - start)); } catch (...) { return def; }
+            try { return std::stof(obj_str.substr(start, num_end - start)); }
+            catch (const std::invalid_argument&) { return def; }
+            catch (const std::out_of_range&) { return def; }
+            catch (const std::exception&) { return def; }
         };
 
         auto get_bool = [&](const std::string& field, bool def) -> bool {

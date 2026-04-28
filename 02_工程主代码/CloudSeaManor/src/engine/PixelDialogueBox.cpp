@@ -1,6 +1,7 @@
 #include "CloudSeamanor/PixelDialogueBox.hpp"
 
 #include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/UiVertexHelpers.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 
@@ -12,27 +13,7 @@
 namespace CloudSeamanor::engine {
 
 namespace {
-inline void AddQuad(sf::VertexArray& va,
-                    const sf::Vector2f& p0,
-                    const sf::Vector2f& p1,
-                    const sf::Vector2f& p2,
-                    const sf::Vector2f& p3,
-                    const sf::Color& color,
-                    float alpha = 1.0f) {
-    sf::Color ac(color);
-    ac.a = static_cast<std::uint8_t>(std::clamp(color.a * alpha, 0.0f, 255.0f));
-    const auto snap = [](const sf::Vector2f& p) { return sf::Vector2f(std::round(p.x), std::round(p.y)); };
-    const sf::Vector2f s0 = snap(p0);
-    const sf::Vector2f s1 = snap(p1);
-    const sf::Vector2f s2 = snap(p2);
-    const sf::Vector2f s3 = snap(p3);
-    va.append(sf::Vertex(s0, ac));
-    va.append(sf::Vertex(s1, ac));
-    va.append(sf::Vertex(s2, ac));
-    va.append(sf::Vertex(s0, ac));
-    va.append(sf::Vertex(s2, ac));
-    va.append(sf::Vertex(s3, ac));
-}
+using CloudSeamanor::engine::uivx::AddQuad;
 }  // namespace
 
 PixelDialogueBox::PixelDialogueBox()
@@ -105,9 +86,20 @@ bool PixelDialogueBox::SelectChoice(std::size_t index) {
     if (state_ != DialogueBoxState::WaitingChoice) return false;
     if (index >= choices_.size()) return false;
 
-    if (on_choice_) on_choice_(choices_[index].id);
+    selected_choice_ = index;
+
+    // 若绑定了 on_choice_（通常用于 DialogueEngine 驱动模式），则把选择交给外部处理。
+    // 外部会推进对话状态，随后由 SyncFromDialogueEngine 刷新 UI；此处不主动 Hide，避免闪烁/状态不同步。
+    if (on_choice_) {
+        on_choice_(choices_[index].id);
+        return true;
+    }
+
+    // standalone 模式：直接结束对话框。
     Hide();
-    if (on_complete_) on_complete_();
+    if (on_complete_) {
+        on_complete_();
+    }
     return true;
 }
 

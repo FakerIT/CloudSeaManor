@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "description": "UI/战斗图标与元素归属映射。未显式声明的图标默认 neutral。",
+  "elements": [
+    "cloud",
+    "wind",
+    "dew",
+    "glow",
+    "tide",
+    "light",
+    "dark",
+    "neutral"
+  ],
+  "default_element": "neutral",
+  "atlas_defaults": {
+    "ui_icons": "neutral",
+    "ui_main": "neutral",
+    "ui_borders": "neutral",
+    "tiles_farm": "neutral",
+    "items_crop": "neutral",
+    "items_food": "neutral",
+    "player_main": "neutral",
+    "npc_villagers": "neutral"
+  },
+  "frame_element_overrides": {
+    "ui_main:icon_cloud_clear": "cloud",
+    "ui_main:icon_cloud_mist": "dew",
+    "ui_main:icon_cloud_dense": "wind",
+    "ui_main:icon_cloud_tide": "tide"
+  },
+  "battle_skill_icon_mapping": {
+    "player_wind_blade": {
+      "element": "wind",
+      "icon_frame": "ui_icons:key_q"
+    },
+    "player_shadow_blade": {
+      "element": "dark",
+      "icon_frame": "ui_icons:key_w"
+    },
+    "player_stone_shield": {
+      "element": "cloud",
+      "icon_frame": "ui_icons:key_e"
+    },
+    "player_cloud_domain": {
+      "element": "cloud",
+      "icon_frame": "ui_icons:key_r"
+    },
+    "spirit_basic_purify": {
+      "element": "neutral",
+      "icon_frame": "ui_main:icon_spirit"
+    },
+    "spirit_heal": {
+      "element": "dew",
+      "icon_frame": "ui_main:icon_heart_full"
+    },
+    "spirit_group_buff": {
+      "element": "light",
+      "icon_frame": "ui_main:icon_check"
+    },
+    "spirit_ultimate": {
+      "element": "light",
+      "icon_frame": "ui_main:icon_spirit"
+    }
+  },
+  "weapon_icon_mapping": {
+    "weapon_bamboo_sling": {
+      "element": "dew",
+      "icon_frame": "tiles_farm:hoe_wood"
+    },
+    "weapon_cloud_blade": {
+      "element": "cloud",
+      "icon_frame": "tiles_farm:shovel_stone"
+    },
+    "weapon_tide_staff": {
+      "element": "tide",
+      "icon_frame": "tiles_farm:watering_can"
+    },
+    "weapon_starlight_bow": {
+      "element": "light",
+      "icon_frame": "tiles_farm:shovel_stone"
+    },
+    "weapon_nether_sickle": {
+      "element": "dark",
+      "icon_frame": "tiles_farm:hoe_stone"
+    }
+  },
+  "normalization_alias": {
+    "metal": "cloud",
+    "earth": "wind",
+    "wood": "dew",
+    "fire": "glow",
+    "water": "tide"
+  },
+  "validation_rules": {
+    "unknown_icon_frame_policy": "fallback_to_neutral",
+    "unknown_element_policy": "fallback_to_neutral",
+    "require_icon_for_battle_skill": true,
+    "require_icon_for_weapon": true
+  }
+}
+

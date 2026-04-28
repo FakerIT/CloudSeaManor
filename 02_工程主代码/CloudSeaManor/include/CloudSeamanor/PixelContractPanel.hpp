@@ -14,6 +14,9 @@ struct ContractPanelViewData {
     std::string tracking_volume_name = "第一卷";
     std::string tracking_bonus = "完成本卷可解锁奖励";
     std::vector<std::string> task_lines;
+    std::string today_recommendation_title = "今日推荐";
+    std::string today_recommendation_text;
+    std::string unlock_hint_text;
     std::string volumes_line_prefix = "卷册: [1][2][3][4][5][6]   总进度:";
     std::string tracking_line_prefix = "当前卷:";
     std::string tracking_name_separator = "卷-";

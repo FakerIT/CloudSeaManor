@@ -26,7 +26,6 @@ void TeaGarden::UpdatePlots(
         float growth_multiplier = 1.0f;
         if (cloud_state == CloudSeamanor::domain::CloudState::Tide) {
             growth_multiplier *= kTideTeaQualityMultiplier;
-            plot.quality = CloudSeamanor::domain::CropQuality::Spirit;
         }
 
         plot.growth += delta_seconds * growth_multiplier;

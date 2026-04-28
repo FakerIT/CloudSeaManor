@@ -79,6 +79,7 @@ constexpr const char* A_Confirm = "Confirm";
 constexpr const char* A_Cancel = "Cancel";
 constexpr const char* A_Sprint = "Sprint";
 constexpr const char* A_UseTool = "UseTool";
+constexpr const char* A_EatFood = "EatFood";
 constexpr const char* A_OpenQuest = "Quest";
 constexpr const char* A_OpenMap = "Map";
 constexpr const char* A_AdvanceDialog = "AdvanceDialog";
@@ -171,6 +172,8 @@ const std::unordered_map<std::string, Action>& ACTION_MAP() {
         {"CONFIRM", Action::Confirm},
         {"SPRINT", Action::Sprint},
         {"USETOOL", Action::UseTool},
+        {"EATFOOD", Action::EatFood},
+        {"EAT", Action::EatFood},
         {"ADVANCEDIALOG", Action::AdvanceDialog},
         {"GIFT", Action::GiftNpc},
         {"GIFTNPC", Action::GiftNpc},
@@ -364,6 +367,7 @@ void InputManager::ResetToDefaults() {
     BindKey(sf::Keyboard::Key::Enter, Action::Confirm);
     BindKey(sf::Keyboard::Key::LShift, Action::Sprint);
     BindKey(sf::Keyboard::Key::Q, Action::UseTool);
+    BindKey(sf::Keyboard::Key::H, Action::EatFood);
     BindKey(sf::Keyboard::Key::G, Action::GiftNpc);
     BindKey(sf::Keyboard::Key::T, Action::Sleep);
     BindKey(sf::Keyboard::Key::F3, Action::DebugToggle);
@@ -402,6 +406,7 @@ sf::Keyboard::Key InputManager::GetDefaultKey(Action action) const {
     case Action::Confirm:       return sf::Keyboard::Key::Enter;
     case Action::Sprint:        return sf::Keyboard::Key::LShift;
     case Action::UseTool:      return sf::Keyboard::Key::Q;
+    case Action::EatFood:      return sf::Keyboard::Key::H;
     case Action::AdvanceDialog: return sf::Keyboard::Key::E;
     case Action::GiftNpc:      return sf::Keyboard::Key::G;
     case Action::Sleep:         return sf::Keyboard::Key::T;
@@ -472,6 +477,7 @@ const char* ActionDisplayName(Action action) {
     case Action::Confirm:       return A_Confirm;
     case Action::Sprint:        return A_Sprint;
     case Action::UseTool:      return A_UseTool;
+    case Action::EatFood:      return A_EatFood;
     case Action::AdvanceDialog: return A_AdvanceDialog;
     case Action::GiftNpc:      return A_GiftNpc;
     case Action::Sleep:         return A_Sleep;

@@ -7,6 +7,18 @@ namespace CloudSeamanor::domain {
 struct Vec2f {
     float x = 0.0f;
     float y = 0.0f;
+
+    [[nodiscard]] constexpr Vec2f operator+(const Vec2f& other) const noexcept {
+        return Vec2f{x + other.x, y + other.y};
+    }
+
+    [[nodiscard]] constexpr Vec2f operator-(const Vec2f& other) const noexcept {
+        return Vec2f{x - other.x, y - other.y};
+    }
+
+    [[nodiscard]] constexpr Vec2f operator*(float scalar) const noexcept {
+        return Vec2f{x * scalar, y * scalar};
+    }
 };
 
 struct RectF {

@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/rendering/HudRenderer.hpp"
 
 #include "CloudSeamanor/GameWorldState.hpp"
@@ -48,7 +46,7 @@ void HudRenderer::RenderTexts_(
     sf::RenderWindow& window,
     const GameWorldState& ws
 ) {
-    auto& t = ui_system_.GetTexts();
+    const auto& t = ui_system_.GetTexts();
     if (t.festival_notice_text) window.draw(*t.festival_notice_text);
     if (t.hud_text) window.draw(*t.hud_text);
     if (t.inventory_text) window.draw(*t.inventory_text);

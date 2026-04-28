@@ -1,8 +1,7 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/TargetHintRuntime.hpp"
 
 #include "CloudSeamanor/CropData.hpp"
+#include "CloudSeamanor/GameAppFarming.hpp"
 #include "CloudSeamanor/GameAppText.hpp"
 #include "CloudSeamanor/Interactable.hpp"
 #include "CloudSeamanor/Inventory.hpp"
@@ -15,13 +14,18 @@ namespace CloudSeamanor::engine {
 std::string BuildCurrentTargetText(const TargetHintContext& context) {
     if (context.highlighted_plot_index >= 0) {
         const auto& plot = context.tea_plots[static_cast<std::size_t>(context.highlighted_plot_index)];
-        if (!plot.tilled) return plot.crop_name + "：翻土 [E]";
+        const std::string layer_text =
+            (plot.layer == TeaPlotLayer::TeaGardenExclusive) ? "茶园专属" : "普通农田";
+        if (!plot.tilled) return plot.crop_name + "（" + layer_text + "）：翻土 [E]";
         if (!plot.seeded) {
             const int seed_count = context.inventory.CountOf(plot.seed_item_id);
             if (seed_count > 0) {
-                return plot.crop_name + "：种下 " + ItemDisplayName(plot.seed_item_id) + " [E]（持有 x" + std::to_string(seed_count) + "）";
+                return plot.crop_name + "（" + layer_text + "）：种下 "
+                    + ItemDisplayName(plot.seed_item_id) + " [E]（持有 x"
+                    + std::to_string(seed_count) + "）";
             }
-            return plot.crop_name + "：缺少 " + ItemDisplayName(plot.seed_item_id) + "，暂时无法播种";
+            return plot.crop_name + "（" + layer_text + "）：缺少 "
+                + ItemDisplayName(plot.seed_item_id) + "，暂时无法播种";
         }
         if (!plot.watered) return plot.crop_name + "：浇水 [E]";
         if (plot.ready) {
@@ -49,17 +53,49 @@ std::string BuildCurrentTargetText(const TargetHintContext& context) {
         return "在山庄中探索，靠近作物、设施、灵兽或 NPC。";
     }
     const auto& target = context.interactables[static_cast<std::size_t>(context.highlighted_index)];
-    if (target.Type() == CloudSeamanor::domain::InteractableType::Storage && !context.main_house_repair.completed) {
+    if (target.Label() == "Tea Bush") {
+        const auto bush_it = std::find_if(
+            context.tea_bushes.begin(),
+            context.tea_bushes.end(),
+            [&](const CloudSeamanor::domain::TeaBush& bush) {
+                return bush.id == target.EnemyId();
+            });
+        if (bush_it == context.tea_bushes.end()) {
+            return "茶灌木：靠近采摘 [E]";
+        }
+        if (bush_it->CanHarvest(context.current_day)) {
+            return (bush_it->name.empty() ? "茶灌木" : bush_it->name) + "：可采摘 [E]";
+        }
+        const int remain_days = bush_it->DaysUntilHarvest(context.current_day);
+        const int normalized_hour = std::clamp(context.current_hour, 0, 23);
+        const int remain_hours_total =
+            std::max(1, (std::max(0, remain_days - 1) * 24) + (24 - normalized_hour));
+        const int x_days = remain_hours_total / 24;
+        const int y_hours = remain_hours_total % 24;
+        return (bush_it->name.empty() ? "茶灌木" : bush_it->name)
+            + "：还需 " + std::to_string(x_days) + "天" + std::to_string(y_hours) + "小时 [E]";
+    }
+    if (target.Type() == CloudSeamanor::domain::InteractableType::Storage) {
+        if (context.main_house_repair.level >= kMainHouseMaxLevel) {
+            return "主屋：已达最高级（大宅） [E]";
+        }
+        const auto cost = QueryMainHouseUpgradeCost(context.main_house_repair.level);
         const int wood_have = context.inventory.CountOf("Wood");
         const int turnip_have = context.inventory.CountOf("Turnip");
-        const bool can_repair = wood_have >= context.main_house_repair.wood_cost &&
-                                turnip_have >= context.main_house_repair.turnip_cost;
-        if (can_repair) {
-            return "主屋：材料齐全，可修缮 [E]（木材 " + std::to_string(wood_have) + "/" + std::to_string(context.main_house_repair.wood_cost) +
-                   "，萝卜 " + std::to_string(turnip_have) + "/" + std::to_string(context.main_house_repair.turnip_cost) + "）";
+        const int gold_have = context.player_gold;
+        const bool can_upgrade = (wood_have >= cost.wood_cost)
+            && (turnip_have >= cost.turnip_cost)
+            && (gold_have >= cost.gold_cost);
+        if (can_upgrade) {
+            return "主屋：材料齐全，可升级到 Lv." + std::to_string(cost.next_level)
+                + " [E]（木材 " + std::to_string(wood_have) + "/" + std::to_string(cost.wood_cost)
+                + "，萝卜 " + std::to_string(turnip_have) + "/" + std::to_string(cost.turnip_cost)
+                + "，金币 " + std::to_string(gold_have) + "/" + std::to_string(cost.gold_cost) + "）";
         }
-        return "主屋：修缮材料不足（木材 " + std::to_string(wood_have) + "/" + std::to_string(context.main_house_repair.wood_cost) +
-               "，萝卜 " + std::to_string(turnip_have) + "/" + std::to_string(context.main_house_repair.turnip_cost) + "）";
+        return "主屋：升级 Lv." + std::to_string(cost.next_level) + " 材料不足（木材 "
+            + std::to_string(wood_have) + "/" + std::to_string(cost.wood_cost)
+            + "，萝卜 " + std::to_string(turnip_have) + "/" + std::to_string(cost.turnip_cost)
+            + "，金币 " + std::to_string(gold_have) + "/" + std::to_string(cost.gold_cost) + "）";
     }
     if (target.Type() == CloudSeamanor::domain::InteractableType::Workstation) {
         if (const auto* machine = context.workshop.GetMachine("tea_machine")) {

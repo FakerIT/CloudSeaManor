@@ -1,10 +1,9 @@
-﻿#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/RecipeData.hpp"
 
 #include "CloudSeamanor/Logger.hpp"
 
 #include <fstream>
+#include <optional>
 #include <sstream>
 
 namespace CloudSeamanor::domain {
@@ -13,15 +12,35 @@ namespace {
 const std::string& ItemDisplayLabel_(const std::string& item_id) {
     return item_id;
 }
+
+std::optional<int> ParseIntField_(const std::string& raw, const std::string& field_name, int line_no) {
+    try {
+        return std::stoi(raw);
+    } catch (...) {
+        infrastructure::Logger::Warning(
+            "RecipeTable: 行 " + std::to_string(line_no) + " 的整数字段非法: " + field_name + "=" + raw);
+        return std::nullopt;
+    }
+}
+
+std::optional<float> ParseFloatField_(const std::string& raw, const std::string& field_name, int line_no) {
+    try {
+        return std::stof(raw);
+    } catch (...) {
+        infrastructure::Logger::Warning(
+            "RecipeTable: 行 " + std::to_string(line_no) + " 的浮点字段非法: " + field_name + "=" + raw);
+        return std::nullopt;
+    }
+}
 }
 
 // ============================================================================
 // 【RecipeTable::LoadFromFile】从 CSV 加载配方表
 // ============================================================================
 bool RecipeTable::LoadFromFile(const std::string& file_path) {
-    if (!recipes_.empty()) {
-        return true;  // 已加载，直接返回
-    }
+    recipes_.clear();
+    index_.clear();
+    machine_index_.clear();
 
     std::ifstream file(file_path);
     if (!file.is_open()) {
@@ -35,7 +54,12 @@ bool RecipeTable::LoadFromFile(const std::string& file_path) {
         return false;
     }
 
+    int line_no = 1;
+    int duplicate_id_count = 0;
+    int invalid_row_count = 0;
+
     while (std::getline(file, line)) {
+        ++line_no;
         if (line.empty() || line[0] == '#') {
             continue;
         }
@@ -51,25 +75,80 @@ bool RecipeTable::LoadFromFile(const std::string& file_path) {
             case 1: def.name = field; break;
             case 2: def.machine_id = field; break;
             case 3: def.input_item = field; break;
-            case 4: def.input_count = std::stoi(field); break;
+            case 4: {
+                const auto parsed = ParseIntField_(field, "input_count", line_no);
+                if (!parsed) {
+                    ++invalid_row_count;
+                    def.id.clear();
+                } else {
+                    def.input_count = *parsed;
+                }
+                break;
+            }
             case 5: def.output_item = field; break;
-            case 6: def.output_count = std::stoi(field); break;
-            case 7: def.process_time = std::stoi(field); break;
-            case 8: def.base_success_rate = std::stof(field); break;
+            case 6: {
+                const auto parsed = ParseIntField_(field, "output_count", line_no);
+                if (!parsed) {
+                    ++invalid_row_count;
+                    def.id.clear();
+                } else {
+                    def.output_count = *parsed;
+                }
+                break;
+            }
+            case 7: {
+                const auto parsed = ParseIntField_(field, "process_time", line_no);
+                if (!parsed) {
+                    ++invalid_row_count;
+                    def.id.clear();
+                } else {
+                    def.process_time = *parsed;
+                }
+                break;
+            }
+            case 8: {
+                const auto parsed = ParseFloatField_(field, "base_success_rate", line_no);
+                if (!parsed) {
+                    ++invalid_row_count;
+                    def.id.clear();
+                } else {
+                    def.base_success_rate = *parsed;
+                }
+                break;
+            }
             case 9: def.tags = ParseTags_(field); break;
             }
             ++column;
         }
 
-        if (!def.id.empty()) {
-            recipes_.push_back(def);
-            const std::size_t idx = recipes_.size() - 1;
-            index_[def.id] = idx;
-            machine_index_.emplace(def.machine_id, idx);
+        if (def.id.empty() || def.machine_id.empty() || def.input_item.empty() || def.output_item.empty()) {
+            ++invalid_row_count;
+            infrastructure::Logger::Warning(
+                "RecipeTable: 跳过非法配方行 " + std::to_string(line_no)
+                + "（id/machine/input/output 不能为空）");
+            continue;
         }
+
+        if (index_.contains(def.id)) {
+            ++duplicate_id_count;
+            infrastructure::Logger::Warning(
+                "RecipeTable: 发现重复配方 id=" + def.id
+                + "（行 " + std::to_string(line_no) + "），按“后者覆盖前者”处理。");
+            recipes_[index_[def.id]] = def;
+            continue;
+        }
+
+        recipes_.push_back(def);
+        const std::size_t idx = recipes_.size() - 1;
+        index_[def.id] = idx;
+        machine_index_.emplace(def.machine_id, idx);
     }
 
-    infrastructure::Logger::Info("已加载 " + std::to_string(recipes_.size()) + " 条配方数据。");
+    infrastructure::Logger::Info(
+        "RecipeTable: 已加载 " + std::to_string(recipes_.size())
+        + " 条配方；重复覆盖=" + std::to_string(duplicate_id_count)
+        + "；非法行=" + std::to_string(invalid_row_count)
+        + "；source=" + file_path);
     return !recipes_.empty();
 }
 

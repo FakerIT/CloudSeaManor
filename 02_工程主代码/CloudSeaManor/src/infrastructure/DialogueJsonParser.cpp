@@ -1,6 +1,9 @@
 #include "CloudSeamanor/infrastructure/DialogueJsonParser.hpp"
+#include "CloudSeamanor/DialogueEngine.hpp"
 
 #include <cctype>
+#include <exception>
+#include <stdexcept>
 #include <string_view>
 
 namespace CloudSeamanor::infrastructure {
@@ -31,7 +34,11 @@ std::optional<int> ExtractIntField_(const std::string& s, const std::string& fie
     const auto number_end = s.find_first_not_of("0123456789", number_start);
     try {
         return std::stoi(s.substr(number_start, number_end - number_start));
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        return std::nullopt;
+    } catch (const std::out_of_range&) {
+        return std::nullopt;
+    } catch (const std::exception&) {
         return std::nullopt;
     }
 }
@@ -149,4 +156,34 @@ std::vector<DialogueNodeData> ParseDialogueNodes(const std::string& json) {
 }
 
 }  // namespace CloudSeamanor::infrastructure
+
+// ============================================================================
+// 【ConvertDialogueNodes】infrastructure 级别实现，供 engine 层共用
+// ============================================================================
+std::vector<CloudSeamanor::engine::DialogueNode> CloudSeamanor::infrastructure::ConvertDialogueNodes(
+    const std::vector<CloudSeamanor::infrastructure::DialogueNodeData>& data_nodes) {
+    std::vector<CloudSeamanor::engine::DialogueNode> out;
+    out.reserve(data_nodes.size());
+    for (const auto& dn : data_nodes) {
+        CloudSeamanor::engine::DialogueNode n;
+        n.id = dn.id;
+        n.speaker = dn.speaker;
+        n.text = dn.text;
+        n.choices.reserve(dn.choices.size());
+        for (const auto& dc : dn.choices) {
+            CloudSeamanor::engine::DialogueChoice c;
+            c.id = dc.id;
+            c.text = dc.text;
+            c.next_node_id = dc.next_node_id;
+            c.min_favor = dc.min_favor;
+            c.require_item = dc.require_item;
+            c.fallback_next_node_id = dc.fallback_next_node_id;
+            n.choices.push_back(std::move(c));
+        }
+        if (!n.id.empty()) {
+            out.push_back(std::move(n));
+        }
+    }
+    return out;
+}
 

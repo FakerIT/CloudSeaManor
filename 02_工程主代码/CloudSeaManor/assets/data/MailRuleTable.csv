@@ -1,0 +1,7 @@
+id,trigger_type,trigger_arg,item_id,count,delay_days,hint_text,enabled,sender_template,subject_template,body_template,cooldown_policy
+weekly_tea_pack,weekday_mod_eq,7:0,TeaPack,1,1,商会周补给已发出：茶包将在明日送达,1,商会物流部,周度补给,$[DAY]日已登记周度补给：$[ITEM_ID] x$[COUNT],daily
+spring_welcome,season_first_day,spring,TeaSeed,2,0,春季信件：应季茶种已送达,1,四时农务署,春季种植礼包,春季首日赠礼：$[ITEM_ID] x$[COUNT],season
+mid_month_farm,day_in_season_eq,15,FertilizerItem,1,1,农务提醒：肥料补给已发出,1,农务处,月中农务补给,月中补给：$[ITEM_ID] x$[COUNT],season
+qixi_special,festival_id_eq,qixi_festival,JadeRing,1,2,七夕特送：神秘礼件已在路上,1,节庆委员会,七夕特别礼件,节庆礼件已发出：$[ITEM_ID] x$[COUNT],season
+acha_favor_reward,npc_favor_ge,acha:300,CloudBerry,2,1,阿茶寄来了关系礼赠,1,阿茶,来自阿茶的谢礼,你最近常来帮忙，这份心意请收下：$[ITEM_ID] x$[COUNT],once
+lin_heart_reward,npc_heart_ge,lin:4,TeaPack,2,1,林伯寄来了匠心包裹,1,林伯,匠心包裹,木屋修缮谢礼：$[ITEM_ID] x$[COUNT],once

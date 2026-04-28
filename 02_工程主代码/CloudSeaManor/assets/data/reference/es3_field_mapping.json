@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "description": "ES3 参考存档字段映射（用于导入 CloudSeaManor）",
+  "meta": {
+    "SelectSave": "meta.selected_save",
+    "语言": "meta.language",
+    "离线收益_上次时间戳": "meta.offline_last_timestamp"
+  },
+  "system_settings": {
+    "SaveS": "system_settings"
+  },
+  "slot_payloads": {
+    "Save0": "slots[0].save_payload",
+    "Save1": "slots[1].save_payload",
+    "Save2": "slots[2].save_payload",
+    "家园存档_新版_0": "slots[0].home_payload",
+    "家园存档_新版_1": "slots[1].home_payload",
+    "家园存档_新版_2": "slots[2].home_payload"
+  },
+  "pattern_keys": [
+    {
+      "pattern": "商店日购_槽{slot}_{item}_{field}",
+      "target": "global_daily_shop_records[]",
+      "fields": [
+        "slot_index",
+        "item_name",
+        "field_name",
+        "value"
+      ]
+    }
+  ]
+}

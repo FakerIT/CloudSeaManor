@@ -34,16 +34,24 @@ void PixelTeaGardenPanel::RenderContent(sf::RenderWindow& window, const sf::Floa
                                   {x, y + row_h * (3.2f + static_cast<float>(i))},
                                   TextStyle::Default());
     }
+    m_font_renderer->DrawText(window, data_.bush_countdown_title, {x, y + row_h * 6.0f}, TextStyle::PanelTitle());
+    const std::size_t bush_count = std::min<std::size_t>(2, data_.bush_countdown_lines.size());
+    for (std::size_t i = 0; i < bush_count; ++i) {
+        m_font_renderer->DrawText(window,
+                                  data_.bush_countdown_lines[i],
+                                  {x, y + row_h * (6.8f + static_cast<float>(i) * 0.9f)},
+                                  TextStyle::Default());
+    }
 
     sf::RectangleShape quality_hint({inner_rect.size.x - 24.0f, 24.0f});
-    quality_hint.setPosition({x, y + row_h * 6.5f});
+    quality_hint.setPosition({x, y + row_h * 8.5f});
     quality_hint.setFillColor(ColorPalette::Lighten(ColorPalette::Cream, 4));
     quality_hint.setOutlineThickness(1.0f);
     quality_hint.setOutlineColor(ColorPalette::BrownOutline);
     window.draw(quality_hint);
-    m_font_renderer->DrawText(window, data_.quality_hint_text, {x + 6.0f, y + row_h * 6.7f}, TextStyle::HotkeyHint());
+    m_font_renderer->DrawText(window, data_.quality_hint_text, {x + 6.0f, y + row_h * 8.7f}, TextStyle::HotkeyHint());
 
-    m_font_renderer->DrawText(window, data_.actions_text, {x, y + row_h * 8.1f}, TextStyle::Default());
+    m_font_renderer->DrawText(window, data_.actions_text, {x, y + row_h * 10.1f}, TextStyle::Default());
 }
 
 }  // namespace CloudSeamanor::engine

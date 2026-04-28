@@ -1,6 +1,7 @@
 #include "CloudSeamanor/PixelMinimap.hpp"
 #include "CloudSeamanor/PixelArtStyle.hpp"
 #include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -8,27 +9,7 @@
 namespace CloudSeamanor::engine {
 
 namespace {
-inline void AddQuad(sf::VertexArray& va,
-                    const sf::Vector2f& p0,
-                    const sf::Vector2f& p1,
-                    const sf::Vector2f& p2,
-                    const sf::Vector2f& p3,
-                    const sf::Color& color,
-                    float alpha = 1.0f) {
-    sf::Color c = color;
-    c.a = static_cast<std::uint8_t>(std::clamp(static_cast<float>(c.a) * alpha, 0.0f, 255.0f));
-    const auto snap = [](const sf::Vector2f& p) { return sf::Vector2f(std::round(p.x), std::round(p.y)); };
-    const sf::Vector2f s0 = snap(p0);
-    const sf::Vector2f s1 = snap(p1);
-    const sf::Vector2f s2 = snap(p2);
-    const sf::Vector2f s3 = snap(p3);
-    va.append(sf::Vertex(s0, c));
-    va.append(sf::Vertex(s1, c));
-    va.append(sf::Vertex(s2, c));
-    va.append(sf::Vertex(s0, c));
-    va.append(sf::Vertex(s2, c));
-    va.append(sf::Vertex(s3, c));
-}
+using CloudSeamanor::engine::uivx::AddQuad;
 }  // namespace
 
 // ============================================================================

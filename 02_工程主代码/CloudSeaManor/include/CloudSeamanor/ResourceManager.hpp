@@ -26,6 +26,7 @@
 // @endcode
 // ============================================================================
 
+#include "CloudSeamanor/Result.hpp"
 #include "CloudSeamanor/Logger.hpp"
 
 #include <SFML/Audio/SoundBuffer.hpp>
@@ -73,6 +74,7 @@ public:
      * @return true 表示加载成功。
      */
     bool LoadTexture(const std::string& id, const std::string& path);
+    [[nodiscard]] CloudSeamanor::Result<void> LoadTextureResult(const std::string& id, const std::string& path);
 
     /**
      * @brief 获取纹理引用。资源不存在时记录警告并返回默认占位符。
@@ -88,6 +90,24 @@ public:
      * @brief 获取已加载纹理数量。
      */
     [[nodiscard]] std::size_t GetTextureCount() const noexcept { return textures_.size(); }
+
+    // ========================================================================
+    // 【引用计数】用于精细化资源释放
+    // ========================================================================
+
+    /**
+     * @brief 增加指定资源的引用计数（Acquire）。
+     * @param id 资源 ID。
+     * @note 已在 Load* 阶段设为 1，首次 Acquire 将其升为 2。
+     */
+    void Acquire(const std::string& id);
+
+    /**
+     * @brief 减少指定资源的引用计数（Release）。
+     * @param id 资源 ID。
+     * @note 计数降至 0 时资源进入"未使用"状态，可由 ReleaseUnused 释放。
+     */
+    void Release(const std::string& id);
 
     /**
      * @brief 卸载指定纹理。
@@ -105,6 +125,7 @@ public:
      * @return true 表示加载成功。
      */
     bool LoadFont(const std::string& id, const std::string& path);
+    [[nodiscard]] CloudSeamanor::Result<void> LoadFontResult(const std::string& id, const std::string& path);
 
     /**
      * @brief 获取字体引用。资源不存在时记录警告并返回默认占位符。
@@ -130,10 +151,55 @@ public:
     // 【音频缓冲管理】
     // ========================================================================
     bool LoadSoundBuffer(const std::string& id, const std::string& path);
+    [[nodiscard]] CloudSeamanor::Result<void> LoadSoundBufferResult(const std::string& id, const std::string& path);
     [[nodiscard]] sf::SoundBuffer& GetSoundBuffer(const std::string& id);
     [[nodiscard]] bool HasSoundBuffer(const std::string& id) const;
     void UnloadSoundBuffer(const std::string& id);
     [[nodiscard]] std::size_t GetSoundBufferCount() const noexcept { return sound_buffers_.size(); }
+
+    // ========================================================================
+    // 【文本资源管理】（JSON/CSV/脚本文本等）
+    // ========================================================================
+    /**
+     * @brief 加载文本资源（不重复加载同名 ID）。
+     * @param id 资源唯一标识。
+     * @param path 文件路径。
+     * @return true 表示加载成功。
+     */
+    bool LoadText(const std::string& id, const std::string& path);
+    [[nodiscard]] CloudSeamanor::Result<void> LoadTextResult(const std::string& id, const std::string& path);
+
+    /**
+     * @brief 获取文本内容。资源不存在时记录警告并返回空字符串引用。
+     */
+    [[nodiscard]] const std::string& GetText(const std::string& id);
+
+    /**
+     * @brief 检查文本是否已加载。
+     */
+    [[nodiscard]] bool HasText(const std::string& id) const;
+
+    /**
+     * @brief 设置数据根目录搜索链，供数据表/脚本资源解析使用。
+     */
+    void SetDataRoots(std::vector<std::filesystem::path> data_roots);
+
+    /**
+     * @brief 根据相对路径解析数据资源的实际路径。
+     */
+    [[nodiscard]] std::filesystem::path ResolveDataPath(const std::string& relative_path) const;
+
+    /**
+     * @brief 通过数据根目录解析并加载文本资源。
+     */
+    [[nodiscard]] CloudSeamanor::Result<void> LoadResolvedText(
+        const std::string& id,
+        const std::string& relative_path);
+
+    /**
+     * @brief 卸载指定文本资源。
+     */
+    void UnloadText(const std::string& id);
 
     // ========================================================================
     // 【字体自动搜索】
@@ -232,13 +298,20 @@ private:
     // 音效缓冲缓存
     std::unordered_map<std::string, std::unique_ptr<sf::SoundBuffer>> sound_buffers_;
 
+    // 文本缓存（JSON/CSV等）
+    std::unordered_map<std::string, std::string> texts_;
+
     // 默认占位符
     std::unique_ptr<sf::Texture> default_texture_;
     std::unique_ptr<sf::Font> default_font_;
     std::unique_ptr<sf::SoundBuffer> default_sound_buffer_;
+    std::string default_text_;
 
     // 已选定的主字体 ID
     std::string best_main_font_id_;
+
+    // 数据搜索根目录（支持 MOD 覆盖链）
+    std::vector<std::filesystem::path> data_roots_;
 };
 
 }  // namespace CloudSeamanor::infrastructure

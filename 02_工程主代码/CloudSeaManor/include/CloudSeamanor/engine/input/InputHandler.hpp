@@ -16,6 +16,10 @@
 #include <optional>
 #include <string>
 
+namespace CloudSeamanor::domain {
+enum class CloudState;
+}
+
 namespace CloudSeamanor::engine {
 
 class GameWorldState;
@@ -47,6 +51,7 @@ public:
         std::function<void(int)> settings_adjust_value;
         std::function<int()> settings_selected_row;
         std::function<int()> settings_selected_slot;
+        std::function<void()> settings_apply;
         std::function<void()> confirm_dialogue;
         std::function<void(int)> dialogue_move_choice;
         std::function<void()> dialogue_confirm_choice;
@@ -69,6 +74,7 @@ public:
         std::function<void()> sleep;
         std::function<void()> gift_npc;
         std::function<void()> interact;
+        std::function<void()> eat_food;
         std::function<void(const CloudSeamanor::domain::CloudState&)> update_aura;
     };
 

@@ -1,4 +1,5 @@
 #include "CloudSeamanor/PixelUiPanel.hpp"
+#include "CloudSeamanor/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -6,29 +7,7 @@
 namespace CloudSeamanor::engine {
 
 namespace {
-inline void AddQuad(sf::VertexArray& va,
-                    const sf::Vector2f& p0,
-                    const sf::Vector2f& p1,
-                    const sf::Vector2f& p2,
-                    const sf::Vector2f& p3,
-                    const sf::Color& color,
-                    float alpha = 1.0f) {
-    const sf::Color ac(static_cast<std::uint8_t>(std::clamp(color.r * alpha, 0.0f, 255.0f)),
-                       static_cast<std::uint8_t>(std::clamp(color.g * alpha, 0.0f, 255.0f)),
-                       static_cast<std::uint8_t>(std::clamp(color.b * alpha, 0.0f, 255.0f)),
-                       static_cast<std::uint8_t>(std::clamp(color.a * alpha, 0.0f, 255.0f)));
-    const auto snap = [](const sf::Vector2f& p) { return sf::Vector2f(std::round(p.x), std::round(p.y)); };
-    const sf::Vector2f s0 = snap(p0);
-    const sf::Vector2f s1 = snap(p1);
-    const sf::Vector2f s2 = snap(p2);
-    const sf::Vector2f s3 = snap(p3);
-    va.append(sf::Vertex(s0, ac));
-    va.append(sf::Vertex(s1, ac));
-    va.append(sf::Vertex(s2, ac));
-    va.append(sf::Vertex(s0, ac));
-    va.append(sf::Vertex(s2, ac));
-    va.append(sf::Vertex(s3, ac));
-}
+using CloudSeamanor::engine::uivx::AddQuad;
 }  // namespace
 
 PixelUiPanel::PixelUiPanel()
@@ -48,6 +27,7 @@ PixelUiPanel::PixelUiPanel(const sf::FloatRect& rect,
 
 void PixelUiPanel::SetRect(const sf::FloatRect& rect) {
     rect_ = rect;
+    is_dragging_ = false;
     geometry_dirty_ = true;
 }
 
@@ -121,6 +101,39 @@ void PixelUiPanel::Toggle() {
     } else {
         Open();
     }
+}
+
+bool PixelUiPanel::OnMousePressed(float mx, float my) {
+    if (!visible_ || alpha_ <= 0.0f) return false;
+    if (!has_title_bar_) return false;
+
+    const sf::FloatRect wr = GetWorldRect();
+    const sf::FloatRect title_bar{
+        {wr.position.x, wr.position.y},
+        {wr.size.x, PixelBorderConfig::TitleBarHeight}
+    };
+    if (!title_bar.contains({mx, my})) return false;
+
+    is_dragging_ = true;
+    drag_offset_ = {mx - wr.position.x, my - wr.position.y};
+    return true;
+}
+
+void PixelUiPanel::OnMouseMoved(float mx, float my) {
+    if (!is_dragging_) return;
+
+    const float new_x = mx - drag_offset_.x;
+    const float new_y = my - drag_offset_.y;
+
+    const float max_x = ScreenConfig::Width - rect_.size.x;
+    const float max_y = ScreenConfig::Height - rect_.size.y;
+    rect_.position.x = std::clamp(new_x, 0.0f, std::max(0.0f, max_x));
+    rect_.position.y = std::clamp(new_y, 0.0f, std::max(0.0f, max_y));
+    geometry_dirty_ = true;
+}
+
+void PixelUiPanel::OnMouseReleased() {
+    is_dragging_ = false;
 }
 
 void PixelUiPanel::Render(sf::RenderWindow& window) {

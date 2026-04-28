@@ -90,7 +90,7 @@ struct UiElementStyle {
     std::string atlas_id;               // 图集 ID
     bool use_9patch = false;            // 是否 9 宫格
     // 9 宫格各区域尺寸（像素）
-    int9_patch_border[4] = {0, 0, 0, 0}; // {left, top, right, bottom}
+    int nine_patch_border[4] = {0, 0, 0, 0}; // {left, top, right, bottom}
 
     // ----- 颜色 -----
     sf::Color tint = sf::Color::White;  // 颜色叠加
@@ -109,7 +109,7 @@ struct UiElementStyle {
     std::string sprite_selected;         // 选中状态
 
     // ----- 文本样式 -----
-    PixelFontRenderer::TextStyle text_style;
+    TextStyle text_style;
 
     // ----- 动画 -----
     bool animate_fade_in = true;        // 打开时淡入

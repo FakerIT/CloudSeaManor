@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/TmxMap.hpp"
 #include "CloudSeamanor/Logger.hpp"
 
@@ -25,7 +23,11 @@ std::vector<int> ParseCsvInts(const std::string& text) {
             if (!token.empty()) {
                 try {
                     values.push_back(std::stoi(token));
-                } catch (...) {
+                } catch (const std::invalid_argument&) {
+                    values.push_back(0);
+                } catch (const std::out_of_range&) {
+                    values.push_back(0);
+                } catch (const std::exception&) {
                     values.push_back(0);
                 }
                 token.clear();
@@ -39,7 +41,11 @@ std::vector<int> ParseCsvInts(const std::string& text) {
     if (!token.empty()) {
         try {
             values.push_back(std::stoi(token));
-        } catch (...) {
+        } catch (const std::invalid_argument&) {
+            values.push_back(0);
+        } catch (const std::out_of_range&) {
+            values.push_back(0);
+        } catch (const std::exception&) {
             values.push_back(0);
         }
     }
@@ -58,6 +64,15 @@ void BuildPlaceholderGround(
 } // namespace
 
 bool TmxMap::LoadFromFile(const std::string& path) {
+    const auto result = LoadFromFileResult(path);
+    if (!result.Ok()) {
+        Logger::Warning("TmxMap: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> TmxMap::LoadFromFileResult(const std::string& path) {
     std::ifstream stream(path);
     if (!stream.is_open()) {
         Logger::Warning("TmxMap: 无法打开地图文件，回退到占位地图: " + path);
@@ -68,9 +83,12 @@ bool TmxMap::LoadFromFile(const std::string& path) {
         world_size_ = {static_cast<float>(map_width_ * tile_width_), static_cast<float>(map_height_ * tile_height_)};
         obstacles_.clear();
         interactables_.clear();
+        last_loaded_path_ = path;
         BuildPlaceholderGround(map_width_, map_height_, ground_tiles_);
-        return true;
+        return {};
     }
+
+    last_loaded_path_ = path;
 
     // 每次重新读取地图前先清空旧结果，避免残留数据污染新场景。
     obstacles_.clear();
@@ -112,25 +130,42 @@ bool TmxMap::LoadFromFile(const std::string& path) {
     }
 
     // 按行扫描对象组，提取障碍物和交互对象。
+    // 支持多组：
+    //   "Obstacles"        → 障碍物碰撞区
+    //   "Interactables"    → 普通可交互对象（采集点、工作台、储物点等）
+    //   "SpiritRoamingArea"→ 灵界战斗区域（污染灵体刷新区）
+    //   "BossAndResources"→ 灵界BOSS刷新区 + 珍稀采集点
+    //   "MistDecor"       → 氛围装饰（淡雾，仅记录不生成碰撞对象）
     std::istringstream lines(text);
     std::string line;
-    enum class Mode { None, Obstacles, Interactables } mode = Mode::None;
+    enum class Mode { None, Obstacles, Interactables, SpiritRoaming, BossAndResources } mode = Mode::None;
     int skipped_obstacles = 0;
     int skipped_interactables = 0;
 
     while (std::getline(lines, line)) {
-        if (line.find("<objectgroup name=\"Obstacles\"") != std::string::npos) {
-            mode = Mode::Obstacles;
-            continue;
-        }
-        if (line.find("<objectgroup name=\"Interactables\"") != std::string::npos) {
-            mode = Mode::Interactables;
-            continue;
-        }
+        // 跟踪当前 objectgroup（跨行匹配，支持无引号的 name 属性）
+        bool in_obstacles = line.find("objectgroup") != std::string::npos
+            && line.find("Obstacles") != std::string::npos;
+        bool in_interactables = line.find("objectgroup") != std::string::npos
+            && line.find("Interactables") != std::string::npos;
+        bool in_spirit_roaming = line.find("objectgroup") != std::string::npos
+            && line.find("SpiritRoamingArea") != std::string::npos;
+        bool in_boss_resources = line.find("objectgroup") != std::string::npos
+            && line.find("BossAndResources") != std::string::npos;
+        bool in_mist_decor = line.find("objectgroup") != std::string::npos
+            && line.find("MistDecor") != std::string::npos;
+
+        if (in_obstacles) { mode = Mode::Obstacles; continue; }
+        if (in_interactables) { mode = Mode::Interactables; continue; }
+        if (in_spirit_roaming) { mode = Mode::SpiritRoaming; continue; }
+        if (in_boss_resources) { mode = Mode::BossAndResources; continue; }
+        if (in_mist_decor) { mode = Mode::None; continue; }
+
         if (line.find("</objectgroup>") != std::string::npos) {
             mode = Mode::None;
             continue;
         }
+
         if (line.find("<object ") == std::string::npos) {
             continue;
         }
@@ -158,7 +193,7 @@ bool TmxMap::LoadFromFile(const std::string& path) {
                 continue;
             }
 
-            // 额外读取名字、类型、物品、数量，让地图文件本身具备一定数据驱动能力。
+            // 额外读取名字、类型、物品、数量
             ParseStringAttribute(line, "name", interactable.name);
             ParseStringAttribute(line, "type", interactable.type);
             ParseStringAttribute(line, "item", interactable.item);
@@ -166,6 +201,32 @@ bool TmxMap::LoadFromFile(const std::string& path) {
             if (interactable.count <= 0) {
                 interactable.count = 1;
             }
+            interactables_.push_back(interactable);
+            continue;
+        }
+
+        // SpiritRoamingArea 和 BossAndResources 中的所有对象都作为战斗锚点加入 interactables_
+        // — 带特殊 type 标签，便于上层通过 object.Label() == "Spirit Beast Zone" / "Spirit Beast" 识别
+        if (mode == Mode::SpiritRoaming || mode == Mode::BossAndResources) {
+            TmxInteractableObject interactable;
+            if (!ParseAttribute(line, "x", interactable.rect.x) ||
+                !ParseAttribute(line, "y", interactable.rect.y) ||
+                !ParseAttribute(line, "width", interactable.rect.width) ||
+                !ParseAttribute(line, "height", interactable.rect.height)) {
+                ++skipped_interactables;
+                continue;
+            }
+
+            ParseStringAttribute(line, "name", interactable.name);
+            ParseStringAttribute(line, "type", interactable.type);
+            ParseStringAttribute(line, "item", interactable.item);
+            ParseStringAttribute(line, "enemy_id", interactable.enemy_id);  // BOSS 用
+            ParseIntAttribute(line, "count", interactable.count);
+            if (interactable.count <= 0) {
+                interactable.count = 1;
+            }
+
+            // type 为 "BossSpawn" → BOSS 战斗锚点；其余 → 普通战斗锚点
             interactables_.push_back(interactable);
         }
     }
@@ -175,7 +236,7 @@ bool TmxMap::LoadFromFile(const std::string& path) {
             + ", interactables=" + std::to_string(skipped_interactables));
     }
 
-    return true;
+    return {};
 }
 
 bool TmxMap::ParseAttribute(const std::string& text, const std::string& key, float& out_value) {
@@ -194,7 +255,11 @@ bool TmxMap::ParseAttribute(const std::string& text, const std::string& key, flo
     try {
         out_value = std::stof(text.substr(value_start, value_end - value_start));
         return true;
-    } catch (...) {
+    } catch (const std::invalid_argument&) {
+        return false;
+    } catch (const std::out_of_range&) {
+        return false;
+    } catch (const std::exception&) {
         return false;
     }
 }

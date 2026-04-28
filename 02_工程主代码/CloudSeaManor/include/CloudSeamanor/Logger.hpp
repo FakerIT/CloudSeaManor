@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <string>
 #include <string_view>
 
 namespace CloudSeamanor::infrastructure {
@@ -22,6 +23,9 @@ public:
     static void Info(std::string_view message);
     static void Warning(std::string_view message);
     static void Error(std::string_view message);
+    static void LogSaveSuccess(std::string_view detail);
+    static void LogConfigLoadFailure(std::string_view detail);
+    static void LogNpcHeartEvent(std::string_view detail);
 
     // 关闭日志系统。
     // 当前主要用于在程序退出前补一条结束记录。
@@ -31,5 +35,18 @@ private:
     // 统一底层写入入口，避免重复代码。
     static void Write(std::string_view level, std::string_view message);
 };
+
+// 关键路径统一日志入口（CQ-114）。
+inline void Logger::LogSaveSuccess(std::string_view detail) {
+    Logger::Info(std::string("SAVE_SUCCESS: ") + std::string(detail));
+}
+
+inline void Logger::LogConfigLoadFailure(std::string_view detail) {
+    Logger::Warning(std::string("CONFIG_LOAD_FAILED: ") + std::string(detail));
+}
+
+inline void Logger::LogNpcHeartEvent(std::string_view detail) {
+    Logger::Info(std::string("NPC_HEART_EVENT: ") + std::string(detail));
+}
 
 } // namespace CloudSeamanor::infrastructure

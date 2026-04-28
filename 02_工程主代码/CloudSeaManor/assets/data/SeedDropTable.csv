@@ -1,0 +1,20 @@
+# 种子掉落表
+# 格式: crop_id,seed_item_id,drop_source,drop_rate,min_star,notes
+# drop_source: battle(战斗)/spirit_plant(灵草采集)/wild(野外)
+# drop_rate: 0.0-1.0 表示概率
+
+# 战斗掉落种子（精英/BOSS）
+spirit_grass,SpiritGrassSeed,battle,0.15,2,精英以上敌人掉落
+spirit_mushroom,MushroomSeed,battle,0.15,2,精英以上敌人掉落
+star_fruit,StarSeed,battle,0.05,3,深层敌人稀有掉落
+cloud_ear,CloudEarSeed,battle,0.20,1,所有敌人均可掉落
+spirit_mist_tea,SpiritMistTeaSeed,battle,0.02,4,核心区域BOSS掉落
+
+# 灵草采集额外种子（大潮时）
+spirit_grass,TurnipSeed,spirit_plant,0.03,0,大潮时灵草采集附加
+spirit_grass,LettuceSeed,spirit_plant,0.03,0,大潮时灵草采集附加
+spirit_mushroom,SpiritGrassSeed,spirit_plant,0.05,0,稀有灵草采集附加
+
+# 野外种子（极低概率）
+wild,SnowLotusSeed,wild,0.002,0,野外极稀有
+wild,TaichuTeaSeed,wild,0.001,0,传说种子极稀有

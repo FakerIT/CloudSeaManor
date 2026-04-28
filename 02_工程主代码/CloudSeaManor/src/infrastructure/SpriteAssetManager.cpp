@@ -9,9 +9,13 @@
 #include "CloudSeamanor/ResourceManager.hpp"
 
 #include <fstream>
+#include <filesystem>
 #include <sstream>
 
 namespace {
+
+constexpr const char* kFallbackAtlasTexturePath =
+    "assets/textures/third_party/kenney_tiny-town/Tilemap/tilemap_packed.png";
 
 // 读取整个文件到字符串
 std::optional<std::string> ReadFile(const std::string& path) {
@@ -59,6 +63,11 @@ bool SpriteAssetManager::LoadAtlas(const AtlasLoadConfig& config) {
     std::string texture_path = config.base_dir.empty()
         ? meta.texture_path
         : config.base_dir + "/" + meta.texture_path;
+    if (!std::filesystem::exists(texture_path) && std::filesystem::exists(kFallbackAtlasTexturePath)) {
+        Logger::Warning("SpriteAssetManager: atlas texture missing, fallback to shared tiny-town texture. atlas="
+                        + config.atlas_path + ", texture=" + texture_path);
+        texture_path = kFallbackAtlasTexturePath;
+    }
 
     // 尝试加载纹理（复用 ResourceManager）
     if (base_resource_manager_) {
@@ -214,9 +223,9 @@ std::vector<std::string> SpriteAssetManager::GetLoadedAtlasIds() const {
 void SpriteAssetManager::PreloadCriticalAssets() {
     // 按优先级加载关键资源
     std::vector<AtlasLoadConfig> configs = {
-        {"assets/sprites/player_main.atlas.json"},    // 玩家
+        {"assets/sprites/characters/player_main.atlas.json"},  // 玩家
         {"assets/sprites/npc_villagers.atlas.json"},   // NPC
-        {"assets/sprites/items_crop.atlas.json"},     // 作物物品
+        {"assets/sprites/items/items_crop.atlas.json"},        // 作物物品
         {"assets/sprites/tiles_farm.atlas.json"},     // 农场地形
     };
     LoadAtlases(configs);

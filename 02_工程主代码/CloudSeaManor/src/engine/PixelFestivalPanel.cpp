@@ -4,6 +4,7 @@
 #include "CloudSeamanor/PixelFontRenderer.hpp"
 
 #include <algorithm>
+#include <sstream>
 
 namespace CloudSeamanor::engine {
 
@@ -31,10 +32,14 @@ void PixelFestivalPanel::RenderContent(sf::RenderWindow& window, const sf::Float
         upcoming_text += data_.upcoming_empty_text;
     } else {
         const std::size_t count = std::min<std::size_t>(3, data_.upcoming.size());
+        std::ostringstream suffix;
         for (std::size_t i = 0; i < count; ++i) {
-            if (i > 0) upcoming_text += "  ";
-            upcoming_text += data_.upcoming[i];
+            if (i > 0) {
+                suffix << "  ";
+            }
+            suffix << data_.upcoming[i];
         }
+        upcoming_text += suffix.str();
     }
     m_font_renderer->DrawText(window, upcoming_text, {x, y + row_h * 3.1f}, TextStyle::Default());
     m_font_renderer->DrawText(window, data_.participation_text, {x, y + row_h * 4.1f}, TextStyle::Default());

@@ -1,0 +1,4 @@
+id,name,map_id,time_range,possible_catch
+manor_pond,山庄池塘,manor,day,mist_carp;cloud_koi;tea_shrimp
+tea_bank,茶园水埠,tea_garden,dusk,cloud_koi;moon_silverfish;tea_shrimp
+moon_bridge,望月桥边,bridge,night,moon_silverfish;tide_eel

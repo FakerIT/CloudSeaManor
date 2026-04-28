@@ -2,12 +2,18 @@
 // 【MainPlotSystem】主线剧情系统实现
 // ============================================================================
 #include "CloudSeamanor/MainPlotSystem.hpp"
-#include "CloudSeamanor/GameAppRuntimeTypes.hpp"
 
 #include <fstream>
 #include <sstream>
 
-namespace CloudSeamanor::engine {
+namespace CloudSeamanor::domain {
+
+using CloudSeamanor::engine::DialogueCallbacks;
+using CloudSeamanor::engine::DialogueChoice;
+using CloudSeamanor::engine::DialogueNode;
+using CloudSeamanor::engine::DialogueState;
+using CloudSeamanor::engine::Event;
+using CloudSeamanor::engine::GlobalEventBus;
 
 // ============================================================================
 // 【PlotCondition::IsSatisfied】条件判断
@@ -402,7 +408,9 @@ std::vector<ChapterEntry> MainPlotSystem::ParseChaptersFromJson_(
         while (end < s.size() && (std::isdigit(static_cast<unsigned char>(s[end])) || s[end] == '-')) ++end;
         if (end == pos) return {0, pos};
         try { return {std::stoi(s.substr(pos, end - pos)), end}; }
-        catch (...) { return {0, pos}; }
+        catch (const std::invalid_argument&) { return {0, pos}; }
+        catch (const std::out_of_range&) { return {0, pos}; }
+        catch (const std::exception&) { return {0, pos}; }
     };
 
     auto find_section = [&](const std::string& s, const std::string& key) -> std::string::size_type {
@@ -447,6 +455,7 @@ std::vector<ChapterEntry> MainPlotSystem::ParseChaptersFromJson_(
         ch.subtitle = timeline_val;
 
         auto [goal_val, _6] = extract_string(obj, find_key(obj, "chapter_goal"));
+        (void)_6;
         (void)goal_val;
 
         auto [target_val, _7] = extract_int(obj, find_key(obj, "target_cloud"));
@@ -486,11 +495,81 @@ std::vector<PlotEntry> MainPlotSystem::ParsePlotsFromJson_(
         while (end < s.size() && (std::isdigit(static_cast<unsigned char>(s[end])) || s[end] == '-')) ++end;
         if (end == pos) return {0, pos};
         try { return {std::stoi(s.substr(pos, end - pos)), end}; }
-        catch (...) { return {0, pos}; }
+        catch (const std::invalid_argument&) { return {0, pos}; }
+        catch (const std::out_of_range&) { return {0, pos}; }
+        catch (const std::exception&) { return {0, pos}; }
     };
 
     auto find_section = [&](const std::string& s, const std::string& key) -> std::string::size_type {
         return find_key(s, key);
+    };
+
+    auto parse_condition_type = [](const std::string& type_text) -> PlotConditionType {
+        if (type_text == "day_range") return PlotConditionType::DayRange;
+        if (type_text == "season") return PlotConditionType::Season;
+        if (type_text == "chapter_completed") return PlotConditionType::ChapterCompleted;
+        if (type_text == "cloud_level") return PlotConditionType::CloudLevel;
+        if (type_text == "heart_count") return PlotConditionType::HeartCount;
+        if (type_text == "total_heart_count") return PlotConditionType::TotalHeartCount;
+        if (type_text == "festival_joined") return PlotConditionType::FestivalJoined;
+        if (type_text == "location") return PlotConditionType::Location;
+        if (type_text == "item_owned") return PlotConditionType::ItemOwned;
+        if (type_text == "flag_set") return PlotConditionType::FlagSet;
+        if (type_text == "route_selected") return PlotConditionType::RouteSelected;
+        if (type_text == "cloud_state") return PlotConditionType::CloudState;
+        if (type_text == "all_npc_heart_count") return PlotConditionType::AllNpcHeartCount;
+        return PlotConditionType::FlagSet;
+    };
+
+    auto parse_conditions = [&](const std::string& obj, const std::string& section_key)
+        -> std::vector<PlotCondition> {
+        std::vector<PlotCondition> conditions;
+        const auto section_pos = find_key(obj, section_key);
+        if (section_pos == std::string::npos) {
+            return conditions;
+        }
+        const auto arr_start = obj.find('[', section_pos);
+        if (arr_start == std::string::npos) {
+            return conditions;
+        }
+        const auto arr_end = obj.find(']', arr_start);
+        if (arr_end == std::string::npos) {
+            return conditions;
+        }
+        const std::string array_text = obj.substr(arr_start + 1, arr_end - arr_start - 1);
+        std::string::size_type pos2 = 0;
+        while (pos2 < array_text.size()) {
+            while (pos2 < array_text.size() && std::isspace(static_cast<unsigned char>(array_text[pos2]))) ++pos2;
+            if (pos2 >= array_text.size() || array_text[pos2] != '{') break;
+            int brace_count = 1;
+            std::string::size_type cond_end = pos2 + 1;
+            while (cond_end < array_text.size() && brace_count > 0) {
+                if (array_text[cond_end] == '{') ++brace_count;
+                else if (array_text[cond_end] == '}') --brace_count;
+                ++cond_end;
+            }
+            const std::string cond_obj = array_text.substr(pos2, cond_end - pos2);
+
+            PlotCondition cond{};
+            auto [type_val, _t] = extract_string(cond_obj, find_key(cond_obj, "type"));
+            auto [value_val, _v] = extract_string(cond_obj, find_key(cond_obj, "value"));
+            auto [value2_val, _v2] = extract_string(cond_obj, find_key(cond_obj, "value2"));
+            cond.type = parse_condition_type(type_val);
+            cond.str_value = value_val;
+            cond.str_value2 = value2_val;
+
+            const auto int_pos = find_key(cond_obj, "int_value");
+            if (int_pos != std::string::npos) {
+                auto [n, _n] = extract_int(cond_obj, int_pos);
+                cond.int_value = n;
+            } else if (!value_val.empty()) {
+                auto [n, _n] = extract_int(value_val, 0);
+                cond.int_value = n;
+            }
+            conditions.push_back(std::move(cond));
+            pos2 = cond_end;
+        }
+        return conditions;
     };
 
     auto arr_start = json.find('[');
@@ -534,6 +613,8 @@ std::vector<PlotEntry> MainPlotSystem::ParsePlotsFromJson_(
 
         auto [prio_val, _6] = extract_int(obj, find_key(obj, "priority"));
         plot.priority = prio_val;
+        plot.trigger_conditions = parse_conditions(obj, "trigger_conditions");
+        plot.enter_conditions = parse_conditions(obj, "enter_conditions");
 
         auto nodes = ParseNodesFromJson_(obj);
         plot.nodes = std::move(nodes);
@@ -573,7 +654,9 @@ std::vector<PlotNode> MainPlotSystem::ParseNodesFromJson_(
         while (end < s.size() && (std::isdigit(static_cast<unsigned char>(s[end])) || s[end] == '-')) ++end;
         if (end == pos) return {0, pos};
         try { return {std::stoi(s.substr(pos, end - pos)), end}; }
-        catch (...) { return {0, pos}; }
+        catch (const std::invalid_argument&) { return {0, pos}; }
+        catch (const std::out_of_range&) { return {0, pos}; }
+        catch (const std::exception&) { return {0, pos}; }
     };
 
     auto extract_bool = [&](const std::string& s, std::string::size_type pos) -> std::pair<bool, std::string::size_type> {
@@ -702,9 +785,6 @@ void MainPlotSystem::Update(float delta_seconds) {
 void MainPlotSystem::CheckPlotTriggers() {
     if (IsPlaying()) return;
 
-    int day = clock_ ? clock_->Day() : 1;
-    Season season = clock_ ? clock_->Season() : Season::Spring;
-    int cloud_level = cloud_system_ ? cloud_system_->SpiritEnergy() : 0;
     triggered_this_day_.clear();
 
     const auto triggerable = GetTriggerablePlots_();
@@ -717,7 +797,6 @@ void MainPlotSystem::CheckPlotTriggers() {
             return;
         }
     }
-    (void)day; (void)season; (void)cloud_level;
 }
 
 // ============================================================================
@@ -1291,6 +1370,14 @@ const ChapterEntry* MainPlotSystem::GetChapter(const std::string& chapter_id) co
     return nullptr;
 }
 
+bool MainPlotSystem::IsPlotCompleted(const std::string& plot_id) const {
+    return completed_plots_.contains(plot_id);
+}
+
+bool MainPlotSystem::HasFlag(const std::string& flag) const {
+    return flags_.contains(flag);
+}
+
 // ============================================================================
 // 【MainPlotSystem::GetPendingPlots】获取待触发的剧情
 // ============================================================================
@@ -1439,4 +1526,4 @@ void MainPlotSystem::LoadState(const std::vector<std::string>& lines) {
     }
 }
 
-}  // namespace CloudSeamanor::engine
+}  // namespace CloudSeamanor::domain

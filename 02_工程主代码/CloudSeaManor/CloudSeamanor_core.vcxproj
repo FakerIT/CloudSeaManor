@@ -69,7 +69,6 @@
   <!-- 引擎层/应用层头文件 -->
   <ItemGroup>
     <ClInclude Include="include\CloudSeamanor\CloudSeaManor.hpp" />
-    <ClInclude Include="include\CloudSeamanor\DayCycleRuntime.hpp" />
     <ClInclude Include="include\CloudSeamanor\GameApp.hpp" />
     <ClInclude Include="include\CloudSeamanor\GameAppState.hpp" />
     <ClInclude Include="include\CloudSeamanor\GameAppFarming.hpp" />
@@ -110,10 +109,10 @@
     <ClCompile Include="src\domain\DynamicLifeSystem.cpp" />
     <ClCompile Include="src\domain\FestivalSystem.cpp" />
     <ClCompile Include="src\domain\GameClock.cpp" />
-    <ClCompile Include="src\domain\Interactable.cpp" />
+    <ClCompile Include="src\engine\Interactable.cpp" />
     <ClCompile Include="src\domain\Inventory.cpp" />
     <ClCompile Include="src\domain\MainPlotSystem.cpp" />
-    <ClCompile Include="src\domain\PickupDrop.cpp" />
+    <ClCompile Include="src\engine\PickupDrop.cpp" />
     <ClCompile Include="src\domain\Player.cpp" />
     <ClCompile Include="src\domain\RecipeData.cpp" />
     <ClCompile Include="src\domain\SkillSystem.cpp" />
@@ -122,7 +121,6 @@
   </ItemGroup>
   <!-- 引擎层源文件 -->
   <ItemGroup>
-    <ClCompile Include="src\engine\DayCycleRuntime.cpp" />
     <ClCompile Include="src\engine\EventBus.cpp" />
     <ClCompile Include="src\engine\GameApp.cpp" />
     <ClCompile Include="src\engine\GameAppFarming.cpp" />

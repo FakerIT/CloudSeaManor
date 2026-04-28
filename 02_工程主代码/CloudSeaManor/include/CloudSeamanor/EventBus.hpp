@@ -1,6 +1,8 @@
 #pragma once
 // 【EventBus】事件总线
 #include <functional>
+#include <exception>
+#include <stdexcept>
 #include <string>
 #include <unordered_map>
 #include <type_traits>
@@ -25,7 +27,11 @@ struct Event {
             } else {
                 return fallback;
             }
-        } catch (...) { return fallback; }
+        } catch (const std::invalid_argument&) {
+            return fallback;
+        } catch (const std::out_of_range&) {
+            return fallback;
+        }
     }
 };
 class EventBus {

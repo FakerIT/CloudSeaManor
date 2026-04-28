@@ -1,5 +1,7 @@
 #pragma once
 // 【AudioManager】BGM/SFX 音频管理器
+#include "CloudSeamanor/Result.hpp"
+
 #include <SFML/Audio/Music.hpp>
 #include <SFML/Audio/Sound.hpp>
 #include <SFML/Audio/SoundBuffer.hpp>
@@ -7,6 +9,11 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+namespace CloudSeamanor::infrastructure {
+class ResourceManager;
+}
+
 namespace CloudSeamanor::engine::audio {
 
 class AudioManager {
@@ -18,6 +25,7 @@ public:
     void Initialize();
     void Shutdown();
     bool LoadConfig(const std::string& config_path);
+    [[nodiscard]] CloudSeamanor::Result<void> LoadConfigResult(const std::string& config_path);
     void PlayBGM(const std::string& id, bool loop=true, float fade_in_seconds=1.0f);
     void StopBGM(float fade_out_seconds=1.0f);
     void PauseBGM();
@@ -27,6 +35,7 @@ public:
     [[nodiscard]] float BGMVolume() const { return bgm_volume_; }
     [[nodiscard]] float MusicVolume() const { return music_volume_; }
     [[nodiscard]] bool IsBGMPlaying() const;
+    void SetResourceManager(infrastructure::ResourceManager* rm);
     bool PlaySFX(const std::string& id, float volume=1.0f);
     void SetSFXVolume(float volume);
     [[nodiscard]] float SFXVolume() const { return sfx_volume_; }
@@ -37,6 +46,7 @@ public:
     [[nodiscard]] std::size_t SFXCacheCount() const { return sfx_buffers_.size(); }
     [[nodiscard]] std::string CurrentBGMId() const { return current_bgm_id_; }
 private:
+    infrastructure::ResourceManager* resource_manager_ = nullptr;
     std::unique_ptr<sf::Music> bgm_;
     std::string current_bgm_id_;
     float bgm_volume_ = 0.7f;

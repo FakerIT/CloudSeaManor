@@ -1,6 +1,8 @@
 #pragma once
 
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/Interactable.hpp"
+#include "CloudSeamanor/PickupDrop.hpp"
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
@@ -12,9 +14,7 @@
 #include <vector>
 
 namespace CloudSeamanor::domain {
-class Interactable;
 class Player;
-class PickupDrop;
 }
 
 namespace CloudSeamanor::infrastructure {

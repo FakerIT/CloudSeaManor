@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/PickupSystem.hpp"
 
 #include "CloudSeamanor/GameAppText.hpp"
@@ -24,7 +22,7 @@ void PickupSystem::Initialize(const PickupCallbacks& callbacks) {
 // ============================================================================
 // 【SpawnPickup】生成单个掉落物
 // ============================================================================
-void PickupSystem::SpawnPickup(const sf::Vector2f& position, const std::string& item_id, int amount) {
+void PickupSystem::SpawnPickup(CloudSeamanor::domain::Vec2f position, const std::string& item_id, int amount) {
     pickups_.emplace_back(position, item_id, amount);
 
     // 设置视觉效果
@@ -38,7 +36,7 @@ void PickupSystem::SpawnPickup(const sf::Vector2f& position, const std::string& 
 // ============================================================================
 // 【SpawnPickups】批量生成掉落物
 // ============================================================================
-void PickupSystem::SpawnPickups(const std::vector<std::tuple<sf::Vector2f, std::string, int>>& items) {
+void PickupSystem::SpawnPickups(const std::vector<std::tuple<CloudSeamanor::domain::Vec2f, std::string, int> >& items) {
     for (const auto& [position, item_id, amount] : items) {
         SpawnPickup(position, item_id, amount);
     }

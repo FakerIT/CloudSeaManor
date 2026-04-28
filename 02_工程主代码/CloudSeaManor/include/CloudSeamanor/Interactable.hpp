@@ -28,7 +28,7 @@
 
 #include <string>
 
-namespace CloudSeamanor::domain {
+namespace CloudSeamanor::engine {
 
 // ============================================================================
 // 【InteractableType】可交互对象类型枚举
@@ -81,7 +81,8 @@ public:
         InteractableType type,
         std::string label,
         std::string reward_item = "",
-        int reward_amount = 1
+        int reward_amount = 1,
+        std::string enemy_id = ""  // BOSS 刷新区专用：指定敌人ID
     );
 
     // ========================================================================
@@ -98,7 +99,7 @@ public:
     // @param extra_range 额外检测范围（默认18像素）
     // @return true 如果玩家进入扩展后的交互区域
     [[nodiscard]] bool IsPlayerInRange(
-        const RectF& player_bounds,
+        const CloudSeamanor::domain::RectF& player_bounds,
         float extra_range = 18.0f
     ) const noexcept;
 
@@ -120,6 +121,7 @@ public:
     [[nodiscard]] const std::string& RewardItem() const noexcept { return reward_item_; }
     [[nodiscard]] int RewardAmount() const noexcept { return reward_amount_; }
     [[nodiscard]] InteractableType Type() const noexcept { return type_; }
+    [[nodiscard]] const std::string& EnemyId() const noexcept { return enemy_id_; }
 
     // ========================================================================
     // 【TypeText】类型转可读文本
@@ -142,6 +144,12 @@ private:
     std::string label_;                       // 显示标签
     std::string reward_item_;                  // 奖励物品ID
     int reward_amount_ = 1;                   // 奖励物品数量
+    std::string enemy_id_;                    // BOSS刷新区专用敌人ID
 };
 
+}  // namespace CloudSeamanor::engine
+
+namespace CloudSeamanor::domain {
+using InteractableType = CloudSeamanor::engine::InteractableType;
+using Interactable = CloudSeamanor::engine::Interactable;
 }  // namespace CloudSeamanor::domain

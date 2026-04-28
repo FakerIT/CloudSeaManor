@@ -115,7 +115,9 @@ template <typename SceneT> void SceneManager::PopUntil() {
 template <typename SceneT>
 SceneT* SceneManager::Find() const {
     for (auto it = scenes_.rbegin(); it != scenes_.rend(); ++it) {
-        if (auto* ptr = dynamic_cast<SceneT*>(it->get())) return ptr;
+        if (typeid(*((*it).get())) == typeid(SceneT)) {
+            return static_cast<SceneT*>((*it).get());
+        }
     }
     return nullptr;
 }

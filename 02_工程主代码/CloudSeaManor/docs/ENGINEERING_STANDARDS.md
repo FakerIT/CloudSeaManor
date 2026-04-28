@@ -375,6 +375,38 @@ public: Player player;  // 禁止
 
 **规则**：数据加载必须在初始化阶段完成（禁止在 Update/Render 中加载）；加载失败必须有默认值兜底。
 
+### 12.1 统一表注册规范
+
+- 所有新表必须通过 `infrastructure::DataRegistry` 注册，不允许每个系统各写一套 CSV 解析循环。
+- `ResourceManager` 负责解析数据根目录与文本资源读取；`DataRegistry` 负责 CSV/JSON 解析、字段转换、校验与 typed table 装配。
+- `domain` 只消费结构化数据，不直接依赖文件路径或 `ifstream`。
+- 每张表至少定义：
+  - 唯一主键列 `Id`（或兼容旧表的显式唯一字段）
+  - 必填字段检查
+  - 重复 ID 检查
+  - 外键/引用字段检查
+- 新表推荐目录：
+  - `assets/data/npc/`
+  - `assets/data/pet/`
+  - `assets/data/tea/`
+  - `assets/data/skills/`
+  - `assets/data/weapons/`
+  - `assets/data/festival/`
+  - `assets/data/diary/`
+  - `assets/data/tool/`
+
+### 12.2 字段命名与编码
+
+- 列名统一使用 `PascalCase`
+- 文本字段允许直接保存中文
+- 一对多字段优先用 JSON 数组字符串，例如 `["tea_a","tea_b"]`
+- 资源/实体引用统一使用全局唯一字符串 ID，不使用显示名做关联
+
+### 12.3 兼容策略
+
+- 旧系统迁移期间允许保留 built-in fallback，但 fallback 仅作为开发兜底，不得继续扩展为主数据源。
+- 任何新功能优先补表，不允许继续往 `GameConstants.hpp`、大 `switch` 或静态数组里堆内容配置。
+
 ---
 
 ## 13. 测试规范

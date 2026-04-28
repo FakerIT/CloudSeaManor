@@ -46,6 +46,8 @@
 
 #include <algorithm>
 #include <array>
+#include <functional>
+#include <optional>
 #include <random>
 #include <string>
 
@@ -176,9 +178,9 @@ private:
     // ========================================================================
 
     // 依赖引用
-    sf::RenderWindow* window_ptr_ = nullptr;
-    domain::AtmosphereDomain* domain_ptr_ = nullptr;
-    const infrastructure::UiLayoutConfig* ui_layout_ptr_ = nullptr;
+    std::optional<std::reference_wrapper<sf::RenderWindow>> window_ref_;
+    std::optional<std::reference_wrapper<domain::AtmosphereDomain>> domain_ref_;
+    std::optional<std::reference_wrapper<const infrastructure::UiLayoutConfig>> ui_layout_ref_;
 
     // 天空渐变顶点（4 顶点：左上、右上、右下、左下）
     mutable sf::VertexArray sky_vertices_;

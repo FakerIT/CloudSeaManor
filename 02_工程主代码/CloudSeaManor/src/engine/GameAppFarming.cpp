@@ -1,11 +1,8 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameAppFarming.hpp"
 
 #include "CloudSeamanor/CropData.hpp"
 #include "CloudSeamanor/GameAppText.hpp"
-
-#include <SFML/Graphics/Color.hpp>
+#include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -14,6 +11,10 @@ namespace CloudSeamanor::engine {
 
 namespace {
 std::string g_crop_table_data_path = "assets/data/CropTable.csv";
+
+bool IsTeaCropId_(const std::string& crop_id) {
+    return crop_id.find("tea") != std::string::npos;
+}
 
 // ============================================================================
 // 【InitCropTableFromFile】惰性加载作物表
@@ -42,14 +43,15 @@ TeaPlot BuildPlotFromCropDef(const CloudSeamanor::domain::CropDefinition& def,
                               bool highlighted) {
     TeaPlot plot;
     plot.crop_id = def.id;
+    plot.layer = IsTeaCropId_(def.id) ? TeaPlotLayer::TeaGardenExclusive : TeaPlotLayer::NormalFarm;
     plot.crop_name = def.name;
     plot.seed_item_id = def.seed_item_id;
     plot.harvest_item_id = def.harvest_item_id;
     plot.harvest_amount = def.base_harvest;
     plot.growth_time = def.growth_time;
     plot.growth_stages = def.stages;
-    plot.shape.setSize({52.0f, 52.0f});
-    plot.shape.setPosition(position);
+    plot.size = {52.0f, 52.0f};
+    plot.position = CloudSeamanor::adapter::ToDomain(position);
     RefreshTeaPlotVisual(plot, highlighted);
     return plot;
 }
@@ -57,39 +59,39 @@ TeaPlot BuildPlotFromCropDef(const CloudSeamanor::domain::CropDefinition& def,
 void ApplyObstacleVisual(TeaPlot& plot, bool highlighted) {
     switch (plot.obstacle_type) {
     case PlotObstacleType::Stone:
-        plot.shape.setFillColor(sf::Color(86, 90, 96));
+        plot.fill_rgba = PackRgba(86, 90, 96);
         break;
     case PlotObstacleType::Stump:
-        plot.shape.setFillColor(sf::Color(92, 66, 38));
+        plot.fill_rgba = PackRgba(92, 66, 38);
         break;
     case PlotObstacleType::Weed:
-        plot.shape.setFillColor(sf::Color(52, 90, 52));
+        plot.fill_rgba = PackRgba(52, 90, 52);
         break;
     case PlotObstacleType::None:
     default:
-        plot.shape.setFillColor(sf::Color(58, 62, 66));
+        plot.fill_rgba = PackRgba(58, 62, 66);
         break;
     }
-    plot.shape.setOutlineColor(highlighted ? sf::Color::White : sf::Color(34, 34, 34));
-    plot.shape.setOutlineThickness(highlighted ? 4.0f : 2.0f);
+    plot.outline_rgba = highlighted ? PackRgba(255, 255, 255) : PackRgba(34, 34, 34);
+    plot.outline_thickness = highlighted ? 4.0f : 2.0f;
 }
 
 void ApplyReadyPlotVisual(TeaPlot& plot, bool highlighted) {
     switch (plot.quality) {
     case domain::CropQuality::Spirit:
-        plot.shape.setFillColor(sf::Color(210, 180, 255));
+        plot.fill_rgba = PackRgba(210, 180, 255);
         break;
     case domain::CropQuality::Rare:
-        plot.shape.setFillColor(sf::Color(255, 215, 80));
+        plot.fill_rgba = PackRgba(255, 215, 80);
         break;
     case domain::CropQuality::Fine:
-        plot.shape.setFillColor(sf::Color(160, 230, 120));
+        plot.fill_rgba = PackRgba(160, 230, 120);
         break;
     default:
-        plot.shape.setFillColor(sf::Color(132, 214, 126));
+        plot.fill_rgba = PackRgba(132, 214, 126);
         break;
     }
-    plot.shape.setOutlineColor(highlighted ? sf::Color::White : sf::Color(60, 110, 58));
+    plot.outline_rgba = highlighted ? PackRgba(255, 255, 255) : PackRgba(60, 110, 58);
 }
 
 TeaPlot BuildLockedPlotFromCropDef(const CloudSeamanor::domain::CropDefinition& def,
@@ -123,14 +125,14 @@ void RefreshTeaPlotVisual(TeaPlot& plot, bool highlighted) {
         return;
     }
     if (!plot.tilled) {
-        plot.shape.setFillColor(sf::Color(78, 118, 74));
-        plot.shape.setOutlineColor(highlighted ? sf::Color::White : sf::Color(58, 88, 50));
+        plot.fill_rgba = PackRgba(78, 118, 74);
+        plot.outline_rgba = highlighted ? PackRgba(255, 255, 255) : PackRgba(58, 88, 50);
     } else if (!plot.seeded) {
-        plot.shape.setFillColor(sf::Color(124, 88, 56));
-        plot.shape.setOutlineColor(highlighted ? sf::Color::White : sf::Color(88, 60, 38));
+        plot.fill_rgba = PackRgba(124, 88, 56);
+        plot.outline_rgba = highlighted ? PackRgba(255, 255, 255) : PackRgba(88, 60, 38);
     } else if (!plot.watered) {
-        plot.shape.setFillColor(sf::Color(146, 104, 64));
-        plot.shape.setOutlineColor(highlighted ? sf::Color::White : sf::Color(84, 62, 44));
+        plot.fill_rgba = PackRgba(146, 104, 64);
+        plot.outline_rgba = highlighted ? PackRgba(255, 255, 255) : PackRgba(84, 62, 44);
     } else if (plot.ready) {
         ApplyReadyPlotVisual(plot, highlighted);
     } else {
@@ -139,10 +141,10 @@ void RefreshTeaPlotVisual(TeaPlot& plot, bool highlighted) {
             domain::CropTable::StageGrowthThreshold(plot.stage, plot.growth_stages);
         const std::uint8_t green = static_cast<std::uint8_t>(82 + stage_ratio * 116);
         const std::uint8_t blue_hint = plot.watered ? 16 : 0;
-        plot.shape.setFillColor(sf::Color(92, green, static_cast<std::uint8_t>(82 + blue_hint)));
-        plot.shape.setOutlineColor(highlighted ? sf::Color::White : sf::Color(56, 96, 54));
+        plot.fill_rgba = PackRgba(92, green, static_cast<std::uint8_t>(82 + blue_hint));
+        plot.outline_rgba = highlighted ? PackRgba(255, 255, 255) : PackRgba(56, 96, 54);
     }
-    plot.shape.setOutlineThickness(highlighted ? 4.0f : 2.0f);
+    plot.outline_thickness = highlighted ? 4.0f : 2.0f;
 }
 
 // ============================================================================
@@ -194,40 +196,18 @@ bool UpdateCropGrowth(
     const std::function<void(const std::string&, float)>& push_hint,
     const std::function<void(const std::string&)>& log_info
 ) {
+    // Unified growth update path now lives in GameRuntime/CropGrowthSystem.
+    // Keep this API as a compatibility shim for legacy call sites.
+    (void)delta_seconds;
+    (void)cloud_multiplier;
+    (void)spirit_buff;
+    (void)beast_share;
     (void)refresh_visual;
+    (void)push_hint;
     (void)log_info;
-    bool any_ready = false;
-    const float total_buff = spirit_buff * beast_share;
-
-    for (auto& plot : plots) {
-        if (!plot.seeded || !plot.watered || plot.ready) {
-            continue;
-        }
-
-        const int previous_stage = plot.stage;
-        plot.growth += delta_seconds * cloud_multiplier * total_buff;
-
-        const int next_stage =
-            std::min(plot.growth_stages,
-                     static_cast<int>(plot.growth / plot.growth_time * plot.growth_stages) + 1);
-        if (next_stage != plot.stage) {
-            plot.stage = next_stage;
-            if (plot.stage > previous_stage) {
-                push_hint(plot.crop_name + " 进入了生长阶段 " +
-                          std::to_string(plot.stage) + "/" +
-                          std::to_string(plot.growth_stages) + "。", 2.0f);
-            }
-        }
-
-        if (plot.growth >= plot.growth_time) {
-            plot.ready = true;
-            plot.stage = plot.growth_stages;
-            any_ready = true;
-            push_hint(plot.crop_name + " 已经可以收获了！", 2.6f);
-        }
-    }
-
-    return any_ready;
+    return std::any_of(plots.begin(), plots.end(), [](const TeaPlot& plot) {
+        return plot.ready;
+    });
 }
 
 // ============================================================================
@@ -237,6 +217,7 @@ bool HandlePlotInteraction(
     TeaPlot& plot,
     CloudSeamanor::domain::Inventory& inventory,
     CloudSeamanor::domain::SkillSystem& skills,
+    CloudSeamanor::domain::CloudState cloud_state,
     float cloud_density,
     bool beast_interacted,
     const std::function<void(TeaPlot&, bool)>& refresh_visual,
@@ -253,11 +234,7 @@ bool HandlePlotInteraction(
     if (!plot.seeded) {
         if (inventory.RemoveItem(plot.seed_item_id, 1)) {
             // 播种时根据云海状态决定品质
-            plot.quality = domain::CropTable::CalculateQuality(
-                skills.GetBonus(CloudSeamanor::domain::SkillType::SpiritFarm) > 0.0f
-                    ? CloudSeamanor::domain::CloudState::Mist  // 简化：默认薄雾
-                    : CloudSeamanor::domain::CloudState::Clear,
-                false);
+            plot.quality = domain::CropTable::CalculateQuality(cloud_state, false);
             plot.seeded = true;
             plot.growth = 0.0f;
             plot.stage = 1;
@@ -274,8 +251,6 @@ bool HandlePlotInteraction(
     }
 
     if (!plot.watered) {
-        // 浇水时根据当前云海状态决定最终品质
-        // 注：实际品质在收获时确定，这里只记录
         plot.watered = true;
         refresh_visual(plot, false);
         push_hint(plot.crop_name + " 已浇水。好好享受今天的云海吧！", 3.0f);
@@ -284,10 +259,8 @@ bool HandlePlotInteraction(
     }
 
     if (plot.ready) {
-        // 收获时重新计算最终品质（考虑当前云海状态）
-        plot.quality = domain::CropTable::CalculateQuality(
-            CloudSeamanor::domain::CloudState::DenseCloud,  // 简化：浓云
-            false);
+        // 收获时根据当前云海状态计算最终品质
+        plot.quality = domain::CropTable::CalculateQuality(cloud_state, false);
 
         const float tea_buff = 1.0f + skills.GetBonus(CloudSeamanor::domain::SkillType::SpiritFarm) * 0.1f;
         const float beast_share_factor = beast_interacted ? 1.2f : 1.0f;

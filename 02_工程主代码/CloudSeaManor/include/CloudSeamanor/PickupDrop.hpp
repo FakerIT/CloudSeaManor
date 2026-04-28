@@ -11,7 +11,6 @@
 // - 支持动画和视觉反馈
 //
 // 与其他系统的关系：
-// - 依赖：SFML（Graphics）
 // - 被依赖：GameAppFarming（作物收获）、GameAppNpc（礼物掉落）、
 //           GameApp（拾取处理）、GameAppHud（拾取提示）
 //
@@ -19,16 +18,22 @@
 // - 物品在场景中以可视化形式存在
 // - 玩家接近时自动拾取
 // - 支持后续扩展动画、飘字反馈等
+//
+// 架构决策：
+// - 公开接口使用 domain::Vec2f（纯数据），SFML 类型隔离在内部
+// - Shape() 仍返回 sf::RectangleShape 用于渲染
+// - SFML 头文件仅用于内部成员变量和渲染，不暴露在函数签名中
 // ============================================================================
 
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 
 #include "CloudSeamanor/MathTypes.hpp"
+#include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <string>
 
-namespace CloudSeamanor::domain {
+namespace CloudSeamanor::engine {
 
 // ============================================================================
 // 【PickupDrop】可拾取物品对象
@@ -52,17 +57,22 @@ public:
     // ========================================================================
     // 【PickupDrop】构造函数
     // ========================================================================
-    // @param position 物品出现位置
+    // @param position 物品出现位置（domain 纯数据）
     // @param item_id 物品标识符
     // @param amount 物品数量
-    PickupDrop(sf::Vector2f position, std::string item_id, int amount);
+    PickupDrop(CloudSeamanor::domain::Vec2f position, std::string item_id, int amount);
+
+    // SFML 向量兼容重载
+    PickupDrop(sf::Vector2f position, std::string item_id, int amount)
+        : PickupDrop(CloudSeamanor::domain::Vec2f{position.x, position.y},
+                     std::move(item_id), amount) {}
 
     // ========================================================================
     // 【IsCollectedBy】检测是否被玩家拾取
     // ========================================================================
     // @param player_bounds 玩家碰撞包围盒
     // @return true 如果玩家与物品发生碰撞
-    [[nodiscard]] bool IsCollectedBy(const RectF& player_bounds) const noexcept;
+    [[nodiscard]] bool IsCollectedBy(const CloudSeamanor::domain::RectF& player_bounds) const noexcept;
 
     // ========================================================================
     // 【ItemId】获取物品标识符
@@ -78,22 +88,23 @@ public:
     // 【Shape】获取渲染用图形
     // ========================================================================
     // @return 可修改的图形引用，用于动画等效果
+    // @note 此方法返回 SFML 类型，调用者需在 engine 层使用
     [[nodiscard]] const sf::RectangleShape& Shape() const noexcept { return shape_; }
     [[nodiscard]] sf::RectangleShape& Shape() noexcept { return shape_; }
 
     // ========================================================================
     // 【SetPosition】设置物品位置
     // ========================================================================
-    // @param position 新的位置
-    void SetPosition(const sf::Vector2f& position) {
-        shape_.setPosition(position);
+    // @param position 新的位置（domain 纯数据）
+    void SetPosition(CloudSeamanor::domain::Vec2f position) {
+        shape_.setPosition(CloudSeamanor::adapter::ToSf(position));
     }
 
     // ========================================================================
     // 【GetPosition】获取物品位置
     // ========================================================================
-    [[nodiscard]] sf::Vector2f GetPosition() const noexcept {
-        return shape_.getPosition();
+    [[nodiscard]] CloudSeamanor::domain::Vec2f GetPosition() const noexcept {
+        return CloudSeamanor::adapter::ToDomain(shape_.getPosition());
     }
 
     // ========================================================================
@@ -114,4 +125,8 @@ private:
     int amount_ = 1;            // 物品数量
 };
 
+}  // namespace CloudSeamanor::engine
+
+namespace CloudSeamanor::domain {
+using PickupDrop = CloudSeamanor::engine::PickupDrop;
 }  // namespace CloudSeamanor::domain

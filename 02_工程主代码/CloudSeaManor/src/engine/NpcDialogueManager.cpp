@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/NpcDialogueManager.hpp"
 #include "CloudSeamanor/CloudSystem.hpp"
 #include "CloudSeamanor/GameClock.hpp"
@@ -140,32 +138,6 @@ bool ParseCondition(const std::string& cond, const NpcDialogueContext& ctx, bool
     return true;
 }
 
-std::vector<DialogueNode> ConvertDialogueNodes_(
-    const std::vector<CloudSeamanor::infrastructure::DialogueNodeData>& data_nodes) {
-    std::vector<DialogueNode> out;
-    out.reserve(data_nodes.size());
-    for (const auto& dn : data_nodes) {
-        DialogueNode n;
-        n.id = dn.id;
-        n.speaker = dn.speaker;
-        n.text = dn.text;
-        n.choices.reserve(dn.choices.size());
-        for (const auto& dc : dn.choices) {
-            DialogueChoice c;
-            c.id = dc.id;
-            c.text = dc.text;
-            c.next_node_id = dc.next_node_id;
-            c.min_favor = dc.min_favor;
-            c.require_item = dc.require_item;
-            c.fallback_next_node_id = dc.fallback_next_node_id;
-            n.choices.push_back(std::move(c));
-        }
-        if (!n.id.empty()) {
-            out.push_back(std::move(n));
-        }
-    }
-    return out;
-}
 
 // 解析日常对话 JSON
 bool ParseDailyDialogueJson(const std::string& json,
@@ -416,7 +388,8 @@ void NpcDialogueManager::MarkHeartEventComplete(const std::string& npc_id,
                                                 const std::string& event_id) {
     std::string key = HeartEventKey_(npc_id, event_id);
     heart_event_completed_[key] = true;
-    infrastructure::Logger::Info("NpcDialogueManager: 心事件已完成 " + npc_id + " / " + event_id);
+    infrastructure::Logger::LogNpcHeartEvent(
+        "NpcDialogueManager: completed " + npc_id + " / " + event_id);
 }
 
 // ============================================================================
@@ -447,7 +420,8 @@ void NpcDialogueManager::LoadState(const std::vector<std::string>& lines) {
 // ============================================================================
 DialogueLoadResult NpcDialogueManager::LoadDialogueFromJson(const std::string& json_content) {
     DialogueLoadResult result;
-    result.nodes = ConvertDialogueNodes_(CloudSeamanor::infrastructure::ParseDialogueNodes(json_content));
+    result.nodes = CloudSeamanor::infrastructure::ConvertDialogueNodes(
+        CloudSeamanor::infrastructure::ParseDialogueNodes(json_content));
     if (result.nodes.empty()) {
         result.error_message = "未找到对话节点";
         return result;
@@ -655,6 +629,17 @@ bool NpcDialogueManager::MatchesCondition_(const DailyDialogueEntry& entry,
 std::optional<std::size_t> NpcDialogueManager::SelectMatchingEntry_(
     const std::vector<DailyDialogueEntry>& pool,
     const NpcDialogueContext& ctx) const {
+    const auto favor_distance_score = [&](const DailyDialogueEntry& entry) {
+        if (ctx.player_favor < entry.favor_min) return (entry.favor_min - ctx.player_favor);
+        if (ctx.player_favor > entry.favor_max) return (ctx.player_favor - entry.favor_max);
+        return 0;
+    };
+    const auto heart_distance_score = [&](const DailyDialogueEntry& entry) {
+        if (ctx.npc_heart_level < entry.heart_min) return (entry.heart_min - ctx.npc_heart_level);
+        if (ctx.npc_heart_level > entry.heart_max) return (ctx.npc_heart_level - entry.heart_max);
+        return 0;
+    };
+
     // 收集匹配条目并按“条件特异性”评分，优先天气/时段/季节等更具体的条目。
     std::vector<std::pair<std::size_t, int>> candidates;
     for (std::size_t i = 0; i < pool.size(); ++i) {
@@ -664,12 +649,46 @@ std::optional<std::size_t> NpcDialogueManager::SelectMatchingEntry_(
             if (pool[i].time_of_day) score += 3;
             if (pool[i].season) score += 2;
             if (pool[i].heart_min > 0) score += 1;
+            // 好感/心级越贴合当前阶段，越优先。
+            score += std::max(0, 5 - favor_distance_score(pool[i]));
+            score += std::max(0, 3 - heart_distance_score(pool[i]));
             candidates.emplace_back(i, score);
         }
     }
 
     if (candidates.empty()) {
-        return std::nullopt;
+        // 放宽匹配：先按季节/时段/天气匹配，再按好感/心级距离选择最近条目。
+        std::vector<std::pair<std::size_t, int>> relaxed;
+        for (std::size_t i = 0; i < pool.size(); ++i) {
+            bool season_ok = !pool[i].season || !ctx.current_season || *pool[i].season == *ctx.current_season;
+            bool time_ok = !pool[i].time_of_day || !ctx.current_time_of_day || *pool[i].time_of_day == *ctx.current_time_of_day;
+            bool weather_ok = !pool[i].weather || !ctx.current_weather || *pool[i].weather == *ctx.current_weather;
+            if (!season_ok || !time_ok || !weather_ok) {
+                continue;
+            }
+            const int distance = favor_distance_score(pool[i]) * 2 + heart_distance_score(pool[i]);
+            relaxed.emplace_back(i, distance);
+        }
+        if (relaxed.empty()) {
+            return std::nullopt;
+        }
+        int best_distance = relaxed.front().second;
+        for (const auto& [_, distance] : relaxed) {
+            if (distance < best_distance) {
+                best_distance = distance;
+            }
+        }
+        std::vector<std::size_t> best_indices;
+        for (const auto& [index, distance] : relaxed) {
+            if (distance == best_distance) {
+                best_indices.push_back(index);
+            }
+        }
+        if (best_indices.empty()) {
+            return std::nullopt;
+        }
+        std::uniform_int_distribution<std::size_t> dist(0, best_indices.size() - 1);
+        return best_indices[dist(Rng())];
     }
 
     int max_score = candidates.front().second;

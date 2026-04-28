@@ -24,6 +24,7 @@
 #include "CloudSeamanor/WorkshopSystem.hpp"
 #include "CloudSeamanor/DynamicLifeSystem.hpp"
 #include "CloudSeamanor/NpcDialogueManager.hpp"
+#include "CloudSeamanor/PickupSystem.hpp"
 
 namespace CloudSeamanor::engine {
 
@@ -48,18 +49,28 @@ public:
     // ========================================================================
     [[nodiscard]] CloudSeamanor::domain::CloudSystem& GetCloud() { return cloud_; }
     [[nodiscard]] const CloudSeamanor::domain::CloudSystem& GetCloud() const { return cloud_; }
+    [[nodiscard]] CloudSeamanor::domain::CloudSystem& MutableCloud() { return cloud_; }
     [[nodiscard]] CloudSeamanor::domain::CloudGuardianContract& GetContracts() { return contracts_; }
     [[nodiscard]] const CloudSeamanor::domain::CloudGuardianContract& GetContracts() const { return contracts_; }
+    [[nodiscard]] CloudSeamanor::domain::CloudGuardianContract& MutableContracts() { return contracts_; }
     [[nodiscard]] CloudSeamanor::domain::SkillSystem& GetSkills() { return skills_; }
     [[nodiscard]] const CloudSeamanor::domain::SkillSystem& GetSkills() const { return skills_; }
+    [[nodiscard]] CloudSeamanor::domain::SkillSystem& MutableSkills() { return skills_; }
     [[nodiscard]] CloudSeamanor::domain::FestivalSystem& GetFestivals() { return festivals_; }
     [[nodiscard]] const CloudSeamanor::domain::FestivalSystem& GetFestivals() const { return festivals_; }
+    [[nodiscard]] CloudSeamanor::domain::FestivalSystem& MutableFestivals() { return festivals_; }
     [[nodiscard]] CloudSeamanor::domain::WorkshopSystem& GetWorkshop() { return workshop_; }
     [[nodiscard]] const CloudSeamanor::domain::WorkshopSystem& GetWorkshop() const { return workshop_; }
+    [[nodiscard]] CloudSeamanor::domain::WorkshopSystem& MutableWorkshop() { return workshop_; }
     [[nodiscard]] CloudSeamanor::domain::DynamicLifeSystem& GetDynamicLife() { return dynamic_life_; }
     [[nodiscard]] const CloudSeamanor::domain::DynamicLifeSystem& GetDynamicLife() const { return dynamic_life_; }
+    [[nodiscard]] CloudSeamanor::domain::DynamicLifeSystem& MutableDynamicLife() { return dynamic_life_; }
     [[nodiscard]] NpcDialogueManager& GetDialogueManager() { return dialogue_manager_; }
     [[nodiscard]] const NpcDialogueManager& GetDialogueManager() const { return dialogue_manager_; }
+    [[nodiscard]] NpcDialogueManager& MutableDialogueManager() { return dialogue_manager_; }
+    [[nodiscard]] PickupSystem& GetPickups() { return pickups_; }
+    [[nodiscard]] const PickupSystem& GetPickups() const { return pickups_; }
+    [[nodiscard]] PickupSystem& MutablePickups() { return pickups_; }
 
     // ========================================================================
     // 【每日更新】
@@ -88,6 +99,7 @@ private:
     CloudSeamanor::domain::WorkshopSystem workshop_;
     CloudSeamanor::domain::DynamicLifeSystem dynamic_life_;
     NpcDialogueManager dialogue_manager_;
+    PickupSystem pickups_;
 };
 
 } // namespace CloudSeamanor::engine

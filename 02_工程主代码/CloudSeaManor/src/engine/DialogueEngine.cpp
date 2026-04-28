@@ -11,42 +11,11 @@
 
 namespace CloudSeamanor::engine {
 
-namespace {
-
-std::vector<DialogueNode> ConvertDialogueNodes_(
-    const std::vector<CloudSeamanor::infrastructure::DialogueNodeData>& data_nodes) {
-    std::vector<DialogueNode> out;
-    out.reserve(data_nodes.size());
-    for (const auto& dn : data_nodes) {
-        DialogueNode n;
-        n.id = dn.id;
-        n.speaker = dn.speaker;
-        n.text = dn.text;
-        n.choices.reserve(dn.choices.size());
-        for (const auto& dc : dn.choices) {
-            DialogueChoice c;
-            c.id = dc.id;
-            c.text = dc.text;
-            c.next_node_id = dc.next_node_id;
-            c.min_favor = dc.min_favor;
-            c.require_item = dc.require_item;
-            c.fallback_next_node_id = dc.fallback_next_node_id;
-            n.choices.push_back(std::move(c));
-        }
-        if (!n.id.empty()) {
-            out.push_back(std::move(n));
-        }
-    }
-    return out;
-}
-
-}  // namespace
-
 // ============================================================================
 // 【LoadDialogueFromJson】从 JSON 加载对话表
 // ============================================================================
 std::vector<DialogueNode> LoadDialogueFromJson(const std::string& json_content) {
-    return ConvertDialogueNodes_(CloudSeamanor::infrastructure::ParseDialogueNodes(json_content));
+    return ConvertDialogueNodes(CloudSeamanor::infrastructure::ParseDialogueNodes(json_content));
 }
 
 // ============================================================================

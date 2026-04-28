@@ -1,0 +1,4 @@
+Id,DisplayName,WeaponType,Element,BaseAttack,PurifyRateBonus,CritChanceBonus,CritMultiplierBonus,EnergyRecoverBonus,SkillCooldownScale,Quality,Effects,AcquireMethod,Description
+weapon_cloud_blade,云纹长刃,Melee,Cloud,30,0.10,0.03,0.20,0.00,0.95,2,"[""purify_up""]",default,刻有云纹的长刃，能引发云涌净化
+weapon_tide_staff,潮汐法杖,Caster,Cloud,34,0.14,0.02,0.22,0.18,1.00,3,"[""tide_bonus"",""energy_on_hit""]",festival_cloud_tide,潮汐时净化能力显著提高
+weapon_crystal_bow,晶芒长弓,Ranged,Light,36,0.11,0.06,0.28,0.00,0.90,3,"[""crit_bonus""]",shop_midgame,高暴击远程武器

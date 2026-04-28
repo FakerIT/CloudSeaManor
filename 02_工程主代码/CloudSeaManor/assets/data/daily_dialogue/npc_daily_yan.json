@@ -1,0 +1,17 @@
+{
+  "npc_id": "yan",
+  "greetings": [
+    {"id":"yan_greet_morning","text":"早安，$[PLAYER_NAME]。昨夜星轨很清晰，我记下了几条有趣的数据。","favor_min":0,"favor_max":999,"season":"","time_of_day":"清晨","weather":"","heart_min":0,"heart_max":10},
+    {"id":"yan_greet_night","text":"夜晚好。现在抬头，能看到云隙里那颗最亮的星。","favor_min":0,"favor_max":999,"season":"","time_of_day":"夜晚","weather":"","heart_min":0,"heart_max":10},
+    {"id":"yan_greet_winter","text":"冬夜的天最干净。$[PLAYER_NAME]，今天适合做长时间观测。","favor_min":0,"favor_max":999,"season":"冬","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ],
+  "small_talks": [
+    {"id":"yan_talk_1","text":"观星和种田很像，都是和时间做朋友。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"yan_talk_2","text":"你要是愿意，我可以教你最基础的夜空定位。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"yan_talk_high","text":"$[PLAYER_NAME]，和你一起看星的时候，我总觉得时间慢了下来。","favor_min":180,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":6,"heart_max":10}
+  ],
+  "farewells": [
+    {"id":"yan_bye_1","text":"先这样，今晚如果天晴，我还会在观测台。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10},
+    {"id":"yan_bye_2","text":"回去路上注意保暖，夜里风会变硬。","favor_min":0,"favor_max":999,"season":"","time_of_day":"","weather":"","heart_min":0,"heart_max":10}
+  ]
+}

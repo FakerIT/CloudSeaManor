@@ -12,6 +12,8 @@
 
 #include "CloudSeamanor/GameWorldState.hpp"
 
+#include <unordered_map>
+
 namespace CloudSeamanor::engine {
 
 class NpcScheduleSystem {
@@ -24,12 +26,16 @@ public:
     );
 
 private:
+    [[nodiscard]] const std::vector<NpcScheduleEntry>& ResolveScheduleForNpc_(const NpcActor& npc) const;
+
     void UpdateNpcPosition_(
         NpcActor& npc,
         int current_day,
         int current_minute,
         float delta_seconds
     );
+
+    std::unordered_map<std::string, std::vector<NpcScheduleEntry>> loaded_schedules_;
 };
 
 }  // namespace CloudSeamanor::engine

@@ -1,0 +1,41 @@
+{
+  "id": "plot_ch3_tide_afterglow",
+  "chapter_id": "ch3",
+  "title": "潮后余晖",
+  "description": "大潮祭决战结束后，山庄众人在清晨余辉中确认下一阶段守护路线。",
+  "trigger_conditions": [
+    { "type": "flag_set", "value": "festival_tide_boss_victory" },
+    { "type": "flag_set", "value": "festival_joined_cloud_tide_ritual" }
+  ],
+  "nodes": [
+    {
+      "id": "start",
+      "speaker": "老槐",
+      "text": "昨夜的大潮祭，你把潮灵从失控边缘拉了回来。山庄与灵界之间，总算重新有了稳固的呼吸。",
+      "next_node_id": "start2",
+      "is_cutscene": true,
+      "cloud_delta": 0
+    },
+    {
+      "id": "start2",
+      "speaker": "晚星",
+      "text": "界桥并没有完全痊愈，但潮汐已经愿意回应我们。这说明你不是在对抗云海，而是在和它一起守护。",
+      "next_node_id": "end",
+      "is_cutscene": true,
+      "cloud_delta": 20
+    },
+    {
+      "id": "end",
+      "speaker": "玩家",
+      "text": "那就继续前进吧。下一次浪涌来临前，我们把山庄和界桥都准备好。",
+      "next_node_id": "",
+      "is_cutscene": true,
+      "trigger_event": "plot_tide_afterglow_complete",
+      "flag_to_set": "plot_ch3_tide_afterglow_done",
+      "cloud_delta": 30
+    }
+  ],
+  "start_node_id": "start",
+  "next_plot_id": "",
+  "priority": 65
+}

@@ -48,7 +48,19 @@ struct CropDefinition {
     int stages = 4;            // 生长阶段数
     int base_harvest = 2;       // 基础收获数量
     int stamina_cost = 6;      // 每次操作体力消耗
-    std::vector<std::string> tags; // 标签（core/rare/premium/legendary）
+    std::vector<std::string> tags; // 标签（core/rare/premium/legendary/spirit_tea）
+    // ========== 新增字段 ==========
+    int hunger_restore = 0;              // 饱食恢复值
+    std::string special_effect_id;       // 特殊效果ID（可选）
+    std::string season_tag = "spring";   // 适种季节（spring/summer/autumn/winter/all）
+    float fertilizer_multiplier = 1.0f;  // 肥料效果倍率（灵茶通常更高）
+    bool is_spirit_tea = false;         // 是否为灵茶
+    std::string cloud_min_requirement; // 最低云海需求（clear/mist/dense/tide）
+    std::string buff_effect_id;         // 饮用时的Buff效果ID
+    std::vector<std::string> love_npc_ids; // 最爱该作物的角色ID列表
+    std::string unlock_condition;         // 解锁条件
+    bool is_legendary = false;          // 是否传说级
+    // =============================
 };
 
 // ============================================================================
@@ -102,6 +114,20 @@ public:
     [[nodiscard]] static CropQuality CalculateQuality(
         CloudState state,
         bool is_spirit_tier = false);
+
+    // ========================================================================
+    // 【CalculateFinalQuality】基于快照计算最终品质
+    // ========================================================================
+    // 综合播种快照、累积云海天数、灵气值、地块加成计算最终品质。
+    [[nodiscard]] static CropQuality CalculateFinalQuality(
+        CloudState current_state,
+        float cloud_density_at_planting,
+        int aura_at_planting,
+        int dense_cloud_days,
+        int tide_days,
+        bool tea_soul_nearby,
+        const std::string& fertilizer_type,
+        bool is_legendary = false);
 
     // ========================================================================
     // 【QualityToText】品质等级转中文文本

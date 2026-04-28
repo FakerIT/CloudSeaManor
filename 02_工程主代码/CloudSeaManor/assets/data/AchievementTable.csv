@@ -21,3 +21,4 @@ quest_runner,委托达人,完成日常委托30个,quest_complete_count>=30,gold+
 plot_explorer,主线旅人,完成任意3章主线剧情,main_plot_chapter>=3,title+旅人
 combat_rookie,初试锋芒,触发1次战斗并获胜,battle_win_count>=1,gold+120
 combat_guardian,净化守护者,累计净化污染灵体50个,purified_spirit_count>=50,title+守护者
+tide_purifier,大潮祭净化者,在大潮祭击败潮灵首领,festival_tide_boss_victory==true,item+legendary_tide

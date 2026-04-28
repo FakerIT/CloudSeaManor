@@ -1,8 +1,8 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/systems/PickupSystemRuntime.hpp"
 
+#include "CloudSeamanor/GameAppText.hpp"
 #include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/Logger.hpp"
 #include "CloudSeamanor/PickupSystem.hpp"
 
 namespace CloudSeamanor::engine {
@@ -42,23 +42,23 @@ void PickupSystemRuntime::Update(float delta_seconds) {
         delta_seconds,
         world_state_.GetWorldTipPulse(),
         world_state_.GetPlayer(),
-        world_state_.GetInventory());
+        world_state_.MutableInventory());
 }
 
 // ============================================================================
 // 【PickupSystemRuntime::CollectNearby】收集范围内拾取物
 // ============================================================================
 void PickupSystemRuntime::CollectNearby() {
-    for (auto it = world_state_.GetPickups().begin();
-         it != world_state_.GetPickups().end();) {
+    for (auto it = world_state_.MutablePickups().begin();
+         it != world_state_.MutablePickups().end();) {
         if (it->IsCollectedBy(world_state_.GetPlayer().Bounds())) {
-            world_state_.GetInventory().AddItem(it->ItemId(), it->Amount());
+            world_state_.MutableInventory().AddItem(it->ItemId(), it->Amount());
             if (hint_callback_) {
                 hint_callback_(
                     "已获得 " + ItemDisplayName(it->ItemId()) + " x" +
                     std::to_string(it->Amount()) + "。", 2.2f);
             }
-            it = world_state_.GetPickups().erase(it);
+            it = world_state_.MutablePickups().erase(it);
         } else {
             ++it;
         }

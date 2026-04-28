@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 option(CLOUDSEAMANOR_ENABLE_WARNINGS "Enable strict warnings" ON)
+option(CLOUDSEAMANOR_ENABLE_LEGACY_ALLDEFINE "Temporarily allow deprecated AllDefine.hpp umbrella header" OFF)
 
 set(_sfml_candidate_roots
     "${CMAKE_CURRENT_SOURCE_DIR}/../../03_参考与第三方资源/01_SFML引擎/SFML-3.0.2"
@@ -45,8 +46,12 @@ set(CLOUDSEAMANOR_DOMAIN_HEADERS
   include/CloudSeamanor/CloudGuardianContract.hpp
   include/CloudSeamanor/CropData.hpp
   include/CloudSeamanor/DynamicLifeSystem.hpp
+  include/CloudSeamanor/DiarySystem.hpp
   include/CloudSeamanor/FestivalSystem.hpp
+  include/CloudSeamanor/FestivalGameplayMvp.hpp
   include/CloudSeamanor/GameClock.hpp
+  include/CloudSeamanor/HungerTable.hpp
+  include/CloudSeamanor/HungerSystem.hpp
   include/CloudSeamanor/Interactable.hpp
   include/CloudSeamanor/Inventory.hpp
   include/CloudSeamanor/MainPlotSystem.hpp
@@ -56,15 +61,23 @@ set(CLOUDSEAMANOR_DOMAIN_HEADERS
   include/CloudSeamanor/RecipeData.hpp
   include/CloudSeamanor/SkillSystem.hpp
   include/CloudSeamanor/Stamina.hpp
+  include/CloudSeamanor/TeaProcessingRecipe.hpp
+  include/CloudSeamanor/BuffSystem.hpp
   include/CloudSeamanor/TeaGarden.hpp
+  include/CloudSeamanor/TeaBush.hpp
+  include/CloudSeamanor/TeaBushTable.hpp
+  include/CloudSeamanor/TeaTable.hpp
+  include/CloudSeamanor/TeaQualityCalculator.hpp
+  include/CloudSeamanor/BuffEffectTable.hpp
   include/CloudSeamanor/WorkshopSystem.hpp
   include/CloudSeamanor/AtmosphereState.hpp
+  include/CloudSeamanor/RelationshipSystem.hpp
+  include/CloudSeamanor/SeedDropTable.hpp
 )
 
 # 引擎层/应用层头文件
 set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/CloudSeaManor.hpp
-  include/CloudSeamanor/DayCycleRuntime.hpp
   include/CloudSeamanor/FarmingSystem.hpp
   include/CloudSeamanor/GameApp.hpp
   include/CloudSeamanor/AudioManager.hpp
@@ -78,10 +91,8 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/GameAppText.hpp
   include/CloudSeamanor/GameAppWeather.hpp
   include/CloudSeamanor/GameAppState.hpp
-  include/CloudSeamanor/game_state/WorldState.hpp
   include/CloudSeamanor/game_state/PlayerState.hpp
   include/CloudSeamanor/game_state/RenderState.hpp
-  include/CloudSeamanor/game_state/RuntimeState.hpp
   include/CloudSeamanor/GameRuntime.hpp
   include/CloudSeamanor/GameWorldState.hpp
   include/CloudSeamanor/GameWorldSystems.hpp
@@ -95,6 +106,7 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/UISystem.hpp
   include/CloudSeamanor/DialogueEngine.hpp
   include/CloudSeamanor/EventBus.hpp
+  include/CloudSeamanor/FestivalRuntimeData.hpp
   include/CloudSeamanor/PixelUiConfig.hpp
   include/CloudSeamanor/PixelArtStyle.hpp
   include/CloudSeamanor/PixelFontRenderer.hpp
@@ -128,7 +140,11 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/PixelGameHud.hpp
   include/CloudSeamanor/PixelSettingsPanel.hpp
   include/CloudSeamanor/engine/input/InputHandler.hpp
+  include/CloudSeamanor/engine/presentation/HudPresenter.hpp
+  include/CloudSeamanor/engine/presentation/HudPanelPresenters.hpp
+  include/CloudSeamanor/engine/presentation/HudSideEffects.hpp
   include/CloudSeamanor/engine/rendering/HudRenderer.hpp
+  include/CloudSeamanor/engine/rendering/SceneVisualStore.hpp
   include/CloudSeamanor/engine/rendering/WorldRenderer.hpp
   include/CloudSeamanor/engine/rendering/PlayerVisualComponent.hpp
   include/CloudSeamanor/engine/rendering/UiPanelInitializer.hpp
@@ -137,6 +153,8 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/engine/BattleField.hpp
   include/CloudSeamanor/engine/BattleUI.hpp
   include/CloudSeamanor/engine/BattleManager.hpp
+  include/CloudSeamanor/engine/BattleRenderer.hpp
+  include/CloudSeamanor/engine/BattleZoneLoader.hpp
   include/CloudSeamanor/engine/systems/PlayerMovementSystem.hpp
   include/CloudSeamanor/engine/systems/PickupSystemRuntime.hpp
   include/CloudSeamanor/engine/systems/CropGrowthSystem.hpp
@@ -162,13 +180,16 @@ set(CLOUDSEAMANOR_INFRA_HEADERS
   include/CloudSeamanor/GameConstants.hpp
   include/CloudSeamanor/JsonValue.hpp
   include/CloudSeamanor/Logger.hpp
+  include/CloudSeamanor/DataRegistry.hpp
   include/CloudSeamanor/Result.hpp
   include/CloudSeamanor/ResourceManager.hpp
   include/CloudSeamanor/UiLayoutConfig.hpp
   include/CloudSeamanor/TmxMap.hpp
   include/CloudSeamanor/SaveSlotManager.hpp
   include/CloudSeamanor/infrastructure/DialogueJsonParser.hpp
+  include/CloudSeamanor/infrastructure/data/BattleDataLoader.hpp
   include/CloudSeamanor/infrastructure/AtmosphereDataLoader.hpp
+  include/CloudSeamanor/infrastructure/ReferenceSaveDataSystem.hpp
 )
 
 set(CLOUDSEAMANOR_PUBLIC_HEADERS
@@ -185,27 +206,40 @@ set(CLOUDSEAMANOR_DOMAIN_SOURCES
   src/domain/CloudGuardianContract.cpp
   src/domain/CropData.cpp
   src/domain/DynamicLifeSystem.cpp
+  src/domain/DiarySystem.cpp
   src/domain/FestivalSystem.cpp
+  src/domain/FestivalGameplayMvp.cpp
   src/domain/GameClock.cpp
+  src/domain/HungerTable.cpp
+  src/domain/HungerSystem.cpp
   src/domain/Inventory.cpp
   src/domain/MainPlotSystem.cpp
   src/domain/Player.cpp
   src/domain/RecipeData.cpp
   src/domain/SkillSystem.cpp
   src/domain/Stamina.cpp
+  src/domain/ToolSystem.cpp
+  src/domain/TeaTable.cpp
+  src/domain/TeaBushTable.cpp
+  src/domain/TeaQualityCalculator.cpp
+  src/domain/BuffSystem.cpp
+  src/domain/BuffEffectTable.cpp
   src/domain/TeaGarden.cpp
+  src/domain/TeaBush.cpp
   src/domain/WorkshopSystem.cpp
   src/domain/AtmosphereState.cpp
+  src/domain/RelationshipSystem.cpp
+  src/domain/SeedDropTable.cpp
 )
 
 # ============================================================================
 # 引擎层源文件
 # ============================================================================
 set(CLOUDSEAMANOR_ENGINE_SOURCES
-  src/engine/DayCycleRuntime.cpp
   src/engine/FarmingSystem.cpp
   src/engine/GameApp.cpp
   src/engine/GameAppMenu.cpp
+  src/engine/MainMenuController.cpp
   src/engine/SceneManager.cpp
   src/engine/GameAppFarming.cpp
   src/engine/GameAppHud.cpp
@@ -218,6 +252,7 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/GameAppWeather.cpp
   src/engine/GameRuntime.cpp
   src/engine/GameWorldState.cpp
+  src/engine/FestivalRuntimeData.cpp
   src/engine/GameWorldSystems.cpp
   src/engine/InteractionSystem.cpp
   src/engine/Interactable.cpp
@@ -231,6 +266,7 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/UISystem.cpp
   src/engine/DialogueEngine.cpp
   src/engine/EventBus.cpp
+  src/engine/UiLayoutSerializer.cpp
   src/engine/systems/PlayerMovementSystem.cpp
   src/engine/systems/PickupSystemRuntime.cpp
   src/engine/systems/CropGrowthSystem.cpp
@@ -279,8 +315,13 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/PixelTooltip.cpp
   src/engine/PixelGameHud.cpp
   src/engine/PixelSettingsPanel.cpp
+  src/engine/presentation/HudPresenter.cpp
+  src/engine/presentation/HudPanelPresenters.cpp
+  src/engine/presentation/HudSideEffects.cpp
   src/engine/input/InputHandler.cpp
   src/engine/rendering/HudRenderer.cpp
+  src/engine/rendering/SceneVisualStore.cpp
+  src/engine/rendering/FestivalDecorationSystem.cpp
   src/engine/rendering/WorldRenderer.cpp
   src/engine/rendering/PlayerVisualComponent.cpp
   src/engine/rendering/UiPanelInitializer.cpp
@@ -289,6 +330,8 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/BattleField.cpp
   src/engine/BattleUI.cpp
   src/engine/BattleManager.cpp
+  src/engine/BattleRenderer.cpp
+  src/engine/BattleZoneLoader.cpp
 )
 
 # ============================================================================
@@ -298,12 +341,16 @@ set(CLOUDSEAMANOR_INFRASTRUCTURE_SOURCES
   src/infrastructure/GameConfig.cpp
   src/infrastructure/JsonValue.cpp
   src/infrastructure/Logger.cpp
+  src/infrastructure/DataRegistry.cpp
   src/infrastructure/ResourceManager.cpp
   src/infrastructure/UiLayoutConfig.cpp
   src/infrastructure/TmxMap.cpp
   src/infrastructure/SaveSlotManager.cpp
   src/infrastructure/AtmosphereDataLoader.cpp
   src/infrastructure/DialogueJsonParser.cpp
+  src/infrastructure/ReferenceSaveDataSystem.cpp
+  src/infrastructure/ModLoader.cpp
+  src/infrastructure/data/BattleDataLoader.cpp
 )
 
 # ============================================================================
@@ -346,6 +393,10 @@ target_link_libraries(CloudSeamanor_core
     SFML::System
     SFML::Audio
 )
+
+if(CLOUDSEAMANOR_ENABLE_LEGACY_ALLDEFINE)
+  target_compile_definitions(CloudSeamanor_core PUBLIC CLOUDSEAMANOR_ENABLE_LEGACY_ALLDEFINE=1)
+endif()
 
 if(MSVC)
   # /FS: allow multiple cl.exe write to the same PDB (fixes sporadic C1041 in parallel builds)
@@ -392,6 +443,32 @@ if(WIN32)
 endif()
 
 # ============================================================================
+# 复制资源文件到构建输出目录（确保运行时可以找到资源）
+# ============================================================================
+option(CLOUDSEAMANOR_COPY_ASSETS "Copy assets and configs to build output" ON)
+
+if(CLOUDSEAMANOR_COPY_ASSETS)
+  # 获取构建输出目录
+  set(BUILD_OUTPUT_DIR $<TARGET_FILE_DIR:CloudSeamanor_game>)
+
+  # 复制 assets 目录
+  add_custom_command(TARGET CloudSeamanor_game POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+      ${CMAKE_CURRENT_SOURCE_DIR}/assets
+      ${BUILD_OUTPUT_DIR}/assets
+    COMMENT "Copying assets to build directory"
+  )
+
+  # 复制 configs 目录
+  add_custom_command(TARGET CloudSeamanor_game POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+      ${CMAKE_CURRENT_SOURCE_DIR}/configs
+      ${BUILD_OUTPUT_DIR}/configs
+    COMMENT "Copying configs to build directory"
+  )
+endif()
+
+# ============================================================================
 # 测试目标
 # ============================================================================
 option(BUILD_TESTING "Build unit tests" OFF)
@@ -400,25 +477,7 @@ if(BUILD_TESTING)
   enable_testing()
 
   set(TEST_SOURCES
-    tests/catch2_main.cpp
-    tests/domain/PlayerTest.cpp
-    tests/domain/InventoryTest.cpp
-    tests/domain/GameClockTest.cpp
-    tests/domain/StaminaTest.cpp
-    tests/domain/CropDataTest.cpp
-    tests/domain/Week4BusinessLoopTest.cpp
-    tests/domain/MainPlotSystemTest.cpp
-    tests/domain/AtmosphereDomainTest.cpp
-    tests/domain/TeaGardenTest.cpp
-    tests/domain/CloudGuardianContractTest.cpp
-    tests/domain/CloudSystemTest.cpp
-    tests/domain/WorkshopSystemTest.cpp
-    tests/engine/ShopSystemTest.cpp
-    tests/engine/DialogueEngineTest.cpp
-    tests/engine/InteractionSystemTest.cpp
-    tests/engine/CropGrowthSystemTest.cpp
-    tests/engine/FarmingLogicTest.cpp
-    tests/engine/PixelArtStyleTest.cpp
+    tests/TestRunner.cpp
   )
 
   add_executable(CloudSeamanor_tests
@@ -437,6 +496,8 @@ if(BUILD_TESTING)
     PRIVATE
       CloudSeamanor_core
   )
+
+  add_test(NAME CloudSeamanor_tests COMMAND CloudSeamanor_tests)
 
   if(MSVC)
     target_compile_options(CloudSeamanor_tests PRIVATE /utf-8 /FS $<$<CONFIG:Debug>:/Z7>)

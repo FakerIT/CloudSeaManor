@@ -3,8 +3,6 @@
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/GameClock.hpp"
 
-#include <SFML/System/Vector2.hpp>
-
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -34,12 +32,13 @@ inline void ApplySprinklerAutoWater(std::vector<TeaPlot>& plots, float radius) {
     const float r2 = std::max(0.0f, radius) * std::max(0.0f, radius);
     for (const auto& src : plots) {
         if (!src.sprinkler_installed || src.sprinkler_days_left <= 0) continue;
-        const sf::Vector2f src_pos = src.shape.getPosition();
+        const auto src_pos = src.position;
         for (auto& p : plots) {
             if (!p.cleared || !p.seeded || p.ready) continue;
-            const sf::Vector2f pos = p.shape.getPosition();
-            const sf::Vector2f d = pos - src_pos;
-            if ((d.x * d.x + d.y * d.y) <= r2) {
+            const auto pos = p.position;
+            const float dx = pos.x - src_pos.x;
+            const float dy = pos.y - src_pos.y;
+            if ((dx * dx + dy * dy) <= r2) {
                 p.watered = true;
             }
         }

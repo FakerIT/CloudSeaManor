@@ -39,9 +39,6 @@
     <ClInclude Include="include\CloudSeamanor\CloudSeaManor.hpp">
       <Filter>include\CloudSeamanor</Filter>
     </ClInclude>
-    <ClInclude Include="include\CloudSeamanor\DayCycleRuntime.hpp">
-      <Filter>include\CloudSeamanor</Filter>
-    </ClInclude>
     <ClInclude Include="include\CloudSeamanor\CloudSystem.hpp">
       <Filter>include\CloudSeamanor</Filter>
     </ClInclude>
@@ -126,9 +123,6 @@
     <ClInclude Include="include\CloudSeamanor\LevelUpSystem.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\DayCycleRuntime.cpp">
-      <Filter>src\engine</Filter>
-    </ClCompile>
     <ClCompile Include="src\domain\CloudSystem.cpp">
       <Filter>src\domain</Filter>
     </ClCompile>

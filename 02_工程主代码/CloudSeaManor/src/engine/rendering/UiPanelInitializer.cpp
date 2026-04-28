@@ -1,5 +1,3 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/engine/rendering/UiPanelInitializer.hpp"
 #include "CloudSeamanor/Logger.hpp"
 

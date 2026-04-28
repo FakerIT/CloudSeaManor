@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CloudSeamanor/Result.hpp"
+
 #include <string>
 #include <unordered_map>
 
@@ -12,6 +14,7 @@ public:
     // 从文本文件加载配置。
     // 支持 key=value（浮点）和 key="value"（字符串）两种格式。
     bool LoadFromFile(const std::string& path);
+    [[nodiscard]] CloudSeamanor::Result<void> LoadFromFileResult(const std::string& path);
 
     // 获取浮点配置项，不存在则返回 fallback。
     [[nodiscard]] float GetFloat(const std::string& key, float fallback) const;

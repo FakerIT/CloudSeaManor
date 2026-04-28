@@ -4,12 +4,14 @@
 #include "CloudSeamanor/DynamicLifeSystem.hpp"
 #include "CloudSeamanor/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/HungerSystem.hpp"
 #include "CloudSeamanor/Inventory.hpp"
 #include "CloudSeamanor/Player.hpp"
 #include "CloudSeamanor/SkillSystem.hpp"
 #include "CloudSeamanor/Stamina.hpp"
 #include "CloudSeamanor/FestivalSystem.hpp"
 #include "CloudSeamanor/WorkshopSystem.hpp"
+#include "CloudSeamanor/RelationshipSystem.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
@@ -51,6 +53,7 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const CloudSeamanor::domain::CloudSystem& cloud_system,
                    const CloudSeamanor::domain::Player& player,
                    const CloudSeamanor::domain::StaminaSystem& stamina,
+                   const CloudSeamanor::domain::HungerSystem& hunger,
                    const RepairProject& main_house_repair,
                    const TeaMachine& tea_machine,
                    const SpiritBeast& spirit_beast,
@@ -66,17 +69,49 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const CloudSeamanor::domain::FestivalSystem* festivals = nullptr,
                    const CloudSeamanor::domain::DynamicLifeSystem* dynamic_life = nullptr,
                    const CloudSeamanor::domain::WorkshopSystem* workshop = nullptr,
+                   const CloudSeamanor::domain::RelationshipState* relationship = nullptr,
                    const int* decoration_score = nullptr,
                    const std::string* pet_type = nullptr,
                    const bool* pet_adopted = nullptr,
                    const std::unordered_map<std::string, bool>* achievements = nullptr,
                    const std::unordered_map<std::string, int>* weekly_buy_count = nullptr,
                    const std::unordered_map<std::string, int>* weekly_sell_count = nullptr,
+                   const std::vector<InnOrderEntry>* inn_orders = nullptr,
+                   const int* inn_visitors_today = nullptr,
+                   const int* inn_income_today = nullptr,
+                   const int* inn_reputation = nullptr,
+                   const int* coop_fed_today = nullptr,
+                   const int* livestock_eggs_today = nullptr,
+                   const int* livestock_milk_today = nullptr,
                    const int* spirit_realm_daily_max = nullptr,
                    const int* spirit_realm_daily_remaining = nullptr,
                    const bool* in_battle_mode = nullptr,
                    const int* battle_state = nullptr,
-                   const TutorialState* tutorial = nullptr);
+                   const bool* battle_available = nullptr,
+                   const std::vector<std::string>* battle_active_partners = nullptr,
+                   const std::string* equipped_weapon_id = nullptr,
+                   const TutorialState* tutorial = nullptr,
+                   const std::vector<DiaryEntryState>* diary_entries = nullptr,
+                   const std::unordered_map<std::string, bool>* recipe_unlocks = nullptr,
+                   const std::unordered_map<std::string, std::string>* skill_branches = nullptr,
+                   const std::vector<std::string>* pending_skill_branches = nullptr,
+                   const std::vector<PlacedObject>* placed_objects = nullptr,
+                   const int* purify_return_days = nullptr,
+                   const int* purify_return_spirits = nullptr,
+                   const int* fishing_attempts = nullptr,
+                   const std::string* last_fish_catch = nullptr);
+
+// ============================================================================
+// 【J18+ 存档预留：装饰实体摆放】
+// ============================================================================
+// 目前装饰系统仅持久化 `decor|<score>`（装饰评分）。
+// 为避免未来加入“家具摆放实体”时破坏存档格式，预留行格式如下（当前版本可写可不写，读档会忽略未知行）：
+//
+// - `decor_item|<item_id>|<x>|<y>|<rot>|<room>`
+//   - item_id: 家具/装饰物 id（如 furniture_table）
+//   - x,y: 世界坐标或房间内坐标（float 或 int，建议统一 float）
+//   - rot: 旋转/朝向（0/90/180/270 或枚举）
+//   - room: 区域标识（如 main_house / inn / yard）
 
 /**
  * @brief 从存档文件恢复当前运行时状态。
@@ -111,6 +146,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    CloudSeamanor::domain::CloudSystem& cloud_system,
                    CloudSeamanor::domain::Player& player,
                    CloudSeamanor::domain::StaminaSystem& stamina,
+                   CloudSeamanor::domain::HungerSystem& hunger,
                    RepairProject& main_house_repair,
                    TeaMachine& tea_machine,
                    SpiritBeast& spirit_beast,
@@ -132,6 +168,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    CloudSeamanor::domain::FestivalSystem* festivals = nullptr,
                    CloudSeamanor::domain::DynamicLifeSystem* dynamic_life = nullptr,
                    CloudSeamanor::domain::WorkshopSystem* workshop = nullptr,
+                   CloudSeamanor::domain::RelationshipState* relationship = nullptr,
                    NpcDialogueManager* dialogue_manager = nullptr,
                    int* decoration_score = nullptr,
                    std::string* pet_type = nullptr,
@@ -139,10 +176,29 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    std::unordered_map<std::string, bool>* achievements = nullptr,
                    std::unordered_map<std::string, int>* weekly_buy_count = nullptr,
                    std::unordered_map<std::string, int>* weekly_sell_count = nullptr,
+                   std::vector<InnOrderEntry>* inn_orders = nullptr,
+                   int* inn_visitors_today = nullptr,
+                   int* inn_income_today = nullptr,
+                   int* inn_reputation = nullptr,
+                   int* coop_fed_today = nullptr,
+                   int* livestock_eggs_today = nullptr,
+                   int* livestock_milk_today = nullptr,
                    int* spirit_realm_daily_max = nullptr,
                    int* spirit_realm_daily_remaining = nullptr,
                    bool* in_battle_mode = nullptr,
                    int* battle_state = nullptr,
-                   TutorialState* tutorial = nullptr);
+                   bool* battle_available = nullptr,
+                   std::vector<std::string>* battle_active_partners = nullptr,
+                   std::string* equipped_weapon_id = nullptr,
+                   TutorialState* tutorial = nullptr,
+                   std::vector<DiaryEntryState>* diary_entries = nullptr,
+                   std::unordered_map<std::string, bool>* recipe_unlocks = nullptr,
+                   std::unordered_map<std::string, std::string>* skill_branches = nullptr,
+                   std::vector<std::string>* pending_skill_branches = nullptr,
+                   std::vector<PlacedObject>* placed_objects = nullptr,
+                   int* purify_return_days = nullptr,
+                   int* purify_return_spirits = nullptr,
+                   int* fishing_attempts = nullptr,
+                   std::string* last_fish_catch = nullptr);
 
 } // namespace CloudSeamanor::engine

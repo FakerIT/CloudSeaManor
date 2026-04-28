@@ -46,8 +46,13 @@
 #include "CloudSeamanor/PixelUiConfig.hpp"
 #include "CloudSeamanor/UiLayoutConfig.hpp"
 
+namespace CloudSeamanor::infrastructure {
+class ResourceManager;
+}
+
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Mouse.hpp>
 
@@ -78,6 +83,17 @@ struct PanelState {
 class PixelGameHud {
 public:
     enum class UiEventType : std::uint8_t { Open, Close, Select, Hover, Error, Achievement };
+    struct InventoryActionCallbacks {
+        std::function<bool(const std::string&, const std::string&, int)> use_item;
+        std::function<bool(const std::string&, const std::string&, int)> sell_item;
+        std::function<bool(const std::string&, const std::string&, int)> gift_item;
+        std::function<bool(const std::string&, const std::string&, int)> drop_item;
+    };
+    struct PanelActionCallbacks {
+        std::function<void(int)> contract_cycle_tracking_volume;
+        std::function<void()> mail_collect_arrived;
+        std::function<void()> spirit_beast_toggle_dispatch;
+    };
     // ========================================================================
     // 【初始化】
     // ========================================================================
@@ -88,8 +104,11 @@ public:
      */
     void Initialize(const sf::Font& font);
     void Initialize(const sf::Font& font, const infrastructure::UiLayoutConfig* layout_config);
+    void SetResourceManager(infrastructure::ResourceManager* rm);
     void SetUiScale(float scale);
     void SetUiEventCallback(std::function<void(UiEventType)> cb) { on_ui_event_ = std::move(cb); }
+    void SetInventoryActionCallbacks(InventoryActionCallbacks callbacks) { inventory_action_callbacks_ = std::move(callbacks); }
+    void SetPanelActionCallbacks(PanelActionCallbacks callbacks) { panel_action_callbacks_ = std::move(callbacks); }
 
     /**
      * @brief 是否有有效字体
@@ -180,6 +199,7 @@ public:
      * @brief 更新体力条
      */
     void UpdateStaminaBar(float stamina_ratio, float current, float max_stamina);
+    void UpdateHungerBar(float hunger_ratio, float current, float max_hunger);
 
     /**
      * @brief 更新金币
@@ -229,6 +249,20 @@ public:
     void UpdateBeastiaryPanel(const BeastiaryPanelViewData& data);
     void UpdateWorkshopPanel(const WorkshopPanelViewData& data);
     void PushNotification(const std::string& message);
+    void UpdateSkillBranchOverlay(bool visible,
+                                  const std::string& skill_name,
+                                  const std::string& option_a,
+                                  const std::string& option_b);
+    void UpdateFishingQteOverlay(bool visible,
+                                 float progress,
+                                 float target_center,
+                                 float target_width,
+                                 const std::string& title);
+    void UpdateDiyPlacementOverlay(bool visible,
+                                   const std::string& object_name,
+                                   int tile_x,
+                                   int tile_y,
+                                   int rotation);
     void UpdateDailyRecommendations(const std::vector<std::string>& items);
     void ConfigureNotificationTimings(float fade_in_seconds,
                                       float hold_seconds,
@@ -263,6 +297,11 @@ public:
     bool HandleMouseClick(float mx, float my, sf::Mouse::Button button = sf::Mouse::Button::Left);
 
     /**
+     * @brief 处理鼠标松开（用于标题栏拖动等）
+     */
+    void HandleMouseRelease(float mx, float my, sf::Mouse::Button button = sf::Mouse::Button::Left);
+
+    /**
      * @brief 处理鼠标滚轮（用于滚动列表等）
      * @return true 如果滚轮作用在 UI 上
      */
@@ -280,16 +319,26 @@ public:
     // ========================================================================
     // 【组件访问器】
     // ========================================================================
-    [[nodiscard]] PixelToolbar& GetToolbar() { return toolbar_; }
-    [[nodiscard]] PixelDialogueBox& GetDialogueBox() { return dialogue_box_; }
-    [[nodiscard]] PixelInventoryGrid& GetInventory() { return inventory_grid_; }
-    [[nodiscard]] PixelQuestMenu& GetQuestMenu() { return quest_menu_; }
-    [[nodiscard]] PixelMinimap& GetMinimap() { return minimap_; }
-    [[nodiscard]] PixelProgressBar& GetStaminaBar() { return stamina_bar_; }
-    [[nodiscard]] PixelSettingsPanel& GetSettingsPanel() { return settings_panel_; }
-    [[nodiscard]] PixelCloudSeaForecastPanel& GetCloudForecastPanel() { return cloud_forecast_panel_; }
-    [[nodiscard]] PixelPlayerStatusPanel& GetPlayerStatusPanel() { return player_status_panel_; }
-    [[nodiscard]] PixelFontRenderer* GetFontRenderer() { return font_renderer_.get(); }
+    [[nodiscard]] const PixelToolbar& GetToolbar() const { return toolbar_; }
+    [[nodiscard]] PixelToolbar& MutableToolbar() { return toolbar_; }
+    [[nodiscard]] const PixelDialogueBox& GetDialogueBox() const { return dialogue_box_; }
+    [[nodiscard]] PixelDialogueBox& MutableDialogueBox() { return dialogue_box_; }
+    [[nodiscard]] const PixelInventoryGrid& GetInventory() const { return inventory_grid_; }
+    [[nodiscard]] PixelInventoryGrid& MutableInventory() { return inventory_grid_; }
+    [[nodiscard]] const PixelQuestMenu& GetQuestMenu() const { return quest_menu_; }
+    [[nodiscard]] PixelQuestMenu& MutableQuestMenu() { return quest_menu_; }
+    [[nodiscard]] const PixelMinimap& GetMinimap() const { return minimap_; }
+    [[nodiscard]] PixelMinimap& MutableMinimap() { return minimap_; }
+    [[nodiscard]] const PixelProgressBar& GetStaminaBar() const { return stamina_bar_; }
+    [[nodiscard]] PixelProgressBar& MutableStaminaBar() { return stamina_bar_; }
+    [[nodiscard]] const PixelSettingsPanel& GetSettingsPanel() const { return settings_panel_; }
+    [[nodiscard]] PixelSettingsPanel& MutableSettingsPanel() { return settings_panel_; }
+    [[nodiscard]] const PixelCloudSeaForecastPanel& GetCloudForecastPanel() const { return cloud_forecast_panel_; }
+    [[nodiscard]] PixelCloudSeaForecastPanel& MutableCloudForecastPanel() { return cloud_forecast_panel_; }
+    [[nodiscard]] const PixelPlayerStatusPanel& GetPlayerStatusPanel() const { return player_status_panel_; }
+    [[nodiscard]] PixelPlayerStatusPanel& MutablePlayerStatusPanel() { return player_status_panel_; }
+    [[nodiscard]] const PixelFontRenderer* GetFontRenderer() const { return font_renderer_.get(); }
+    [[nodiscard]] PixelFontRenderer* MutableFontRenderer() { return font_renderer_.get(); }
 
 private:
     struct Focusable {
@@ -304,9 +353,21 @@ private:
     void RenderBottomRightStatus_(sf::RenderWindow& window);
     void RenderDailyRecommendations_(sf::RenderWindow& window);
     void RenderTutorialOverlay_(sf::RenderWindow& window);
+    void RenderSkillBranchOverlay_(sf::RenderWindow& window);
+    void RenderFishingQteOverlay_(sf::RenderWindow& window);
+    void RenderDiyPlacementOverlay_(sf::RenderWindow& window);
+    void ApplySeasonTheme_(const std::string& season_text);
+    bool LoadUiAtlas_();
+    void DrawUiFrame_(sf::RenderWindow& window,
+                      const sf::IntRect& rect,
+                      const sf::Vector2f& position,
+                      const sf::Vector2f& size) const;
 
     // 字体
     std::unique_ptr<PixelFontRenderer> font_renderer_;
+    infrastructure::ResourceManager* resource_manager_ = nullptr;
+    std::string atlas_texture_id_;
+    bool ui_atlas_loaded_ = false;
 
     // 组件
     PixelToolbar toolbar_;
@@ -315,6 +376,7 @@ private:
     PixelQuestMenu quest_menu_;
     PixelMinimap minimap_;
     PixelProgressBar stamina_bar_;
+    PixelProgressBar hunger_bar_;
     PixelSettingsPanel settings_panel_;
     PixelCloudSeaForecastPanel cloud_forecast_panel_;
     PixelPlayerStatusPanel player_status_panel_;
@@ -334,6 +396,8 @@ private:
     PixelTooltip tooltip_;
     PixelContextMenu context_menu_;
     PixelTutorialBubble tutorial_bubble_;
+    InventoryActionCallbacks inventory_action_callbacks_{};
+    PanelActionCallbacks panel_action_callbacks_{};
 
     // 状态
     PanelState panel_state_;
@@ -367,6 +431,7 @@ private:
     mutable bool top_right_geometry_dirty_ = true;
     mutable bool coin_geometry_dirty_ = true;
     float stamina_ratio_ = 1.0f;
+    float hunger_ratio_ = 1.0f;
     bool low_stamina_active_ = false;
     bool critical_stamina_active_ = false;
     float ui_scale_ = 1.0f;
@@ -375,6 +440,45 @@ private:
     int focus_index_ = -1;
     float focus_breath_timer_ = 0.0f;
     float last_window_width_ = ScreenConfig::Width;
+
+    struct SkillBranchOverlayState {
+        bool visible = false;
+        std::string skill_name;
+        std::string option_a;
+        std::string option_b;
+        bool choose_a = true;
+        std::optional<bool> submitted_choice;
+    } skill_branch_overlay_;
+
+    struct FishingQteOverlayState {
+        bool visible = false;
+        float progress = 0.0f;
+        float target_center = 0.5f;
+        float target_width = 0.2f;
+        std::string title;
+        bool confirm_requested = false;
+    } fishing_qte_overlay_;
+
+    struct DiyPlacementOverlayState {
+        bool visible = false;
+        std::string object_name;
+        int tile_x = 0;
+        int tile_y = 0;
+        int rotation = 0;
+        int move_x = 0;
+        int move_y = 0;
+        bool rotate_requested = false;
+        bool confirm_requested = false;
+        bool pickup_requested = false;
+    } diy_overlay_;
+
+public:
+    [[nodiscard]] std::optional<bool> ConsumeSkillBranchChoice();
+    [[nodiscard]] bool ConsumeFishingQteConfirm();
+    [[nodiscard]] sf::Vector2i ConsumeDiyMoveDelta();
+    [[nodiscard]] bool ConsumeDiyRotate();
+    [[nodiscard]] bool ConsumeDiyConfirm();
+    [[nodiscard]] bool ConsumeDiyPickup();
 
     infrastructure::UiLayoutData layout_data_ = infrastructure::UiLayoutConfig::GetDefaults();
 };

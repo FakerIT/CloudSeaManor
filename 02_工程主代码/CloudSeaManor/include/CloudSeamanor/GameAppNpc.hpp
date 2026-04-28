@@ -5,6 +5,7 @@
 #include <SFML/System/Vector2.hpp>
 
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace CloudSeamanor::engine {
@@ -105,6 +106,21 @@ std::string ActivityDisplayName(const NpcTextMappings& npc_text_mappings, const 
  */
 bool ContainsItem(const std::vector<std::string>& items, const std::string& item);
 
+struct NpcDataRow {
+    std::string id;
+    std::string display_name;
+    std::string home_location;
+    std::string work_location;
+    std::string schedule_profile_id;
+    std::string gift_profile_id;
+    std::string life_stage_profile_id;
+    float position_x = 0.0f;
+    float position_y = 0.0f;
+};
+
+bool LoadNpcDataTable(const std::string& path,
+                      std::unordered_map<std::string, NpcDataRow>& out_rows);
+
 /**
  * @brief 从 CSV 与 JSON 原型数据构建 NPC 列表。
  *
@@ -115,6 +131,7 @@ bool ContainsItem(const std::vector<std::string>& items, const std::string& item
  */
 void BuildNpcs(const std::string& schedule_path,
                const std::string& gift_path,
+               const std::string& npc_data_path,
                const NpcTextMappings& npc_text_mappings,
                std::vector<NpcActor>& npcs);
 

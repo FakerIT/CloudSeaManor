@@ -1,4 +1,5 @@
 #include "CloudSeamanor/engine/systems/PetSystem.hpp"
+#include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <cmath>
 #include <string>
@@ -10,10 +11,10 @@ void PetSystem::Update(GameWorldState& world_state, float delta_seconds) const {
         return;
     }
 
-    auto& beast = world_state.GetSpiritBeast();
+    auto& beast = world_state.MutableSpiritBeast();
     const auto player_pos_d = world_state.GetPlayer().GetPosition();
     const sf::Vector2f player_pos(player_pos_d.x, player_pos_d.y);
-    sf::Vector2f pet_pos = beast.shape.getPosition();
+    sf::Vector2f pet_pos = CloudSeamanor::adapter::ToSf(beast.position);
 
     sf::Vector2f offset(32.0f, 18.0f);
     float speed = 70.0f;
@@ -35,7 +36,7 @@ void PetSystem::Update(GameWorldState& world_state, float delta_seconds) const {
     const float dist = std::sqrt(delta.x * delta.x + delta.y * delta.y);
     if (dist > 2.0f) {
         pet_pos += (delta / dist) * (speed * delta_seconds);
-        beast.shape.setPosition(pet_pos);
+        beast.position = CloudSeamanor::adapter::ToDomain(pet_pos);
     }
 }
 

@@ -13,7 +13,7 @@
 // - Boundary clamping (cannot go below 0 or above max)
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 #include "CloudSeamanor/Stamina.hpp"
 
 using CloudSeamanor::domain::StaminaSystem;

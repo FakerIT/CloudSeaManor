@@ -1,4 +1,4 @@
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 
 #include "CloudSeamanor/GameWorldState.hpp"
 #include "CloudSeamanor/engine/systems/CropGrowthSystem.hpp"

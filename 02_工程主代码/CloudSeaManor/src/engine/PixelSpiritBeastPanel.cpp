@@ -20,10 +20,17 @@ void PixelSpiritBeastPanel::RenderContent(sf::RenderWindow& window, const sf::Fl
                               data_.beast_name + "  | " + data_.state_text + " | 羁绊: " + std::to_string(data_.favor),
                               {x, y + row_h * 2.1f},
                               TextStyle::Default());
+    if (data_.dispatched && data_.dispatch_remaining_seconds > 0) {
+        m_font_renderer->DrawText(
+            window,
+            "派遣剩余: " + std::to_string(data_.dispatch_remaining_seconds) + "s（完成后将投递到邮件）",
+            {x, y + row_h * 2.95f},
+            TextStyle::HotkeyHint());
+    }
     m_font_renderer->DrawText(window,
                               "特质: " + data_.trait + "  | 派遣: " +
                                   (data_.dispatched ? data_.dispatch_in_progress_text : data_.dispatch_idle_text),
-                              {x, y + row_h * 3.1f},
+                              {x, y + row_h * 3.75f},
                               TextStyle::Default());
     m_font_renderer->DrawText(window, data_.influence_hint_text, {x, y + row_h * 4.1f}, TextStyle::Default());
 

@@ -1,14 +1,18 @@
-#include "CloudSeamanor/AllDefine.hpp"
-
 #include "CloudSeamanor/GameApp.hpp"
 
 #include "CloudSeamanor/GameWorldState.hpp"
 #include "CloudSeamanor/GameAppText.hpp"
 #include "CloudSeamanor/Logger.hpp"
 #include "CloudSeamanor/RecipeData.hpp"
+#include "CloudSeamanor/SaveSlotManager.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
+#include "CloudSeamanor/UiAtlasMappings.hpp"
 #include "CloudSeamanor/UiLayoutConfig.hpp"
 #include "CloudSeamanor/PixelQuestMenu.hpp"
+#include "CloudSeamanor/engine/presentation/HudPresenter.hpp"
+#include "CloudSeamanor/engine/presentation/HudPanelPresenters.hpp"
+#include "CloudSeamanor/engine/presentation/HudSideEffects.hpp"
+#include "CloudSeamanor/TextRenderUtils.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -19,10 +23,43 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
+#include <cmath>
 #include <filesystem>
+#include <fstream>
+#include <initializer_list>
 #include <string_view>
 
+// RE-206 过渡层：UI 状态已打包到 ui_state_。
+// 保留旧成员名映射，降低本次重构改动面，后续可继续清理。
+#define runtime_ready_ ui_state_.runtime_ready
+#define pending_exit_ ui_state_.pending_exit
+#define spirit_name_input_ ui_state_.spirit_name_input
+#define pending_save_overwrite_slot_ ui_state_.pending_save_overwrite_slot
+#define pending_save_overwrite_seconds_ ui_state_.pending_save_overwrite_seconds
+#define main_menu_ ui_state_.main_menu
+
+#define show_main_menu_ main_menu_.visible
+#define main_menu_index_ main_menu_.index
+#define main_menu_has_save_ main_menu_.has_save
+#define pending_main_menu_action_ main_menu_.pending_action
+#define main_menu_transition_out_ main_menu_.transition_out
+#define main_menu_fade_alpha_ main_menu_.fade_alpha
+#define main_menu_anim_time_ main_menu_.anim_time
+#define main_menu_hover_lerp_ main_menu_.hover_lerp
+#define main_menu_panel_ main_menu_.panel
+#define main_menu_background_sprite_ main_menu_.background_sprite
+#define main_menu_background_loaded_ main_menu_.background_loaded
+#define main_menu_corner_blocks_ main_menu_.corner_blocks
+#define main_menu_button_rects_ main_menu_.button_rects
+#define main_menu_title_ main_menu_.title
+#define main_menu_items_ main_menu_.items
+#define main_menu_save_preview_text_ main_menu_.save_preview_text
+#define main_menu_status_text_ main_menu_.status_text
+
 namespace CloudSeamanor::engine {
+
+using CloudSeamanor::infrastructure::Logger;
 
 namespace {
 
@@ -30,16 +67,62 @@ bool IsAutoFontSpec(const std::string& value) {
     return value.empty() || value == "default" || value == "auto";
 }
 
+std::string PathToUtf8String(const std::filesystem::path& path) {
+    const auto u8 = path.u8string();
+    return std::string(u8.begin(), u8.end());
+}
+
+std::string BuildMainMenuRecentSavePreview_() {
+    const CloudSeamanor::infrastructure::SaveSlotManager slot_manager;
+    const auto slots = slot_manager.ReadAllMetadata();
+    const auto it = std::max_element(
+        slots.begin(),
+        slots.end(),
+        [](const auto& lhs, const auto& rhs) {
+            if (lhs.exists != rhs.exists) {
+                return !lhs.exists && rhs.exists;
+            }
+            if (lhs.day != rhs.day) {
+                return lhs.day < rhs.day;
+            }
+            return lhs.slot_index > rhs.slot_index;
+        });
+    if (it == slots.end() || !it->exists) {
+        return "最近存档：无";
+    }
+
+    const std::string season = it->season_text.empty() ? "未知季节" : it->season_text;
+    const std::string when = it->saved_at_text.empty() ? "未知时间" : it->saved_at_text;
+    return "最近存档：槽位" + std::to_string(it->slot_index)
+        + " 第" + std::to_string(it->day) + "天 " + season + " " + when;
+}
+
+std::vector<MapMarker> BuildRuntimeMapMarkers_(const GameRuntime& runtime) {
+    std::vector<MapMarker> markers;
+    const auto& ws = runtime.WorldState();
+    for (const auto& npc : ws.GetNpcs()) {
+        if (npc.heart_level < 4) {
+            continue;
+        }
+        MapMarker marker;
+        marker.name = npc.display_name + "@" + (npc.current_location.empty() ? "云海山庄" : npc.current_location);
+        marker.world_position = {npc.position.x, npc.position.y};
+        marker.color = sf::Color(180, 220, 255);
+        marker.is_npc = true;
+        markers.push_back(std::move(marker));
+    }
+    return markers;
+}
+
 sf::View ComputeIntegerScaleView(unsigned int window_w, unsigned int window_h) {
     const float base_w = static_cast<float>(ScreenConfig::Width);
     const float base_h = static_cast<float>(ScreenConfig::Height);
     const float sx = static_cast<float>(window_w) / base_w;
     const float sy = static_cast<float>(window_h) / base_h;
-    const float raw = std::min(sx, sy);
-    const float int_scale = std::max(1.0f, std::floor(raw));
+    const float uniform_scale = std::max(0.0001f, std::min(sx, sy));
 
-    const float vp_w = (base_w * int_scale) / static_cast<float>(window_w);
-    const float vp_h = (base_h * int_scale) / static_cast<float>(window_h);
+    const float vp_w = (base_w * uniform_scale) / static_cast<float>(window_w);
+    const float vp_h = (base_h * uniform_scale) / static_cast<float>(window_h);
     const float vp_x = (1.0f - vp_w) * 0.5f;
     const float vp_y = (1.0f - vp_h) * 0.5f;
 
@@ -56,32 +139,139 @@ float ComputeIntegerScale(unsigned int window_w, unsigned int window_h) {
     return std::max(1.0f, std::floor(std::min(sx, sy)));
 }
 
-std::string PetDisplayName_(std::string_view pet_type) {
-    if (pet_type == "cat") return "猫灵";
-    if (pet_type == "dog") return "犬灵";
-    if (pet_type == "bird") return "羽灵";
-    return pet_type.empty() ? "未知灵兽" : std::string(pet_type);
+bool LoadBooleanFromJsonLikeFile(const std::string& path, const std::string& key, bool fallback) {
+    std::ifstream in(path);
+    if (!in.is_open()) return fallback;
+    std::string line;
+    while (std::getline(in, line)) {
+        if (line.find(key) == std::string::npos) continue;
+        if (line.find("true") != std::string::npos) return true;
+        if (line.find("false") != std::string::npos) return false;
+    }
+    return fallback;
 }
 
-std::string AchievementDisplayName_(std::string_view id) {
-    if (id == "first_crop") return "初次收获";
-    if (id == "ten_crops") return "小有规模";
-    if (id == "gift_expert") return "送礼达人";
-    if (id == "master_builder") return "大宅建成";
-    if (id == "beast_bond") return "初次结缘";
-    if (id == "beast_bond_max") return "灵兽羁绊满级";
-    if (id == "beast_all_types") return "全类型灵兽结缘";
-    if (id == "home_designer") return "家园设计师";
-    if (id == "small_tycoon") return "小富豪";
-    if (id == "first_pet") return "初次收养";
-    if (id == "pet_all_types") return "全类型宠物收集";
-    if (id == "pet_collected_cat") return "收集宠物: 猫灵";
-    if (id == "pet_collected_dog") return "收集宠物: 犬灵";
-    if (id == "pet_collected_bird") return "收集宠物: 羽灵";
-    if (id == "beast_type_lively") return "灵兽性格: 活泼";
-    if (id == "beast_type_lazy") return "灵兽性格: 慵懒";
-    if (id == "beast_type_curious") return "灵兽性格: 好奇";
-    return id.empty() ? "未知成就" : std::string(id);
+void PreloadCoreUiSfx_(CloudSeamanor::engine::audio::AudioManager& audio) {
+    const std::array<std::pair<const char*, const char*>, 7> kCoreSfx = {{
+        {"ui_open", "assets/audio/sfx/ui_open.wav"},
+        {"ui_close", "assets/audio/sfx/ui_close.wav"},
+        {"ui_select", "assets/audio/sfx/ui_select.wav"},
+        {"ui_hover", "assets/audio/sfx/ui_hover.wav"},
+        {"ui_error", "assets/audio/sfx/ui_error.wav"},
+        {"ui_click", "assets/audio/sfx/ui_click.wav"},
+        {"achievement_unlock", "assets/audio/sfx/achievement_unlock.wav"},
+    }};
+    int loaded = 0;
+    for (const auto& [id, path] : kCoreSfx) {
+        if (audio.PreloadSFX(id, path)) {
+            ++loaded;
+        }
+    }
+    CloudSeamanor::infrastructure::Logger::Info(
+        "GameApp: 核心 UI 音效预加载完成 loaded=" + std::to_string(loaded)
+        + "/" + std::to_string(kCoreSfx.size()));
+}
+
+void RunStartupResourceChecklist_() {
+    namespace fs = std::filesystem;
+
+    struct ResourceCheckItem {
+        std::string label;
+        std::string path;
+        std::string degrade_strategy;
+    };
+
+    const std::initializer_list<ResourceCheckItem> checklist = {
+        {"Core directory", "assets", "缺失将导致大部分资源不可用，仅保留日志输出"},
+        {"Sprites directory", "assets/sprites", "缺失将禁用图集驱动精灵，改用占位渲染"},
+        {"Textures directory", "assets/textures", "缺失将触发图集纹理占位回退"},
+        {"Fonts directory", "assets/fonts", "缺失将尝试系统字体自动选择；失败则关闭文本 UI"},
+        {"Audio directory", "assets/audio", "缺失将关闭 BGM/SFX 播放，仅保留静默运行"},
+        {"Data directory", "assets/data", "缺失将使用内置默认值并跳过外部数据扩展"},
+        {"Maps directory", "assets/maps", "缺失将回退为最小可运行场景"},
+        {"NPC text data", "assets/data/NPC_Texts.json", "缺失将使用默认 NPC 文本占位"},
+        {"Delivery table", "assets/data/NpcDeliveryTable.csv", "缺失将禁用 NPC 委托刷新"},
+        {"Farm map", "assets/maps/prototype_farm.tmx", "缺失将回退到内置空地图"},
+    };
+
+    int missing_count = 0;
+    for (const auto& item : checklist) {
+        if (!fs::exists(item.path)) {
+            ++missing_count;
+            Logger::Warning(
+                "StartupResourceChecklist: missing=" + item.label + ", path=" + item.path
+                + ", degrade=" + item.degrade_strategy);
+        } else {
+            Logger::Info("StartupResourceChecklist: ok=" + item.label + ", path=" + item.path);
+        }
+    }
+
+    if (missing_count == 0) {
+        Logger::Info("StartupResourceChecklist: all required startup assets are available.");
+        return;
+    }
+    Logger::Warning("StartupResourceChecklist: missing_count=" + std::to_string(missing_count)
+                    + ". Game will continue with degradation mode.");
+}
+
+void VerifyAudioIdFileMapping_() {
+    namespace fs = std::filesystem;
+    const std::initializer_list<std::pair<const char*, const char*>> required_audio = {
+        {"scene:farm", "assets/audio/bgm/farmhouse_theme.wav"},
+        {"scene:shop", "assets/audio/bgm/shop_theme.wav"},
+        {"scene:spirit_realm_layer1", "assets/audio/bgm/spirit_realm_calm.wav"},
+        {"scene:spirit_realm_layer2", "assets/audio/bgm/spirit_realm_tension.wav"},
+        {"scene:spirit_realm_layer3", "assets/audio/bgm/spirit_realm_epic.wav"},
+        {"scene:festival", "assets/audio/bgm/festival_theme.wav"},
+        {"scene:tide", "assets/audio/bgm/tide_theme.wav"},
+        {"season:spring", "assets/audio/bgm/spring_theme.wav"},
+        {"season:summer", "assets/audio/bgm/summer_theme.wav"},
+        {"season:autumn", "assets/audio/bgm/autumn_theme.wav"},
+        {"season:winter", "assets/audio/bgm/winter_theme.wav"},
+        {"sfx:ui_open", "assets/audio/sfx/ui_open.wav"},
+        {"sfx:ui_close", "assets/audio/sfx/ui_close.wav"},
+        {"sfx:ui_select", "assets/audio/sfx/ui_select.wav"},
+        {"sfx:ui_hover", "assets/audio/sfx/ui_hover.wav"},
+        {"sfx:ui_error", "assets/audio/sfx/ui_error.wav"},
+        {"sfx:ui_click", "assets/audio/sfx/ui_click.wav"},
+        {"sfx:achievement_unlock", "assets/audio/sfx/achievement_unlock.wav"},
+    };
+
+    int missing = 0;
+    for (const auto& [id, path] : required_audio) {
+        if (!fs::exists(path)) {
+            ++missing;
+            Logger::Warning("AudioRouteCheck: missing id=" + std::string(id) + ", path=" + std::string(path));
+        }
+    }
+    if (missing == 0) {
+        Logger::Info("AudioRouteCheck: scene_bgm and AudioManager core ids are fully mapped.");
+    } else {
+        Logger::Warning("AudioRouteCheck: missing_count=" + std::to_string(missing));
+    }
+}
+
+void VerifyUiAtlasTextureMapping_() {
+    namespace fs = std::filesystem;
+    const std::initializer_list<std::pair<const char*, const char*>> required_ui = {
+        {"atlas:ui_main", "assets/textures/third_party/kenney_tiny-dungeon/PNG/tilemap.png"},
+        {"atlas:ui_borders", "assets/textures/third_party/kenney_tiny-dungeon/PNG/tilemap.png"},
+        {"atlas:ui_icons", "assets/textures/third_party/kenney_input-prompts-pixel/PNG/tilemap.png"},
+        {"fallback:atlas_texture", "assets/textures/third_party/kenney_tiny-town/Tilemap/tilemap_packed.png"},
+    };
+
+    int missing = 0;
+    for (const auto& [id, path] : required_ui) {
+        if (!fs::exists(path)) {
+            ++missing;
+            Logger::Warning("UiAtlasCheck: missing id=" + std::string(id) + ", path=" + std::string(path));
+        }
+    }
+    if (missing == 0) {
+        Logger::Info("UiAtlasCheck: core atlas textures are ready.");
+    } else {
+        Logger::Warning("UiAtlasCheck: missing_count=" + std::to_string(missing));
+    }
 }
 
 }  // namespace
@@ -89,31 +279,92 @@ std::string AchievementDisplayName_(std::string_view id) {
 GameApp::~GameApp() = default;
 
 int GameApp::Run() {
+    // ============================================================================
+    // 【设置工作目录】确保资源文件可以正确加载
+    // ============================================================================
+    namespace fs = std::filesystem;
+
+    // 记录启动时的工作目录
+    const fs::path initial_cwd = fs::current_path();
+    Logger::Info("GameApp: 初始工作目录: " + PathToUtf8String(initial_cwd));
+
+    // 只使用当前路径及其父路径探测，避免硬编码含中文目录导致编码异常。
+    fs::path valid_root;
+    fs::path probe = initial_cwd;
+    for (int i = 0; i < 8; ++i) {
+        if (fs::exists(probe / "assets") && fs::exists(probe / "configs")) {
+            valid_root = probe;
+            break;
+        }
+        if (!probe.has_parent_path()) {
+            break;
+        }
+        probe = probe.parent_path();
+    }
+
+    // 如果找到有效的项目根目录，切换到该目录
+    if (!valid_root.empty() && valid_root != initial_cwd) {
+        std::error_code ec;
+        fs::current_path(valid_root, ec);
+        if (ec) {
+            Logger::Warning("GameApp: 无法切换工作目录到: " + PathToUtf8String(valid_root));
+        } else {
+            Logger::Info("GameApp: 工作目录已切换到: " + PathToUtf8String(valid_root));
+        }
+    }
+
+    // 验证关键资源路径是否存在
+    const bool assets_exist = fs::exists("assets");
+    const bool configs_exist = fs::exists("configs");
+    const bool fonts_exist = fs::exists("assets/fonts");
+    if (!assets_exist) {
+        Logger::Warning("GameApp: 'assets' 目录不存在！当前目录: " + PathToUtf8String(fs::current_path()));
+    }
+    if (!configs_exist) {
+        Logger::Warning("GameApp: 'configs' 目录不存在！当前目录: " + PathToUtf8String(fs::current_path()));
+    }
+    if (!fonts_exist) {
+        Logger::Warning("GameApp: 'assets/fonts' 目录不存在！");
+    }
+    RunStartupResourceChecklist_();
+    VerifyAudioIdFileMapping_();
+    VerifyUiAtlasTextureMapping_();
+
     sf::ContextSettings settings;
     settings.antiAliasingLevel = 0;
 
     sf::RenderWindow window(
         sf::VideoMode({1280u, 720u}),
-        "云海山庄 / Cloud Sea Manor",
+        "Cloud Sea Manor",
         sf::Style::Titlebar | sf::Style::Close,
         sf::State::Windowed,
         settings);
     window.setVerticalSyncEnabled(true);
     window.setView(ComputeIntegerScaleView(window.getSize().x, window.getSize().y));
-    window_ptr_ = &window;
 
     resources_ = std::make_unique<CloudSeamanor::infrastructure::ResourceManager>();
     resources_->PreloadBundle("core");
+    CloudSeamanor::rendering::TextFactory::SetResourceManager(resources_.get());
 
-    (void)ui_layout_config_.LoadFromFile("configs/ui_layout.json");
+    if (!ui_layout_config_.LoadFromFile("configs/ui_layout.json")) {
+        Logger::LogConfigLoadFailure("GameApp: configs/ui_layout.json, using defaults.");
+    }
 
     audio_ = std::make_unique<CloudSeamanor::engine::audio::AudioManager>();
     audio_->Initialize();
-    (void)audio_->LoadConfig("configs/audio.json");
+    if (!audio_->LoadConfig("configs/audio.json")) {
+        Logger::LogConfigLoadFailure("GameApp: configs/audio.json, using built-in audio defaults.");
+    }
+    audio_->SetResourceManager(resources_.get());
+    PreloadCoreUiSfx_(*audio_);
 
     ui_system_ = std::make_unique<UISystem>();
     hud_renderer_ = std::make_unique<HudRenderer>(*ui_system_);
     pixel_hud_ = std::make_unique<PixelGameHud>();
+    pixel_hud_->SetResourceManager(resources_.get());
+
+    // 加载节日装饰配置（数据驱动）
+    world_renderer_.LoadFestivalDecorations("assets/data/FestivalDecorations.json");
 
     const auto& layout_data = ui_layout_config_.IsLoaded()
         ? ui_layout_config_.Data()
@@ -134,7 +385,7 @@ int GameApp::Run() {
     if (font_loaded) {
         runtime_.WorldState().InitializeTexts(resources_->GetFont(font_id));
         pixel_hud_->Initialize(resources_->GetFont(font_id), &ui_layout_config_);
-        pixel_hud_->SetUiScale(ComputeIntegerScale(window.getSize().x, window.getSize().y));
+        pixel_hud_->SetUiScale(1.0f);
         pixel_hud_->SetUiEventCallback([this](PixelGameHud::UiEventType event_type) {
             if (!audio_) return;
             switch (event_type) {
@@ -146,8 +397,13 @@ int GameApp::Run() {
             case PixelGameHud::UiEventType::Achievement: (void)audio_->PlaySFX("achievement_unlock"); break;
             }
         });
+        pixel_hud_->SetPanelActionCallbacks(PixelGameHud::PanelActionCallbacks{
+            .contract_cycle_tracking_volume = [this](int delta) { runtime_.CycleTrackingContractVolume(delta); },
+            .mail_collect_arrived = [this]() { runtime_.CollectArrivedMail(); },
+            .spirit_beast_toggle_dispatch = [this]() { runtime_.ToggleSpiritBeastDispatch(); },
+        });
     }
-    InitializeMainMenu_(font_loaded ? &resources_->GetFont(font_id) : nullptr);
+    InitializeMainMenu_(font_loaded ? &resources_->GetFont(font_id) : nullptr, window.getSize());
 
     GameRuntimeCallbacks cbs;
     cbs.push_hint = [this](const std::string& msg, float dur) {
@@ -183,39 +439,31 @@ int GameApp::Run() {
     cbs.refresh_window_title = [this]() { runtime_.RefreshWindowTitle(); };
 
     runtime_.SetWindow(&window);
-    RunWithLoading_("正在加载地图与系统", [this, &cbs]() {
-        runtime_.Initialize(
-            "configs/gameplay.cfg",
-            "assets/data/Schedule_Data.csv",
-            "assets/data/Gift_Preference.json",
-            "assets/data/NPC_Texts.json",
-            "assets/maps/prototype_farm.tmx",
-            cbs);
-    });
-    SetupInputCallbacks_();
-    if (pixel_hud_) {
-        const auto& cfg = runtime_.Config();
-        PixelSettingsPanel::TextConfig settings_text;
-        settings_text.slots_title = cfg.GetString("settings_slots_title", settings_text.slots_title);
-        settings_text.save_slot_prefix = cfg.GetString("settings_save_slot_prefix", settings_text.save_slot_prefix);
-        settings_text.load_slot_prefix = cfg.GetString("settings_load_slot_prefix", settings_text.load_slot_prefix);
-        settings_text.bgm_prefix = cfg.GetString("settings_bgm_prefix", settings_text.bgm_prefix);
-        settings_text.sfx_prefix = cfg.GetString("settings_sfx_prefix", settings_text.sfx_prefix);
-        settings_text.display_mode_prefix = cfg.GetString("settings_display_mode_prefix", settings_text.display_mode_prefix);
-        settings_text.fullscreen_text = cfg.GetString("settings_fullscreen_text", settings_text.fullscreen_text);
-        settings_text.windowed_text = cfg.GetString("settings_windowed_text", settings_text.windowed_text);
-        settings_text.operation_hint = cfg.GetString("settings_operation_hint", settings_text.operation_hint);
-        settings_text.slot_prefix = cfg.GetString("settings_slot_prefix", settings_text.slot_prefix);
-        settings_text.empty_slot_text = cfg.GetString("settings_empty_slot_text", settings_text.empty_slot_text);
-        settings_text.has_save_text = cfg.GetString("settings_has_save_text", settings_text.has_save_text);
-        settings_text.day_prefix = cfg.GetString("settings_day_prefix", settings_text.day_prefix);
-        settings_text.no_preview_text = cfg.GetString("settings_no_preview_text", settings_text.no_preview_text);
-        pixel_hud_->GetSettingsPanel().SetTextConfig(settings_text);
-        pixel_hud_->ConfigureNotificationTimings(
-            cfg.GetFloat("ui_notification_fade_in", 0.3f),
-            cfg.GetFloat("ui_notification_hold", 3.0f),
-            cfg.GetFloat("ui_notification_fade_out", 0.3f),
-            cfg.GetFloat("ui_cloud_report_duration", 4.0f));
+    runtime_.SetResourceManager(resources_.get());
+    runtime_ready_ = false;
+    try {
+        RunWithLoading_(window, "正在加载地图与系统", [this, &cbs]() {
+            runtime_.Initialize(
+                "configs/gameplay.cfg",
+                "assets/data/Schedule_Data.csv",
+                "assets/data/Gift_Preference.json",
+                "assets/data/NPC_Texts.json",
+                "assets/maps/prototype_farm.tmx",
+                cbs);
+        });
+        SetupInputCallbacks_();
+        runtime_ready_ = true;
+    } catch (const std::exception& ex) {
+        Logger::Error(std::string("Game runtime init failed, keep menu mode: ") + ex.what());
+        show_main_menu_ = true;
+    }
+    if (runtime_ready_ && pixel_hud_) {
+        const bool fullscreen = LoadBooleanFromJsonLikeFile("configs/audio.json", "fullscreen", false);
+        HudPanelPresenters::ApplyRuntimeConfiguration(
+            *pixel_hud_,
+            runtime_,
+            audio_.get(),
+            fullscreen);
     }
 
     sf::Clock frame_clock;
@@ -223,6 +471,10 @@ int GameApp::Run() {
         ProcessEvents(window);
         const float dt = frame_clock.restart().asSeconds();
         Update(dt);
+        if (pending_exit_) {
+            window.close();
+            continue;
+        }
         Render(window);
     }
 
@@ -253,40 +505,75 @@ void GameApp::ProcessEvents(sf::RenderWindow& window) {
             if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
                 HandleMainMenuInput_(*key);
             }
+            if (const auto* joy = event.getIf<sf::Event::JoystickMoved>()) {
+                if (joy->axis == sf::Joystick::Axis::PovY) {
+                    if (joy->position > 60.0f) {
+                        main_menu_index_ = (main_menu_index_ + kMainMenuItemCount - 1) % kMainMenuItemCount;
+                    } else if (joy->position < -60.0f) {
+                        main_menu_index_ = (main_menu_index_ + 1) % kMainMenuItemCount;
+                    }
+                }
+            }
+            if (const auto* joy_btn = event.getIf<sf::Event::JoystickButtonPressed>()) {
+                if (joy_btn->button == 0) {
+                    ExecuteMainMenuSelection_();
+                }
+            }
+            if (const auto* move = event.getIf<sf::Event::MouseMoved>()) {
+                const sf::Vector2f mouse_pos = window.mapPixelToCoords(move->position);
+                for (int i = 0; i < kMainMenuItemCount; ++i) {
+                    if (main_menu_button_rects_[i].contains(mouse_pos)) {
+                        main_menu_index_ = i;
+                        break;
+                    }
+                }
+            }
+            if (const auto* click = event.getIf<sf::Event::MouseButtonPressed>()) {
+                if (click->button == sf::Mouse::Button::Left) {
+                    const sf::Vector2f mouse_pos = window.mapPixelToCoords(click->position);
+                    for (int i = 0; i < kMainMenuItemCount; ++i) {
+                        if (main_menu_button_rects_[i].contains(mouse_pos)) {
+                            main_menu_index_ = i;
+                            ExecuteMainMenuSelection_();
+                            break;
+                        }
+                    }
+                }
+            }
             continue;
         }
 
-        if (spirit_name_input_active_) {
+        if (spirit_name_input_.active) {
             if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
                 if (key->scancode == sf::Keyboard::Scancode::Enter) {
-                    if (!spirit_name_input_buffer_.empty()) {
-                        runtime_.WorldState().GetSpiritBeast().custom_name = spirit_name_input_buffer_;
-                        runtime_.WorldState().GetInteraction().dialogue_text =
-                            "灵兽已命名为：" + spirit_name_input_buffer_;
-                        SetHintMessage(runtime_.WorldState(), "命名完成：" + spirit_name_input_buffer_, 2.4f);
+                    if (!spirit_name_input_.buffer.empty()) {
+                        runtime_.WorldState().MutableSpiritBeast().custom_name = spirit_name_input_.buffer;
+                        runtime_.WorldState().MutableInteraction().dialogue_text =
+                            "灵兽已命名为：" + spirit_name_input_.buffer;
+                        SetHintMessage(runtime_.WorldState(), "命名完成：" + spirit_name_input_.buffer, 2.4f);
                     }
-                    spirit_name_input_active_ = false;
-                    spirit_name_input_buffer_.clear();
+                    spirit_name_input_.active = false;
+                    spirit_name_input_.buffer.clear();
                     continue;
                 }
                 if (key->scancode == sf::Keyboard::Scancode::Escape) {
-                    spirit_name_input_active_ = false;
-                    spirit_name_input_buffer_.clear();
+                    spirit_name_input_.active = false;
+                    spirit_name_input_.buffer.clear();
                     SetHintMessage(runtime_.WorldState(), "已取消灵兽命名。", 1.8f);
                     continue;
                 }
                 if (key->scancode == sf::Keyboard::Scancode::Backspace) {
-                    if (!spirit_name_input_buffer_.empty()) {
-                        spirit_name_input_buffer_.pop_back();
+                    if (!spirit_name_input_.buffer.empty()) {
+                        spirit_name_input_.buffer.pop_back();
                     }
-                    SetHintMessage(runtime_.WorldState(), "命名中：" + spirit_name_input_buffer_, 1.2f);
+                    SetHintMessage(runtime_.WorldState(), "命名中：" + spirit_name_input_.buffer, 1.2f);
                     continue;
                 }
             }
             if (const auto* text = event.getIf<sf::Event::TextEntered>()) {
-                if (text->unicode >= 32 && text->unicode < 127 && spirit_name_input_buffer_.size() < 12) {
-                    spirit_name_input_buffer_.push_back(static_cast<char>(text->unicode));
-                    SetHintMessage(runtime_.WorldState(), "命名中：" + spirit_name_input_buffer_, 1.2f);
+                if (text->unicode >= 32 && text->unicode < 127 && spirit_name_input_.buffer.size() < 12) {
+                    spirit_name_input_.buffer.push_back(static_cast<char>(text->unicode));
+                    SetHintMessage(runtime_.WorldState(), "命名中：" + spirit_name_input_.buffer, 1.2f);
                 }
                 continue;
             }
@@ -302,17 +589,18 @@ void GameApp::ProcessEvents(sf::RenderWindow& window) {
                 case sf::Keyboard::Scancode::R: (void)runtime_.HandleBattleKey(3); break;
                 case sf::Keyboard::Scancode::Escape: runtime_.ToggleBattlePause(); break;
                 case sf::Keyboard::Scancode::X: runtime_.RetreatBattle(); break;
+                case sf::Keyboard::Scancode::B: runtime_.RetreatBattle(); break;
                 default: break;
                 }
             }
             continue;
         }
 
-        ForwardEventToHud_(event);
+        ForwardEventToHud_(event, window);
 
         input_handler_.HandleEvent(event);
         if (const auto* key = event.getIf<sf::Event::KeyPressed>()) {
-            auto& interaction = runtime_.WorldState().GetInteraction();
+            auto& interaction = runtime_.WorldState().MutableInteraction();
             if (interaction.spirit_beast_menu_open) {
                 if (key->scancode == sf::Keyboard::Scancode::Num1) {
                     interaction.spirit_beast_menu_selection = 0;
@@ -351,11 +639,30 @@ void GameApp::ProcessEvents(sf::RenderWindow& window) {
                 }
                 continue;
             }
+            if (interaction.purchaser_menu_open) {
+                if (key->scancode == sf::Keyboard::Scancode::Num1) {
+                    interaction.purchaser_menu_selection = 0;
+                    SetHintMessage(runtime_.WorldState(), "收购选择：第1项", 1.6f);
+                } else if (key->scancode == sf::Keyboard::Scancode::Num2) {
+                    interaction.purchaser_menu_selection = 1;
+                    SetHintMessage(runtime_.WorldState(), "收购选择：第2项", 1.6f);
+                } else if (key->scancode == sf::Keyboard::Scancode::Num3) {
+                    interaction.purchaser_menu_selection = 2;
+                    SetHintMessage(runtime_.WorldState(), "收购选择：第3项", 1.6f);
+                } else if (key->scancode == sf::Keyboard::Scancode::Enter
+                    || key->scancode == sf::Keyboard::Scancode::E) {
+                    runtime_.HandlePrimaryInteraction();
+                } else if (key->scancode == sf::Keyboard::Scancode::Escape) {
+                    interaction.purchaser_menu_open = false;
+                    SetHintMessage(runtime_.WorldState(), "已关闭收购菜单。", 1.4f);
+                }
+                continue;
+            }
             if (key->scancode == sf::Keyboard::Scancode::J) {
                 (void)runtime_.TryEnterBattleByPlayerPosition();
             } else if (key->scancode == sf::Keyboard::Scancode::F2) {
-                spirit_name_input_active_ = true;
-                spirit_name_input_buffer_ = runtime_.WorldState().GetSpiritBeast().custom_name;
+                spirit_name_input_.active = true;
+                spirit_name_input_.buffer = runtime_.WorldState().GetSpiritBeast().custom_name;
                 SetHintMessage(runtime_.WorldState(), "输入灵兽名称（Enter确认 / Esc取消）", 2.4f);
             }
         }
@@ -367,7 +674,33 @@ void GameApp::Update(float delta_seconds) {
     if (audio_) {
         audio_->Update(delta_seconds);
     }
+    if (pending_save_overwrite_slot_.has_value()) {
+        pending_save_overwrite_seconds_ += delta_seconds;
+        if (pending_save_overwrite_seconds_ > 3.0f) {
+            pending_save_overwrite_slot_.reset();
+            pending_save_overwrite_seconds_ = 0.0f;
+        }
+    }
+        if (!pixel_hud_ || !pixel_hud_->GetSettingsPanel().IsVisible()) {
+            pending_save_overwrite_slot_.reset();
+            pending_save_overwrite_seconds_ = 0.0f;
+        }
     if (show_main_menu_) {
+        main_menu_anim_time_ += delta_seconds;
+        if (main_menu_transition_out_) {
+            main_menu_fade_alpha_ = std::max(0.0f, main_menu_fade_alpha_ - delta_seconds * 3.0f);
+            if (main_menu_fade_alpha_ <= 0.01f) {
+                main_menu_transition_out_ = false;
+                PerformMainMenuAction_(pending_main_menu_action_);
+                pending_main_menu_action_ = MainMenuAction::None;
+            }
+        } else {
+            main_menu_fade_alpha_ = std::min(1.0f, main_menu_fade_alpha_ + delta_seconds * 2.0f);
+        }
+        for (int i = 0; i < kMainMenuItemCount; ++i) {
+            const float target = (i == main_menu_index_) ? 1.0f : 0.0f;
+            main_menu_hover_lerp_[i] += (target - main_menu_hover_lerp_[i]) * std::min(1.0f, delta_seconds * 12.0f);
+        }
         return;
     }
 
@@ -390,13 +723,31 @@ void GameApp::Update(float delta_seconds) {
 }
 
 void GameApp::UpdateUi_() {
-    // 当前版本：UI 的逐帧更新在 Update() 中统一执行；这里保留接口以兼容回调。
+    if (!pixel_hud_) {
+        return;
+    }
+    pixel_hud_->UpdateMapMarkers(BuildRuntimeMapMarkers_(runtime_));
 }
 
-void GameApp::InitializeMainMenu_(const sf::Font* font) {
-    main_menu_panel_.setSize({560.0f, 380.0f});
-    main_menu_panel_.setPosition({360.0f, 170.0f});
-    main_menu_panel_.setFillColor(sf::Color(32, 26, 20, 240));
+void GameApp::InitializeMainMenu_(const sf::Font* font, sf::Vector2u window_size) {
+    main_menu_background_loaded_ = false;
+    main_menu_.atlas_texture_id.clear();
+    const std::string menu_bg_texture_id = "main_menu_tiny_town_bg";
+    const std::string menu_bg_texture_path =
+        CloudSeamanor::engine::atlas::kTinyTownTilemapPath;
+    if (resources_ && std::filesystem::exists(menu_bg_texture_path)) {
+        if (resources_->LoadTexture(menu_bg_texture_id, menu_bg_texture_path)) {
+            auto& texture = resources_->GetTexture(menu_bg_texture_id);
+            main_menu_background_sprite_ = std::make_unique<sf::Sprite>(texture);
+            main_menu_background_loaded_ = true;
+        }
+        // 主菜单面板图集纹理（与 PixelGameHud 共享）
+        const std::string atlas_id = "pixel_hud_ui_atlas";
+        if (resources_->LoadTexture(atlas_id, menu_bg_texture_path)) {
+            main_menu_.atlas_texture_id = atlas_id;
+        }
+    }
+    main_menu_panel_.setFillColor(sf::Color(32, 26, 20, main_menu_background_loaded_ ? 206 : 240));
     main_menu_panel_.setOutlineThickness(2.0f);
     main_menu_panel_.setOutlineColor(sf::Color(110, 88, 60));
 
@@ -405,19 +756,18 @@ void GameApp::InitializeMainMenu_(const sf::Font* font) {
         for (auto& item : main_menu_items_) {
             item.reset();
         }
+        main_menu_save_preview_text_.reset();
+        main_menu_status_text_.reset();
         show_main_menu_ = false;
         return;
     }
 
     main_menu_title_ = std::make_unique<sf::Text>(*font);
-    main_menu_title_->setCharacterSize(52u);
     {
         const auto* begin = reinterpret_cast<const char*>(u8"云海山庄");
         const auto* end = begin + (sizeof(u8"云海山庄") - 1);
         main_menu_title_->setString(sf::String::fromUtf8(begin, end));
     }
-    main_menu_title_->setPosition({520.0f, 220.0f});
-
     const auto MakeUtf8 = [](const char8_t* literal) -> sf::String {
         const auto* begin = reinterpret_cast<const char*>(literal);
         const auto* end = begin;
@@ -426,28 +776,175 @@ void GameApp::InitializeMainMenu_(const sf::Font* font) {
         }
         return sf::String::fromUtf8(begin, end);
     };
-    const std::array<sf::String, 3> menu_labels{
+    const std::array<sf::String, kMainMenuItemCount> menu_labels{
         MakeUtf8(u8"开始游戏"),
         MakeUtf8(u8"继续游戏"),
         MakeUtf8(u8"设置"),
+        MakeUtf8(u8"关于"),
+        MakeUtf8(u8"退出游戏"),
     };
 
-    for (int i = 0; i < 3; ++i) {
+    for (int i = 0; i < kMainMenuItemCount; ++i) {
         main_menu_items_[i] = std::make_unique<sf::Text>(*font);
-        main_menu_items_[i]->setCharacterSize(34u);
         main_menu_items_[i]->setString(menu_labels[static_cast<std::size_t>(i)]);
-        main_menu_items_[i]->setPosition({560.0f, 320.0f + static_cast<float>(i) * 58.0f});
+    }
+
+    const CloudSeamanor::infrastructure::SaveSlotManager slot_manager;
+    const auto slots = slot_manager.ReadAllMetadata();
+    main_menu_has_save_ = std::any_of(slots.begin(), slots.end(), [](const auto& slot) {
+        return slot.exists;
+    });
+    if (!main_menu_has_save_) {
+        main_menu_items_[1]->setString(MakeUtf8(u8"继续游戏（无存档）"));
+    }
+
+    main_menu_save_preview_text_ = std::make_unique<sf::Text>(*font);
+    if (main_menu_has_save_) {
+        const std::string preview = BuildMainMenuRecentSavePreview_();
+        main_menu_save_preview_text_->setString(sf::String::fromUtf8(preview.begin(), preview.end()));
+    } else {
+        const auto* begin = reinterpret_cast<const char*>(u8"最近存档：无");
+        const auto* end = begin + (sizeof(u8"最近存档：无") - 1);
+        main_menu_save_preview_text_->setString(sf::String::fromUtf8(begin, end));
+    }
+    main_menu_status_text_ = std::make_unique<sf::Text>(*font);
+    {
+        const auto* begin = reinterpret_cast<const char*>(u8"方向键/手柄十字键选择，回车/A确认");
+        const auto* end = begin + (sizeof(u8"方向键/手柄十字键选择，回车/A确认") - 1);
+        main_menu_status_text_->setString(sf::String::fromUtf8(begin, end));
+    }
+    main_menu_fade_alpha_ = 0.0f;
+    main_menu_transition_out_ = false;
+    pending_main_menu_action_ = MainMenuAction::None;
+    UpdateMainMenuLayout_(window_size);
+}
+
+void GameApp::UpdateMainMenuLayout_(sf::Vector2u window_size) {
+    (void)window_size;
+    const float w = static_cast<float>(ScreenConfig::Width);
+    const float h = static_cast<float>(ScreenConfig::Height);
+    const float scale = 1.0f;
+
+    if (main_menu_background_loaded_ && main_menu_background_sprite_) {
+        const auto tex_size = main_menu_background_sprite_->getTexture().getSize();
+        if (tex_size.x > 0 && tex_size.y > 0) {
+            const float sx = w / static_cast<float>(tex_size.x);
+            const float sy = h / static_cast<float>(tex_size.y);
+            const float cover = std::max(sx, sy);
+            const float draw_w = static_cast<float>(tex_size.x) * cover;
+            const float draw_h = static_cast<float>(tex_size.y) * cover;
+            main_menu_background_sprite_->setScale({cover, cover});
+            main_menu_background_sprite_->setPosition({(w - draw_w) * 0.5f, (h - draw_h) * 0.5f});
+        }
+    }
+
+    const sf::Vector2f panel_size{560.0f * scale, 410.0f * scale};
+    main_menu_panel_.setSize(panel_size);
+    main_menu_panel_.setPosition({(w - panel_size.x) * 0.5f, (h - panel_size.y) * 0.5f});
+    main_menu_panel_.setOutlineThickness(std::max(1.0f, 2.0f * scale));
+
+    if (main_menu_title_) {
+        main_menu_title_->setCharacterSize(static_cast<unsigned>(std::round(18.0f * scale)));
+        const auto title_bounds = main_menu_title_->getLocalBounds();
+        main_menu_title_->setPosition({
+            main_menu_panel_.getPosition().x + (panel_size.x - title_bounds.size.x) * 0.5f - title_bounds.position.x,
+            main_menu_panel_.getPosition().y + 22.0f * scale
+        });
+    }
+    for (int i = 0; i < 4; ++i) {
+        auto& corner = main_menu_corner_blocks_[i];
+        corner.setFillColor(sf::Color(120, 82, 46, 255));
+        corner.setSize({14.0f * scale, 14.0f * scale});
+    }
+    main_menu_corner_blocks_[0].setPosition(main_menu_panel_.getPosition());
+    main_menu_corner_blocks_[1].setPosition({main_menu_panel_.getPosition().x + panel_size.x - main_menu_corner_blocks_[1].getSize().x, main_menu_panel_.getPosition().y});
+    main_menu_corner_blocks_[2].setPosition({main_menu_panel_.getPosition().x, main_menu_panel_.getPosition().y + panel_size.y - main_menu_corner_blocks_[2].getSize().y});
+    main_menu_corner_blocks_[3].setPosition({main_menu_panel_.getPosition().x + panel_size.x - main_menu_corner_blocks_[3].getSize().x, main_menu_panel_.getPosition().y + panel_size.y - main_menu_corner_blocks_[3].getSize().y});
+
+    for (int i = 0; i < kMainMenuItemCount; ++i) {
+        main_menu_button_rects_[i] = sf::FloatRect{
+            {main_menu_panel_.getPosition().x + 70.0f * scale,
+             main_menu_panel_.getPosition().y + (96.0f + static_cast<float>(i) * 56.0f) * scale},
+            {panel_size.x - 140.0f * scale, 46.0f * scale}
+        };
+        if (!main_menu_items_[i]) continue;
+        main_menu_items_[i]->setCharacterSize(static_cast<unsigned>(std::round(14.0f * scale)));
+        const auto b = main_menu_items_[i]->getLocalBounds();
+        main_menu_items_[i]->setPosition({
+            main_menu_button_rects_[i].position.x + (main_menu_button_rects_[i].size.x - b.size.x) * 0.5f - b.position.x,
+            main_menu_button_rects_[i].position.y + (main_menu_button_rects_[i].size.y - b.size.y) * 0.5f - b.position.y - 2.0f * scale
+        });
+    }
+    if (main_menu_save_preview_text_) {
+        main_menu_save_preview_text_->setCharacterSize(static_cast<unsigned>(std::round(11.0f * scale)));
+        const auto& rect = main_menu_button_rects_[1];
+        main_menu_save_preview_text_->setPosition({rect.position.x + rect.size.x + 12.0f * scale, rect.position.y + 10.0f * scale});
+    }
+    if (main_menu_status_text_) {
+        main_menu_status_text_->setCharacterSize(static_cast<unsigned>(std::round(10.0f * scale)));
+        const auto b = main_menu_status_text_->getLocalBounds();
+        main_menu_status_text_->setPosition({
+            main_menu_panel_.getPosition().x + (panel_size.x - b.size.x) * 0.5f - b.position.x,
+            main_menu_panel_.getPosition().y + panel_size.y - 24.0f * scale
+        });
+    }
+}
+
+void GameApp::PerformMainMenuAction_(MainMenuAction action) {
+    const auto SetStatusUtf8 = [this](const char8_t* literal) {
+        if (!main_menu_status_text_) return;
+        const auto* begin = reinterpret_cast<const char*>(literal);
+        const auto* end = begin;
+        while (*end != '\0') {
+            ++end;
+        }
+        main_menu_status_text_->setString(sf::String::fromUtf8(begin, end));
+    };
+
+    switch (action) {
+    case MainMenuAction::StartGame:
+        show_main_menu_ = false;
+        break;
+    case MainMenuAction::ContinueGame:
+        if (!main_menu_has_save_) {
+            runtime_.Callbacks().push_hint("当前没有可用存档。", 2.0f);
+            SetStatusUtf8(u8"当前无存档：请先开始新游戏。");
+            break;
+        }
+        runtime_.LoadGame();
+        show_main_menu_ = false;
+        break;
+    case MainMenuAction::Settings:
+        runtime_.Callbacks().push_hint("设置面板可在游戏内按 Esc 打开。", 2.4f);
+        SetStatusUtf8(u8"设置：进入游戏后按 Esc 打开设置面板。");
+        main_menu_transition_out_ = false;
+        pending_main_menu_action_ = MainMenuAction::None;
+        main_menu_fade_alpha_ = 1.0f;
+        break;
+    case MainMenuAction::About:
+        runtime_.Callbacks().push_hint("云海山庄 v0.1.0 - 东方治愈像素农庄", 2.8f);
+        SetStatusUtf8(u8"云海山庄 v0.1.0 - 东方治愈像素农庄");
+        main_menu_transition_out_ = false;
+        pending_main_menu_action_ = MainMenuAction::None;
+        main_menu_fade_alpha_ = 1.0f;
+        break;
+    case MainMenuAction::ExitGame:
+        pending_exit_ = true;
+        break;
+    default:
+        break;
     }
 }
 
 void GameApp::HandleWindowResize_(const sf::Event::Resized& resize_event, sf::RenderWindow& window) {
     window.setView(ComputeIntegerScaleView(resize_event.size.x, resize_event.size.y));
+    UpdateMainMenuLayout_({resize_event.size.x, resize_event.size.y});
     if (pixel_hud_) {
-        pixel_hud_->SetUiScale(ComputeIntegerScale(resize_event.size.x, resize_event.size.y));
+        pixel_hud_->SetUiScale(1.0f);
     }
 }
 
-void GameApp::ForwardEventToHud_(const sf::Event& event) {
+void GameApp::ForwardEventToHud_(const sf::Event& event, sf::RenderWindow& window) {
     if (!pixel_hud_) {
         return;
     }
@@ -457,13 +954,15 @@ void GameApp::ForwardEventToHud_(const sf::Event& event) {
         return;
     }
     if (const auto* move = event.getIf<sf::Event::MouseMoved>()) {
-        pixel_hud_->HandleMouseMove(static_cast<float>(move->position.x), static_cast<float>(move->position.y));
+        const sf::Vector2f pos = window.mapPixelToCoords(move->position);
+        pixel_hud_->HandleMouseMove(pos.x, pos.y);
         return;
     }
     if (const auto* click = event.getIf<sf::Event::MouseButtonPressed>()) {
+        const sf::Vector2f pos = window.mapPixelToCoords(click->position);
         const bool consumed = pixel_hud_->HandleMouseClick(
-            static_cast<float>(click->position.x),
-            static_cast<float>(click->position.y),
+            pos.x,
+            pos.y,
             click->button);
         if (consumed && audio_) {
             (void)audio_->PlaySFX("ui_click");
@@ -483,521 +982,109 @@ void GameApp::UpdatePixelHud_(float delta_seconds) {
         return;
     }
 
-    auto& world_state = runtime_.WorldState();
-    const int current_day = world_state.GetClock().Day();
-    pixel_hud_->Update(delta_seconds, &world_state.GetInteraction().dialogue_engine);
-    pixel_hud_->UpdateTopRightInfo(
-        "第" + std::to_string(world_state.GetClock().Day()) + "天 " + world_state.GetClock().TimeText(),
-        world_state.GetClock().DateText(),
-        runtime_.Systems().GetCloud().CurrentStateText(),
-        false);
-    pixel_hud_->SetBottomRightHotkeyHints(
-        input_.GetPrimaryKeyName(Action::Interact),
-        input_.GetPrimaryKeyName(Action::UseTool));
-    pixel_hud_->UpdateStaminaBar(world_state.GetStamina().Ratio(), world_state.GetStamina().Current(), world_state.GetStamina().Max());
-    pixel_hud_->UpdateCoins(world_state.GetGold());
+    HudPresenter::UpdateCoreViews(*pixel_hud_, runtime_, input_, delta_seconds);
+    HudPanelPresenters::UpdateTeaGardenPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateFestivalPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateShopPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateMailPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateAchievementPanel(*pixel_hud_, runtime_);
 
-    std::vector<Quest> quests;
-    quests.reserve(world_state.GetRuntimeQuests().size());
-    for (const auto& runtime_quest : world_state.GetRuntimeQuests()) {
-        Quest quest;
-        quest.id = runtime_quest.id;
-        quest.title = runtime_quest.title;
-        quest.description = runtime_quest.description;
-        quest.objective = runtime_quest.objective;
-        quest.reward_text = runtime_quest.reward;
-        if (runtime_quest.state == QuestState::NotTaken) {
-            quest.status = QuestStatus::Available;
-        } else if (runtime_quest.state == QuestState::InProgress) {
-            quest.status = QuestStatus::Active;
-        } else {
-            quest.status = QuestStatus::Completed;
-        }
+    HudPanelPresenters::UpdateSpiritBeastPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateBuildingPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateContractPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateNpcDetailPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateSpiritRealmPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateBeastiaryPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateWorkshopPanel(*pixel_hud_, runtime_);
 
-        if (runtime_quest.id == "daily_commission_tea") {
-            quest.progress_max = 3;
-            quest.progress_current = std::min(3, world_state.GetInventory().CountOf("TeaLeaf"));
-        } else if (runtime_quest.id == "tool_upgrade_intro") {
-            quest.progress_max = 2;
-            quest.progress_current = std::min(2, world_state.GetMainHouseRepair().level);
-        }
-        quests.push_back(std::move(quest));
+    const std::string pending_skill = runtime_.PendingSkillBranchSkill();
+    std::string option_a = "稳态专精";
+    std::string option_b = "爆发专精";
+    if (pending_skill == "灵农") {
+        option_a = "丰茂";
+        option_b = "回春";
+    } else if (pending_skill == "灵觅") {
+        option_a = "寻珍";
+        option_b = "识脉";
+    } else if (pending_skill == "灵钓") {
+        option_a = "观潮";
+        option_b = "深流";
+    } else if (pending_skill == "灵矿") {
+        option_a = "震脉";
+        option_b = "精炼";
+    } else if (pending_skill == "灵卫") {
+        option_a = "结界";
+        option_b = "护阵";
     }
-    pixel_hud_->UpdateQuests(quests);
+    pixel_hud_->UpdateSkillBranchOverlay(runtime_.HasPendingSkillBranchChoice(), pending_skill, option_a, option_b);
+    pixel_hud_->UpdateFishingQteOverlay(runtime_.IsFishingQteActive(),
+                                        runtime_.FishingQteProgress(),
+                                        runtime_.FishingQteTargetCenter(),
+                                        runtime_.FishingQteTargetWidth(),
+                                        runtime_.FishingQteLabel());
+    pixel_hud_->UpdateDiyPlacementOverlay(runtime_.IsDiyPlacementActive(),
+                                          ItemDisplayName(runtime_.DiyPreviewObjectId()),
+                                          runtime_.DiyCursorX(),
+                                          runtime_.DiyCursorY(),
+                                          runtime_.DiyRotation());
 
-    pixel_hud_->GetMinimap().SetWorldBounds(world_state.GetConfig().world_bounds);
-    pixel_hud_->GetMinimap().UpdatePlayerPosition(CloudSeamanor::adapter::ToSf(world_state.GetPlayer().GetPosition()));
-    pixel_hud_->GetMinimap().SetLocationText(
-        world_state.GetInSpiritRealm() ? "灵界 · 浅层入口" : "云海农场 · 主屋前");
+    if (const auto choice = pixel_hud_->ConsumeSkillBranchChoice(); choice.has_value()) {
+        runtime_.CommitPendingSkillBranch(choice.value());
+    }
+    if (pixel_hud_->ConsumeFishingQteConfirm()) {
+        runtime_.ResolveFishingQte();
+    }
+    const sf::Vector2i diy_move = pixel_hud_->ConsumeDiyMoveDelta();
+    if (diy_move.x != 0 || diy_move.y != 0) {
+        runtime_.MoveDiyCursor(diy_move.x, diy_move.y);
+    }
+    if (pixel_hud_->ConsumeDiyRotate()) {
+        runtime_.RotateDiyPreview();
+    }
+    if (pixel_hud_->ConsumeDiyConfirm()) {
+        runtime_.ConfirmDiyPlacement();
+    }
+    if (pixel_hud_->ConsumeDiyPickup()) {
+        runtime_.PickupLastDiyObject();
+    }
+    HandleHudSideEffects_();
+}
 
-    CloudForecastViewData forecast_view;
-    const auto& cloud_system = runtime_.Systems().GetCloud();
-    forecast_view.today_prefix = runtime_.Config().GetString("forecast_today_prefix", forecast_view.today_prefix);
-    forecast_view.tomorrow_prefix = runtime_.Config().GetString("forecast_tomorrow_prefix", forecast_view.tomorrow_prefix);
-    forecast_view.bonus_format_prefix = runtime_.Config().GetString("forecast_bonus_prefix", forecast_view.bonus_format_prefix);
-    forecast_view.bonus_midfix = runtime_.Config().GetString("forecast_bonus_midfix", forecast_view.bonus_midfix);
-    forecast_view.tide_countdown_prefix = runtime_.Config().GetString("forecast_tide_countdown_prefix", forecast_view.tide_countdown_prefix);
-    forecast_view.tide_countdown_suffix = runtime_.Config().GetString("forecast_tide_countdown_suffix", forecast_view.tide_countdown_suffix);
-    forecast_view.recommendations_title = runtime_.Config().GetString("forecast_recommendations_title", forecast_view.recommendations_title);
-    forecast_view.today_state_text = cloud_system.CurrentStateText();
-    forecast_view.tomorrow_state_text = cloud_system.ForecastStateText();
-    forecast_view.tide_countdown_days = cloud_system.TideCountdownDays(world_state.GetClock().Day());
-    forecast_view.crop_bonus_percent = static_cast<int>((runtime_.CloudMultiplier() - 1.0f) * 100.0f);
-    forecast_view.spirit_bonus = cloud_system.SpiritEnergyGain();
-    forecast_view.recommendations = BuildDailyRecommendations(
-        world_state.GetClock(),
-        cloud_system.CurrentState(),
-        cloud_system,
-        world_state.GetMainHouseRepair(),
-        world_state.GetInventory(),
-        world_state.GetTeaMachine(),
-        world_state.GetSpiritBeast(),
-        world_state.GetSpiritBeastWateredToday(),
-        world_state.GetTeaPlots(),
-        world_state.GetNpcs());
-    pixel_hud_->UpdateCloudForecast(forecast_view);
-
-    PlayerStatusViewData status_view;
-    status_view.player_name = runtime_.Config().GetString("player_name", "云海旅人");
-    status_view.header_level_separator = runtime_.Config().GetString("player_status_level_separator", status_view.header_level_separator);
-    status_view.manor_stage_prefix = runtime_.Config().GetString("player_status_manor_stage_prefix", status_view.manor_stage_prefix);
-    status_view.total_gold_prefix = runtime_.Config().GetString("player_status_total_gold_prefix", status_view.total_gold_prefix);
-    status_view.stamina_label = runtime_.Config().GetString("player_status_stamina_label", status_view.stamina_label);
-    status_view.spirit_label = runtime_.Config().GetString("player_status_spirit_label", status_view.spirit_label);
-    status_view.fatigue_label = runtime_.Config().GetString("player_status_fatigue_label", status_view.fatigue_label);
-    status_view.contract_progress_prefix = runtime_.Config().GetString("player_status_contract_progress_prefix", status_view.contract_progress_prefix);
-    status_view.contract_total = std::max(1, static_cast<int>(runtime_.Config().GetFloat("player_status_contract_total", static_cast<float>(status_view.contract_total))));
-    status_view.player_level = runtime_.Systems().GetSkills().GetLevel(CloudSeamanor::domain::SkillType::SpiritFarm);
-    status_view.manor_stage = world_state.GetMainHouseRepair().level;
-    status_view.total_gold = world_state.GetGold();
-    status_view.stamina_ratio = world_state.GetStamina().Ratio();
-    status_view.spirit_ratio = std::min(1.0f, std::max(0.0f, static_cast<float>(runtime_.Systems().GetCloud().SpiritEnergy()) / 200.0f));
-    status_view.fatigue_ratio = std::min(1.0f, std::max(0.0f, 1.0f - world_state.GetStamina().Ratio()));
-    status_view.contract_progress = runtime_.Systems().GetContracts().CompletedVolumeCount();
-    pixel_hud_->UpdatePlayerStatus(status_view);
-
-    TeaGardenPanelViewData tea_view;
-    tea_view.cloud_state_text = cloud_system.CurrentStateText();
-    tea_view.spirit_bonus = cloud_system.SpiritEnergyGain();
-    tea_view.quality_bonus_percent = std::max(0, static_cast<int>((runtime_.CloudMultiplier() - 1.0f) * 100.0f));
-    tea_view.cloud_state_prefix = runtime_.Config().GetString("tea_garden_cloud_state_prefix", tea_view.cloud_state_prefix);
-    tea_view.spirit_bonus_prefix = runtime_.Config().GetString("tea_garden_spirit_bonus_prefix", tea_view.spirit_bonus_prefix);
-    tea_view.quality_bonus_prefix = runtime_.Config().GetString("tea_garden_quality_bonus_prefix", tea_view.quality_bonus_prefix);
-    tea_view.cloud_preview_prefix = runtime_.Config().GetString("tea_garden_cloud_preview_prefix", tea_view.cloud_preview_prefix);
-    tea_view.plots_title = runtime_.Config().GetString("tea_garden_plots_title", tea_view.plots_title);
-    tea_view.quality_hint_text = runtime_.Config().GetString("tea_garden_quality_hint_text", tea_view.quality_hint_text);
-    tea_view.actions_text = runtime_.Config().GetString("tea_garden_actions_text", tea_view.actions_text);
-    const auto bonus_pct = [](CloudSeamanor::domain::CloudState s) {
-        return static_cast<int>((CloudGrowthMultiplier(s) - 1.0f) * 100.0f);
+HudSideEffects::HudEffectContext GameApp::BuildHudEffectContext_() {
+    HudSideEffects::HudEffectContext context;
+    context.notify = [this](const std::string& msg, HudSideEffects::NotificationLevel level) {
+        (void)level;
+        if (pixel_hud_) {
+            pixel_hud_->PushNotification(msg);
+            return;
+        }
+        SetHintMessage(runtime_.WorldState(), msg, 3.0f);
     };
-    tea_view.cloud_preview_text =
-        "晴+" + std::to_string(bonus_pct(CloudSeamanor::domain::CloudState::Clear)) + "%  "
-        "雾+" + std::to_string(bonus_pct(CloudSeamanor::domain::CloudState::Mist)) + "%  "
-        "浓云+" + std::to_string(bonus_pct(CloudSeamanor::domain::CloudState::DenseCloud)) + "%  "
-        "大潮+" + std::to_string(bonus_pct(CloudSeamanor::domain::CloudState::Tide)) + "%";
-    const auto& plots = world_state.GetTeaPlots();
-    const std::size_t tea_count = std::min<std::size_t>(3, plots.size());
-    for (std::size_t i = 0; i < tea_count; ++i) {
-        const auto& plot = plots[i];
-        TeaGardenPlotLineViewData line;
-        line.name = plot.crop_name.empty() ? ("地块" + std::to_string(i + 1)) : plot.crop_name;
-        line.progress_percent = static_cast<int>(std::max(0.0f, std::min(1.0f, plot.growth)) * 100.0f);
-        switch (plot.quality) {
-        case CloudSeamanor::domain::CropQuality::Normal: line.quality_text = "普通"; break;
-        case CloudSeamanor::domain::CropQuality::Fine: line.quality_text = "优质"; break;
-        case CloudSeamanor::domain::CropQuality::Rare: line.quality_text = "珍品"; break;
-        case CloudSeamanor::domain::CropQuality::Spirit: line.quality_text = "灵品"; break;
-        case CloudSeamanor::domain::CropQuality::Holy: line.quality_text = "圣品"; break;
-        }
-        tea_view.plots.push_back(std::move(line));
-    }
-    pixel_hud_->UpdateTeaGardenPanel(tea_view);
-
-    FestivalPanelViewData festival_view;
-    const auto& festivals = runtime_.Systems().GetFestivals();
-    const auto& all_festivals = festivals.GetAllFestivals();
-    festival_view.total_events = static_cast<int>(all_festivals.size());
-    festival_view.completed_events = 0;
-    for (const auto& fest : all_festivals) {
-        if (fest.participated) {
-            ++festival_view.completed_events;
-        }
-    }
-    if (const auto* today = festivals.GetTodayFestival()) {
-        festival_view.active_name = today->name;
-        festival_view.countdown_days = 0;
-    } else {
-        const auto upcoming = festivals.GetUpcomingFestivals(1);
-        if (!upcoming.empty()) {
-            festival_view.active_name =
-                runtime_.Config().GetString("festival_next_prefix", "下一节日: ")
-                + upcoming.front()->name;
-            festival_view.countdown_days = std::max(0, upcoming.front()->day - world_state.GetClock().DayInSeason());
-        }
-    }
-    const auto upcoming_three = festivals.GetUpcomingFestivals(3);
-    festival_view.upcoming.clear();
-    for (const auto* fest : upcoming_three) {
-        if (fest == nullptr) continue;
-        festival_view.upcoming.push_back(fest->name + "(第" + std::to_string(fest->day) + "天)");
-    }
-    festival_view.reward_text = runtime_.Config().GetString(
-        "festival_reward_text", festival_view.reward_text);
-    festival_view.upcoming_prefix = runtime_.Config().GetString(
-        "festival_upcoming_prefix", festival_view.upcoming_prefix);
-    festival_view.upcoming_empty_text = runtime_.Config().GetString(
-        "festival_upcoming_empty_text", festival_view.upcoming_empty_text);
-    festival_view.participation_text = runtime_.Config().GetString(
-        "festival_participation_text", festival_view.participation_text);
-    festival_view.selected_participation_text = runtime_.Config().GetString(
-        "festival_selected_participation_text", festival_view.selected_participation_text);
-    festival_view.actions_text = runtime_.Config().GetString(
-        "festival_actions_text", festival_view.actions_text);
-    pixel_hud_->UpdateFestivalPanel(festival_view);
-
-    ShopPanelViewData shop_view;
-    shop_view.items_header_text = runtime_.Config().GetString("shop_items_header_text", shop_view.items_header_text);
-    shop_view.player_gold_prefix = runtime_.Config().GetString("shop_player_gold_prefix", shop_view.player_gold_prefix);
-    shop_view.selected_item_empty_text = runtime_.Config().GetString("shop_selected_empty_text", shop_view.selected_item_empty_text);
-    shop_view.actions_text = runtime_.Config().GetString("shop_actions_text", shop_view.actions_text);
-    shop_view.player_gold = world_state.GetGold();
-    shop_view.items.clear();
-    const auto& prices = world_state.GetPriceTable();
-    const std::size_t shop_count = std::min<std::size_t>(3, prices.size());
-    for (std::size_t i = 0; i < shop_count; ++i) {
-        const auto& entry = prices[i];
-        ShopPanelItemViewData item;
-        item.name = ItemDisplayName(entry.item_id);
-        item.price = std::max(0, entry.buy_price);
-        item.stock = std::max(0, world_state.GetInventory().CountOf(entry.item_id));
-        shop_view.items.push_back(std::move(item));
-    }
-    if (!shop_view.items.empty()) {
-        const auto& first_item = shop_view.items.front();
-        const bool affordable = shop_view.player_gold >= first_item.price;
-        const std::string selected_prefix = runtime_.Config().GetString("shop_selected_prefix", "选中商品:");
-        const std::string price_prefix = runtime_.Config().GetString("shop_price_prefix", "单价:");
-        const std::string stock_prefix = runtime_.Config().GetString("shop_stock_prefix", "库存:");
-        const std::string affordable_text = runtime_.Config().GetString("shop_affordable_text", "可购买");
-        const std::string unaffordable_text = runtime_.Config().GetString("shop_unaffordable_text", "金币不足");
-        shop_view.selected_item_desc =
-            selected_prefix + " " + first_item.name
-            + "  " + price_prefix + std::to_string(first_item.price)
-            + "  " + stock_prefix + std::to_string(first_item.stock)
-            + "  " + (affordable ? affordable_text : unaffordable_text);
-    } else {
-        shop_view.selected_item_desc = runtime_.Config().GetString("shop_empty_text", "暂无可购买商品");
-    }
-    pixel_hud_->UpdateShopPanel(shop_view);
-
-    MailPanelViewData mail_view;
-    mail_view.list_title_text = runtime_.Config().GetString(
-        "mail_list_title_text", mail_view.list_title_text);
-    mail_view.empty_detail_text = runtime_.Config().GetString(
-        "mail_empty_detail_text", mail_view.empty_detail_text);
-    mail_view.unread_prefix_text = runtime_.Config().GetString(
-        "mail_unread_prefix_text", mail_view.unread_prefix_text);
-    mail_view.unread_suffix_text = runtime_.Config().GetString(
-        "mail_unread_suffix_text", mail_view.unread_suffix_text);
-    mail_view.actions_text = runtime_.Config().GetString(
-        "mail_actions_text", mail_view.actions_text);
-    const auto& mail_orders = world_state.GetMailOrders();
-    const std::size_t mail_count = std::min<std::size_t>(3, mail_orders.size());
-    const std::string mail_sender_text = runtime_.Config().GetString("mail_sender_text", "商会");
-    const std::string mail_time_prefix = runtime_.Config().GetString("mail_time_prefix", "第");
-    const std::string mail_time_suffix = runtime_.Config().GetString("mail_time_suffix", "天送达");
-    const std::string mail_detail_prefix = runtime_.Config().GetString("mail_detail_prefix", "详情: 附件");
-    const std::string mail_detail_eta_prefix = runtime_.Config().GetString("mail_detail_eta_prefix", "预计");
-    const std::string mail_detail_eta_suffix = runtime_.Config().GetString("mail_detail_eta_suffix", "天后送达");
-    const std::string mail_detail_empty = runtime_.Config().GetString("mail_detail_empty_text", "详情: 当前没有待处理邮件");
-    for (std::size_t i = 0; i < mail_count; ++i) {
-        const auto& order = mail_orders[i];
-        MailPanelEntryViewData entry;
-        entry.sender = mail_sender_text;
-        entry.subject = ItemDisplayName(order.item_id) + " x" + std::to_string(order.count);
-        entry.time_text = mail_time_prefix + std::to_string(order.deliver_day) + mail_time_suffix;
-        mail_view.entries.push_back(std::move(entry));
-    }
-    mail_view.unread_count = static_cast<int>(mail_orders.size());
-    if (!mail_orders.empty()) {
-        const auto& first = mail_orders.front();
-        const int remaining_days = std::max(0, first.deliver_day - world_state.GetClock().Day());
-        mail_view.detail_text =
-            mail_detail_prefix + " " + ItemDisplayName(first.item_id) + " x" + std::to_string(first.count)
-            + "  " + mail_detail_eta_prefix + std::to_string(remaining_days) + mail_detail_eta_suffix;
-    } else {
-        mail_view.detail_text = mail_detail_empty;
-    }
-    pixel_hud_->UpdateMailPanel(mail_view);
-
-    AchievementPanelViewData achievement_view;
-    const auto& achievements = world_state.GetAchievements();
-    achievement_view.progress_prefix = runtime_.Config().GetString(
-        "achievement_progress_prefix", achievement_view.progress_prefix);
-    achievement_view.legend_text = runtime_.Config().GetString(
-        "achievement_legend_text", achievement_view.legend_text);
-    achievement_view.unlocked_mark = runtime_.Config().GetString(
-        "achievement_unlocked_mark", achievement_view.unlocked_mark);
-    achievement_view.locked_mark = runtime_.Config().GetString(
-        "achievement_locked_mark", achievement_view.locked_mark);
-    achievement_view.unlock_banner_text = runtime_.Config().GetString(
-        "achievement_unlock_banner_text", achievement_view.unlock_banner_text);
-    achievement_view.total_count = static_cast<int>(achievements.size());
-    achievement_view.unlocked_count = 0;
-    for (const auto& [id, unlocked] : achievements) {
-        if (unlocked) {
-            ++achievement_view.unlocked_count;
-            achievement_view.unlocked_titles.push_back(AchievementDisplayName_(id));
-        } else {
-            achievement_view.locked_titles.push_back(AchievementDisplayName_(id));
-        }
-    }
-    if (achievement_view.total_count == 0) {
-        achievement_view.total_count = 1;
-        achievement_view.locked_titles.push_back(
-            runtime_.Config().GetString("achievement_empty_text", "待解锁成就"));
-    }
-    pixel_hud_->UpdateAchievementPanel(achievement_view);
-
-    SpiritBeastPanelViewData beast_view;
-    const auto& beast = world_state.GetSpiritBeast();
-    beast_view.beast_name = beast.custom_name;
-    beast_view.favor = beast.favor;
-    beast_view.dispatched = beast.dispatched_for_pest_control;
-    beast_view.trait = beast.trait;
-    beast_view.category_text = runtime_.Config().GetString("spirit_beast_category_text", beast_view.category_text);
-    beast_view.cards_title = runtime_.Config().GetString("spirit_beast_cards_title", beast_view.cards_title);
-    beast_view.influence_hint_text = runtime_.Config().GetString("spirit_beast_influence_hint_text", beast_view.influence_hint_text);
-    beast_view.recruit_hint_text = runtime_.Config().GetString("spirit_beast_recruit_hint_text", beast_view.recruit_hint_text);
-    beast_view.actions_text = runtime_.Config().GetString("spirit_beast_actions_text", beast_view.actions_text);
-    beast_view.dispatch_in_progress_text = runtime_.Config().GetString("spirit_beast_dispatch_in_progress_text", beast_view.dispatch_in_progress_text);
-    beast_view.dispatch_idle_text = runtime_.Config().GetString("spirit_beast_dispatch_idle_text", beast_view.dispatch_idle_text);
-    beast_view.state_text = runtime_.Config().GetString("spirit_beast_state_idle_text", "待机");
-    switch (beast.state) {
-    case SpiritBeastState::Idle: beast_view.state_text = runtime_.Config().GetString("spirit_beast_state_idle_text", "待机"); break;
-    case SpiritBeastState::Wander: beast_view.state_text = runtime_.Config().GetString("spirit_beast_state_wander_text", "巡游"); break;
-    case SpiritBeastState::Follow: beast_view.state_text = runtime_.Config().GetString("spirit_beast_state_follow_text", "跟随"); break;
-    case SpiritBeastState::Interact: beast_view.state_text = runtime_.Config().GetString("spirit_beast_state_interact_text", "互动"); break;
-    }
-    pixel_hud_->UpdateSpiritBeastPanel(beast_view);
-
-    BuildingPanelViewData building_view;
-    building_view.player_gold = world_state.GetGold();
-    building_view.main_house_level = world_state.GetMainHouseRepair().level;
-    building_view.greenhouse_unlocked = world_state.GetGreenhouseUnlocked();
-    building_view.workshop_level = runtime_.Systems().GetWorkshop().Level();
-    building_view.category_prefix = runtime_.Config().GetString(
-        "building_category_prefix", building_view.category_prefix);
-    building_view.list_title = runtime_.Config().GetString(
-        "building_list_title", building_view.list_title);
-    building_view.upgrade_requirement_text = runtime_.Config().GetString(
-        "building_upgrade_requirement_text", building_view.upgrade_requirement_text);
-    building_view.preview_text = runtime_.Config().GetString(
-        "building_preview_text", building_view.preview_text);
-    building_view.actions_text = runtime_.Config().GetString(
-        "building_actions_text", building_view.actions_text);
-    building_view.building_lines = {
-        runtime_.Config().GetString(
-            "building_line_main_house",
-            "主屋 Lv" + std::to_string(building_view.main_house_level) + "   状态: 可升级   效果: 解锁更多系统"),
-        runtime_.Config().GetString(
-            "building_line_greenhouse",
-            "温室 " + std::string(building_view.greenhouse_unlocked ? "已解锁" : "未解锁")
-                + "   状态: " + (building_view.greenhouse_unlocked ? "可使用" : "需主屋升级")),
-        runtime_.Config().GetString(
-            "building_line_workshop",
-            "工坊 Lv" + std::to_string(building_view.workshop_level) + "   状态: 可升级   效果: 队列 +1"),
+    context.play_sfx = [this](const std::string& sfx_id) {
+        if (!audio_) return;
+        (void)audio_->PlaySFX(sfx_id);
     };
-    pixel_hud_->UpdateBuildingPanel(building_view);
-
-    ContractPanelViewData contract_view;
-    const auto& contracts = runtime_.Systems().GetContracts();
-    contract_view.volumes_line_prefix = runtime_.Config().GetString("contract_volumes_line_prefix", contract_view.volumes_line_prefix);
-    contract_view.tracking_line_prefix = runtime_.Config().GetString("contract_tracking_line_prefix", contract_view.tracking_line_prefix);
-    contract_view.tracking_name_separator = runtime_.Config().GetString("contract_tracking_name_separator", contract_view.tracking_name_separator);
-    contract_view.bonus_prefix = runtime_.Config().GetString("contract_bonus_prefix", contract_view.bonus_prefix);
-    contract_view.tasks_title = runtime_.Config().GetString("contract_tasks_title", contract_view.tasks_title);
-    contract_view.chapter_reward_hint_text = runtime_.Config().GetString("contract_chapter_reward_hint_text", contract_view.chapter_reward_hint_text);
-    contract_view.completed_volumes = contracts.CompletedVolumeCount();
-    contract_view.total_volumes = static_cast<int>(contracts.Volumes().size());
-    if (const auto* tracking = contracts.GetTrackingVolume()) {
-        contract_view.tracking_volume_id = tracking->volume_id;
-        contract_view.tracking_volume_name = tracking->name;
-        contract_view.tracking_bonus = tracking->permanent_bonus_description;
-        contract_view.task_lines.clear();
-        const std::size_t count = std::min<std::size_t>(3, tracking->items.size());
-        for (std::size_t i = 0; i < count; ++i) {
-            const auto& item = tracking->items[i];
-            const std::string prefix = item.completed ? "✓ " : "○ ";
-            contract_view.task_lines.push_back(prefix + item.name + "  需求: " + std::to_string(item.required_count));
-        }
-    }
-    pixel_hud_->UpdateContractPanel(contract_view);
-
-    NpcDetailPanelViewData npc_view;
-    const auto& npcs = world_state.GetNpcs();
-    const int highlighted_npc = world_state.GetInteraction().highlighted_npc_index;
-    const NpcActor* selected_npc = nullptr;
-    if (highlighted_npc >= 0 && highlighted_npc < static_cast<int>(npcs.size())) {
-        selected_npc = &npcs[static_cast<std::size_t>(highlighted_npc)];
-    } else if (!npcs.empty()) {
-        selected_npc = &npcs.front();
-    }
-    if (selected_npc != nullptr) {
-        npc_view.name = selected_npc->display_name;
-        npc_view.heart_level = selected_npc->heart_level;
-        npc_view.favor = selected_npc->favor;
-        npc_view.talked_today = selected_npc->daily_talked;
-        npc_view.gifted_today = selected_npc->daily_gifted;
-        npc_view.location = selected_npc->current_location.empty() ? "云海山庄" : selected_npc->current_location;
-    }
-    npc_view.title_suffix = runtime_.Config().GetString("npc_detail_title_suffix", npc_view.title_suffix);
-    npc_view.location_prefix = runtime_.Config().GetString("npc_detail_location_prefix", npc_view.location_prefix);
-    npc_view.favor_prefix = runtime_.Config().GetString("npc_detail_favor_prefix", npc_view.favor_prefix);
-    npc_view.heart_event_text = runtime_.Config().GetString("npc_detail_heart_event_text", npc_view.heart_event_text);
-    npc_view.talked_done_text = runtime_.Config().GetString("npc_detail_talked_done_text", npc_view.talked_done_text);
-    npc_view.talked_todo_text = runtime_.Config().GetString("npc_detail_talked_todo_text", npc_view.talked_todo_text);
-    npc_view.gifted_done_text = runtime_.Config().GetString("npc_detail_gifted_done_text", npc_view.gifted_done_text);
-    npc_view.gifted_todo_text = runtime_.Config().GetString("npc_detail_gifted_todo_text", npc_view.gifted_todo_text);
-    npc_view.event_hint_text = runtime_.Config().GetString("npc_detail_event_hint_text", npc_view.event_hint_text);
-    npc_view.actions_text = runtime_.Config().GetString("npc_detail_actions_text", npc_view.actions_text);
-    pixel_hud_->UpdateNpcDetailPanel(npc_view);
-
-    SpiritRealmPanelViewData spirit_realm_view;
-    spirit_realm_view.mode_text = runtime_.Config().GetString("spirit_realm_mode_text", "轻松");
-    spirit_realm_view.max_count = world_state.GetSpiritRealmDailyMax();
-    spirit_realm_view.in_spirit_realm = world_state.GetInSpiritRealm();
-    spirit_realm_view.remaining_count = world_state.GetSpiritRealmDailyRemaining();
-    spirit_realm_view.drop_bonus_percent = std::max(0, static_cast<int>((runtime_.CloudMultiplier() - 1.0f) * 100.0f));
-    spirit_realm_view.mode_line_prefix = runtime_.Config().GetString(
-        "spirit_realm_mode_prefix", spirit_realm_view.mode_line_prefix);
-    spirit_realm_view.mode_options_text = runtime_.Config().GetString(
-        "spirit_realm_mode_options_text", spirit_realm_view.mode_options_text);
-    spirit_realm_view.remaining_line_prefix = runtime_.Config().GetString(
-        "spirit_realm_remaining_prefix", spirit_realm_view.remaining_line_prefix);
-    spirit_realm_view.drop_bonus_prefix = runtime_.Config().GetString(
-        "spirit_realm_drop_bonus_prefix", spirit_realm_view.drop_bonus_prefix);
-    spirit_realm_view.regions_title = runtime_.Config().GetString(
-        "spirit_realm_regions_title", spirit_realm_view.regions_title);
-    spirit_realm_view.default_region_line_1 = runtime_.Config().GetString(
-        "spirit_realm_default_region_line_1", spirit_realm_view.default_region_line_1);
-    spirit_realm_view.default_region_line_2 = runtime_.Config().GetString(
-        "spirit_realm_default_region_line_2", spirit_realm_view.default_region_line_2);
-    spirit_realm_view.default_region_line_3 = runtime_.Config().GetString(
-        "spirit_realm_default_region_line_3", spirit_realm_view.default_region_line_3);
-    spirit_realm_view.active_state_in_realm_text = runtime_.Config().GetString(
-        "spirit_realm_active_state_in_realm_text", spirit_realm_view.active_state_in_realm_text);
-    spirit_realm_view.active_state_unlocked_text = runtime_.Config().GetString(
-        "spirit_realm_active_state_unlocked_text", spirit_realm_view.active_state_unlocked_text);
-    spirit_realm_view.active_state_suffix = runtime_.Config().GetString(
-        "spirit_realm_active_state_suffix", spirit_realm_view.active_state_suffix);
-    spirit_realm_view.lock_hint_text = runtime_.Config().GetString(
-        "spirit_realm_lock_hint_text", spirit_realm_view.lock_hint_text);
-    spirit_realm_view.actions_text = runtime_.Config().GetString(
-        "spirit_realm_actions_text", spirit_realm_view.actions_text);
-    spirit_realm_view.region_lines = {
-        runtime_.Config().GetString("spirit_realm_region_line_1", "浅层云径  Lv8   掉落: 灵尘/雾草"),
-        runtime_.Config().GetString("spirit_realm_region_line_2", "潮汐裂谷  Lv15  状态: 🔒 需契约卷3"),
-        runtime_.Config().GetString("spirit_realm_region_line_3", "霜岚祭坛  Lv22  状态: 🔒 需山庄等级5"),
+    context.now_seconds = []() {
+        using Clock = std::chrono::steady_clock;
+        const auto now = Clock::now().time_since_epoch();
+        return std::chrono::duration<float>(now).count();
     };
-    pixel_hud_->UpdateSpiritRealmPanel(spirit_realm_view);
+    const auto& cfg = runtime_.Config();
+    context.allow_auto_open_festival_panel = cfg.GetFloat("hud_allow_auto_open_festival_panel", 1.0f) >= 0.5f;
+    context.allow_auto_open_mail_panel = cfg.GetFloat("hud_allow_auto_open_mail_panel", 1.0f) >= 0.5f;
+    context.allow_mail_arrival_notify = cfg.GetFloat("hud_allow_mail_arrival_notify", 1.0f) >= 0.5f;
+    context.allow_achievement_notify = cfg.GetFloat("hud_allow_achievement_notify", 1.0f) >= 0.5f;
+    context.allow_achievement_unlock_sfx = cfg.GetFloat("hud_allow_achievement_unlock_sfx", 1.0f) >= 0.5f;
+    context.sfx_throttle_seconds = std::max(0.0f, cfg.GetFloat("hud_sfx_throttle_seconds", 0.25f));
+    return context;
+}
 
-    BeastiaryPanelViewData beastiary_view;
-    beastiary_view.filter_text = runtime_.Config().GetString(
-        "beastiary_filter_text", beastiary_view.filter_text);
-    beastiary_view.progress_prefix = runtime_.Config().GetString(
-        "beastiary_progress_prefix", beastiary_view.progress_prefix);
-    const std::array<std::string, 3> tracked_pet_types{"cat", "dog", "bird"};
-    const auto& achievements_map = world_state.GetAchievements();
-    beastiary_view.total_count = static_cast<int>(tracked_pet_types.size());
-    beastiary_view.discovered_count = 0;
-    for (const auto& type : tracked_pet_types) {
-        const auto it = achievements_map.find("pet_collected_" + type);
-        const bool discovered = (it != achievements_map.end() && it->second);
-        if (discovered) {
-            ++beastiary_view.discovered_count;
-            beastiary_view.discovered_lines.push_back(
-                PetDisplayName_(type) + "      已发现   区域: 云海山庄");
-        } else {
-            beastiary_view.undiscovered_lines.push_back(
-                "???         未发现   条件: 解锁" + PetDisplayName_(type) + "认养");
-        }
+void GameApp::HandleHudSideEffects_() {
+    if (!pixel_hud_) {
+        return;
     }
-    if (world_state.GetPetAdopted()) {
-        beastiary_view.selected_detail =
-            "选中详情: 已结缘灵兽 " + PetDisplayName_(world_state.GetPetType());
-    } else {
-        beastiary_view.selected_detail = "选中详情: 尚未结缘灵兽";
-    }
-    pixel_hud_->UpdateBeastiaryPanel(beastiary_view);
-
-    WorkshopPanelViewData workshop_view;
-    const auto& workshop = runtime_.Systems().GetWorkshop();
-    const auto& machine = world_state.GetTeaMachine();
-    workshop_view.auto_craft = machine.running;
-    workshop_view.workshop_level = workshop.Level();
-    workshop_view.unlocked_slots = workshop.UnlockedSlots();
-    workshop_view.tabs_text = runtime_.Config().GetString("workshop_tabs_text", workshop_view.tabs_text);
-    workshop_view.queue_title_text = runtime_.Config().GetString("workshop_queue_title_text", workshop_view.queue_title_text);
-    workshop_view.queue_primary_prefix = runtime_.Config().GetString("workshop_queue_primary_prefix", workshop_view.queue_primary_prefix);
-    workshop_view.queue_progress_suffix = runtime_.Config().GetString("workshop_queue_progress_suffix", workshop_view.queue_progress_suffix);
-    workshop_view.empty_slot_line_2 = runtime_.Config().GetString("workshop_empty_slot_line_2", workshop_view.empty_slot_line_2);
-    workshop_view.empty_slot_line_3 = runtime_.Config().GetString("workshop_empty_slot_line_3", workshop_view.empty_slot_line_3);
-    workshop_view.stock_prefix = runtime_.Config().GetString("workshop_stock_prefix", workshop_view.stock_prefix);
-    workshop_view.stock_tea_label = runtime_.Config().GetString("workshop_stock_tea_label", workshop_view.stock_tea_label);
-    workshop_view.stock_wood_label = runtime_.Config().GetString("workshop_stock_wood_label", workshop_view.stock_wood_label);
-    workshop_view.stock_crystal_label = runtime_.Config().GetString("workshop_stock_crystal_label", workshop_view.stock_crystal_label);
-    workshop_view.actions_text = runtime_.Config().GetString("workshop_actions_text", workshop_view.actions_text);
-    workshop_view.active_recipe = runtime_.Config().GetString("workshop_idle_recipe_text", "待命");
-    const auto& machines = workshop.GetMachines();
-    workshop_view.queue_lines.clear();
-    const std::size_t line_count = std::min<std::size_t>(3, machines.size());
-    for (std::size_t i = 0; i < line_count; ++i) {
-        const auto& m = machines[i];
-        std::string recipe_name = runtime_.Config().GetString("workshop_idle_recipe_text", "待命");
-        if (!m.recipe_id.empty()) {
-            if (const auto* recipe = workshop.GetRecipe(m.recipe_id)) {
-                recipe_name = recipe->name;
-            } else {
-                recipe_name = m.recipe_id;
-            }
-        }
-        const int machine_progress_pct = static_cast<int>(std::max(0.0f, std::min(100.0f, m.progress)));
-        workshop_view.queue_lines.push_back(
-            std::to_string(i + 1) + ") " + recipe_name + "      " + std::to_string(machine_progress_pct) + "%  "
-            + (m.is_processing ? "加工中" : "空闲"));
-    }
-    while (workshop_view.queue_lines.size() < 3) {
-        workshop_view.queue_lines.push_back(
-            std::to_string(workshop_view.queue_lines.size() + 1) + ") 空槽位");
-    }
-    if (!machines.empty()) {
-        const auto& first_machine = machines.front();
-        if (!first_machine.recipe_id.empty()) {
-            if (const auto* recipe = workshop.GetRecipe(first_machine.recipe_id)) {
-                workshop_view.active_recipe = recipe->name;
-            } else {
-                workshop_view.active_recipe = first_machine.recipe_id;
-            }
-        }
-    }
-    workshop_view.queue_progress = machine.progress;
-    workshop_view.queued_output = machine.queued_output;
-    workshop_view.tea_leaf_stock = world_state.GetInventory().CountOf("TeaLeaf");
-    workshop_view.wood_stock = world_state.GetInventory().CountOf("Wood");
-    workshop_view.crystal_stock = world_state.GetInventory().CountOf("SpiritDust");
-    pixel_hud_->UpdateWorkshopPanel(workshop_view);
-
-    // UI-030: 节日期间自动显示节日面板（每天首次触发一次）。
-    if (const auto* today_festival = runtime_.Systems().GetFestivals().GetTodayFestival()) {
-        (void)today_festival;
-        if (current_day != last_festival_auto_popup_day_) {
-            if (!pixel_hud_->IsDialogueOpen() && !pixel_hud_->IsAnyPanelOpen()) {
-                pixel_hud_->ToggleFestival();
-                last_festival_auto_popup_day_ = current_day;
-            }
-        }
-    }
+    const auto context = BuildHudEffectContext_();
+    HudSideEffects::ApplyAll(*pixel_hud_, runtime_, ui_state_.hud_side_effects, context);
 }
 
 void GameApp::Render(sf::RenderWindow& window) {
@@ -1021,28 +1108,28 @@ void GameApp::Render(sf::RenderWindow& window) {
         }
     }
     runtime_.RenderSceneTransition(window);
-    loading_screen_.Render(window, pixel_hud_ ? pixel_hud_->GetFontRenderer() : nullptr);
+    loading_screen_.Render(window, pixel_hud_ ? pixel_hud_->MutableFontRenderer() : nullptr);
     window.display();
 }
 
-void GameApp::RunWithLoading_(const std::string& stage_text, const std::function<void()>& fn) {
-    if (window_ptr_ == nullptr || fn == nullptr) {
-        if (fn) fn();
+void GameApp::RunWithLoading_(sf::RenderWindow& window, const std::string& stage_text, const std::function<void()>& fn) {
+    if (!fn) {
+        Logger::Warning("RunWithLoading_: null callback received, skipping");
         return;
     }
     loading_screen_.SetStageText(stage_text);
     loading_screen_.SetVisible(true);
 
-    window_ptr_->clear(sf::Color(18, 18, 18));
+    window.clear(sf::Color(18, 18, 18));
     if (show_main_menu_) {
-        RenderMainMenu_(*window_ptr_);
+        RenderMainMenu_(window);
     } else {
-        world_renderer_.Render(*window_ptr_, runtime_.WorldState());
-        if (hud_renderer_) hud_renderer_->Render(*window_ptr_, runtime_.WorldState());
-        if (pixel_hud_) pixel_hud_->Render(*window_ptr_);
+        world_renderer_.Render(window, runtime_.WorldState());
+        if (hud_renderer_) hud_renderer_->Render(window, runtime_.WorldState());
+        if (pixel_hud_) pixel_hud_->Render(window);
     }
-    loading_screen_.Render(*window_ptr_, pixel_hud_ ? pixel_hud_->GetFontRenderer() : nullptr);
-    window_ptr_->display();
+    loading_screen_.Render(window, pixel_hud_ ? pixel_hud_->MutableFontRenderer() : nullptr);
+    window.display();
     sf::sleep(sf::milliseconds(16));
 
     fn();

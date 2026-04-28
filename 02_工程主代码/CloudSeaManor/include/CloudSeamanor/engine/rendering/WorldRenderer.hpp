@@ -13,12 +13,15 @@
 // - Render heart particles
 // - Render pickups
 // - Render player
+// - Render festival decorations (data-driven)
 // ============================================================================
 
 #include "CloudSeamanor/GameWorldState.hpp"
 #include "CloudSeamanor/engine/rendering/PlayerVisualComponent.hpp"
+#include "CloudSeamanor/engine/rendering/FestivalDecorationSystem.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
 namespace CloudSeamanor::engine {
 
@@ -31,6 +34,11 @@ public:
         const GameWorldState& world_state
     );
 
+    // ========================================================================
+    // 【LoadFestivalDecorations】加载节日装饰配置
+    // ========================================================================
+    bool LoadFestivalDecorations(const std::string& config_path);
+
 private:
     void RenderGroundTiles_(sf::RenderWindow& window, const GameWorldState& ws);
     void RenderObstacles_(sf::RenderWindow& window, const GameWorldState& ws);
@@ -40,9 +48,20 @@ private:
     void RenderSpiritBeast_(sf::RenderWindow& window, const GameWorldState& ws);
     void RenderParticles_(sf::RenderWindow& window, const GameWorldState& ws);
     void RenderPickups_(sf::RenderWindow& window, const GameWorldState& ws);
+    void RenderPlacedObjects_(sf::RenderWindow& window, const GameWorldState& ws);
     void RenderPlayer_(sf::RenderWindow& window, const GameWorldState& ws);
+    void EnsureTileTextureLoaded_();
+    void DrawAtlasEntity_(sf::RenderWindow& window,
+                          const sf::IntRect& atlas_rect,
+                          const sf::FloatRect& world_rect,
+                          const sf::Color& tint = sf::Color::White);
 
     PlayerVisualComponent player_visual_;
+    sf::Texture tiny_town_tilemap_;
+    bool tiny_town_tilemap_loaded_ = false;
+
+    // 节日装饰系统（数据驱动）
+    rendering::FestivalDecorationSystem festival_decorations_;
 };
 
 }  // namespace CloudSeamanor::engine

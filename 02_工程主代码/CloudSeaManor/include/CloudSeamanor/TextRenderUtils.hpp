@@ -4,7 +4,13 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/System/String.hpp>
 
+#include <memory>
 #include <string>
+#include <vector>
+
+namespace CloudSeamanor::infrastructure {
+class ResourceManager;
+}
 
 namespace CloudSeamanor::rendering {
 
@@ -40,6 +46,9 @@ class TextFactory {
 public:
     TextFactory(const TextFactory&) = delete;
     TextFactory& operator=(const TextFactory&) = delete;
+
+    // 注入 ResourceManager，优先通过它获取字体（统一资源路径）
+    static void SetResourceManager(infrastructure::ResourceManager* rm);
 
     // 加载字体文件路径列表，按顺序尝试，返回第一个成功的路径（用于日志）
     static const std::string& LoadFont(const std::vector<std::string>& paths);

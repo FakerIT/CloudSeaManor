@@ -10,6 +10,7 @@ struct NpcDetailPanelViewData {
     std::string name = "未知NPC";
     int heart_level = 0;
     int favor = 0;
+    std::string cloud_stage_text = "☁️ 薄云";
     bool talked_today = false;
     bool gifted_today = false;
     std::string location = "未知地点";

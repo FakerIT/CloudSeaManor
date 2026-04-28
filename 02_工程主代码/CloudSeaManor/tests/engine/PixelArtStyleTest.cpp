@@ -2,7 +2,7 @@
 // 【PixelArtStyleTest.cpp】ColorPalette 季节主题色测试
 // ============================================================================
 
-#include "catch2Compat.hpp"
+#include "../catch2Compat.hpp"
 #include "CloudSeamanor/GameClock.hpp"
 #include "CloudSeamanor/PixelArtStyle.hpp"
 
