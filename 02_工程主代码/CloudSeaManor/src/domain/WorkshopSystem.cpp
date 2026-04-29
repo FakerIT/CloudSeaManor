@@ -70,14 +70,14 @@ void WorkshopSystem::Initialize() {
 // ============================================================================
 // 【Update】更新机器进度
 // ============================================================================
-std::vector<std::string> WorkshopSystem::Update(
+std::vector<MachineCompletionInfo> WorkshopSystem::Update(
     float delta_time,
     float cloud_density,
     int skill_level,
     int tool_level,
     std::unordered_map<std::string, int>& output_items
 ) {
-    std::vector<std::string> completed_machines;
+    std::vector<MachineCompletionInfo> completed_machines;
 
     for (auto& machine : machines_) {
         if (!machine.is_processing) {
@@ -103,7 +103,16 @@ std::vector<std::string> WorkshopSystem::Update(
 
         if (machine.progress >= 100.0f) {
             output_items[recipe->output_item] += recipe->output_count;
-            completed_machines.push_back(machine.machine_id);
+            
+            // 构建完成信息
+            MachineCompletionInfo info;
+            info.machine_id = machine.machine_id;
+            info.recipe_id = machine.recipe_id;
+            info.output_item = recipe->output_item;
+            info.output_count = recipe->output_count;
+            info.quality_score = machine.quality_score;
+            completed_machines.push_back(info);
+            
             machine.progress = 0.0f;
             machine.is_processing = false;
             machine.recipe_id = "";

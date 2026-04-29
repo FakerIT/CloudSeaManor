@@ -76,6 +76,7 @@ public:
         std::function<void()> interact;
         std::function<void()> eat_food;
         std::function<void(const CloudSeamanor::domain::CloudState&)> update_aura;
+        std::function<void()> toggle_loop_debug_panel;  // 循环调试面板
     };
 
     void SetGameCallbacks(GameCallbacks callbacks);

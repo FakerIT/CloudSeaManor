@@ -1,0 +1,21 @@
+# 行为记忆 - 记忆类型规则表
+# 列：Id, MemoryType, DecayDays, DefaultWeight, Mergeable
+# 说明：
+# - Id: 唯一标识
+# - MemoryType: 记忆类型
+# - DecayDays: 默认衰减天数
+# - DefaultWeight: 默认权重
+# - Mergeable: 是否可合并（同类型重复发生）
+
+Id,MemoryType,DecayDays,DefaultWeight,Mergeable
+rule_brew_holy,BrewHolyTea,14,3,true
+rule_brew_new,BrewNewTea,7,1,true
+rule_farm,FarmFocused,7,1,true
+rule_workshop,WorkshopFocused,7,1,true
+rule_explore,ExploreBackMountain,5,1,true
+rule_purify,PurifyMiasma,7,2,true
+rule_festival,FestivalAttend,10,1,false
+rule_relationship,RelationshipMilestone,30,5,false
+rule_eco_balanced,EcoBalanced,14,2,false
+rule_eco_imbalanced,EcoImbalanced,7,1,false
+rule_tea_spirit,TeaSpiritUnlocked,30,5,false

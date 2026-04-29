@@ -1,0 +1,33 @@
+# 行为记忆 - 邮件模板表
+# 列：Id, MemoryType, SpeakerId, MinHeartLevel, MinWeight, Subject, Body, CooldownDays
+# 说明：
+# - Id: 唯一标识
+# - MemoryType: 关联记忆类型
+# - SpeakerId: 发件 NPC 的 ID
+# - MinHeartLevel: 最低好感等级
+# - MinWeight: 最低权重
+# - Subject: 邮件主题
+# - Body: 邮件正文
+# - CooldownDays: 冷却天数
+
+Id,MemoryType,SpeakerId,MinHeartLevel,MinWeight,Subject,Body,CooldownDays
+brew_holy_care,BrewHolyTea,yunseng,3,2,关于你的好茶,"最近听闻你制的茶越发精进了，心中甚喜。
+
+好茶配好人，有空带些来坐坐，我泡茶等你。
+
+—— 云生",14
+explore_care,ExploreBackMountain,yunseng,4,3,后山归来注意休息,"你最近总在后山忙碌，我虽不常见你，却也有所耳闻。
+
+山中路远，记得带些补给，注意安全。有空回来歇歇脚。
+
+—— 云生",10
+eco_balance_notice,EcoBalanced,yunseng,3,2,庄园气息变化,"今日走过你的庄园，感觉气息比以前平和了许多。
+
+不知你是否也察觉到了？这般变化，令人欣慰。
+
+—— 云生",14
+tea_spirit_discover,TeaSpiritUnlocked,wanxing,3,1,关于新来的茶灵,"听说你新近结缘了一位茶灵，恭喜。
+
+茶灵有灵，能识主人之心。好好相处，或许会有意想不到的收获。
+
+—— 晚星",14

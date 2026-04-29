@@ -1,0 +1,20 @@
+# 茶灵定义表
+# 列：Id, TeaId, Name, Rarity, Description
+# 说明：
+# - Id: 茶灵唯一标识
+# - TeaId: 对应灵茶 ID
+# - Name: 茶灵名称
+# - Rarity: 稀有度 (Common/Seasonal/Hidden/Auspicious)
+# - Description: 图鉴描述
+
+Id,TeaId,Name,Rarity,Description
+cloud_green_dragon,cloud_green,翠灵龙,Common,春晨露气凝聚的翠色小龙，常伴茶烟盘旋。
+dew_deer,dew_white,晶露鹿,Seasonal,雨后清晨方现的小鹿，蹄过留露。
+sunset_swallow,sunset_oolong,霞翼燕,Seasonal,黄昏时分现身，霞色羽翼映照茶汤。
+frost_fox,frost_oolong,霜尾狐,Hidden,秋夜霜降时方可见其踪迹。
+snow_crane,snow_silver,雪羽鹤,Seasonal,冬雪纷飞中翩然而至。
+golden_sparrow,golden_bud,金芽灵雀,Common,高灵气之时方现，灵动如金。
+moon_petal,moon_white,月华蝶,Hidden,夜深月明时围绕茶盏起舞。
+cloud_rabbit,cloud_mist,云雾兔,Common,常在茶烟中若隐若现。
+rainbow_phoenix,rainbow_oolong,虹羽凤,Auspicious,祥瑞之兆，唯有灵茶大成方能引现。
+spring_willow,spring_green,春柳莺,Seasonal,春季特有，声如柳叶轻拂。

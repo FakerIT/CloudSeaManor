@@ -24,6 +24,9 @@
 #include "CloudSeamanor/domain/WorkshopSystem.hpp"
 #include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
 #include "CloudSeamanor/domain/NpcDevelopmentSystem.hpp"
+#include "CloudSeamanor/domain/ManorEcologySystem.hpp"
+#include "CloudSeamanor/domain/PlayerMemorySystem.hpp"
+#include "CloudSeamanor/domain/TeaSpiritDexSystem.hpp"
 #include "CloudSeamanor/engine/NpcDialogueManager.hpp"
 #include "CloudSeamanor/engine/PickupSystem.hpp"
 
@@ -69,6 +72,15 @@ public:
     [[nodiscard]] CloudSeamanor::domain::NpcDevelopmentSystem& GetNpcDevelopment() { return npc_development_; }
     [[nodiscard]] const CloudSeamanor::domain::NpcDevelopmentSystem& GetNpcDevelopment() const { return npc_development_; }
     [[nodiscard]] CloudSeamanor::domain::NpcDevelopmentSystem& MutableNpcDevelopment() { return npc_development_; }
+    [[nodiscard]] CloudSeamanor::domain::ManorEcologySystem& GetEcology() { return ecology_; }
+    [[nodiscard]] const CloudSeamanor::domain::ManorEcologySystem& GetEcology() const { return ecology_; }
+    [[nodiscard]] CloudSeamanor::domain::ManorEcologySystem& MutableEcology() { return ecology_; }
+    [[nodiscard]] CloudSeamanor::domain::PlayerMemorySystem& GetMemory() { return memory_; }
+    [[nodiscard]] const CloudSeamanor::domain::PlayerMemorySystem& GetMemory() const { return memory_; }
+    [[nodiscard]] CloudSeamanor::domain::PlayerMemorySystem& MutableMemory() { return memory_; }
+    [[nodiscard]] CloudSeamanor::domain::TeaSpiritDexSystem& GetTeaSpiritDex() { return tea_spirit_dex_; }
+    [[nodiscard]] const CloudSeamanor::domain::TeaSpiritDexSystem& GetTeaSpiritDex() const { return tea_spirit_dex_; }
+    [[nodiscard]] CloudSeamanor::domain::TeaSpiritDexSystem& MutableTeaSpiritDex() { return tea_spirit_dex_; }
     [[nodiscard]] NpcDialogueManager& GetDialogueManager() { return dialogue_manager_; }
     [[nodiscard]] const NpcDialogueManager& GetDialogueManager() const { return dialogue_manager_; }
     [[nodiscard]] NpcDialogueManager& MutableDialogueManager() { return dialogue_manager_; }
@@ -91,6 +103,12 @@ public:
         int skill_level,
         int tool_level,
         std::unordered_map<std::string, int>& output_items);
+    std::vector<CloudSeamanor::domain::MachineCompletionInfo> UpdateWorkshopWithCompletion(
+        float delta_time,
+        float cloud_density,
+        int skill_level,
+        int tool_level,
+        std::unordered_map<std::string, int>& output_items);
     void CheckContractUnlocks();
     void AddPlayerInfluence(int value);
 
@@ -99,6 +117,12 @@ public:
     // ========================================================================
     [[nodiscard]] std::string SaveContractsState() const;
     void LoadContractsState(const std::string& state);
+    [[nodiscard]] std::string SaveEcologyState() const;
+    void LoadEcologyState(const std::string& state);
+    [[nodiscard]] std::string SaveMemoryState() const;
+    void LoadMemoryState(const std::string& state);
+    [[nodiscard]] std::string SaveTeaSpiritDexState() const;
+    void LoadTeaSpiritDexState(const std::string& state);
 
 private:
     CloudSeamanor::domain::CloudSystem cloud_;
@@ -108,6 +132,9 @@ private:
     CloudSeamanor::domain::WorkshopSystem workshop_;
     CloudSeamanor::domain::DynamicLifeSystem dynamic_life_;
     CloudSeamanor::domain::NpcDevelopmentSystem npc_development_;
+    CloudSeamanor::domain::ManorEcologySystem ecology_;
+    CloudSeamanor::domain::PlayerMemorySystem memory_;
+    CloudSeamanor::domain::TeaSpiritDexSystem tea_spirit_dex_;
     NpcDialogueManager dialogue_manager_;
     PickupSystem pickups_;
 };

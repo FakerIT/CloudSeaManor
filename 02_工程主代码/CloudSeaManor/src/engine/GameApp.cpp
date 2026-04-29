@@ -384,6 +384,7 @@ int GameApp::Run() {
 
     if (font_loaded) {
         runtime_.WorldState().InitializeTexts(resources_->GetFont(font_id));
+        runtime_.InitializeLoopDebugPanel(resources_->GetFont(font_id));
         pixel_hud_->Initialize(resources_->GetFont(font_id), &ui_layout_config_);
         pixel_hud_->SetUiScale(1.0f);
         pixel_hud_->SetUiEventCallback([this](PixelGameHud::UiEventType event_type) {
@@ -452,6 +453,7 @@ int GameApp::Run() {
                 cbs);
         });
         SetupInputCallbacks_();
+        runtime_.InitializeLoopCoordinator();
         runtime_ready_ = true;
     } catch (const std::exception& ex) {
         Logger::Error(std::string("Game runtime init failed, keep menu mode: ") + ex.what());
@@ -718,6 +720,9 @@ void GameApp::Update(float delta_seconds) {
     }
 
     runtime_.Update(delta_seconds * runtime_.TimeScale());
+
+    // 更新循环调试面板
+    runtime_.UpdateLoopDebugPanel();
 
     UpdatePixelHud_(delta_seconds);
 }
@@ -993,6 +998,7 @@ void GameApp::UpdatePixelHud_(float delta_seconds) {
     HudPanelPresenters::UpdateBuildingPanel(*pixel_hud_, runtime_);
     HudPanelPresenters::UpdateContractPanel(*pixel_hud_, runtime_);
     HudPanelPresenters::UpdateNpcDetailPanel(*pixel_hud_, runtime_);
+    HudPanelPresenters::UpdateNpcSchedulePanel(*pixel_hud_, runtime_);
     HudPanelPresenters::UpdateSpiritRealmPanel(*pixel_hud_, runtime_);
     HudPanelPresenters::UpdateBeastiaryPanel(*pixel_hud_, runtime_);
     HudPanelPresenters::UpdateWorkshopPanel(*pixel_hud_, runtime_);
@@ -1108,6 +1114,7 @@ void GameApp::Render(sf::RenderWindow& window) {
         }
     }
     runtime_.RenderSceneTransition(window);
+    runtime_.RenderLoopDebugPanel(window);
     loading_screen_.Render(window, pixel_hud_ ? pixel_hud_->MutableFontRenderer() : nullptr);
     window.display();
 }

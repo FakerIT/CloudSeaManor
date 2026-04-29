@@ -122,6 +122,7 @@ void PixelGameHud::Initialize(const sf::Font& font, const infrastructure::UiLayo
     workshop_panel_.SetFontRenderer(font_renderer_.get());
     contract_panel_.SetFontRenderer(font_renderer_.get());
     npc_detail_panel_.SetFontRenderer(font_renderer_.get());
+    npc_schedule_panel_.SetFontRenderer(font_renderer_.get());
     spirit_beast_panel_.SetFontRenderer(font_renderer_.get());
     festival_panel_.SetFontRenderer(font_renderer_.get());
     spirit_realm_panel_.SetFontRenderer(font_renderer_.get());
@@ -412,6 +413,32 @@ void PixelGameHud::ToggleMap() {
         inventory_grid_.SetVisible(false);
         panel_state_.quest_menu_open = false;
         quest_menu_.SetVisible(false);
+    }
+}
+
+// ============================================================================
+// 【PixelGameHud::ToggleNpcSchedule】NPC日程面板
+// ============================================================================
+void PixelGameHud::ToggleNpcSchedule() {
+    if (panel_state_.dialogue_open) return;
+
+    panel_state_.npc_schedule_open = !panel_state_.npc_schedule_open;
+    npc_schedule_panel_.SetVisible(panel_state_.npc_schedule_open);
+    if (panel_state_.npc_schedule_open) {
+        npc_schedule_panel_.FadeIn();
+        EmitUiEvent_(UiEventType::Open);
+    } else {
+        npc_schedule_panel_.FadeOut();
+        EmitUiEvent_(UiEventType::Close);
+    }
+
+    if (panel_state_.npc_schedule_open) {
+        panel_state_.inventory_open = false;
+        inventory_grid_.SetVisible(false);
+        panel_state_.quest_menu_open = false;
+        quest_menu_.SetVisible(false);
+        panel_state_.map_open = false;
+        minimap_.SetVisible(false);
     }
 }
 
@@ -871,6 +898,10 @@ void PixelGameHud::UpdateNpcDetailPanel(const NpcDetailPanelViewData& data) {
     npc_detail_panel_.UpdateData(data);
 }
 
+void PixelGameHud::UpdateNpcSchedulePanel(const NpcSchedulePanelViewData& data) {
+    npc_schedule_panel_.UpdateData(data);
+}
+
 void PixelGameHud::UpdateSpiritRealmPanel(const SpiritRealmPanelViewData& data) {
     spirit_realm_panel_.UpdateData(data);
 }
@@ -1106,6 +1137,7 @@ bool PixelGameHud::HandleKeyPressed(const sf::Event::KeyPressed& key) {
     }
     if (key.scancode == sf::Keyboard::Scancode::H) { ToggleContract(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::N) { ToggleNpcDetail(); return true; }
+    if (key.scancode == sf::Keyboard::Scancode::G) { ToggleNpcSchedule(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::B) { ToggleSpiritBeast(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::F8) { ToggleFestival(); return true; }
     if (key.scancode == sf::Keyboard::Scancode::R) { ToggleSpiritRealm(); return true; }
@@ -1574,6 +1606,7 @@ void PixelGameHud::Render(sf::RenderWindow& window) {
     workshop_panel_.Render(window);
     contract_panel_.Render(window);
     npc_detail_panel_.Render(window);
+    npc_schedule_panel_.Render(window);
     spirit_beast_panel_.Render(window);
     festival_panel_.Render(window);
     spirit_realm_panel_.Render(window);

@@ -11,6 +11,7 @@
 #include "CloudSeamanor/domain/FestivalSystem.hpp"
 #include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
 #include "CloudSeamanor/domain/WorkshopSystem.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"  // For HintType
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -109,6 +110,7 @@ void UpdateHudText(bool font_loaded,
                    int highlighted_plot_index,
                    int highlighted_npc_index,
                    const std::string& hint_message,
+                   CloudSeamanor::engine::HintType hint_type,  // QA-015: 提示类型
                    float session_time,
                    const std::string& current_target_text,
                    const std::string& dialogue_text,

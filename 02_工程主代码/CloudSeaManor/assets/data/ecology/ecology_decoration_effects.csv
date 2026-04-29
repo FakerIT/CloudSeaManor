@@ -1,0 +1,20 @@
+# 庄园生态 - 装饰效果表
+# 列：DecorId, PrimaryElement, AuraDelta, ElementDelta, StabilityDelta
+# 说明：
+# - DecorId: 装饰摆件ID
+# - PrimaryElement: 主元素 (Cloud/Wind/Dew/Glow/Tide)
+# - AuraDelta: 装饰放置时灵气浓度变化
+# - ElementDelta: 元素权重变化
+# - StabilityDelta: 平衡稳定性变化（正值表示有助于平衡）
+
+DecorId,PrimaryElement,AuraDelta,ElementDelta,StabilityDelta
+wind_chime,Wind,1,3,0
+wind_banner,Wind,1,2,0
+water_bowl,Dew,1,3,0
+water_fountain,Dew,2,4,0
+glow_mirror,Glow,1,2,1
+glow_lantern,Glow,1,3,0
+tide_shell,Tide,1,3,0
+tide_coral,Tide,2,4,0
+stone_garden,Cloud,0,0,3
+ancient_tree,Cloud,1,0,2

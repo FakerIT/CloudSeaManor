@@ -70,6 +70,19 @@ void GameWorldSystems::UpdateWorkshop(
 }
 
 // ============================================================================
+// 【UpdateWorkshopWithCompletion】更新工坊并返回完成信息
+// ============================================================================
+std::vector<CloudSeamanor::domain::MachineCompletionInfo> GameWorldSystems::UpdateWorkshopWithCompletion(
+    float delta_time,
+    float cloud_density,
+    int skill_level,
+    int tool_level,
+    std::unordered_map<std::string, int>& output_items
+) {
+    return workshop_.Update(delta_time, cloud_density, skill_level, tool_level, output_items);
+}
+
+// ============================================================================
 // 【CheckContractUnlocks】检查契约解锁
 // ============================================================================
 void GameWorldSystems::CheckContractUnlocks() {
@@ -95,6 +108,48 @@ std::string GameWorldSystems::SaveContractsState() const {
 // ============================================================================
 void GameWorldSystems::LoadContractsState(const std::string& state) {
     contracts_.LoadState(state);
+}
+
+// ============================================================================
+// 【SaveEcologyState】保存生态状态
+// ============================================================================
+std::string GameWorldSystems::SaveEcologyState() const {
+    return ecology_.Serialize();
+}
+
+// ============================================================================
+// 【LoadEcologyState】加载生态状态
+// ============================================================================
+void GameWorldSystems::LoadEcologyState(const std::string& state) {
+    ecology_.Deserialize(state);
+}
+
+// ============================================================================
+// 【SaveMemoryState】保存记忆状态
+// ============================================================================
+std::string GameWorldSystems::SaveMemoryState() const {
+    return memory_.Serialize();
+}
+
+// ============================================================================
+// 【LoadMemoryState】加载记忆状态
+// ============================================================================
+void GameWorldSystems::LoadMemoryState(const std::string& state) {
+    memory_.Deserialize(state);
+}
+
+// ============================================================================
+// 【SaveTeaSpiritDexState】保存茶灵图鉴状态
+// ============================================================================
+std::string GameWorldSystems::SaveTeaSpiritDexState() const {
+    return tea_spirit_dex_.Serialize();
+}
+
+// ============================================================================
+// 【LoadTeaSpiritDexState】加载茶灵图鉴状态
+// ============================================================================
+void GameWorldSystems::LoadTeaSpiritDexState(const std::string& state) {
+    tea_spirit_dex_.Deserialize(state);
 }
 
 } // namespace CloudSeamanor::engine

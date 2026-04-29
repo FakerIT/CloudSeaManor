@@ -34,7 +34,20 @@ if(NOT SFML_ROOT)
 endif()
 message(STATUS "Using SFML_ROOT: ${SFML_ROOT}")
 list(PREPEND CMAKE_PREFIX_PATH "${SFML_ROOT}")
+
+# 启用静态链接（避免运行时需要 DLL）
+# 注意：SFML CMake 模块使用 SFML_STATIC_LIBRARIES 而非 SFML_STATIC
+set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System Audio)
+
+# 将 SFML bin 目录添加到 DLL 搜索路径（Windows 下调试/运行时需要）
+if(WIN32 AND EXISTS "${SFML_ROOT}/bin")
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+        link_directories("${SFML_ROOT}/lib" "${SFML_ROOT}/lib/debug")
+    else()
+        link_directories("${SFML_ROOT}/lib" "${SFML_ROOT}/lib/release")
+    endif()
+endif()
 
 # ============================================================================
 # 公开头文件列表
@@ -73,6 +86,9 @@ set(CLOUDSEAMANOR_DOMAIN_HEADERS
   include/CloudSeamanor/domain/AtmosphereState.hpp
   include/CloudSeamanor/domain/RelationshipSystem.hpp
   include/CloudSeamanor/domain/SeedDropTable.hpp
+  include/CloudSeamanor/domain/ManorEcologySystem.hpp
+  include/CloudSeamanor/domain/PlayerMemorySystem.hpp
+  include/CloudSeamanor/domain/TeaSpiritDexSystem.hpp
 )
 
 # 引擎层/应用层头文件
@@ -96,6 +112,9 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/engine/GameRuntime.hpp
   include/CloudSeamanor/engine/GameWorldState.hpp
   include/CloudSeamanor/engine/GameWorldSystems.hpp
+  include/CloudSeamanor/engine/GameLoopCoordinator.hpp
+  include/CloudSeamanor/engine/GameLoopRegistry.hpp
+  include/CloudSeamanor/engine/LoopDebugPanel.hpp
   include/CloudSeamanor/engine/InteractionSystem.hpp
   include/CloudSeamanor/engine/LevelUpSystem.hpp
   include/CloudSeamanor/engine/PickupSystem.hpp
@@ -125,6 +144,7 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/engine/PixelWorkshopPanel.hpp
   include/CloudSeamanor/engine/PixelContractPanel.hpp
   include/CloudSeamanor/engine/PixelNpcDetailPanel.hpp
+  include/CloudSeamanor/engine/PixelNpcSchedulePanel.hpp
   include/CloudSeamanor/engine/PixelSpiritBeastPanel.hpp
   include/CloudSeamanor/engine/PixelFestivalPanel.hpp
   include/CloudSeamanor/engine/PixelSpiritRealmPanel.hpp
@@ -229,6 +249,9 @@ set(CLOUDSEAMANOR_DOMAIN_SOURCES
   src/domain/AtmosphereState.cpp
   src/domain/RelationshipSystem.cpp
   src/domain/SeedDropTable.cpp
+  src/domain/ManorEcologySystem.cpp
+  src/domain/PlayerMemorySystem.cpp
+  src/domain/TeaSpiritDexSystem.cpp
 )
 
 # ============================================================================
@@ -251,6 +274,9 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/GameAppWeather.cpp
   src/engine/GameRuntime.cpp
   src/engine/GameWorldState.cpp
+  src/engine/GameLoopCoordinator.cpp
+  src/engine/GameLoopRegistry.cpp
+  src/engine/LoopDebugPanel.cpp
   src/engine/FestivalRuntimeData.cpp
   src/engine/GameWorldSystems.cpp
   src/engine/InteractionSystem.cpp
@@ -303,6 +329,7 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/PixelWorkshopPanel.cpp
   src/engine/PixelContractPanel.cpp
   src/engine/PixelNpcDetailPanel.cpp
+  src/engine/PixelNpcSchedulePanel.cpp
   src/engine/PixelSpiritBeastPanel.cpp
   src/engine/PixelFestivalPanel.cpp
   src/engine/PixelSpiritRealmPanel.cpp

@@ -504,7 +504,86 @@ PATCH: 向后兼容的问题修复
 
 ---
 
-## 19. 禁止事项清单
+## 21. 游戏循环框架（GameLoopCoordinator）
+
+### 概述
+
+`GameLoopCoordinator` 统一管理所有游戏系统的帧更新循环，确保：
+1. 各系统按正确的依赖顺序执行
+2. 系统间无循环依赖
+3. 支持条件跳过不必要的更新
+4. 提供性能统计和调试信息
+
+### 循环阶段设计
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  阶段 0: TIME      - 时间更新（时钟、饥饿、Buff）           │
+│  阶段 1: INPUT     - 输入处理（移动、交互）                 │
+│  阶段 2: WORLD     - 世界更新（作物、工坊、NPC、灵兽）     │
+│  阶段 3: COMBAT    - 战斗更新（灵界战斗）                   │
+│  阶段 4: RUNTIME   - 运行时更新（教程、剧情、UI 状态）      │
+│  阶段 5: PARTICLES  - 粒子特效更新                          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 系统注册表
+
+| 阶段 | 系统 | 优先级 | 说明 |
+|------|------|--------|------|
+| Time | GameClock | 0 | 游戏时钟 |
+| Time | StaminaSystem | 1 | 体力系统 |
+| Time | HungerSystem | 2 | 饥饿系统 |
+| Time | BuffSystem | 3 | Buff系统 |
+| World | CropGrowth | 0 | 作物生长 |
+| World | Workshop | 1 | 工坊系统 |
+| World | NpcSchedule | 2 | NPC日程 |
+| World | SpiritBeast | 4 | 灵兽系统 |
+| Combat | BattleManager | 0 | 战斗管理 |
+| Runtime | TutorialSystem | 0 | 教程系统 |
+| Runtime | MainPlotSystem | 1 | 主线剧情 |
+
+### 使用方式
+
+```cpp
+#include "CloudSeamanor/engine/GameLoopCoordinator.hpp"
+#include "CloudSeamanor/engine/GameLoopRegistry.hpp"
+
+// 创建协调器
+GameLoopCoordinator loop_coordinator;
+loop_coordinator.SetConfig({.enable_profiling = true});
+
+// 注册系统
+coordinator.RegisterSystem(
+    LoopPhase::World,
+    "CropGrowth",
+    [](float delta) { /* 作物更新逻辑 */ },
+    []() { return has_growing_crops_; }, // 可选条件
+    0  // 优先级
+);
+
+// 主循环
+void GameLoop::Update(float delta) {
+    loop_coordinator.Update(delta);
+}
+```
+
+### 性能统计
+
+```cpp
+// 获取阶段统计
+const auto& phase_stats = loop_coordinator.GetPhaseStats(LoopPhase::World);
+
+// 获取系统统计
+const auto& sys_stats = loop_coordinator.GetSystemStats();
+
+// 获取调试报告
+std::string report = loop_coordinator.GetDebugReport();
+```
+
+---
+
+## 22. 禁止事项清单
 
 | 编号 | 禁止事项 |
 |------|---------|

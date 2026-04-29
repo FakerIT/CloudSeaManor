@@ -37,6 +37,7 @@ namespace engine {
 
 class FarmingSystem;
 class DialogueEngine;
+class ManorEcologySystem;
 
 // ============================================================================
 // 【InteractionResult】交互结果
@@ -98,6 +99,7 @@ public:
     void SetWorkshopSystem(CloudSeamanor::domain::WorkshopSystem* workshop);
     void SetDynamicLifeSystem(CloudSeamanor::domain::DynamicLifeSystem* dynamic_life);
     void SetDialogueManager(CloudSeamanor::engine::NpcDialogueManager* manager);
+    void SetManorEcologySystem(CloudSeamanor::domain::ManorEcologySystem* ecology);
 
     InteractionResult TalkToNpc(
         int npc_index,
@@ -155,6 +157,7 @@ private:
     CloudSeamanor::domain::WorkshopSystem* workshop_system_ = nullptr;
     CloudSeamanor::domain::DynamicLifeSystem* dynamic_life_system_ = nullptr;
     CloudSeamanor::engine::NpcDialogueManager* dialogue_manager_ = nullptr;
+    CloudSeamanor::domain::ManorEcologySystem* ecology_system_ = nullptr;
 };
 
 InteractionCallbacks CreateDefaultInteractionCallbacks(

@@ -55,7 +55,19 @@ struct MachineState {
     int required_level = 1;
     TeaProcessStage stage = TeaProcessStage::Idle;
     float stage_progress = 0.0f;
-    float quality_score = 0.0f;
+    float quality_score = 0.0f;  // 品质分数（用于茶灵解锁判定）
+};
+
+// ============================================================================
+// 【MachineCompletionInfo】机器完成信息
+// ============================================================================
+// 用于在机器完成加工时传递详细信息给调用者。
+struct MachineCompletionInfo {
+    std::string machine_id;     // 机器 ID
+    std::string recipe_id;     // 配方 ID
+    std::string output_item;   // 产出物品 ID
+    int output_count = 0;      // 产出数量
+    float quality_score = 0.0f;  // 品质分数
 };
 
 [[nodiscard]] const char* TeaProcessStageText(TeaProcessStage stage) noexcept;
@@ -83,8 +95,8 @@ public:
     // @param delta_time  距离上次更新的时间（秒）
     // @param cloud_density  云海密度（影响加工速度）
     // @param output_items  用于记录产出的物品
-    // @return 完成加工的机器 ID 列表
-    std::vector<std::string> Update(
+    // @return 完成加工的机器详细信息列表（包含配方 ID、产出物品、品质分数）
+    std::vector<MachineCompletionInfo> Update(
         float delta_time,
         float cloud_density,
         int skill_level,

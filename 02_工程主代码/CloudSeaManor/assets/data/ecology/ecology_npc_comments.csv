@@ -1,0 +1,22 @@
+# 庄园生态 - NPC 生态评论表
+# 列：Id, EcologyStage, DominantElement, SpeakerId, MinHeartLevel, Text
+# 说明：
+# - Id: 评论唯一标识
+# - EcologyStage: 对应的生态阶段 (Withered/Stable/Abundant/Luminous)
+# - DominantElement: 对应的主导元素 (Cloud/Wind/Dew/Glow/Tide/Any)
+# - SpeakerId: 说话NPC的ID
+# - MinHeartLevel: 最低好感等级
+# - Text: 评论文本
+
+Id,EcologyStage,DominantElement,SpeakerId,MinHeartLevel,Text
+withered_yunseng,Stable,Any,yunseng,1,庄园最近似乎有些沉寂，该好好打理一番了。
+withered_acha,Stable,Any,acha,1,后院怎么感觉灵气少了些呢？
+stable_healthy,Stable,Any,yunseng,2,庄园打理得不错，气息平和。
+abundant_wind,Abundant,Wind,yunseng,3,最近庄园的风意愈发清新了。
+abundant_glow,Abundant,Glow,wanxing,3,霞光映照下的庄园真是美不胜收。
+luminous_perfect,Luminous,Any,yunseng,4,五气相和，庄园已有了祥瑞之相。
+luminous_glow,Luminous,Glow,wanxing,4,这般霞光，怕是有什么好事要发生了。
+wind_dominant,Stable,Wind,yunseng,2,后院的风铃今日格外响亮。
+dew_dominant,Stable,Dew,acha,2,雾气弥漫，露珠晶莹。
+tide_dominant,Stable,Tide,laohuai,2,潮声隐隐，庄园的水气重了些。
+cloud_dominant,Stable,Cloud,yunseng,2,云卷云舒，庄园一片祥和。

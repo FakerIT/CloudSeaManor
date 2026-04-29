@@ -183,9 +183,18 @@ FarmingResult FarmingSystem::HandleInteraction(
         auto add_result = inventory.TryAddItem(harvest_item_id, final_harvest);
         if (!add_result) {
             result.success = false;
-            result.message = "收获失败，背包无法添加物品。";
-            if (callbacks_.push_hint) callbacks_.push_hint(result.message, 2.8f);
-            if (callbacks_.log_info) callbacks_.log_info("收获失败：" + add_result.Error());
+            // QA-003 改进：提供更明确的失败原因
+            std::string fail_reason = add_result.Error();
+            if (inventory.IsFull() && inventory.CountOf(harvest_item_id) == 0) {
+                result.message = "收获失败，背包已满！请清理背包后重新收获。";
+            } else if (fail_reason.find("叠加已达上限") != std::string::npos) {
+                result.message = "收获的 [" + ItemDisplayName(harvest_item_id) + "] 叠加已达上限(" +
+                    std::to_string(inventory.MaxStackSize()) + ")，部分物品可能丢失。";
+            } else {
+                result.message = "收获失败：" + fail_reason;
+            }
+            if (callbacks_.push_hint) callbacks_.push_hint(result.message, 3.5f);
+            if (callbacks_.log_info) callbacks_.log_info("收获失败：" + fail_reason);
             return result;
         }
         plot.seeded = false;

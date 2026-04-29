@@ -393,3 +393,209 @@ TEST_CASE("Inventory::SummaryText - with items")
     CHECK_THAT(text, Contains("TeaLeaf"));
     CHECK_THAT(text, Contains("3"));
 }
+
+// ============================================================================
+// Inventory Limit Tests (QA-006, QA-007)
+// ============================================================================
+
+TEST_CASE("Inventory::MaxSlots - returns configured maximum slots")
+{
+    Inventory inv;
+    CHECK_EQ(inv.MaxSlots(), 40u);
+}
+
+TEST_CASE("Inventory::MaxStackSize - returns configured maximum stack size")
+{
+    Inventory inv;
+    CHECK_EQ(inv.MaxStackSize(), 999);
+}
+
+TEST_CASE("Inventory::IsFull - empty inventory is not full")
+{
+    Inventory inv;
+    CHECK_FALSE(inv.IsFull());
+}
+
+TEST_CASE("Inventory::IsFull - partially filled inventory is not full")
+{
+    Inventory inv;
+    for (int i = 0; i < 10; ++i) {
+        inv.AddItem("Item_" + std::to_string(i), 1);
+    }
+    CHECK_FALSE(inv.IsFull());
+}
+
+TEST_CASE("Inventory::IsFull - completely filled inventory is full")
+{
+    Inventory inv;
+    for (int i = 0; i < 40; ++i) {
+        inv.AddItem("Item_" + std::to_string(i), 1);
+    }
+    CHECK_TRUE(inv.IsFull());
+}
+
+TEST_CASE("Inventory::RemainingSlots - empty inventory has all slots available")
+{
+    Inventory inv;
+    CHECK_EQ(inv.RemainingSlots(), 40u);
+}
+
+TEST_CASE("Inventory::RemainingSlots - partially filled inventory")
+{
+    Inventory inv;
+    for (int i = 0; i < 15; ++i) {
+        inv.AddItem("Item_" + std::to_string(i), 1);
+    }
+    CHECK_EQ(inv.RemainingSlots(), 25u);
+}
+
+TEST_CASE("Inventory::RemainingSlots - full inventory has zero slots")
+{
+    Inventory inv;
+    for (int i = 0; i < 40; ++i) {
+        inv.AddItem("Item_" + std::to_string(i), 1);
+    }
+    CHECK_EQ(inv.RemainingSlots(), 0u);
+}
+
+TEST_CASE("Inventory::TryAddItem - success when inventory has space and stack not full")
+{
+    Inventory inv;
+    inv.AddItem("Wood", 100);
+
+    auto result = inv.TryAddItem("Wood", 50);
+
+    CHECK_TRUE(result.Ok());
+    CHECK_EQ(result.Value(), 150);
+    CHECK_EQ(inv.CountOf("Wood"), 150);
+}
+
+TEST_CASE("Inventory::TryAddItem - fails with error when inventory is full")
+{
+    Inventory inv;
+    for (int i = 0; i < 40; ++i) {
+        inv.AddItem("Item_" + std::to_string(i), 1);
+    }
+
+    auto result = inv.TryAddItem("NewItem", 1);
+
+    CHECK_FALSE(result.Ok());
+    CHECK_THAT(result.Error(), Contains("背包已满"));
+    CHECK_THAT(result.Error(), Contains("40"));
+}
+
+TEST_CASE("Inventory::TryAddItem - fails with error when stack limit reached")
+{
+    Inventory inv;
+    inv.AddItem("Wood", 999);
+
+    auto result = inv.TryAddItem("Wood", 1);
+
+    CHECK_FALSE(result.Ok());
+    CHECK_THAT(result.Error(), Contains("叠加已达上限"));
+    CHECK_THAT(result.Error(), Contains("999"));
+}
+
+TEST_CASE("Inventory::TryAddItem - partial add when exceeding stack limit")
+{
+    Inventory inv;
+    inv.AddItem("Wood", 995);
+
+    auto result = inv.TryAddItem("Wood", 10);
+
+    // Should succeed with 4 items added (995 + 4 = 999)
+    CHECK_TRUE(result.Ok());
+    CHECK_EQ(result.Value(), 999);
+    CHECK_EQ(inv.CountOf("Wood"), 999);
+}
+
+TEST_CASE("Inventory::TryAddItem - fails with error when empty item_id")
+{
+    Inventory inv;
+
+    auto result = inv.TryAddItem("", 1);
+
+    CHECK_FALSE(result.Ok());
+    CHECK_THAT(result.Error(), Contains("无效的添加请求"));
+}
+
+TEST_CASE("Inventory::TryAddItem - fails with error when count is zero")
+{
+    Inventory inv;
+
+    auto result = inv.TryAddItem("Wood", 0);
+
+    CHECK_FALSE(result.Ok());
+    CHECK_THAT(result.Error(), Contains("无效的添加请求"));
+}
+
+TEST_CASE("Inventory::TryAddItem - fails with error when count is negative")
+{
+    Inventory inv;
+
+    auto result = inv.TryAddItem("Wood", -5);
+
+    CHECK_FALSE(result.Ok());
+    CHECK_THAT(result.Error(), Contains("无效的添加请求"));
+}
+
+TEST_CASE("Inventory::TryAddItem - creates new slot when item doesn't exist")
+{
+    Inventory inv;
+
+    auto result = inv.TryAddItem("NewItem", 5);
+
+    CHECK_TRUE(result.Ok());
+    CHECK_EQ(result.Value(), 5);
+    CHECK_EQ(inv.CountOf("NewItem"), 5);
+    CHECK_EQ(inv.SlotCount(), 1u);
+}
+
+TEST_CASE("Inventory::TryAddItem - creates new slot when inventory not full")
+{
+    Inventory inv;
+    for (int i = 0; i < 39; ++i) {
+        inv.AddItem("Item_" + std::to_string(i), 1);
+    }
+
+    auto result = inv.TryAddItem("NewItem", 1);
+
+    CHECK_TRUE(result.Ok());
+    CHECK_EQ(inv.SlotCount(), 40u);
+    CHECK_TRUE(inv.IsFull());
+}
+
+TEST_CASE("Inventory::TryAddItem - boundary: exactly at max slots")
+{
+    Inventory inv;
+    for (int i = 0; i < 39; ++i) {
+        inv.AddItem("Item_" + std::to_string(i), 1);
+    }
+
+    auto result = inv.TryAddItem("NewItem", 1);
+
+    CHECK_TRUE(result.Ok());
+    CHECK_TRUE(inv.IsFull());
+}
+
+TEST_CASE("Inventory::TryAddItem - boundary: exactly at max stack size")
+{
+    Inventory inv;
+    inv.AddItem("Wood", 998);
+
+    auto result = inv.TryAddItem("Wood", 1);
+
+    CHECK_TRUE(result.Ok());
+    CHECK_EQ(result.Value(), 999);
+}
+
+TEST_CASE("Inventory::TryAddItem - boundary: one over max stack size")
+{
+    Inventory inv;
+    inv.AddItem("Wood", 999);
+
+    auto result = inv.TryAddItem("Wood", 1);
+
+    CHECK_FALSE(result.Ok());
+    CHECK_THAT(result.Error(), Contains("叠加已达上限"));
+}

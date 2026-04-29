@@ -1,0 +1,23 @@
+# 茶灵解锁规则表
+# 列：TeaId, TeaSpiritId, RequiredQuality, Season, TimeRange, WeatherLimit, LocationId, ExtraCondition
+# 说明：
+# - TeaId: 所需灵茶 ID
+# - TeaSpiritId: 对应茶灵 ID
+# - RequiredQuality: 所需品质 (Normal/Fine/Rare/Holy)
+# - Season: 季节限制（可空表示不限）
+# - TimeRange: 时辰限制，格式 "6-12"（可空）
+# - WeatherLimit: 天气限制（可空，支持 Night 表示夜间）
+# - LocationId: 场景限制（可空，tea_room 表示茶室）
+# - ExtraCondition: 额外条件 (eco_balanced/first_brew/festival_day)
+
+TeaId,TeaSpiritId,RequiredQuality,Season,TimeRange,WeatherLimit,LocationId,ExtraCondition
+cloud_green,cloud_green_dragon,Holy,Spring,6-11,,tea_room,
+dew_white,dew_deer,Holy,Spring,5-10,Rainy,tea_room,
+sunset_oolong,sunset_swallow,Holy,Summer,17-20,,tea_room,
+frost_oolong,frost_fox,Holy,Autumn,19-23,,tea_room,
+snow_silver,snow_crane,Holy,Winter,6-10,Clear,tea_room,
+golden_bud,golden_sparrow,Holy,,7-10,,tea_room,eco_balanced
+moon_white,moon_petal,Holy,,21-24,Night,tea_room,
+cloud_mist,cloud_rabbit,Holy,,,,tea_room,
+rainbow_oolong,rainbow_phoenix,Holy,,,,tea_room,eco_balanced
+spring_green,spring_willow,Holy,Spring,8-12,,tea_room,

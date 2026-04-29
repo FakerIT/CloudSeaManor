@@ -113,6 +113,16 @@ struct UiTexts {
 };
 
 // ============================================================================
+// 【HintType】提示类型枚举
+// ============================================================================
+enum class HintType : std::uint8_t {
+    Normal = 0,   // 普通提示（默认颜色）
+    Warning = 1,  // 警告提示（红色高亮）
+    Success = 2,   // 成功提示（绿色）
+    Info = 3       // 信息提示（蓝色）
+};
+
+// ============================================================================
 // 【InteractionState】交互状态
 // ============================================================================
 struct InteractionState {
@@ -123,6 +133,7 @@ struct InteractionState {
     std::string dialogue_text = "暂时还没有对话。";
     std::string hint_message = "欢迎回到云海山庄。";
     float hint_timer = 0.0f;
+    HintType hint_type = HintType::Normal;  // QA-015: 提示类型，决定渲染颜色
     std::vector<DialogueNode> dialogue_nodes;
     std::string dialogue_start_id;
 
@@ -522,9 +533,19 @@ private:
 };
 
 // ============================================================================
-// 【SetHintMessage】设置提示消息
+// 【SetHintMessage】设置提示消息（带类型）
 // ============================================================================
-void SetHintMessage(GameWorldState& state, const std::string& message, float duration = 2.6f);
+void SetHintMessage(GameWorldState& state, const std::string& message, float duration = 2.6f, HintType type = HintType::Normal);
+
+// ============================================================================
+// 【SetWarningMessage】快捷函数：设置警告提示（红色）
+// ============================================================================
+void SetWarningMessage(GameWorldState& state, const std::string& message, float duration = 3.5f);
+
+// ============================================================================
+// 【SetSuccessMessage】快捷函数：设置成功提示（绿色）
+// ============================================================================
+void SetSuccessMessage(GameWorldState& state, const std::string& message, float duration = 2.6f);
 
 // ============================================================================
 // 【UpdateStaminaBar】更新体力条显示

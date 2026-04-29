@@ -2,6 +2,7 @@
 
 #include "CloudSeamanor/engine/FarmingLogic.hpp"
 #include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/domain/ManorEcologySystem.hpp"
 
 #include <algorithm>
 #include <cstdlib>
@@ -36,6 +37,13 @@ CropGrowthSystem::CropGrowthSystem() = default;
 // ============================================================================
 void CropGrowthSystem::SetHintCallback(HintCallback callback) {
     hint_callback_ = std::move(callback);
+}
+
+// ============================================================================
+// 【CropGrowthSystem::SetEcologySystem】设置生态指针
+// ============================================================================
+void CropGrowthSystem::SetEcologySystem(const ManorEcologySystem* ecology) {
+    ecology_system_ = ecology;
 }
 
 // ============================================================================
@@ -85,6 +93,12 @@ float CropGrowthSystem::CalculateGrowthMultiplier(
     case CloudSeamanor::domain::CloudState::Tide:
         growth_multiplier *= 1.60f;
         break;
+    }
+
+    // 生态加成：生态阶段越高，生长越快
+    if (ecology_system_ != nullptr) {
+        const float ecology_bonus = ecology_system_->GetQualityBonus(CloudSeamanor::domain::ManorElement::Cloud);
+        growth_multiplier *= (1.0f + ecology_bonus * 0.1f);
     }
 
     return growth_multiplier;
@@ -176,6 +190,14 @@ void CropGrowthSystem::ApplyPlantingSnapshot(
     // Keep quality fertilizer snapshot in sync with runtime fertilizer state.
     plot.fertilizer_type_for_quality = plot.fertilizer_type;
     plot.spirit_mutated = false;
+
+    // 记录生态加成快照
+    if (ecology_system_ != nullptr) {
+        // 使用云元素作为默认加成方向（茶叶主属性）
+        plot.ecology_bonus_at_planting = ecology_system_->GetQualityBonus(CloudSeamanor::domain::ManorElement::Cloud);
+    } else {
+        plot.ecology_bonus_at_planting = 0.0f;
+    }
 }
 
 // ============================================================================

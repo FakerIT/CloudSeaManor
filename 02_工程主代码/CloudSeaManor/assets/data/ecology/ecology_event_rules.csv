@@ -1,0 +1,19 @@
+# 庄园生态 - 祥瑞事件规则表
+# 列：Id, Name, Description, CooldownDays, MinAuraStage, RequiredBalance, RequiredBalanceDays, MinDominantElementWeight, ResultType, ResultValue
+# 说明：
+# - Id: 事件唯一标识
+# - Name: 事件名称
+# - Description: 事件描述
+# - CooldownDays: 冷却天数
+# - MinAuraStage: 最低灵气阶段 (Withered/Stable/Abundant/Luminous)
+# - RequiredBalance: 所需平衡状态 (SingleElement/NearBalanced/PerfectlyBalanced/Any)
+# - RequiredBalanceDays: 所需连续平衡天数
+# - MinDominantElementWeight: 最低主导元素权重（单元素偏向时）
+# - ResultType: 结果类型 (spirit_appear/harvest_boost/visitor/gift)
+# - ResultValue: 结果值
+
+Id,Name,Description,CooldownDays,MinAuraStage,RequiredBalance,RequiredBalanceDays,MinDominantElementWeight,ResultType,ResultValue
+spirit_appear,茶灵自来,"稀有茶灵被庄园气息吸引，主动现身",14,Luminous,PerfectlyBalanced,3,0,spirit_appear,random_rare
+harvest_boost,一夜丰熟,"灵气澄明之下，作物加速成熟",7,Abundant,NearBalanced,0,0,harvest_boost,25
+rare_visitor,稀客来访,"庄园气息引来特殊访客",14,Stable,NearBalanced,0,0,visitor,special_npc
+beast_gift,灵兽献礼,"灵兽被庄园生态感动，带来礼物",10,Stable,Any,0,0,gift,rare_seed

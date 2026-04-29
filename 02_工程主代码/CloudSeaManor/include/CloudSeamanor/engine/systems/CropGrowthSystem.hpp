@@ -11,6 +11,7 @@
 // - Daily accumulation of dense cloud / tide days
 // - Spirit mutation trigger on harvest (dense cloud / tide)
 // - Disease and pest system
+// - Ecology quality bonus integration
 // ============================================================================
 
 #include "CloudSeamanor/engine/GameWorldState.hpp"
@@ -22,6 +23,8 @@
 
 namespace CloudSeamanor::engine {
 
+class ManorEcologySystem;
+
 class CropGrowthSystem {
 public:
     using HintCallback = std::function<void(const std::string&, float)>;
@@ -29,6 +32,7 @@ public:
     CropGrowthSystem();
 
     void SetHintCallback(HintCallback callback);
+    void SetEcologySystem(const ManorEcologySystem* ecology);
 
     void SetFertilizerMultipliers(
         float basic_multiplier,
@@ -97,6 +101,7 @@ public:
 
 private:
     HintCallback hint_callback_;
+    const ManorEcologySystem* ecology_system_ = nullptr;
     float fertilizer_basic_multiplier_ = 1.2f;
     float fertilizer_premium_multiplier_ = 1.5f;
     float fertilizer_spirit_multiplier_ = 1.8f;

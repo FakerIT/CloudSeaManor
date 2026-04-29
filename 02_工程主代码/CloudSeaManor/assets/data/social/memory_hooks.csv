@@ -1,0 +1,34 @@
+# 行为记忆 - 记忆钩子表
+# 列：Id, MemoryType, SpeakerId, MinHeartLevel, MaxDaysSinceMemory, Priority, SeasonLimit, WeatherLimit, Text
+# 说明：
+# - Id: 唯一标识
+# - MemoryType: 关联记忆类型
+# - SpeakerId: 说话 NPC 的 ID
+# - MinHeartLevel: 最低好感等级
+# - MaxDaysSinceMemory: 最大追溯天数
+# - Priority: 抽取优先级（越高越优先）
+# - SeasonLimit: 季节限制（可空）
+# - WeatherLimit: 天气限制（可空）
+# - Text: 对话文本
+
+Id,MemoryType,SpeakerId,MinHeartLevel,MaxDaysSinceMemory,Priority,SeasonLimit,WeatherLimit,Text
+brew_holy_yunseng,BrewHolyTea,yunseng,2,7,10,,,"听说你最近把茶火候守得很稳，整个茶室都是香的。"
+brew_holy_acha,BrewHolyTea,acha,2,7,10,,,"你制的茶我尝过，回味悠长。下次带些来坐坐？"
+brew_holy_laohuai,BrewHolyTea,laohuai,3,7,8,,,"年轻人能制出这般好茶，前途不可限量。"
+brew_new_yunseng,BrewNewTea,yunseng,1,5,5,,,"最近又在试新茶方？有空来聊聊。"
+brew_new_wanxing,BrewNewTea,wanxing,2,5,5,,,"听闻你又尝试了新茶品，我很好奇是什么味道。"
+farm_focused_yunseng,FarmFocused,yunseng,2,3,8,,,"这几日总看见你在田里忙，身子是本钱，别太累了。"
+farm_focused_laohuai,FarmFocused,laohuai,3,3,6,,,"农事勤恳，这是好品性。但也要记得歇息。"
+workshop_focused_acha,WorkshopFocused,acha,2,3,8,,,"你最近总在工坊里，造的物件越来越精巧了。"
+workshop_focused_laohuai,WorkshopFocused,laohuai,3,3,6,,,"匠人之心，贵在坚持。作品会说话。"
+explore_backmountain_yunseng,ExploreBackMountain,yunseng,2,3,8,,,"云雾虽好，也记得歇脚。后山的路可不近。"
+explore_backmountain_laohuai,ExploreBackMountain,laohuai,3,3,6,,,"年轻人多走动是好事，但也要顾惜身体。"
+purify_miasma_yunseng,PurifyMiasma,yunseng,2,5,9,,,"你常去净化浊灵，心性平和，令人感佩。"
+purify_miasma_wanxing,PurifyMiasma,wanxing,3,5,9,,,"浊气渐消，庄园的气息也清朗了许多。"
+festival_acha,FestivalAttend,acha,1,7,6,,,"上次的节庆真热闹，你玩得开心吗？"
+festival_wanxing,FestivalAttend,wanxing,2,7,6,,,"节日的灯火阑珊，我还记得。"
+eco_balanced_yunseng,EcoBalanced,yunseng,3,5,10,,,"庄园里的风声顺了不少，你最近是不是把灵气调匀了？"
+eco_balanced_wanxing,EcoBalanced,wanxing,3,5,10,,,"云霞舒卷，气息平和。这般景象，令人心安。"
+eco_imbalanced_yunseng,EcoImbalanced,yunseng,3,5,8,,,"最近庄园某气偏盛，但也不必太在意。"
+tea_spirit_yunseng,TeaSpiritUnlocked,yunseng,2,7,9,,,"新茶灵入园，可喜可贺。好好待它。"
+tea_spirit_wanxing,TeaSpiritUnlocked,wanxing,2,7,9,,,"茶灵有灵性，能引来新的伙伴，是福气。"

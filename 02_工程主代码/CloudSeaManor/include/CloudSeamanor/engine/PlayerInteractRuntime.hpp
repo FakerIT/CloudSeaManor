@@ -206,6 +206,12 @@ struct PlayerInteractRuntimeContext {
     bool& greenhouse_unlocked;
     bool& greenhouse_tag_next_planting;
     int current_game_hour;
+    
+    // ============================================================================
+    // 【记忆系统引用】
+    // ============================================================================
+    /** 玩家行为记忆系统指针：用于动态对话钩子查询 */
+    CloudSeamanor::domain::PlayerMemorySystem* memory_system = nullptr;
 
     /**
      * @brief 与 NPC 对话时尝试领取委托奖励（BE-028）。
@@ -264,6 +270,16 @@ struct PlayerInteractRuntimeContext {
 
     /** 世界交互状态引用：用于追踪心事件完成奖励 */
     CloudSeamanor::engine::InteractionState& interaction_state;
+
+    // ============================================================================
+    // 【P8 新系统回调】
+    // ============================================================================
+    /** 茶叶消耗回调：用于触发茶灵解锁检查 */
+    std::function<void(const std::string& tea_id, const std::string& quality)> on_tea_consumed;
+    /** 作物收获回调：用于触发庄园生态增量 */
+    std::function<void(const std::string& tea_id, const std::string& quality)> on_crop_harvested;
+    /** 行为事件回调：用于记录玩家行为记忆 */
+    std::function<void(const std::string& event_type, const std::string& subject_id)> on_behavior_event;
 
     // ============================================================================
     // 【心事件追踪】

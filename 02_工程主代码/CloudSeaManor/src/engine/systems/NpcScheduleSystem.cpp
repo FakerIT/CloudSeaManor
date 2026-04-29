@@ -2,6 +2,7 @@
 #include "CloudSeamanor/app/GameAppNpc.hpp"
 #include "CloudSeamanor/infrastructure/Logger.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
+#include "CloudSeamanor/engine/PixelNpcSchedulePanel.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -275,6 +276,37 @@ void NpcScheduleSystem::Update(
         UpdateNpcPosition_(npc, world_state.GetClock().Day(),
                            current_minute, world_state.GetClock().Season(), cloud_state, festival_active, npc_delta_seconds);
     }
+}
+
+// ============================================================================
+// 【NpcScheduleSystem::GetVisibleNpcLocations】获取可见 NPC 位置
+// ============================================================================
+std::vector<NpcLocationEntry> NpcScheduleSystem::GetVisibleNpcLocations(
+    const std::vector<NpcActor>& npcs,
+    int min_heart_level_to_show
+) const {
+    std::vector<NpcLocationEntry> result;
+
+    for (const auto& npc : npcs) {
+        if (!npc.visible) continue;
+        if (npc.heart_level < min_heart_level_to_show) continue;
+
+        NpcLocationEntry entry;
+        entry.npc_id = npc.id;
+        entry.npc_name = npc.display_name;
+        entry.location_name = npc.current_location;
+        entry.activity = npc.current_activity;
+        entry.heart_level = npc.heart_level;
+        entry.is_visible = true;
+        result.push_back(entry);
+    }
+
+    // 按好感度排序（高好感度在前）
+    std::sort(result.begin(), result.end(), [](const NpcLocationEntry& a, const NpcLocationEntry& b) {
+        return a.heart_level > b.heart_level;
+    });
+
+    return result;
 }
 
 }  // namespace CloudSeamanor::engine

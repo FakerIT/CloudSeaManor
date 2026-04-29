@@ -117,8 +117,33 @@ void UISystem::UpdateInventoryText(const std::string& text) {
 // 【UpdateHintText】更新提示文本
 // ============================================================================
 void UISystem::UpdateHintText(const std::string& text) {
+    UpdateHintText(text, HintType::Normal);
+}
+
+// ============================================================================
+// 【UpdateHintText】更新提示文本（带类型）
+// ============================================================================
+void UISystem::UpdateHintText(const std::string& text, CloudSeamanor::engine::HintType type) {
     if (!font_loaded_ || !texts_.hint_text) return;
     texts_.hint_text->setString(sf::String::fromUtf8(text.begin(), text.end()));
+
+    // QA-015: 根据提示类型设置颜色
+    switch (type) {
+        case HintType::Warning:
+            texts_.hint_text->setFillColor(sf::Color(255, 80, 80));  // 红色警告
+            break;
+        case HintType::Success:
+            texts_.hint_text->setFillColor(sf::Color(80, 255, 120));  // 绿色成功
+            break;
+        case HintType::Info:
+            texts_.hint_text->setFillColor(sf::Color(100, 180, 255));  // 蓝色信息
+            break;
+        case HintType::Normal:
+        default:
+            texts_.hint_text->setFillColor(sf::Color(220, 220, 220));  // 默认灰色
+            break;
+    }
+
     MarkDirty(UiTextType::Hint);
 }
 

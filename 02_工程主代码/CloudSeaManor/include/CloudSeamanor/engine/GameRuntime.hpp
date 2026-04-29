@@ -51,6 +51,8 @@
 #include "CloudSeamanor/ModApi.hpp"
 #include "CloudSeamanor/engine/BattleManager.hpp"
 #include "CloudSeamanor/domain/RelationshipSystem.hpp"
+#include "CloudSeamanor/engine/GameLoopCoordinator.hpp"
+#include "CloudSeamanor/engine/GameLoopRegistry.hpp"
 
 using CloudSeamanor::infrastructure::GameConfig;
 using CloudSeamanor::infrastructure::TmxMap;
@@ -139,6 +141,8 @@ public:
     [[nodiscard]] const GameWorldSystems& Systems() const { return systems_; }
     [[nodiscard]] PickupSystem& Pickups() { return systems_.MutablePickups(); }
     [[nodiscard]] const PickupSystem& Pickups() const { return systems_.GetPickups(); }
+    [[nodiscard]] NpcScheduleSystem& NpcSchedule() { return services_.npc_schedule; }
+    [[nodiscard]] const NpcScheduleSystem& NpcSchedule() const { return services_.npc_schedule; }
     [[nodiscard]] NpcDialogueManager& DialogueManager() { return services_.dialogue_manager; }
     [[nodiscard]] const NpcDialogueManager& DialogueManager() const { return services_.dialogue_manager; }
     [[nodiscard]] MainPlotSystem& PlotSystem() { return services_.plot_system; }
@@ -167,6 +171,7 @@ public:
     void OnPlayerMoved(float delta_seconds, const sf::Vector2f& direction);
     void OnPlayerInteracted(const CloudSeamanor::domain::Interactable& target);
     void Update(float delta_seconds);
+    void UpdateWithLoopCoordinator(float delta_seconds);  // 使用循环协调器（调试用）
     void RenderSceneTransition(sf::RenderWindow& window);
     void RenderBattle(sf::RenderWindow& window);
     SleepResult SleepToNextMorning();
@@ -203,6 +208,12 @@ public:
     }
 
     // ========================================================================
+    // 【循环协调器开关】
+    // ========================================================================
+    void EnableLoopCoordinatorProfiling(bool enable);
+    [[nodiscard]] std::string GetLoopStatsReport() const;
+
+    // ========================================================================
     // 【教程】
     // ========================================================================
     void CheckTutorialHints();
@@ -235,6 +246,17 @@ public:
     [[nodiscard]] std::string GetControlsHint() const;
     [[nodiscard]] std::size_t GetEntityCount() const;
     [[nodiscard]] std::size_t GetPickupCount() const;
+
+    // ========================================================================
+    // 【循环协调器访问】
+    // ========================================================================
+    [[nodiscard]] GameLoopCoordinator& LoopCoordinator() { return loop_coordinator_; }
+    [[nodiscard]] const GameLoopCoordinator& LoopCoordinator() const { return loop_coordinator_; }
+    void InitializeLoopCoordinator();
+    void InitializeLoopDebugPanel(const sf::Font& font);
+    void ToggleLoopDebugPanel();
+    void UpdateLoopDebugPanel();
+    void RenderLoopDebugPanel(sf::RenderWindow& window);
 
 private:
     struct RuntimeModules {
@@ -349,6 +371,30 @@ private:
     [[nodiscard]] PlacedObject* FindActiveDiyPreview_();
     [[nodiscard]] const PlacedObject* FindActiveDiyPreview_() const;
 
+    // P8 新系统数据加载
+    void LoadEcologyData_();
+    void LoadMemoryConfig_();
+    void LoadTeaSpiritDexConfig_();
+
+    // ========================================================================
+    // 【循环阶段更新函数】
+    // ========================================================================
+    void UpdateTimePhase_(float delta_seconds);       // 阶段0: 时间更新
+    void UpdateWorldPhase_(float delta_seconds);        // 阶段2: 世界更新
+    void UpdateRuntimePhase_(float delta_seconds);      // 阶段4: 运行时更新
+    void UpdateBattleMode_(float delta_seconds);        // 战斗模式更新
+    void UpdateCloudReport_();                        // 云海日报
+    void UpdateSpiritRealmAutoReturn_();               // 灵界自动返回
+    void UpdateBattleTrigger_(float delta_seconds);    // 战斗触发检测
+    void UpdateLevelUpOverlay_(float delta_seconds);  // 升级动画
+    void UpdateTutorialSystem_(float delta_seconds);   // 教程系统
+    void UpdateMainPlot_(float delta_seconds);         // 主线剧情
+    void UpdateCloudStateChange_();                    // 云海状态变化
+    void UpdateStaminaWarning_();                      // 体力警告
+
+    // 前向声明
+    class LoopDebugPanel;
+
     GameWorldState world_state_;
     GameWorldSystems systems_;
     RuntimeState state_{};
@@ -362,6 +408,12 @@ private:
     CloudSeamanor::infrastructure::SaveSlotManager save_slot_manager_;
 
     SceneTransition scene_transition_;
+
+    // 统一游戏循环协调器
+    GameLoopCoordinator loop_coordinator_;
+
+    // 循环性能调试面板
+    std::unique_ptr<LoopDebugPanel> loop_debug_panel_;
 };
 
 } // namespace CloudSeamanor::engine

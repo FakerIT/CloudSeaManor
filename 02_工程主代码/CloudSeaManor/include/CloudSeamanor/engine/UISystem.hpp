@@ -110,6 +110,13 @@ public:
     void UpdateHintText(const std::string& text);
 
     /**
+     * @brief 更新提示文本（带类型，用于颜色控制）。
+     * @param text 提示文本内容。
+     * @param type 提示类型（决定渲染颜色）。
+     */
+    void UpdateHintText(const std::string& text, CloudSeamanor::engine::HintType type);
+
+    /**
      * @brief 更新对话面板文本。
      */
     void UpdateDialogueText(const std::string& text);

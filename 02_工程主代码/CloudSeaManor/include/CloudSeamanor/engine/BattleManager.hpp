@@ -40,6 +40,8 @@ public:
         std::function<void(float exp)> on_exp_reward;
         std::function<void(const std::string& partner_id, int favor_delta)> on_partner_favor_reward;
         std::function<void(const std::string& message)> on_notice;
+        // 背包满时的通知回调（新增）
+        std::function<void(const std::string& item_id, int overflow_count, const std::string& reason)> on_inventory_full;
     };
     // ========================================================================
     // 【初始化】

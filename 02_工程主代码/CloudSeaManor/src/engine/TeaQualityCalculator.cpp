@@ -16,5 +16,26 @@ CloudSeamanor::domain::CropQuality TeaQualityCalculator::Calculate(
         is_legendary);
 }
 
+CloudSeamanor::domain::CropQuality TeaQualityCalculator::CalculateWithSnapshot(
+    const TeaPlot& plot,
+    const bool is_legendary) {
+    // 先计算基础品质
+    auto quality = Calculate(plot, is_legendary);
+
+    // 生态加成：使用播种时快照的生态加成
+    if (plot.ecology_bonus_at_planting > 0.0f) {
+        const int boost = static_cast<int>(plot.ecology_bonus_at_planting);
+        const auto boosted = static_cast<CloudSeamanor::domain::CropQuality>(
+            static_cast<int>(quality) + boost);
+        // 上限为圣品
+        if (boosted > CloudSeamanor::domain::CropQuality::Holy) {
+            return CloudSeamanor::domain::CropQuality::Holy;
+        }
+        return boosted;
+    }
+
+    return quality;
+}
+
 }  // namespace CloudSeamanor::engine
 

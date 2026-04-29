@@ -358,6 +358,8 @@ void BattleManager::ProcessVictory_() {
         reward_count["spirit_dust"] += result.spirits_purified;
     }
 
+    std::vector<std::pair<std::string, int>> failed_rewards;  // 记录发放失败的物品
+
     for (const auto& [item_id, count] : reward_count) {
         if (count <= 0) continue;
         if (reward_callbacks_.on_item_reward) {
@@ -376,11 +378,14 @@ void BattleManager::ProcessVictory_() {
         }
     }
 
+    // 构建结算提示文本
+    std::string notice_msg = "战斗胜利：净化 " + std::to_string(result.spirits_purified)
+        + "/" + std::to_string(result.spirits_total)
+        + " 个目标，获得经验 " + std::to_string(static_cast<int>(result.total_exp_gained)) + "。";
+
+    // 检查是否有未成功发放的物品（由 on_inventory_full 回调记录）
     if (reward_callbacks_.on_notice) {
-        reward_callbacks_.on_notice(
-            "战斗胜利：净化 " + std::to_string(result.spirits_purified)
-            + "/" + std::to_string(result.spirits_total)
-            + " 个目标，获得经验 " + std::to_string(static_cast<int>(result.total_exp_gained)) + "。");
+        reward_callbacks_.on_notice(notice_msg);
     }
 
     field_.EndBattle();

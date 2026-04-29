@@ -18,6 +18,7 @@
 #include "CloudSeamanor/engine/FarmingLogic.hpp"
 #include "CloudSeamanor/Profiling.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
+#include "CloudSeamanor/engine/LoopDebugPanel.hpp"
 #include "CloudSeamanor/domain/BuffSystem.hpp"
 #include "CloudSeamanor/domain/DiarySystem.hpp"
 #include "CloudSeamanor/infrastructure/DataRegistry.hpp"
@@ -445,6 +446,169 @@ struct ToolRegistryRowLocal {
     std::string tier;
 };
 
+void RegisterTableSchemas_(CloudSeamanor::infrastructure::DataRegistry& registry) {
+    using namespace CloudSeamanor::infrastructure;
+
+    // npc_data.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "npc_data";
+        schema.id_field = "Id";
+        schema.required_fields = {
+            {"Id", true, {}},
+            {"DisplayName", true, {}},
+        };
+        schema.foreign_keys = {
+            {"npc_data", "ScheduleProfileId", "npc_schedule", "NpcId", false},
+            {"npc_data", "DialogueProfileId", "npc_dialogue", "NpcId", false},
+            {"npc_data", "GiftProfileId", "npc_gift", "NpcId", false},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // npc_development_stages.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "npc_development_stages";
+        schema.id_field = "NpcId";
+        schema.required_fields = {
+            {"NpcId", true, {}},
+            {"Stage", true, {}},
+        };
+        schema.foreign_keys = {
+            {"npc_development_stages", "NpcId", "npc_data", "Id", true},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // CropTable.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "crop_table";
+        schema.id_field = "id";
+        schema.required_fields = {
+            {"id", true, {}},
+            {"name", true, {}},
+            {"seed_item_id", true, {}},
+            {"harvest_item_id", true, {}},
+            {"growth_time", true, {}},
+        };
+        schema.foreign_keys = {
+            {"crop_table", "buff_effect_id", "buff_effects", "EffectId", false},
+            {"crop_table", "special_effect_id", "special_effects", "EffectId", false},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // TeaTable.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "tea_table";
+        schema.id_field = "Id";
+        schema.required_fields = {
+            {"Id", true, {}},
+            {"DisplayName", true, {}},
+            {"Element", false, {"Cloud", "Fire", "Water", "Earth", "Wind", "None"}},
+            {"Rarity", false, {"Normal", "Fine", "Rare", "Spirit", "Holy"}},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // festival_definitions.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "festival_definitions";
+        schema.id_field = "id";
+        schema.required_fields = {
+            {"id", true, {}},
+            {"name", true, {}},
+            {"season", true, {}},
+            {"day", true, {}},
+        };
+        schema.foreign_keys = {
+            {"festival_definitions", "special_item", "items", "ItemId", false},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // diary_entries schema
+    {
+        TableSchema schema;
+        schema.table_id = "diary_entries";
+        schema.id_field = "id";
+        schema.required_fields = {
+            {"id", true, {}},
+            {"title", true, {}},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // tool_definitions schema
+    {
+        TableSchema schema;
+        schema.table_id = "tool_definitions";
+        schema.id_field = "Id";
+        schema.required_fields = {
+            {"Id", true, {}},
+            {"ToolType", true, {}},
+            {"Tier", true, {}},
+        };
+        schema.foreign_keys = {};
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // weapon_table.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "weapon_table";
+        schema.id_field = "Id";
+        schema.required_fields = {
+            {"Id", true, {}},
+            {"DisplayName", true, {}},
+            {"WeaponType", false, {"Melee", "Ranged", "Staff", "Dagger"}},
+            {"Element", false, {"Cloud", "Fire", "Water", "Earth", "Wind", "None"}},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // skill_table.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "skill_table";
+        schema.id_field = "Id";
+        schema.required_fields = {
+            {"Id", true, {}},
+            {"DisplayName", true, {}},
+            {"Category", false, {"Weapon", "Pet", "Passive", "Special"}},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // QuestTable.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "quest_table";
+        schema.id_field = "QuestId";
+        schema.required_fields = {
+            {"QuestId", true, {}},
+            {"Title", true, {}},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+
+    // AchievementTable.csv schema
+    {
+        TableSchema schema;
+        schema.table_id = "achievement_table";
+        schema.id_field = "AchievementId";
+        schema.required_fields = {
+            {"AchievementId", true, {}},
+            {"Name", true, {}},
+        };
+        registry.RegisterTableSchema(std::move(schema));
+    }
+}
+
 } // namespace
 
 // RE-207 transitional aliases: runtime internals grouped into `state_` + `services_`.
@@ -481,7 +645,204 @@ struct ToolRegistryRowLocal {
 #define mod_loader_ services_.mod_loader
 #define battle_manager_ services_.battle_manager
 
-GameRuntime::GameRuntime() = default;
+GameRuntime::GameRuntime() {
+    loop_debug_panel_ = std::make_unique<LoopDebugPanel>();
+}
+
+// ============================================================================
+// 【GameRuntime::InitializeLoopCoordinator】初始化循环协调器
+// ============================================================================
+void GameRuntime::InitializeLoopCoordinator() {
+    // 初始化循环调试面板（如果存在）
+    if (loop_debug_panel_) {
+        loop_debug_panel_->SetVisible(false); // 默认隐藏
+    }
+
+    using namespace CloudSeamanor::engine;
+
+    // 配置：启用性能统计（调试时开启）
+    LoopConfig config;
+    config.enable_profiling = false;  // 生产环境默认关闭
+    config.enable_phase_skip = true;
+    config.enable_idle_skip = true;
+    loop_coordinator_.SetConfig(config);
+
+    // ========================================================================
+    // 阶段 0: TIME - 时间更新
+    // ========================================================================
+
+    // GameClock - 游戏时钟
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Time, "GameClock",
+        [this](float delta_seconds) {
+            world_state_.MutableClock().Tick(delta_seconds);
+        }, 0);
+
+    // StaminaSystem - 体力系统
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Time, "Stamina",
+        [this](float delta_seconds) {
+            const float recover_rate = world_state_.GetStamina().GetRecoverPerSecond()
+                * world_state_.GetHunger().StaminaRecoveryMultiplier()
+                * world_state_.GetBuffs().StaminaRecoveryMultiplier();
+            world_state_.MutableStamina().Update(delta_seconds, recover_rate);
+        },
+        [this]() { return world_state_.MutableStamina().Ratio() < 1.0f; },
+        1);
+
+    // HungerSystem - 饥饿系统
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Time, "Hunger",
+        [this](float delta_seconds) {
+            world_state_.MutableHunger().Tick(delta_seconds);
+        },
+        [this]() {
+            return world_state_.GetHunger().GetCurrentHunger()
+                < world_state_.GetHunger().GetMaxHunger();
+        },
+        2);
+
+    // BuffSystem - Buff系统
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Time, "Buff",
+        [this](float delta_seconds) {
+            world_state_.MutableBuffs().Tick(delta_seconds);
+        },
+        [this]() {
+            return !world_state_.GetBuffs().GetActiveBuffs().empty();
+        },
+        3);
+
+    // ========================================================================
+    // 阶段 2: WORLD - 世界更新
+    // ========================================================================
+
+    // CropGrowth - 作物生长
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::World, "CropGrowth",
+        [this](float delta_seconds) {
+            UpdateCropGrowth(delta_seconds);
+        },
+        [this]() {
+            for (const auto& plot : world_state_.GetTeaPlots()) {
+                if (plot.cleared && plot.seeded && !plot.ready) return true;
+            }
+            return false;
+        },
+        0);
+
+    // Workshop - 工坊系统
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::World, "Workshop",
+        [this](float delta_seconds) {
+            UpdateWorkshop(delta_seconds);
+        },
+        [this]() {
+            const auto& machines = systems_.GetWorkshop().GetMachines();
+            for (const auto& [id, machine] : machines) {
+                if (machine.active && machine.progress < 1.0f) return true;
+            }
+            return false;
+        },
+        1);
+
+    // PickupSystem - 可拾取物
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::World, "Pickup",
+        [this](float delta_seconds) {
+            if (modules_.pickup) {
+                modules_.pickup->Update(delta_seconds);
+                modules_.pickup->CollectNearby();
+            }
+        },
+        [this]() { return !world_state_.GetPickups().empty(); },
+        2);
+
+    // NpcSchedule - NPC日程
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::World, "NpcSchedule",
+        [this](float delta_seconds) {
+            UpdateNpcs(delta_seconds);
+        }, 3);
+
+    // SpiritBeast - 灵兽系统
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::World, "SpiritBeast",
+        [this](float delta_seconds) {
+            UpdateSpiritBeast(delta_seconds);
+        },
+        [this]() { return world_state_.GetSpiritBeast().exists; },
+        4);
+
+    // ========================================================================
+    // 阶段 3: COMBAT - 战斗更新（战斗模式下由 GameRuntime 直接调用）
+    // ========================================================================
+
+    // ========================================================================
+    // 阶段 4: RUNTIME - 运行时更新
+    // ========================================================================
+
+    // TutorialSystem - 教程系统
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Runtime, "Tutorial",
+        [this](float delta_seconds) {
+            if (modules_.tutorial) {
+                modules_.tutorial->Update(delta_seconds);
+            }
+        },
+        [this]() { return world_state_.GetTutorial().tutorial_bubble_step <= 11; },
+        0);
+
+    // MainPlotSystem - 主线剧情
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Runtime, "MainPlot",
+        [this](float delta_seconds) {
+            if (plot_system_.IsPlaying()) {
+                plot_system_.Update(delta_seconds);
+            }
+        },
+        [this]() { return plot_system_.IsPlaying(); },
+        1);
+
+    // NpcDelivery - NPC委托
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Runtime, "NpcDelivery",
+        [this](float delta_seconds) {
+            npc_delivery_.Update(
+                world_state_,
+                world_state_.MutableClock().Day(),
+                world_state_.MutableClock().Hour());
+        }, 2);
+
+    // CloudSystem - 云海系统
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Runtime, "Cloud",
+        [this](float delta_seconds) {
+            systems_.GetCloud().UpdateForecastVisibility(
+                world_state_.MutableClock().Day(),
+                world_state_.MutableClock().Hour());
+        }, 3);
+
+    // SceneTransition - 场景过渡
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Runtime, "SceneTransition",
+        [this](float delta_seconds) {
+            scene_transition_.Update(delta_seconds);
+        }, 4);
+
+    // ========================================================================
+    // 阶段 5: PARTICLES - 粒子特效
+    // ========================================================================
+
+    loop_coordinator_.RegisterSystem(
+        LoopPhase::Particles, "Particles",
+        [this](float delta_seconds) {
+            UpdateParticles(delta_seconds);
+        }, 0);
+
+    CloudSeamanor::infrastructure::Logger::Info(
+        "GameRuntime: LoopCoordinator initialized with all systems registered");
+}
 
 void GameRuntime::RecoverStaminaScaled_(const float amount) {
     const float clamped = std::max(0.0f, amount);
@@ -909,6 +1270,9 @@ void GameRuntime::Initialize(
     data_registry_.RegisterPath("festival", "assets/data/festival");
     data_registry_.RegisterPath("diary", "assets/data/diary");
     data_registry_.RegisterPath("skills", "assets/data/skills");
+
+    RegisterTableSchemas_(data_registry_);
+
     static CloudSeamanor::infrastructure::DataTable<DiaryRegistryRowLocal> diary_registry_table{
         [](const DiaryRegistryRowLocal& row) { return row.id; }
     };
@@ -989,6 +1353,11 @@ void GameRuntime::Initialize(
             "DataRegistry: " + entry.category + " -> " + entry.path);
     }
     (void)data_registry_.LoadAll();
+    const bool refs_valid = data_registry_.ValidateAllReferences();
+    if (!refs_valid) {
+        CloudSeamanor::infrastructure::Logger::Warning(
+            "DataRegistry: 发现外键引用问题，请检查日志");
+    }
     for (const auto& log_line : data_registry_.ValidateAndDescribe()) {
         CloudSeamanor::infrastructure::Logger::Info("DataRegistryCheck: " + log_line);
     }
@@ -1170,6 +1539,16 @@ void GameRuntime::Initialize(
     }
     systems_.GetCloud().AdvanceToNextDay(0);
     systems_.GetCloud().UpdateForecastVisibility(0, 0);
+
+    // P8-ECO: 加载庄园生态数据
+    LoadEcologyData_();
+
+    // P8-MEM: 加载行为记忆配置数据
+    LoadMemoryConfig_();
+
+    // P8-DEX: 加载茶灵图鉴配置数据
+    LoadTeaSpiritDexConfig_();
+
     modules_.workshop = std::make_unique<WorkshopSystemRuntime>(
         systems_,
         world_state_,
@@ -1187,7 +1566,40 @@ void GameRuntime::Initialize(
             if (state_.tide_festival_battle_active && count > 0) {
                 count += 1;
             }
-            world_state_.MutableInventory().AddItem(item_id, count);
+            // 检查背包是否能接收全部物品（QA-015修复）
+            auto& inv = world_state_.MutableInventory();
+            int current_count = inv.CountOf(item_id);
+            int max_stack = inv.MaxStackSize();
+            int space_available = max_stack - current_count;
+
+            if (inv.IsFull() && current_count == 0) {
+                // 新物品但背包已满
+                callbacks_.push_hint("【警告】背包已满，无法获得 [" + item_id + "]！", 3.5f);
+                CloudSeamanor::infrastructure::Logger::Warning(
+                    "[BATTLE_REWARD_LOST] item=" + item_id +
+                    " overflow=" + std::to_string(count) +
+                    " reason=inventory_full");
+                return;
+            }
+
+            if (current_count + count > max_stack) {
+                // 叠加会超过上限，只添加能叠加的部分
+                int can_add = space_available;
+                if (can_add > 0) {
+                    inv.AddItem(item_id, can_add);
+                }
+                int overflow = count - can_add;
+                if (overflow > 0) {
+                    std::string msg = "【警告】[" + item_id + "]叠加已达上限(" + std::to_string(max_stack)
+                        + ")，溢出 " + std::to_string(overflow) + " 个";
+                    callbacks_.push_hint(msg, 3.5f);
+                    CloudSeamanor::infrastructure::Logger::Warning(
+                        "[BATTLE_REWARD_OVERFLOW] item=" + item_id +
+                        " overflow=" + std::to_string(overflow));
+                }
+            } else {
+                inv.AddItem(item_id, count);
+            }
         },
         .on_exp_reward = [this](float exp) {
             if (state_.tide_festival_battle_active) {
@@ -1206,6 +1618,15 @@ void GameRuntime::Initialize(
         },
         .on_notice = [this](const std::string& message) {
             callbacks_.push_hint(message, 2.8f);
+        },
+        .on_inventory_full = [this](const std::string& item_id, int overflow_count, const std::string& reason) {
+            // QA-015: 背包满时提示玩家物品可能丢失
+            std::string msg = "【警告】" + reason + "。溢出 " + std::to_string(overflow_count) + " 个 [" + item_id + "]";
+            callbacks_.push_hint(msg, 3.5f);
+            CloudSeamanor::infrastructure::Logger::Warning(
+                "[BATTLE_REWARD_LOST] item=" + item_id +
+                " overflow=" + std::to_string(overflow_count) +
+                " reason=" + reason);
         }
     });
     SyncEquippedWeaponFromSaveAndInventory_();
@@ -1555,6 +1976,43 @@ void GameRuntime::OnDayChanged() {
     systems_.UpdateDaily(current_season,
                          static_cast<int>(world_state_.GetSessionTime() / 100),
                          cloud_density);
+
+    // --- 庄园生态日切结算 ---
+    systems_.GetEcology().OnDayChanged(world_state_.MutableClock().Day());
+    const auto ecology_summary = systems_.GetEcology().GetEcologySummary();
+    if (!ecology_summary.empty()) {
+        // 祥瑞事件检查
+        const std::string event_id = systems_.GetEcology().CheckAuspiciousEvent(world_state_.MutableClock().Day());
+        if (!event_id.empty()) {
+            callbacks_.push_notification("【祥瑞】" + event_id);
+            callbacks_.push_hint("庄园迎来了祥瑞之兆！", 3.0f);
+        }
+        
+        // P8-MEM-002: 生态变化后写入记忆
+        const auto balance_state = systems_.GetEcology().GetBalanceState();
+        if (balance_state == CloudSeamanor::domain::BalanceState::PerfectlyBalanced 
+            || balance_state == CloudSeamanor::domain::BalanceState::NearBalanced) {
+            systems_.MutableMemory().AddMemory(
+                CloudSeamanor::domain::PlayerMemoryType::EcoBalanced,
+                "",
+                world_state_.MutableClock().Day(),
+                2,
+                14
+            );
+        } else if (balance_state == CloudSeamanor::domain::BalanceState::SingleElementDominant) {
+            systems_.MutableMemory().AddMemory(
+                CloudSeamanor::domain::PlayerMemoryType::EcoImbalanced,
+                "",
+                world_state_.MutableClock().Day(),
+                1,
+                7
+            );
+        }
+    }
+
+    // --- 行为记忆日切衰减 ---
+    systems_.MutableMemory().OnDayChanged(world_state_.MutableClock().Day());
+
     for (auto& npc : world_state_.MutableNpcs()) {
         const std::string previous_location = npc.current_location;
         if (systems_.MutableNpcDevelopment().TryAdvanceByDay(npc.id, world_state_.MutableClock().Day())) {
@@ -1762,6 +2220,48 @@ void GameRuntime::OnDayChanged() {
                 3.2f);
         }
     }
+    
+    // P8-MEM-002: 节日当天写入记忆
+    if (festival_day_active) {
+        // 检查是否已有当天的节日记忆（避免重复添加）
+        if (!systems_.GetMemory().HasRecentMemory(
+                CloudSeamanor::domain::PlayerMemoryType::FestivalAttend,
+                current_day, 1)) {
+            systems_.MutableMemory().AddMemory(
+                CloudSeamanor::domain::PlayerMemoryType::FestivalAttend,
+                world_state_.GetActiveFestivalId(),
+                current_day,
+                1,   // 节日权重
+                10   // 节日记忆持久
+            );
+            callbacks_.push_hint("【节日记忆】你参加了今天的节庆活动。", 2.0f);
+        }
+    }
+    
+    // P8-MEM-004: 基于记忆的动态邮件生成
+    {
+        const std::string mail_id = systems_.GetMemory().GetPendingMailId(current_day);
+        if (!mail_id.empty()) {
+            const auto* tpl = systems_.GetMemory().GetMailTemplateById(mail_id);
+            if (tpl != nullptr) {
+                MailOrderEntry entry;
+                entry.item_id = tpl->reward_item_id;
+                entry.count = std::max(0, tpl->reward_count);
+                entry.deliver_day = current_day + 1;  // 次日送达
+                entry.claimed = false;
+                entry.opened = false;
+                entry.receipt_sent = false;
+                entry.source_rule_id = mail_id;
+                entry.sender = tpl->speaker_id;
+                entry.subject = tpl->subject;
+                entry.body = tpl->body;
+                world_state_.MutableMailOrders().push_back(std::move(entry));
+                systems_.MutableMemory().MarkMailConsumed(mail_id);
+                callbacks_.push_hint("【邮件】你收到了" + tpl->speaker_id + "的信件，明日送达。", 2.4f);
+            }
+        }
+    }
+    
     if (last_reset_day_ != current_day) {
         if (!festival_day_active) {
             ResetPlotsWateredState(world_state_, RefreshTeaPlotVisual);
@@ -2328,6 +2828,14 @@ void GameRuntime::Update(float delta_seconds) {
                     std::max(world_state_.GetPurifyReturnDays(), 3);
                 world_state_.MutablePurifyReturnSpirits() =
                     std::max(world_state_.GetPurifyReturnSpirits(), result.spirits_purified);
+
+                // 生态输入：净化战斗成功 -> 应用生态增量
+                systems_.MutableEcology().ApplyDelta(
+                    CloudSeamanor::domain::ManorElement::Tide,
+                    result.spirits_purified,  // 灵气增量
+                    result.spirits_purified / 2  // 潮元素增量
+                );
+
                 if (const auto it = world_state_.GetSkillBranches().find("灵卫");
                     it != world_state_.GetSkillBranches().end() && it->second == "ward") {
                     world_state_.MutablePurifyReturnDays() =
@@ -2338,6 +2846,16 @@ void GameRuntime::Update(float delta_seconds) {
                     world_state_.MutableSpiritRealmDailyRemaining() =
                         std::max(world_state_.GetSpiritRealmDailyRemaining(), world_state_.GetSpiritRealmDailyMax());
                 }
+                
+                // P8-MEM-002: 净化成功后写入记忆
+                systems_.MutableMemory().AddMemory(
+                    CloudSeamanor::domain::PlayerMemoryType::PurifyMiasma,
+                    "",
+                    world_state_.MutableClock().Day(),
+                    result.spirits_purified,  // 权重与净化数量相关
+                    7
+                );
+                
                 if (callbacks_.push_notification) {
                     callbacks_.push_notification(
                         "【净化回流】灵气结晶 +" + std::to_string(result.spirits_purified)
@@ -2829,6 +3347,16 @@ void GameRuntime::RotateDiyPreview() {
 void GameRuntime::ConfirmDiyPlacement() {
     if (auto* preview = FindActiveDiyPreview_(); preview != nullptr) {
         preview->custom_data = "placed";
+
+        // 生态输入：放置装饰物 -> 应用生态增量
+        if (const auto* effect = systems_.GetEcology().GetDecorationEffect(preview->object_id)) {
+            systems_.MutableEcology().ApplyDelta(
+                effect->primary_element,
+                effect->aura_delta,
+                effect->element_delta
+            );
+        }
+
         callbacks_.push_hint("DIY：摆放完成，可回到装饰台继续预览下一个物件。", 2.2f);
     }
 }
@@ -3006,6 +3534,33 @@ bool GameRuntime::SaveGameToSlot(int slot_index) {
             &world_state_.MutableLastFishCatch(),
             &systems_.GetNpcDevelopment().GetAllDevelopments())) {
         return false;
+    }
+
+    // 追加庄园生态状态
+    {
+        const auto ecology_state = systems_.SaveEcologyState();
+        if (!ecology_state.empty()) {
+            std::ofstream out(save_path_, std::ios::app);
+            out << "ecology|" << ecology_state << '\n';
+        }
+    }
+
+    // P8-MEM: 追加玩家行为记忆状态
+    {
+        const auto memory_state = systems_.SaveMemoryState();
+        if (!memory_state.empty()) {
+            std::ofstream out(save_path_, std::ios::app);
+            out << "memory|" << memory_state << '\n';
+        }
+    }
+
+    // P8-DEX: 追加茶灵图鉴状态
+    {
+        const auto dex_state = systems_.SaveTeaSpiritDexState();
+        if (!dex_state.empty()) {
+            std::ofstream out(save_path_, std::ios::app);
+            out << "tea_spirit_dex|" << dex_state << '\n';
+        }
     }
 
     // 追加心事件完成状态
@@ -3267,6 +3822,55 @@ bool GameRuntime::LoadGameFromSlot(int slot_index) {
         }
     }
     SyncUnlockedRecipesToWorkshop_(world_state_.GetRecipeUnlocks(), systems_.GetWorkshop());
+
+    // 加载庄园生态状态
+    {
+        std::ifstream in(save_path_);
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.rfind("ecology|", 0) == 0) {
+                    const auto pos = line.find('|', 7);
+                    if (pos != std::string::npos) {
+                        systems_.LoadEcologyState(line.substr(pos + 1));
+                    }
+                }
+            }
+        }
+    }
+
+    // P8-MEM: 加载玩家行为记忆状态
+    {
+        std::ifstream in(save_path_);
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.rfind("memory|", 0) == 0) {
+                    const auto pos = line.find('|', 7);
+                    if (pos != std::string::npos) {
+                        systems_.LoadMemoryState(line.substr(pos + 1));
+                    }
+                }
+            }
+        }
+    }
+
+    // P8-DEX: 加载茶灵图鉴状态
+    {
+        std::ifstream in(save_path_);
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.rfind("tea_spirit_dex|", 0) == 0) {
+                    const auto pos = line.find('|', 14);
+                    if (pos != std::string::npos) {
+                        systems_.LoadTeaSpiritDexState(line.substr(pos + 1));
+                    }
+                }
+            }
+        }
+    }
+
     // 加载主线剧情状态（从存档文件末尾读取 plot 行）
     {
         std::ifstream in(save_path_);
@@ -3636,6 +4240,21 @@ void GameRuntime::RequestSpiritRealmTravel_(bool to_spirit_realm) {
             world_state_.SetInSpiritRealm(to_spirit_realm);
             if (to_spirit_realm) {
                 world_state_.SetSpiritRealmDailyRemaining(world_state_.GetSpiritRealmDailyRemaining() - 1);
+                
+                // P8-MEM-002: 探索后山（灵界探索）写入记忆
+                // 检查是否已有当天的探索记忆
+                const int current_day = world_state_.MutableClock().Day();
+                if (!systems_.GetMemory().HasRecentMemory(
+                        CloudSeamanor::domain::PlayerMemoryType::ExploreBackMountain,
+                        current_day, 1)) {
+                    systems_.MutableMemory().AddMemory(
+                        CloudSeamanor::domain::PlayerMemoryType::ExploreBackMountain,
+                        "spirit_realm",
+                        current_day,
+                        1,   // 探索权重
+                        5    // 探索记忆较短
+                    );
+                }
             }
             BuildScene(
                 tmx_map_,
@@ -3925,6 +4544,274 @@ void GameRuntime::UpdateParticles(float delta_seconds) {
 }
 
 // ============================================================================
+// 【GameRuntime::LoadEcologyData_】加载庄园生态数据
+// ============================================================================
+void GameRuntime::LoadEcologyData_() {
+    using namespace CloudSeamanor::domain;
+
+    // 加载种植效果
+    {
+        std::vector<PlantingEffect> effects;
+        std::ifstream in("assets/data/ecology/ecology_planting_effects.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("TeaId,", 0) == 0) continue;  // header
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 5) continue;
+                PlantingEffect effect;
+                effect.tea_id = fields[0];
+                if (fields[1] == "Cloud") effect.primary_element = ManorElement::Cloud;
+                else if (fields[1] == "Wind") effect.primary_element = ManorElement::Wind;
+                else if (fields[1] == "Dew") effect.primary_element = ManorElement::Dew;
+                else if (fields[1] == "Glow") effect.primary_element = ManorElement::Glow;
+                else if (fields[1] == "Tide") effect.primary_element = ManorElement::Tide;
+                effect.aura_delta = std::atoi(fields[2].c_str());
+                effect.element_delta = std::atoi(fields[3].c_str());
+                effect.quality_bonus_at_high_aura = std::atof(fields[4].c_str());
+                effects.push_back(effect);
+            }
+        }
+        systems_.MutableEcology().LoadPlantingEffects(effects);
+    }
+
+    // 加载装饰效果
+    {
+        std::vector<DecorationEffect> effects;
+        std::ifstream in("assets/data/ecology/ecology_decoration_effects.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("DecorId,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 5) continue;
+                DecorationEffect effect;
+                effect.decor_id = fields[0];
+                if (fields[1] == "Cloud") effect.primary_element = ManorElement::Cloud;
+                else if (fields[1] == "Wind") effect.primary_element = ManorElement::Wind;
+                else if (fields[1] == "Dew") effect.primary_element = ManorElement::Dew;
+                else if (fields[1] == "Glow") effect.primary_element = ManorElement::Glow;
+                else if (fields[1] == "Tide") effect.primary_element = ManorElement::Tide;
+                effect.aura_delta = std::atoi(fields[2].c_str());
+                effect.element_delta = std::atoi(fields[3].c_str());
+                effect.stability_delta = std::atoi(fields[4].c_str());
+                effects.push_back(effect);
+            }
+        }
+        systems_.MutableEcology().LoadDecorationEffects(effects);
+    }
+
+    // 加载祥瑞事件规则
+    {
+        std::vector<AuspiciousEvent> events;
+        std::ifstream in("assets/data/ecology/ecology_event_rules.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("Id,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 10) continue;
+                AuspiciousEvent evt;
+                evt.id = fields[0];
+                evt.name = fields[1];
+                evt.description = fields[2];
+                evt.cooldown_days = std::atoi(fields[3].c_str());
+                if (fields[4] == "Withered") evt.min_aura_stage = EcologyStage::Withered;
+                else if (fields[4] == "Stable") evt.min_aura_stage = EcologyStage::Stable;
+                else if (fields[4] == "Abundant") evt.min_aura_stage = EcologyStage::Abundant;
+                else if (fields[4] == "Luminous") evt.min_aura_stage = EcologyStage::Luminous;
+                if (fields[5] == "SingleElement") evt.required_balance = BalanceState::SingleElementDominant;
+                else if (fields[5] == "NearBalanced") evt.required_balance = BalanceState::NearBalanced;
+                else if (fields[5] == "PerfectlyBalanced") evt.required_balance = BalanceState::PerfectlyBalanced;
+                else evt.required_balance = BalanceState::NearBalanced;
+                evt.required_balance_days = std::atoi(fields[6].c_str());
+                evt.min_dominant_element_weight = std::atoi(fields[7].c_str());
+                evt.result_type = fields[8];
+                evt.result_value = fields[9];
+                events.push_back(evt);
+            }
+        }
+        systems_.MutableEcology().LoadAuspiciousEvents(events);
+    }
+
+    // 加载 NPC 生态评论
+    {
+        std::vector<NpcEcologyComment> comments;
+        std::ifstream in("assets/data/ecology/ecology_npc_comments.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("Id,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 6) continue;
+                NpcEcologyComment comment;
+                comment.id = fields[0];
+                if (fields[1] == "Withered") comment.ecology_stage = EcologyStage::Withered;
+                else if (fields[1] == "Stable") comment.ecology_stage = EcologyStage::Stable;
+                else if (fields[1] == "Abundant") comment.ecology_stage = EcologyStage::Abundant;
+                else if (fields[1] == "Luminous") comment.ecology_stage = EcologyStage::Luminous;
+                if (fields[2] == "Cloud") comment.dominant_element = ManorElement::Cloud;
+                else if (fields[2] == "Wind") comment.dominant_element = ManorElement::Wind;
+                else if (fields[2] == "Dew") comment.dominant_element = ManorElement::Dew;
+                else if (fields[2] == "Glow") comment.dominant_element = ManorElement::Glow;
+                else if (fields[2] == "Tide") comment.dominant_element = ManorElement::Tide;
+                else comment.dominant_element = ManorElement::Cloud;  // Any
+                comment.speaker_id = fields[3];
+                comment.min_heart_level = std::atoi(fields[4].c_str());
+                comment.text = fields[5];
+                comments.push_back(comment);
+            }
+        }
+        systems_.MutableEcology().LoadNpcComments(comments);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::LoadMemoryConfig_】加载行为记忆配置数据
+// ============================================================================
+void GameRuntime::LoadMemoryConfig_() {
+    using namespace CloudSeamanor::domain;
+
+    // 加载对话钩子
+    {
+        std::vector<MemoryHook> hooks;
+        std::ifstream in("assets/data/social/memory_hooks.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("Id,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 9) continue;
+                MemoryHook hook;
+                hook.id = fields[0];
+                hook.memory_type = ParseMemoryType(fields[1]);
+                hook.speaker_id = fields[2];
+                hook.min_heart_level = std::atoi(fields[3].c_str());
+                hook.max_days_since_memory = std::atoi(fields[4].c_str());
+                hook.priority = std::atoi(fields[5].c_str());
+                hook.season_limit = fields[6];
+                hook.weather_limit = fields[7];
+                hook.text = fields[8];
+                hooks.push_back(hook);
+            }
+        }
+        systems_.MutableMemory().LoadHooks(hooks);
+    }
+
+    // 加载邮件模板
+    {
+        std::vector<MemoryMailTemplate> templates;
+        std::ifstream in("assets/data/social/memory_mail_templates.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("Id,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 9) continue;
+                MemoryMailTemplate tpl;
+                tpl.id = fields[0];
+                tpl.memory_type = ParseMemoryType(fields[1]);
+                tpl.speaker_id = fields[2];
+                tpl.min_heart_level = std::atoi(fields[3].c_str());
+                tpl.min_weight = std::atoi(fields[4].c_str());
+                tpl.subject = fields[5];
+                tpl.body = fields[6];
+                tpl.cooldown_days = std::atoi(fields[7].c_str());
+                templates.push_back(tpl);
+            }
+        }
+        systems_.MutableMemory().LoadMailTemplates(templates);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::LoadTeaSpiritDexConfig_】加载茶灵图鉴配置数据
+// ============================================================================
+void GameRuntime::LoadTeaSpiritDexConfig_() {
+    using namespace CloudSeamanor::domain;
+
+    // 加载茶灵定义
+    {
+        std::vector<TeaSpiritEntry> spirits;
+        std::ifstream in("assets/data/tea/tea_spirits.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("Id,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 5) continue;
+                TeaSpiritEntry spirit;
+                spirit.tea_spirit_id = fields[0];
+                spirit.tea_id = fields[1];
+                spirit.name = fields[2];
+                spirit.rarity = ParseRarity(fields[3]);
+                spirit.description = fields[4];
+                spirits.push_back(spirit);
+            }
+        }
+        systems_.MutableTeaSpiritDex().LoadSpirits(spirits);
+    }
+
+    // 加载茶灵解锁规则
+    {
+        std::vector<TeaSpiritUnlockRule> rules;
+        std::ifstream in("assets/data/tea/tea_spirit_unlock_rules.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("TeaId,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 8) continue;
+                TeaSpiritUnlockRule rule;
+                rule.tea_id = fields[0];
+                rule.tea_spirit_id = fields[1];
+                rule.required_quality = fields[2];
+                rule.season = fields[3];
+                rule.time_range = fields[4];
+                rule.weather_limit = fields[5];
+                rule.location_id = fields[6];
+                rule.extra_condition = fields[7];
+                rules.push_back(rule);
+            }
+        }
+        systems_.MutableTeaSpiritDex().LoadUnlockRules(rules);
+    }
+
+    // 加载茶灵奖励
+    {
+        std::vector<TeaSpiritReward> rewards;
+        std::ifstream in("assets/data/tea/tea_spirit_rewards.csv");
+        if (in.is_open()) {
+            std::string line;
+            while (std::getline(in, line)) {
+                if (line.empty() || line[0] == '#') continue;
+                if (line.rfind("MilestoneCount,", 0) == 0) continue;
+                auto fields = SplitSaveFields_(line);
+                if (fields.size() < 4) continue;
+                TeaSpiritReward reward;
+                reward.milestone_count = std::atoi(fields[0].c_str());
+                reward.reward_id = fields[1];
+                reward.reward_type = fields[2];
+                reward.reward_value = fields[3];
+                rewards.push_back(reward);
+            }
+        }
+        systems_.MutableTeaSpiritDex().LoadRewards(rewards);
+    }
+
+    // 初始化茶灵图鉴
+    systems_.MutableTeaSpiritDex().Initialize();
+}
+
+// ============================================================================
 // 【GameRuntime::SyncTeaMachineFromWorkshop_】同步制茶机显示状态
 // ============================================================================
 void GameRuntime::SyncTeaMachineFromWorkshop_() {
@@ -3973,6 +4860,360 @@ void GameRuntime::UpdateUi(float delta_seconds) {
     UpdateWorldTipPulse(world_state_, delta_seconds);
     if (callbacks_.update_hud_text) {
         callbacks_.update_hud_text();
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateWithLoopCoordinator】使用循环协调器的更新（调试用）
+// ============================================================================
+void GameRuntime::UpdateWithLoopCoordinator(float delta_seconds) {
+    // 战斗模式：独立更新
+    if (in_battle_mode_) {
+        UpdateBattleMode_(delta_seconds);
+        return;
+    }
+
+    CSM_ZONE_SCOPED;
+
+    // 执行协调器循环
+    loop_coordinator_.Update(delta_seconds);
+
+    // 日切换检测
+    const int previous_day = world_state_.MutableClock().Day();
+    if (world_state_.MutableClock().Day() != previous_day) {
+        OnDayChanged();
+    }
+
+    // 剩余的 UI 更新
+    UpdateHighlightedInteractable();
+    UpdateUi(delta_seconds);
+    world_state_.SyncSceneVisuals();
+}
+
+// ============================================================================
+// 【GameRuntime::EnableLoopCoordinatorProfiling】启用/禁用性能统计
+// ============================================================================
+void GameRuntime::EnableLoopCoordinatorProfiling(bool enable) {
+    LoopConfig config = loop_coordinator_.GetConfig();
+    config.enable_profiling = enable;
+    loop_coordinator_.SetConfig(config);
+}
+
+// ============================================================================
+// 【GameRuntime::GetLoopStatsReport】获取性能统计报告
+// ============================================================================
+std::string GameRuntime::GetLoopStatsReport() const {
+    std::ostringstream oss;
+    oss << "=== Loop Coordinator Stats ===\n";
+    oss << "Total Frame: " << loop_coordinator_.GetTotalFrameTimeMs() << " ms\n\n";
+
+    for (int i = 0; i < static_cast<int>(LoopPhase::Count); ++i) {
+        const auto phase = static_cast<LoopPhase>(i);
+        const auto& stats = loop_coordinator_.GetPhaseStats(phase);
+        oss << GetPhaseName(phase) << ": "
+            << "avg=" << stats.AverageTimeMs() << " ms, "
+            << "max=" << stats.max_time_ms << " ms\n";
+    }
+
+    return oss.str();
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateTimePhase_】阶段0: 时间更新
+// ============================================================================
+void GameRuntime::UpdateTimePhase_(float delta_seconds) {
+    const int previous_day = world_state_.MutableClock().Day();
+
+    world_state_.MutableClock().Tick(delta_seconds);
+    world_state_.MutableHunger().Tick(delta_seconds);
+    world_state_.MutableBuffs().Tick(delta_seconds);
+
+    const float stamina_recover_rate = world_state_.GetStamina().GetRecoverPerSecond()
+        * world_state_.GetHunger().StaminaRecoveryMultiplier()
+        * world_state_.GetBuffs().StaminaRecoveryMultiplier();
+    world_state_.MutableStamina().Update(delta_seconds, stamina_recover_rate);
+
+    if (state_.fishing_qte_active) {
+        state_.fishing_qte_progress += state_.fishing_qte_velocity * delta_seconds;
+        if (state_.fishing_qte_progress >= 1.0f) {
+            state_.fishing_qte_progress = 1.0f;
+            state_.fishing_qte_velocity *= -1.0f;
+        } else if (state_.fishing_qte_progress <= 0.0f) {
+            state_.fishing_qte_progress = 0.0f;
+            state_.fishing_qte_velocity *= -1.0f;
+        }
+    }
+
+    systems_.GetCloud().UpdateForecastVisibility(
+        world_state_.MutableClock().Day(), world_state_.MutableClock().Hour());
+
+    if (world_state_.MutableClock().Day() != previous_day) {
+        OnDayChanged();
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateWorldPhase_】阶段2: 世界更新
+// ============================================================================
+void GameRuntime::UpdateWorldPhase_(float delta_seconds) {
+    UpdateCropGrowth(delta_seconds);
+    UpdateWorkshop(delta_seconds);
+
+    if (modules_.pickup) {
+        modules_.pickup->Update(delta_seconds);
+        modules_.pickup->CollectNearby();
+    }
+
+    UpdateNpcs(delta_seconds);
+    UpdateSpiritBeast(delta_seconds);
+    pet_system_.Update(world_state_, delta_seconds);
+
+    npc_delivery_.Update(
+        world_state_,
+        world_state_.MutableClock().Day(),
+        world_state_.MutableClock().Hour());
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateRuntimePhase_】阶段4: 运行时更新
+// ============================================================================
+void GameRuntime::UpdateRuntimePhase_(float delta_seconds) {
+    scene_transition_.Update(delta_seconds);
+    UpdateCloudReport_();
+    UpdateSpiritRealmAutoReturn_();
+    UpdateBattleTrigger_(delta_seconds);
+
+    world_state_.SetSessionTime(world_state_.GetSessionTime() + delta_seconds);
+
+    if (world_state_.MutableInteraction().hint_timer > 0.0f) {
+        world_state_.MutableInteraction().hint_timer =
+            std::max(0.0f, world_state_.MutableInteraction().hint_timer - delta_seconds);
+    }
+
+    UpdateLevelUpOverlay_(delta_seconds);
+    UpdateTutorialSystem_(delta_seconds);
+    UpdateMainPlot_(delta_seconds);
+    UpdateCloudStateChange_();
+    UpdateStaminaWarning_();
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateBattleMode_】战斗模式更新
+// ============================================================================
+void GameRuntime::UpdateBattleMode_(float delta_seconds) {
+    const auto player_pos = world_state_.GetPlayer().GetPosition();
+    battle_manager_.Update(delta_seconds, player_pos.x, player_pos.y);
+    if (!battle_manager_.IsInBattle()) {
+        const auto& result = battle_manager_.GetLastResult();
+        const bool exit_by_retreat = state_.battle_exit_by_retreat;
+        if (state_.tide_festival_battle_active) {
+            if (result.victory) {
+                world_state_.MutableInventory().AddItem("legendary_tide", 1);
+                world_state_.MutableInventory().AddItem("tide_heart", 1);
+                world_state_.MutableGold() += 600;
+                Event ev;
+                ev.type = "FestivalTideBossVictoryEvent";
+                ev.data["festival_id"] = "cloud_tide_ritual";
+                ev.data["day"] = std::to_string(world_state_.MutableClock().Day());
+                ev.data["reward_gold"] = "600";
+                ev.data["boss_id"] = "spirit_tide_lord_boss";
+                GlobalEventBus().Emit(ev);
+                callbacks_.push_hint("【大潮祭胜利】获得 传说潮汐印记、潮心与金币 +600。", 3.2f);
+                state_.tide_festival_battle_pending = false;
+            } else {
+                callbacks_.push_hint("【大潮祭】本次挑战未成功，今天仍可再次挑战潮灵。", 2.8f);
+            }
+            state_.tide_festival_battle_active = false;
+        }
+        if (callbacks_.push_notification) {
+            callbacks_.push_notification(BuildBattleOutcomeSummary_(result, exit_by_retreat));
+        }
+        if (result.victory && result.spirits_purified > 0) {
+            world_state_.MutablePurifyReturnDays() =
+                std::max(world_state_.GetPurifyReturnDays(), 3);
+            world_state_.MutablePurifyReturnSpirits() =
+                std::max(world_state_.GetPurifyReturnSpirits(), result.spirits_purified);
+
+            // 生态输入：净化战斗成功 -> 应用生态增量
+            systems_.MutableEcology().ApplyDelta(
+                CloudSeamanor::domain::ManorElement::Tide,
+                result.spirits_purified,
+                result.spirits_purified / 2
+            );
+
+            if (callbacks_.push_notification) {
+                callbacks_.push_notification(
+                    "【净化回流】灵气结晶 +" + std::to_string(result.spirits_purified)
+                    + "，未来 3 天游园生机增强。");
+            }
+        }
+        if (result.victory) {
+            state_.retention_weekly_battle_victories += 1;
+        }
+        if (callbacks_.push_hint) {
+            if (exit_by_retreat) {
+                callbacks_.push_hint("你已主动撤退，本次战斗按撤退结算。", 2.2f);
+            } else if (result.victory) {
+                callbacks_.push_hint("战斗已完成，奖励已发放并记录到结算通知。", 2.2f);
+            } else {
+                callbacks_.push_hint("战斗已结束，本次净化未完成。", 2.2f);
+            }
+        }
+        if (battle_manager_.IsPaused()) {
+            battle_manager_.Resume();
+        }
+        state_.battle_exit_by_retreat = false;
+        in_battle_mode_ = false;
+        state_.battle_trigger_cooldown_seconds = std::max(state_.battle_trigger_cooldown_seconds, 1.2f);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateCloudReport_】云海日报
+// ============================================================================
+void GameRuntime::UpdateCloudReport_() {
+    auto& tutorial = world_state_.MutableTutorial();
+    const int day = world_state_.MutableClock().Day();
+    const int hour = world_state_.MutableClock().Hour();
+    if (hour >= 6 && tutorial.daily_cloud_report_day_shown != day) {
+        tutorial.daily_cloud_report_day_shown = day;
+        if (callbacks_.push_notification) {
+            const auto& cloud = systems_.GetCloud();
+            const std::string msg =
+                std::string("云海日报: ") + cloud.CurrentStateText()
+                + "  作物加成: x" + std::to_string(CloudGrowthMultiplier(cloud.CurrentState()))
+                + "  明日预报: " + (cloud.IsForecastVisible() ? cloud.ForecastStateText() : "22:00后公布");
+            callbacks_.push_notification(msg);
+        }
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateSpiritRealmAutoReturn_】灵界自动返回
+// ============================================================================
+void GameRuntime::UpdateSpiritRealmAutoReturn_() {
+    if (world_state_.GetInSpiritRealm() && world_state_.MutableClock().Hour() >= 22) {
+        world_state_.SetInSpiritRealm(false);
+        callbacks_.push_hint("夜深了，你被传送门自动送回主世界。", 2.8f);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateBattleTrigger_】战斗触发检测
+// ============================================================================
+void GameRuntime::UpdateBattleTrigger_(float delta_seconds) {
+    if (state_.battle_trigger_cooldown_seconds > 0.0f) {
+        state_.battle_trigger_cooldown_seconds =
+            std::max(0.0f, state_.battle_trigger_cooldown_seconds - delta_seconds);
+    }
+    if (world_state_.GetInSpiritRealm()
+        && state_.battle_trigger_cooldown_seconds <= 0.0f
+        && !scene_transition_.IsActive()) {
+        if (TryEnterBattleByPlayerPosition()) {
+            state_.battle_trigger_cooldown_seconds = std::max(1.0f, config_.GetFloat("battle_trigger_cooldown_seconds", 2.0f));
+        }
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateLevelUpOverlay_】升级动画
+// ============================================================================
+void GameRuntime::UpdateLevelUpOverlay_(float delta_seconds) {
+    if (world_state_.GetLevelUpOverlayActive()) {
+        world_state_.SetLevelUpOverlayTimer(
+            world_state_.GetLevelUpOverlayTimer() - delta_seconds);
+        if (world_state_.GetLevelUpOverlayTimer() <= 0.0f) {
+            world_state_.SetLevelUpOverlayActive(false);
+        }
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateTutorialSystem_】教程系统
+// ============================================================================
+void GameRuntime::UpdateTutorialSystem_(float delta_seconds) {
+    if (modules_.tutorial) {
+        modules_.tutorial->Update(delta_seconds);
+    } else {
+        CheckTutorialHints();
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateMainPlot_】主线剧情
+// ============================================================================
+void GameRuntime::UpdateMainPlot_(float delta_seconds) {
+    if (plot_system_.IsPlaying()) {
+        plot_system_.Update(delta_seconds);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateCloudStateChange_】云海状态变化
+// ============================================================================
+void GameRuntime::UpdateCloudStateChange_() {
+    if (last_cloud_state_ != systems_.GetCloud().CurrentState()) {
+        last_cloud_state_ = systems_.GetCloud().CurrentState();
+        callbacks_.push_hint(
+            "云海气场发生变化：" + systems_.GetCloud().CurrentStateText() + "。" +
+            BuildWeatherAdviceText(systems_.GetCloud().CurrentState(),
+                                   systems_.GetCloud().IsForecastVisible()),
+            GameConstants::Ui::HintDuration::CloudStateChanged);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateStaminaWarning_】体力警告
+// ============================================================================
+void GameRuntime::UpdateStaminaWarning_() {
+    if (!world_state_.GetLowStaminaWarningActive()
+        && world_state_.MutableStamina().Ratio() <= GameConstants::Player::LowStaminaWarningRatio) {
+        world_state_.SetLowStaminaWarningActive(true);
+        callbacks_.push_hint("体力偏低，先休息一下或放慢节奏。", GameConstants::Ui::HintDuration::LowStaminaWarning);
+    } else if (world_state_.GetLowStaminaWarningActive()
+               && world_state_.MutableStamina().Ratio() > GameConstants::Player::LowStaminaRecoverRatio) {
+        world_state_.SetLowStaminaWarningActive(false);
+        callbacks_.push_hint("体力已经恢复一些了。", GameConstants::Ui::HintDuration::LowStaminaRecovered);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::InitializeLoopDebugPanel】初始化循环调试面板
+// ============================================================================
+void GameRuntime::InitializeLoopDebugPanel(const sf::Font& font) {
+    if (loop_debug_panel_) {
+        loop_debug_panel_->Initialize(font);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::ToggleLoopDebugPanel】切换循环调试面板显示
+// ============================================================================
+void GameRuntime::ToggleLoopDebugPanel() {
+    if (loop_debug_panel_) {
+        loop_debug_panel_->Toggle();
+        CloudSeamanor::infrastructure::Logger::Info(
+            loop_debug_panel_->IsVisible()
+                ? "LoopDebugPanel: visible"
+                : "LoopDebugPanel: hidden");
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::UpdateLoopDebugPanel】更新循环调试面板
+// ============================================================================
+void GameRuntime::UpdateLoopDebugPanel() {
+    if (loop_debug_panel_ && loop_debug_panel_->IsVisible()) {
+        loop_debug_panel_->Update(loop_coordinator_);
+    }
+}
+
+// ============================================================================
+// 【GameRuntime::RenderLoopDebugPanel】渲染循环调试面板
+// ============================================================================
+void GameRuntime::RenderLoopDebugPanel(sf::RenderWindow& window) {
+    if (loop_debug_panel_) {
+        loop_debug_panel_->Render(window);
     }
 }
 

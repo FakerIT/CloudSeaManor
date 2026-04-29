@@ -11,6 +11,7 @@
 #include "CloudSeamanor/domain/CloudSystem.hpp"
 #include "CloudSeamanor/domain/CropData.hpp"
 #include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/domain/ManorEcologySystem.hpp"
 
 #include <cmath>
 #include <vector>
@@ -41,6 +42,10 @@ void InteractionSystem::SetDynamicLifeSystem(CloudSeamanor::domain::DynamicLifeS
 
 void InteractionSystem::SetDialogueManager(CloudSeamanor::engine::NpcDialogueManager* manager) {
     dialogue_manager_ = manager;
+}
+
+void InteractionSystem::SetManorEcologySystem(CloudSeamanor::domain::ManorEcologySystem* ecology) {
+    ecology_system_ = ecology;
 }
 
 InteractionResult InteractionSystem::TalkToNpc(
@@ -261,6 +266,19 @@ InteractionResult InteractionSystem::InteractWithPlot(
             if (callbacks_.push_hint) callbacks_.push_hint(result.message, 2.6f);
             if (callbacks_.log_info) callbacks_.log_info(plot.crop_name + " planted.");
             if (callbacks_.play_sfx) callbacks_.play_sfx("plant");
+
+            // 生态输入：播种时根据作物类型应用生态效果
+            if (ecology_system_ != nullptr) {
+                const auto* effect = ecology_system_->GetPlantingEffect(plot.crop_id);
+                if (effect != nullptr) {
+                    ecology_system_->ApplyDelta(effect->primary_element, effect->aura_delta, effect->element_delta);
+                    if (callbacks_.log_info) {
+                        callbacks_.log_info("[Ecology] Planted " + plot.crop_id +
+                            " -> Aura: " + std::to_string(effect->aura_delta) +
+                            ", Element: " + std::to_string(effect->element_delta));
+                    }
+                }
+            }
         } else {
             result.message = "Missing seed: " + ItemDisplayName(plot.seed_item_id) + ".";
             if (callbacks_.push_hint) callbacks_.push_hint(result.message, 2.6f);

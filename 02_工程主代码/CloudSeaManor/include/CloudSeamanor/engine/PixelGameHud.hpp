@@ -38,6 +38,7 @@
 #include "CloudSeamanor/engine/PixelBeastiaryPanel.hpp"
 #include "CloudSeamanor/engine/PixelContextMenu.hpp"
 #include "CloudSeamanor/engine/PixelMinimap.hpp"
+#include "CloudSeamanor/engine/PixelNpcSchedulePanel.hpp"
 #include "CloudSeamanor/engine/PixelProgressBar.hpp"
 #include "CloudSeamanor/engine/PixelQuestMenu.hpp"
 #include "CloudSeamanor/engine/PixelSettingsPanel.hpp"
@@ -73,6 +74,7 @@ struct PanelState {
     bool quest_menu_open = false;
     bool map_open = false;
     bool dialogue_open = false;
+    bool npc_schedule_open = false;
     bool cloud_forecast_open = false;
     bool player_status_open = false;
 };
@@ -133,6 +135,7 @@ public:
      * @brief 切换地图
      */
     void ToggleMap();
+    void ToggleNpcSchedule();
     void ToggleSettings();
     void ToggleCloudForecast();
     void TogglePlayerStatus();
@@ -245,6 +248,7 @@ public:
     void UpdateBuildingPanel(const BuildingPanelViewData& data);
     void UpdateContractPanel(const ContractPanelViewData& data);
     void UpdateNpcDetailPanel(const NpcDetailPanelViewData& data);
+    void UpdateNpcSchedulePanel(const NpcSchedulePanelViewData& data);
     void UpdateSpiritRealmPanel(const SpiritRealmPanelViewData& data);
     void UpdateBeastiaryPanel(const BeastiaryPanelViewData& data);
     void UpdateWorkshopPanel(const WorkshopPanelViewData& data);
@@ -384,6 +388,7 @@ private:
     PixelWorkshopPanel workshop_panel_;
     PixelContractPanel contract_panel_;
     PixelNpcDetailPanel npc_detail_panel_;
+    PixelNpcSchedulePanel npc_schedule_panel_;
     PixelSpiritBeastPanel spirit_beast_panel_;
     PixelFestivalPanel festival_panel_;
     PixelSpiritRealmPanel spirit_realm_panel_;

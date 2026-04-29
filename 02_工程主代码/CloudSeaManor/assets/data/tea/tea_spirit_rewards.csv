@@ -1,0 +1,13 @@
+# 茶灵奖励配置表
+# 列：MilestoneCount, RewardId, RewardType, RewardValue
+# 说明：
+# - MilestoneCount: 里程碑数量
+# - RewardId: 奖励唯一标识
+# - RewardType: 奖励类型 (item/stamina/buff/title)
+# - RewardValue: 奖励值
+
+MilestoneCount,RewardId,RewardType,RewardValue
+3,tea_spirit_display_1,item,tea_spirit_stand_small
+6,tea_spirit_stamina_bonus,stamina,0.1
+12,tea_spirit_dialogue_pool,buff,unlock_memory_tea_spirit
+18,tea_spirit_master,buff,permanent_aura_bonus

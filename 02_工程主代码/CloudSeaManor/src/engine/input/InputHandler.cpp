@@ -140,6 +140,10 @@ void InputHandler::HandleGameAction(
         game_callbacks_->push_hint(
             ws.MutableTutorial().show_debug_overlay ? "调试面板已开启。" : "调试面板已隐藏。",
             2.0f);
+        // 同时切换循环调试面板
+        if (game_callbacks_->toggle_loop_debug_panel) {
+            game_callbacks_->toggle_loop_debug_panel();
+        }
         return;
     }
 

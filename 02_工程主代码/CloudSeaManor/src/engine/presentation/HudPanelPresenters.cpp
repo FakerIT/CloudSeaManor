@@ -5,6 +5,7 @@
 #include "CloudSeamanor/engine/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/infrastructure/GameConfig.hpp"
 #include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/engine/systems/NpcScheduleSystem.hpp"
 
 #include <algorithm>
 #include <array>
@@ -737,6 +738,51 @@ void HudPanelPresenters::UpdateWorkshopPanel(PixelGameHud& hud, GameRuntime& run
     workshop_view.wood_stock = world_state.GetInventory().CountOf("Wood");
     workshop_view.crystal_stock = world_state.GetInventory().CountOf("spirit_dust");
     hud.UpdateWorkshopPanel(workshop_view);
+}
+
+void HudPanelPresenters::UpdateNpcSchedulePanel(PixelGameHud& hud, GameRuntime& runtime) {
+    const auto& world_state = runtime.WorldState();
+    NpcSchedulePanelViewData schedule_view;
+
+    schedule_view.viewer_heart_level = 0;
+    const auto& npcs = world_state.GetNpcs();
+
+    for (const auto& npc : npcs) {
+        schedule_view.viewer_heart_level = std::max(schedule_view.viewer_heart_level, npc.heart_level);
+    }
+
+    schedule_view.has_permission = schedule_view.viewer_heart_level >= PixelNpcSchedulePanel::kRequiredHeartLevelForAllView;
+
+    schedule_view.unlock_hint = runtime.Config().GetString(
+        "npc_schedule_unlock_hint",
+        "好感达到" + std::to_string(PixelNpcSchedulePanel::kRequiredHeartLevelForAllView) + "级后可查看所有NPC位置");
+    schedule_view.no_npc_visible = runtime.Config().GetString(
+        "npc_schedule_no_visible",
+        "暂无NPC可见");
+    schedule_view.title_text = runtime.Config().GetString(
+        "npc_schedule_title",
+        "NPC日程");
+
+    if (schedule_view.has_permission) {
+        const auto& npc_schedule = runtime.NpcSchedule();
+        schedule_view.visible_npcs = npc_schedule.GetVisibleNpcLocations(
+            npcs, 0);
+    }
+
+    for (const auto& npc : npcs) {
+        if (npc.heart_level < PixelNpcSchedulePanel::kRequiredHeartLevelForAllView) {
+            NpcLocationEntry entry;
+            entry.npc_id = npc.id;
+            entry.npc_name = npc.display_name;
+            entry.location_name = "???";
+            entry.activity = "";
+            entry.heart_level = npc.heart_level;
+            entry.is_visible = false;
+            schedule_view.hidden_npcs.push_back(entry);
+        }
+    }
+
+    hud.UpdateNpcSchedulePanel(schedule_view);
 }
 
 }  // namespace CloudSeamanor::engine

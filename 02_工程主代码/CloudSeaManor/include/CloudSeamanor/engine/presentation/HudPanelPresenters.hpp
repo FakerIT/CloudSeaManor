@@ -29,6 +29,7 @@ public:
     static void UpdateSpiritRealmPanel(PixelGameHud& hud, GameRuntime& runtime);
     static void UpdateBeastiaryPanel(PixelGameHud& hud, GameRuntime& runtime);
     static void UpdateWorkshopPanel(PixelGameHud& hud, GameRuntime& runtime);
+    static void UpdateNpcSchedulePanel(PixelGameHud& hud, GameRuntime& runtime);
 };
 
 }  // namespace CloudSeamanor::engine

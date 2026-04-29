@@ -18,12 +18,24 @@ Result<int> Inventory::TryAddItem(const std::string& item_id, int count) {
 
     auto it = FindSlot_(item_id);
     if (it != slots_.end()) {
-        it->count += count;
+        // 检查叠加上限
+        const int new_count = it->count + count;
+        if (new_count > kInventoryMaxStackSize) {
+            return Result<int>("物品叠加已达上限（" + std::to_string(kInventoryMaxStackSize) + "）：" + item_id);
+        }
+        it->count = new_count;
         return it->count;
     }
 
-    slots_.push_back({item_id, count});
-    return count;
+    // 新物品，检查槽位是否已满
+    if (slots_.size() >= kInventoryMaxSlots) {
+        return Result<int>("背包已满（" + std::to_string(kInventoryMaxSlots) + " 个槽位）");
+    }
+
+    // 限制添加数量不超过叠加上限
+    const int actual_count = std::min(count, kInventoryMaxStackSize);
+    slots_.push_back({item_id, actual_count});
+    return actual_count;
 }
 
 // ============================================================================

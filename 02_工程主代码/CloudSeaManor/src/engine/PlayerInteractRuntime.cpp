@@ -20,6 +20,7 @@
 #include "CloudSeamanor/domain/HungerTable.hpp"
 #include "CloudSeamanor/domain/ToolSystem.hpp"
 #include "CloudSeamanor/domain/DiarySystem.hpp"
+#include "CloudSeamanor/engine/TeaQualityCalculator.hpp"
 
 #include "CloudSeamanor/engine/DialogueEngine.hpp"
 #include "CloudSeamanor/Profiling.hpp"
@@ -146,6 +147,63 @@ void TintRecentHearts_(std::vector<HeartParticle>& particles,
     for (std::size_t i = from_index; i < particles.size(); ++i) {
         const std::uint32_t a = (particles[i].color_rgba & 0xFFu);
         particles[i].color_rgba = (color_rgba & 0xFFFFFF00u) | a;
+    }
+}
+
+// ============================================================================
+// 【TryAddRelationshipMilestoneMemory】尝试添加关系里程碑记忆
+// ============================================================================
+void TryAddRelationshipMilestoneMemory(
+    PlayerInteractRuntimeContext& ctx,
+    const NpcActor& npc,
+    int old_heart_level
+) {
+    if (ctx.memory_system == nullptr) {
+        return;
+    }
+    
+    const int new_heart_level = npc.heart_level;
+    if (new_heart_level <= old_heart_level) {
+        return;
+    }
+    
+    // 检查各里程碑等级
+    if (new_heart_level >= 4 && old_heart_level < 4) {
+        // 首次达到 4 心（好友）
+        ctx.memory_system->AddMemory(
+            domain::PlayerMemoryType::RelationshipMilestone,
+            npc.id + "_friend",
+            ctx.current_day,
+            5,
+            30
+        );
+    } else if (new_heart_level >= 6 && old_heart_level < 6) {
+        // 首次达到 6 心（挚友）
+        ctx.memory_system->AddMemory(
+            domain::PlayerMemoryType::RelationshipMilestone,
+            npc.id + "_close_friend",
+            ctx.current_day,
+            5,
+            30
+        );
+    } else if (new_heart_level >= 8 && old_heart_level < 8) {
+        // 首次达到 8 心（知己）
+        ctx.memory_system->AddMemory(
+            domain::PlayerMemoryType::RelationshipMilestone,
+            npc.id + "_intimate",
+            ctx.current_day,
+            5,
+            30
+        );
+    } else if (new_heart_level >= 10 && old_heart_level < 10) {
+        // 首次达到 10 心（满心）
+        ctx.memory_system->AddMemory(
+            domain::PlayerMemoryType::RelationshipMilestone,
+            npc.id + "_max_heart",
+            ctx.current_day,
+            5,
+            30
+        );
     }
 }
 
@@ -590,6 +648,10 @@ bool HandleGiftInteraction(PlayerInteractRuntimeContext& ctx) {
         if (applied_delta != favor_change && favor_change > 0) {
             ctx.dialogue_text += "（今日好感已接近上限）";
         }
+        
+        // P8-MEM-002: 关系里程碑记忆写入
+        TryAddRelationshipMilestoneMemory(ctx, npc, old_heart);
+        
         ctx.dynamic_life.AddPlayerPoints(
             npc.id, static_cast<float>(applied_delta) * GameConstants::Npc::FavorToDynamicLifeMultiplier);
         if (auto* state = ctx.dynamic_life.GetNpcState(npc.id); state && state->stage_changed_today) {
@@ -685,6 +747,23 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
                 if (!nodes.empty()) {
                     *ctx.dialogue_nodes = nodes;
                     *ctx.dialogue_start_id = nodes.front().id;
+                    
+                    // P8-MEM-003: 动态对话钩子 - 注入记忆钩子文本
+                    if (!ctx.dialogue_nodes->empty() && ctx.memory_system != nullptr) {
+                        const std::string season_name = CloudSeamanor::domain::GameClock::SeasonName(ctx.game_clock.Season());
+                        const std::string weather = ctx.cloud_system.CurrentStateText();
+                        const std::string hook_text = ctx.memory_system->GetDialogueHook(
+                            npc.id,
+                            npc.heart_level,
+                            ctx.current_day,
+                            season_name,
+                            weather
+                        );
+                        if (!hook_text.empty()) {
+                            // 将记忆钩子文本追加到第一条对话的开头
+                            ctx.dialogue_nodes->front().text = hook_text + "\n\n" + ctx.dialogue_nodes->front().text;
+                        }
+                    }
                 }
             }
 
@@ -824,6 +903,10 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
                 npc.memory_tag.clear();
                 npc.memory_until_day = 0;
             }
+            
+            // P8-MEM-002: 对话后关系里程碑检查
+            TryAddRelationshipMilestoneMemory(ctx, npc, old_heart);
+            
             ctx.push_hint("与" + npc.display_name + "交谈... 关系更近了一步。（+" + std::to_string(applied_delta) + "）", 2.8f);
             if (npc.heart_level > old_heart) {
                 ctx.push_hint(npc.display_name + " 对你的感情加深了！", 2.8f);
@@ -856,6 +939,10 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
 
         const int old_heart = npc.heart_level;
         const int applied_delta = ApplyNpcFavorDelta(npc, 2);
+        
+        // P8-MEM-002: 对话后关系里程碑检查
+        TryAddRelationshipMilestoneMemory(ctx, npc, old_heart);
+        
         ctx.push_hint("与" + npc.display_name + "交谈... 关系更近了一步。（+" + std::to_string(applied_delta) + "）", 2.8f);
         if (npc.heart_level > old_heart) {
             ctx.push_hint(npc.display_name + " 对你的感情加深了！", 2.8f);
@@ -1048,9 +1135,8 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             ctx.push_hint(plot.crop_name + " 已浇水。当前云海只会提供正向加成，可以安心等它成长。", 3.0f);
             ctx.log_info(plot.crop_name + " 地块已浇水。");
         } else if (plot.ready) {
-            const auto harvest_quality = CloudSeamanor::domain::CropTable::CalculateQuality(
-                ctx.cloud_system.CurrentState(),
-                false);
+            // 使用生态加成计算品质（基于播种时快照）
+            const auto harvest_quality = CloudSeamanor::engine::TeaQualityCalculator::CalculateWithSnapshot(plot, false);
             const float cloud_density = ctx.cloud_system.CurrentSpiritDensity();
             const float tea_buff = 1.0f + ctx.skills.GetBonus(CloudSeamanor::domain::SkillType::SpiritFarm)
                 * GameConstants::Skill::SkillBonusToBuffRatio;

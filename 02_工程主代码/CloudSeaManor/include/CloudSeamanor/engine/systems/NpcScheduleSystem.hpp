@@ -26,6 +26,17 @@ public:
         float delta_seconds
     );
 
+    /**
+     * @brief 获取所有可见 NPC 的当前位置信息（用于日程面板显示）
+     * @param npcs NPC 列表引用
+     * @param min_heart_level_to_show 最小好感等级才显示位置
+     * @return 可见 NPC 位置信息列表
+     */
+    [[nodiscard]] std::vector<NpcLocationEntry> GetVisibleNpcLocations(
+        const std::vector<NpcActor>& npcs,
+        int min_heart_level_to_show
+    ) const;
+
 private:
     static constexpr float kOffscreenDistanceThreshold = 420.0f;
     static constexpr float kOffscreenUpdateIntervalSeconds = 0.45f;

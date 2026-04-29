@@ -125,11 +125,26 @@ void GameWorldState::SyncSceneVisuals() {
 }
 
 // ============================================================================
-// 【SetHintMessage】设置提示消息
+// 【SetHintMessage】设置提示消息（带类型）
 // ============================================================================
-void SetHintMessage(GameWorldState& state, const std::string& message, float duration) {
+void SetHintMessage(GameWorldState& state, const std::string& message, float duration, HintType type) {
     state.MutableInteraction().hint_message = message;
     state.MutableInteraction().hint_timer = duration;
+    state.MutableInteraction().hint_type = type;
+}
+
+// ============================================================================
+// 【SetWarningMessage】快捷函数：设置警告提示（红色）
+// ============================================================================
+void SetWarningMessage(GameWorldState& state, const std::string& message, float duration) {
+    SetHintMessage(state, message, duration, HintType::Warning);
+}
+
+// ============================================================================
+// 【SetSuccessMessage】快捷函数：设置成功提示（绿色）
+// ============================================================================
+void SetSuccessMessage(GameWorldState& state, const std::string& message, float duration) {
+    SetHintMessage(state, message, duration, HintType::Success);
 }
 
 // ============================================================================

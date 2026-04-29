@@ -15,6 +15,7 @@
 #include "CloudSeamanor/domain/WorkshopSystem.hpp"
 #include "CloudSeamanor/domain/Stamina.hpp"
 #include "CloudSeamanor/engine/TextRenderUtils.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"  // For HintType
 
 #include <algorithm>
 #include <array>
@@ -218,6 +219,7 @@ void UpdateHudText(bool font_loaded,
                    int highlighted_plot_index,
                    int highlighted_npc_index,
                    const std::string& hint_message,
+                   CloudSeamanor::engine::HintType hint_type,  // QA-015: 提示类型
                    float session_time,
                    const std::string& current_target_text,
                    const std::string& dialogue_text,
@@ -336,6 +338,23 @@ void UpdateHudText(bool font_loaded,
         ? controls_hint + " | " + no_pressure_hint
         : hint_message + " | " + controls_hint + " | " + no_pressure_hint;
     hint_text.setString(toSfString(hint_full));
+
+    // QA-015: 根据提示类型设置不同的颜色
+    switch (hint_type) {
+        case CloudSeamanor::engine::HintType::Warning:
+            hint_text.setFillColor(sf::Color(255, 80, 80));  // 红色警告
+            break;
+        case CloudSeamanor::engine::HintType::Success:
+            hint_text.setFillColor(sf::Color(80, 255, 120));  // 绿色成功
+            break;
+        case CloudSeamanor::engine::HintType::Info:
+            hint_text.setFillColor(sf::Color(100, 180, 255));  // 蓝色信息
+            break;
+        case CloudSeamanor::engine::HintType::Normal:
+        default:
+            hint_text.setFillColor(sf::Color(220, 220, 220));  // 默认浅灰色
+            break;
+    }
 
     dialogue_overlay_text.setString(toSfString(BuildDialogueOverlayText(
         npcs,

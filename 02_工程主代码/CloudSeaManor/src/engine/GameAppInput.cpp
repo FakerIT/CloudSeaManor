@@ -301,6 +301,9 @@ InputHandler::GameCallbacks GameApp::BuildGameCallbacks_() {
     game_cbs.update_aura = [this](const CloudSeamanor::domain::CloudState& cs) {
         ui_system_->UpdateAuraOverlay(AuraColorFromLayout(ui_layout_config_, cs));
     };
+    game_cbs.toggle_loop_debug_panel = [this]() {
+        runtime_.ToggleLoopDebugPanel();
+    };
     return game_cbs;
 }
 

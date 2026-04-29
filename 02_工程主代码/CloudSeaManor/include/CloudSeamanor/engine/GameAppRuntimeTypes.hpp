@@ -138,6 +138,8 @@ struct TeaPlot {
     bool spirit_mutated = false;
     /** 收获时的饱食恢复值 */
     int hunger_restore = 0;
+    /** 播种时的生态加成（快照，用于品质判定） */
+    float ecology_bonus_at_planting = 0.0f;
 };
 
 struct PriceTableEntry {

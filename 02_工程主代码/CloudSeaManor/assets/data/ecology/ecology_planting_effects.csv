@@ -1,0 +1,20 @@
+# 庄园生态 - 种植效果表
+# 列：TeaId, PrimaryElement, AuraDelta, ElementDelta, QualityBonusAtHighAura
+# 说明：
+# - TeaId: 灵茶ID，参考 tea_data.csv
+# - PrimaryElement: 主元素 (Cloud/Wind/Dew/Glow/Tide)
+# - AuraDelta: 收获时灵气浓度变化
+# - ElementDelta: 元素权重变化
+# - QualityBonusAtHighAura: 高灵气时额外品质系数 (0.0-0.2)
+
+TeaId,PrimaryElement,AuraDelta,ElementDelta,QualityBonusAtHighAura
+cloud_white,Cloud,2,5,0.05
+cloud_green,Cloud,2,3,0.03
+wind_mint,Wind,2,5,0.05
+wind_basil,Wind,2,4,0.04
+dew_lotus,Dew,2,5,0.05
+dew_lily,Dew,2,3,0.03
+glow_rose,Glow,2,5,0.05
+glow_chrysanthemum,Glow,2,4,0.04
+tide_blue,Tide,3,6,0.06
+tide_deep,Tide,2,5,0.05
