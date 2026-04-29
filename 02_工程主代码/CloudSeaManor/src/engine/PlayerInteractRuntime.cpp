@@ -1,27 +1,27 @@
-#include "CloudSeamanor/PlayerInteractRuntime.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/DynamicLifeSystem.hpp"
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/GameAppNpc.hpp"
-#include "CloudSeamanor/GameAppFarming.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/Interactable.hpp"
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/PickupDrop.hpp"
-#include "CloudSeamanor/Stamina.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/engine/PlayerInteractRuntime.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/app/GameAppNpc.hpp"
+#include "CloudSeamanor/app/GameAppFarming.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/engine/Interactable.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/engine/PickupDrop.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
 #include "CloudSeamanor/engine/systems/DecorationSystem.hpp"
 #include "CloudSeamanor/engine/systems/ShopSystem.hpp"
-#include "CloudSeamanor/EventBus.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/HungerTable.hpp"
-#include "CloudSeamanor/ToolSystem.hpp"
-#include "CloudSeamanor/DiarySystem.hpp"
+#include "CloudSeamanor/engine/EventBus.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/domain/HungerTable.hpp"
+#include "CloudSeamanor/domain/ToolSystem.hpp"
+#include "CloudSeamanor/domain/DiarySystem.hpp"
 
-#include "CloudSeamanor/DialogueEngine.hpp"
+#include "CloudSeamanor/engine/DialogueEngine.hpp"
 #include "CloudSeamanor/Profiling.hpp"
 
 #include <algorithm>
@@ -543,15 +543,32 @@ bool HandleGiftInteraction(PlayerInteractRuntimeContext& ctx) {
         npc.daily_gifted = true;
         ctx.dialogue_text = npc.display_name + "：今天已经送过礼物了，明天再来吧~";
         ctx.push_hint(ctx.dialogue_text, 2.6f);
-    } else if (!ctx.inventory.TryRemoveItem("TeaPack", 1)) {
-        ctx.dialogue_text = "你需要 茶包 x1 才能送礼。";
-        ctx.push_hint(ctx.dialogue_text, 2.6f);
     } else {
+        std::string gift_item_id = "TeaPack";
+        if (npc.id == "yunseng" && npc.development_stage == 0 && !ctx.inventory.HasItem("TeaPack")) {
+            // P9-NPC-012: 云生流浪阶段偏好食物类赠礼，允许饲料作为临时食物礼物。
+            gift_item_id = "Feed";
+        }
+        if (!ctx.inventory.TryRemoveItem(gift_item_id, 1)) {
+            if (gift_item_id == "Feed") {
+                ctx.dialogue_text = "你需要 茶包 x1（或饲料 x1）才能给现在的云生送礼。";
+            } else {
+                ctx.dialogue_text = "你需要 茶包 x1 才能送礼。";
+            }
+            ctx.push_hint(ctx.dialogue_text, 2.6f);
+            UpdateUiAfterInteraction(ctx);
+            return true;
+        }
+
         npc.daily_gifted = true;
         npc.last_gift_day = ctx.current_day;
         int favor_change = 1;
         std::uint32_t heart_color = kGiftHeartNeutralColor;
-        if (ContainsItem(npc.prefs.loved, "TeaPack")) {
+        if (gift_item_id == "Feed" && npc.id == "yunseng" && npc.development_stage == 0) {
+            favor_change = 20;
+            heart_color = kGiftHeartLikedColor;
+            ctx.dialogue_text = npc.display_name + " 小心收好食物，神色放松了许多。（+20好感）";
+        } else if (ContainsItem(npc.prefs.loved, "TeaPack")) {
             favor_change = 30;
             heart_color = kGiftHeartLovedColor;
             ctx.dialogue_text = npc.display_name + " 眼睛亮了起来！（+30好感）";
@@ -726,6 +743,8 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
                                 (void)ctx.inventory.TryRemoveItem(
                                     ctx.relationship_system.Wedding().gift_item_id,
                                     ctx.relationship_system.Wedding().gift_item_count);
+                                npc.memory_tag = "wedding_scheduled";
+                                npc.memory_until_day = wedding_day + 7;
                                 ctx.push_hint("【婚礼】已预约：第 " + std::to_string(wedding_day) + " 天。", 3.2f);
                             } else {
                                 ctx.push_hint("预约婚礼失败：金币或物品不足，或当前状态不允许。", 2.6f);
@@ -744,6 +763,8 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
                                 ctx.push_hint(npc.display_name + " 的心事件已完成！获得好感 +"
                                     + std::to_string(reward) + "。", 3.5f);
                             }
+                            npc.memory_tag = "heart_event_done";
+                            npc.memory_until_day = ctx.current_day + 10;
                             CloudSeamanor::infrastructure::Logger::LogNpcHeartEvent(
                                 "npc=" + npc.id + ", event=" + ctx.current_heart_event_id
                                 + ", reward_favor=" + std::to_string(reward));
@@ -799,6 +820,10 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
         if (dialogue_started) {
             const int old_heart = npc.heart_level;
             const int applied_delta = ApplyNpcFavorDelta(npc, 2);
+            if (npc.memory_until_day < ctx.current_day) {
+                npc.memory_tag.clear();
+                npc.memory_until_day = 0;
+            }
             ctx.push_hint("与" + npc.display_name + "交谈... 关系更近了一步。（+" + std::to_string(applied_delta) + "）", 2.8f);
             if (npc.heart_level > old_heart) {
                 ctx.push_hint(npc.display_name + " 对你的感情加深了！", 2.8f);
@@ -817,6 +842,13 @@ bool HandlePrimaryInteraction(PlayerInteractRuntimeContext& ctx) {
             ctx.dialogue_text = npc.display_name + "：傍晚啦，今天过得顺利吗？";
         } else {
             ctx.dialogue_text = npc.display_name + "：夜深了，早点休息，明天再聊吧。";
+        }
+        if (npc.memory_until_day >= ctx.current_day && !npc.memory_tag.empty()) {
+            if (npc.memory_tag == "heart_event_done") {
+                ctx.dialogue_text += "\n“上次那件事，我一直记在心里。”";
+            } else if (npc.memory_tag == "wedding_scheduled") {
+                ctx.dialogue_text += "\n“婚礼筹备别太累，我会一直在。”";
+            }
         }
         ctx.dialogue_text += "\n（地点：" +
             LocationDisplayName(ctx.npc_text_mappings, npc.current_location) +

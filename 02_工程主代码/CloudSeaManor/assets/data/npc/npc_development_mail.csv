@@ -1,0 +1,8 @@
+NpcId,Stage,MailId,Subject,Body,RewardItemId,RewardCount,VisitLocationId
+yunseng,1,yunseng_stage1_mail,我有新工作啦,我开始在杂货铺帮忙了，来前台找我聊聊吧。, ,0,mixed_store
+yunseng,2,yunseng_stage2_mail,我搬到村边了,现在我住在村边租屋，有空来坐坐。, ,0,river_rent_house
+yunseng,3,yunseng_stage3_mail,我的小铺开张,云生小铺正式营业，来看看新货吧。,seed_wheat,2,yunseng_shop
+yunseng,4,yunseng_stage4_mail,双层小楼竣工,新楼收拾好了，欢迎来二层喝茶。,recipe_cloud_tea,1,yunseng_tower_house
+acha,1,acha_stage1_mail,客栈新生活,我最近在客栈忙碌起来了，欢迎来坐坐。, ,0,main_house
+wanxing,1,wanxing_stage1_mail,观星台更新,我在观星台整理了新记录，晚上可以来看看。, ,0,observatory
+laohuai,1,laohuai_stage1_mail,工坊小升级,工坊边的木架弄好了，来看看吧。,wood,5,manor_workshop

@@ -19,7 +19,7 @@
 
 #pragma once
 
-#include "CloudSeamanor/AtmosphereState.hpp"
+#include "CloudSeamanor/domain/AtmosphereState.hpp"
 
 #include <filesystem>
 #include <string>

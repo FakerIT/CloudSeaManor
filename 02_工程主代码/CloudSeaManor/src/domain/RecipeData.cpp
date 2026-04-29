@@ -1,6 +1,6 @@
-#include "CloudSeamanor/RecipeData.hpp"
+#include "CloudSeamanor/domain/RecipeData.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <optional>

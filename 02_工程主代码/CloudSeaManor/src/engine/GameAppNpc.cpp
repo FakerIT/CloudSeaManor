@@ -1,5 +1,5 @@
-#include "CloudSeamanor/GameAppNpc.hpp"
-#include "CloudSeamanor/DataRegistry.hpp"
+#include "CloudSeamanor/app/GameAppNpc.hpp"
+#include "CloudSeamanor/infrastructure/DataRegistry.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 
@@ -198,6 +198,18 @@ sf::Vector2f AnchorForLocation(const std::string& location) {
     if (location == "VillageCenter")  return {620.0f, 300.0f};
     if (location == "SpiritGarden")  return {320.0f, 450.0f};
     if (location == "Observatory")   return {180.0f, 160.0f};
+    // NPC development anchors (P9-NPC-005/006): keep stage migration spatially visible.
+    if (location == "square") return {620.0f, 300.0f};
+    if (location == "bridge_shelter") return {820.0f, 480.0f};
+    if (location == "mixed_store") return {860.0f, 120.0f};
+    if (location == "river_rent_house") return {700.0f, 360.0f};
+    if (location == "yunseng_shop") return {760.0f, 120.0f};
+    if (location == "yunseng_tower_house") return {760.0f, 260.0f};
+    if (location == "main_house") return {220.0f, 300.0f};
+    if (location == "manor_workshop") return {540.0f, 330.0f};
+    if (location == "observatory") return {180.0f, 160.0f};
+    if (location == "village") return {620.0f, 300.0f};
+    if (location == "manor") return {620.0f, 300.0f};
     return {620.0f, 300.0f};
 }
 

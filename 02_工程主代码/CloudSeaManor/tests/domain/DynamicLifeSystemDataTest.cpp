@@ -1,6 +1,6 @@
 #include "TestFramework.hpp"
 
-#include "CloudSeamanor/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
 
 #include <filesystem>
 

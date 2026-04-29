@@ -1,7 +1,7 @@
 #include "CloudSeamanor/engine/BattleUI.hpp"
 
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/TextRenderUtils.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/engine/TextRenderUtils.hpp"
 
 #include <algorithm>
 #include <array>

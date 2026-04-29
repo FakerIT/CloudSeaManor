@@ -1,6 +1,6 @@
 #include "TestFramework.hpp"
 
-#include "CloudSeamanor/GameAppNpc.hpp"
+#include "CloudSeamanor/app/GameAppNpc.hpp"
 
 #include <filesystem>
 

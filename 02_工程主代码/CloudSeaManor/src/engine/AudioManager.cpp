@@ -1,6 +1,6 @@
-#include "CloudSeamanor/AudioManager.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/engine/AudioManager.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
 
 #include <algorithm>
 #include <fstream>

@@ -1,5 +1,5 @@
-#include "CloudSeamanor/InputManager.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/engine/InputManager.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 #include "CloudSeamanor/Profiling.hpp"
 
 #include <algorithm>

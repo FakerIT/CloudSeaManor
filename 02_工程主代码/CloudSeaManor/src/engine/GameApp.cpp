@@ -1,18 +1,18 @@
-#include "CloudSeamanor/GameApp.hpp"
+#include "CloudSeamanor/app/GameApp.hpp"
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/RecipeData.hpp"
-#include "CloudSeamanor/SaveSlotManager.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/domain/RecipeData.hpp"
+#include "CloudSeamanor/infrastructure/SaveSlotManager.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
-#include "CloudSeamanor/UiAtlasMappings.hpp"
-#include "CloudSeamanor/UiLayoutConfig.hpp"
-#include "CloudSeamanor/PixelQuestMenu.hpp"
+#include "CloudSeamanor/engine/UiAtlasMappings.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
+#include "CloudSeamanor/engine/PixelQuestMenu.hpp"
 #include "CloudSeamanor/engine/presentation/HudPresenter.hpp"
 #include "CloudSeamanor/engine/presentation/HudPanelPresenters.hpp"
 #include "CloudSeamanor/engine/presentation/HudSideEffects.hpp"
-#include "CloudSeamanor/TextRenderUtils.hpp"
+#include "CloudSeamanor/engine/TextRenderUtils.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>

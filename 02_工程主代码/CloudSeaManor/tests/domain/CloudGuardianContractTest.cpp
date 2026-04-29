@@ -1,6 +1,6 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/CloudGuardianContract.hpp"
+#include "CloudSeamanor/domain/CloudGuardianContract.hpp"
 
 using CloudSeamanor::domain::AuraStage;
 using CloudSeamanor::domain::CloudGuardianContract;

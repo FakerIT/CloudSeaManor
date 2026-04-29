@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CloudSeamanor/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/engine/GameAppRuntimeTypes.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <SFML/Graphics/CircleShape.hpp>

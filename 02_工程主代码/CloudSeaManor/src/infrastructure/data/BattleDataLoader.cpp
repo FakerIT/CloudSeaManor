@@ -1,6 +1,6 @@
 #include "CloudSeamanor/infrastructure/data/BattleDataLoader.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <filesystem>
 

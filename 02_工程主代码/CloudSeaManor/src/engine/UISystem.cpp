@@ -1,7 +1,7 @@
-#include "CloudSeamanor/UISystem.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/PixelArtStyle.hpp"
+#include "CloudSeamanor/engine/UISystem.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
 #include "CloudSeamanor/Profiling.hpp"
 #include "CloudSeamanor/engine/rendering/UiPanelInitializer.hpp"
 

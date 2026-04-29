@@ -1,13 +1,13 @@
-#include "CloudSeamanor/GameAppScene.hpp"
+#include "CloudSeamanor/app/GameAppScene.hpp"
 
-#include "CloudSeamanor/GameAppFarming.hpp"
-#include "CloudSeamanor/GameAppSpiritBeast.hpp"
-#include "CloudSeamanor/Interactable.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/PickupDrop.hpp"
-#include "CloudSeamanor/Player.hpp"
+#include "CloudSeamanor/app/GameAppFarming.hpp"
+#include "CloudSeamanor/app/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/engine/Interactable.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/engine/PickupDrop.hpp"
+#include "CloudSeamanor/domain/Player.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
-#include "CloudSeamanor/TmxMap.hpp"
+#include "CloudSeamanor/infrastructure/TmxMap.hpp"
 
 #include <filesystem>
 #include <fstream>

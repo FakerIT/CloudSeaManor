@@ -1,0 +1,10 @@
+NpcId,Stage,DialogueGroupId,Priority,ConditionTag,Text
+yunseng,0,yunseng_stage0_main,100,,日子有点难，但我会撑过去。
+yunseng,1,yunseng_stage1_main,100,,我开始在杂货铺帮忙了，至少能稳定吃饭。
+yunseng,2,yunseng_stage2_main,100,,现在有了租屋和学徒身份，像是终于站稳脚跟。
+yunseng,3,yunseng_stage3_main,100,,小铺开张了，欢迎常来看看。
+yunseng,4,yunseng_stage4_main,100,,这间双层小楼，是我和这片土地一起长出来的。
+yunseng,4,yunseng_stage4_recall,120,,还记得我在桥洞躲雨的日子，现在终于能给别人一盏灯。
+acha,1,acha_stage1_main,90,,最近在客栈帮忙，忙碌但踏实。
+wanxing,1,wanxing_stage1_main,90,,今晚星图比昨天更清晰了。
+laohuai,1,laohuai_stage1_main,90,,木头会记住手艺，也会记住岁月。

@@ -20,7 +20,7 @@
 #include "CloudSeamanor/engine/BattleField.hpp"
 #include "CloudSeamanor/engine/BattleEntities.hpp"
 #include "CloudSeamanor/engine/BattleRenderer.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
 #include <memory>
 #include <functional>
 

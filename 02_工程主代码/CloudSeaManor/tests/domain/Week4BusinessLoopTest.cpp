@@ -1,8 +1,8 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/GameAppRuntimeTypes.hpp"
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
+#include "CloudSeamanor/engine/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
 
 #include <unordered_map>
 

@@ -1,6 +1,6 @@
-#include "CloudSeamanor/PixelDailyRecommendationPanel.hpp"
+#include "CloudSeamanor/engine/PixelDailyRecommendationPanel.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 namespace CloudSeamanor::engine {
 

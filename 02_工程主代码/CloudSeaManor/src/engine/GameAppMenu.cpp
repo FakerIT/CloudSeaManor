@@ -1,12 +1,12 @@
-#include "CloudSeamanor/GameApp.hpp"
+#include "CloudSeamanor/app/GameApp.hpp"
 
-#include "CloudSeamanor/PixelArtStyle.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/UiLayoutConfig.hpp"
-#include "CloudSeamanor/UiAtlasMappings.hpp"
-#include "CloudSeamanor/PixelUiConfig.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
+#include "CloudSeamanor/engine/UiAtlasMappings.hpp"
+#include "CloudSeamanor/engine/PixelUiConfig.hpp"
 
 #include <algorithm>
 #include <cstdint>

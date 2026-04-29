@@ -1,6 +1,6 @@
-#include "CloudSeamanor/PixelNotificationBanner.hpp"
+#include "CloudSeamanor/engine/PixelNotificationBanner.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 #include <algorithm>
 #include <cstdint>

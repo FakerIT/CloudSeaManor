@@ -1,4 +1,4 @@
-#include "CloudSeamanor/SpriteAnimator.hpp"
+#include "CloudSeamanor/engine/SpriteAnimator.hpp"
 #include <algorithm>
 namespace CloudSeamanor::engine::animation {
 void SpriteAnimator::LoadSpritesheet(const sf::Texture& t, int fw, int fh) { spritesheet_=&t; frame_width_=fw; frame_height_=fh; }

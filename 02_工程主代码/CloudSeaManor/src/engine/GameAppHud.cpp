@@ -1,20 +1,20 @@
-#include "CloudSeamanor/GameAppHud.hpp"
+#include "CloudSeamanor/app/GameAppHud.hpp"
 
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/CloudGuardianContract.hpp"
-#include "CloudSeamanor/CropData.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/GameAppFarming.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/GameConfig.hpp"
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/Player.hpp"
-#include "CloudSeamanor/SkillSystem.hpp"
-#include "CloudSeamanor/FestivalSystem.hpp"
-#include "CloudSeamanor/DynamicLifeSystem.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
-#include "CloudSeamanor/Stamina.hpp"
-#include "CloudSeamanor/TextRenderUtils.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/CloudGuardianContract.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/app/GameAppFarming.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/infrastructure/GameConfig.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/domain/Player.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
+#include "CloudSeamanor/domain/FestivalSystem.hpp"
+#include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
+#include "CloudSeamanor/engine/TextRenderUtils.hpp"
 
 #include <algorithm>
 #include <array>
@@ -187,6 +187,7 @@ std::string BuildDialogueOverlayText(const std::vector<NpcActor>& npcs,
             life_stage_line = dynamic_life->GetNpcStageText(npc.id);
         }
         std::string dialogue_title = "对话 | " + npc.display_name;
+        dialogue_title += " | 云形态 " + NpcCloudStageText(npc.heart_level);
         if (!life_stage_line.empty()) {
             dialogue_title += " | " + life_stage_line;
         }

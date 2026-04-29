@@ -1,0 +1,7 @@
+NpcId,Stage,MapId,ObjectId,X,Y,InteractionText,SpriteId
+yunseng,2,village,yunseng_desk,24,18,桌上是云生写满改店计划的草稿。,obj_desk_paper
+yunseng,3,village,yunseng_award,30,14,这是一张小铺开张纪念海报。,obj_award_frame
+yunseng,4,village,yunseng_recipe_wall,16,10,墙上贴着新的加工委托清单。,obj_recipe_wall
+acha,1,manor,acha_guest_book,22,20,客栈留言本上写着新的感谢语。,obj_guest_book
+wanxing,1,manor,wanxing_star_chart,18,8,星图上新增了潮汐标记。,obj_star_chart
+laohuai,1,manor,laohuai_tool_rack,14,22,工具架整齐了许多，看得出主人很用心。,obj_tool_rack

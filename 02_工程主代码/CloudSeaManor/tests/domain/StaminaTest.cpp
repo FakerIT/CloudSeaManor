@@ -14,7 +14,7 @@
 // ============================================================================
 
 #include "../catch2Compat.hpp"
-#include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
 
 using CloudSeamanor::domain::StaminaSystem;
 

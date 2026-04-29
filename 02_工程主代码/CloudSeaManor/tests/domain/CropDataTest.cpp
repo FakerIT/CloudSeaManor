@@ -13,8 +13,8 @@
 // ============================================================================
 
 #include "../catch2Compat.hpp"
-#include "CloudSeamanor/CropData.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
 
 using CloudSeamanor::domain::CropDefinition;
 using CloudSeamanor::domain::CropQuality;

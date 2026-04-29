@@ -1,6 +1,6 @@
 #include "CloudSeamanor/engine/presentation/HudSideEffects.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <algorithm>
 

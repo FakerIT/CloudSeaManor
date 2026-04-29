@@ -1,6 +1,6 @@
 #include "CloudSeamanor/engine/BattleZoneLoader.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <sstream>

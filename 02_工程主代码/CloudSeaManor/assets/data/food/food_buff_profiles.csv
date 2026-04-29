@@ -1,0 +1,6 @@
+ItemId,DurationSeconds,StaminaRecoveryMultiplier,StaminaCostMultiplier
+tea_egg,120,1.10,0.95
+veggie_soup,180,1.15,0.92
+warm_milk,100,1.08,0.96
+fish_stew,240,1.22,0.86
+grilled_fish,200,1.18,0.90

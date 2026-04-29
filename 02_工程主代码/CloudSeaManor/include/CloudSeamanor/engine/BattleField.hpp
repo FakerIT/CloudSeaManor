@@ -19,8 +19,8 @@
 // ============================================================================
 
 #include "CloudSeamanor/engine/BattleEntities.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/SeedDropTable.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/SeedDropTable.hpp"
 #include <unordered_map>
 #include <vector>
 #include <string>

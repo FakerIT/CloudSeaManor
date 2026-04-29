@@ -12,7 +12,7 @@
 
 #include "CloudSeamanor/engine/rendering/AtmosphereRenderer.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <SFML/Graphics/RenderTarget.hpp>

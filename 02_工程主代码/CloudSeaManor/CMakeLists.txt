@@ -42,103 +42,103 @@ find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System Audio)
 # 领域层头文件
 set(CLOUDSEAMANOR_DOMAIN_HEADERS
   include/CloudSeamanor/MathTypes.hpp
-  include/CloudSeamanor/CloudSystem.hpp
-  include/CloudSeamanor/CloudGuardianContract.hpp
-  include/CloudSeamanor/CropData.hpp
-  include/CloudSeamanor/DynamicLifeSystem.hpp
-  include/CloudSeamanor/DiarySystem.hpp
-  include/CloudSeamanor/FestivalSystem.hpp
-  include/CloudSeamanor/FestivalGameplayMvp.hpp
-  include/CloudSeamanor/GameClock.hpp
-  include/CloudSeamanor/HungerTable.hpp
-  include/CloudSeamanor/HungerSystem.hpp
-  include/CloudSeamanor/Interactable.hpp
-  include/CloudSeamanor/Inventory.hpp
-  include/CloudSeamanor/MainPlotSystem.hpp
-  include/CloudSeamanor/PickupDrop.hpp
-  include/CloudSeamanor/Player.hpp
+  include/CloudSeamanor/domain/CloudSystem.hpp
+  include/CloudSeamanor/domain/CloudGuardianContract.hpp
+  include/CloudSeamanor/domain/CropData.hpp
+  include/CloudSeamanor/domain/DynamicLifeSystem.hpp
+  include/CloudSeamanor/domain/DiarySystem.hpp
+  include/CloudSeamanor/domain/FestivalSystem.hpp
+  include/CloudSeamanor/domain/FestivalGameplayMvp.hpp
+  include/CloudSeamanor/domain/GameClock.hpp
+  include/CloudSeamanor/domain/HungerTable.hpp
+  include/CloudSeamanor/domain/HungerSystem.hpp
+  include/CloudSeamanor/engine/Interactable.hpp
+  include/CloudSeamanor/domain/Inventory.hpp
+  include/CloudSeamanor/engine/MainPlotSystem.hpp
+  include/CloudSeamanor/engine/PickupDrop.hpp
+  include/CloudSeamanor/domain/Player.hpp
   include/CloudSeamanor/ProfileHelper.hpp
-  include/CloudSeamanor/RecipeData.hpp
-  include/CloudSeamanor/SkillSystem.hpp
-  include/CloudSeamanor/Stamina.hpp
-  include/CloudSeamanor/TeaProcessingRecipe.hpp
-  include/CloudSeamanor/BuffSystem.hpp
-  include/CloudSeamanor/TeaGarden.hpp
-  include/CloudSeamanor/TeaBush.hpp
-  include/CloudSeamanor/TeaBushTable.hpp
-  include/CloudSeamanor/TeaTable.hpp
-  include/CloudSeamanor/TeaQualityCalculator.hpp
-  include/CloudSeamanor/BuffEffectTable.hpp
-  include/CloudSeamanor/WorkshopSystem.hpp
-  include/CloudSeamanor/AtmosphereState.hpp
-  include/CloudSeamanor/RelationshipSystem.hpp
-  include/CloudSeamanor/SeedDropTable.hpp
+  include/CloudSeamanor/domain/RecipeData.hpp
+  include/CloudSeamanor/domain/SkillSystem.hpp
+  include/CloudSeamanor/domain/Stamina.hpp
+  include/CloudSeamanor/domain/TeaProcessingRecipe.hpp
+  include/CloudSeamanor/domain/BuffSystem.hpp
+  include/CloudSeamanor/engine/TeaGarden.hpp
+  include/CloudSeamanor/domain/TeaBush.hpp
+  include/CloudSeamanor/domain/TeaBushTable.hpp
+  include/CloudSeamanor/domain/TeaTable.hpp
+  include/CloudSeamanor/engine/TeaQualityCalculator.hpp
+  include/CloudSeamanor/domain/BuffEffectTable.hpp
+  include/CloudSeamanor/domain/WorkshopSystem.hpp
+  include/CloudSeamanor/domain/AtmosphereState.hpp
+  include/CloudSeamanor/domain/RelationshipSystem.hpp
+  include/CloudSeamanor/domain/SeedDropTable.hpp
 )
 
 # 引擎层/应用层头文件
 set(CLOUDSEAMANOR_ENGINE_HEADERS
-  include/CloudSeamanor/CloudSeaManor.hpp
-  include/CloudSeamanor/FarmingSystem.hpp
-  include/CloudSeamanor/GameApp.hpp
-  include/CloudSeamanor/AudioManager.hpp
-  include/CloudSeamanor/GameAppFarming.hpp
-  include/CloudSeamanor/GameAppHud.hpp
-  include/CloudSeamanor/GameAppNpc.hpp
-  include/CloudSeamanor/GameAppRuntimeTypes.hpp
-  include/CloudSeamanor/GameAppSave.hpp
-  include/CloudSeamanor/GameAppScene.hpp
-  include/CloudSeamanor/GameAppSpiritBeast.hpp
-  include/CloudSeamanor/GameAppText.hpp
-  include/CloudSeamanor/GameAppWeather.hpp
-  include/CloudSeamanor/GameAppState.hpp
+  include/CloudSeamanor/app/CloudSeaManor.hpp
+  include/CloudSeamanor/engine/FarmingSystem.hpp
+  include/CloudSeamanor/app/GameApp.hpp
+  include/CloudSeamanor/engine/AudioManager.hpp
+  include/CloudSeamanor/app/GameAppFarming.hpp
+  include/CloudSeamanor/app/GameAppHud.hpp
+  include/CloudSeamanor/app/GameAppNpc.hpp
+  include/CloudSeamanor/engine/GameAppRuntimeTypes.hpp
+  include/CloudSeamanor/app/GameAppSave.hpp
+  include/CloudSeamanor/app/GameAppScene.hpp
+  include/CloudSeamanor/app/GameAppSpiritBeast.hpp
+  include/CloudSeamanor/app/GameAppText.hpp
+  include/CloudSeamanor/app/GameAppWeather.hpp
+  include/CloudSeamanor/app/GameAppState.hpp
   include/CloudSeamanor/game_state/PlayerState.hpp
   include/CloudSeamanor/game_state/RenderState.hpp
-  include/CloudSeamanor/GameRuntime.hpp
-  include/CloudSeamanor/GameWorldState.hpp
-  include/CloudSeamanor/GameWorldSystems.hpp
-  include/CloudSeamanor/InteractionSystem.hpp
-  include/CloudSeamanor/LevelUpSystem.hpp
-  include/CloudSeamanor/PickupSystem.hpp
-  include/CloudSeamanor/PlayerInteractRuntime.hpp
-  include/CloudSeamanor/TargetHintRuntime.hpp
-  include/CloudSeamanor/TextRenderUtils.hpp
-  include/CloudSeamanor/InputManager.hpp
-  include/CloudSeamanor/UISystem.hpp
-  include/CloudSeamanor/DialogueEngine.hpp
-  include/CloudSeamanor/EventBus.hpp
-  include/CloudSeamanor/FestivalRuntimeData.hpp
-  include/CloudSeamanor/PixelUiConfig.hpp
-  include/CloudSeamanor/PixelArtStyle.hpp
-  include/CloudSeamanor/PixelFontRenderer.hpp
-  include/CloudSeamanor/PixelUiPanel.hpp
-  include/CloudSeamanor/PixelProgressBar.hpp
-  include/CloudSeamanor/PixelToolbar.hpp
-  include/CloudSeamanor/PixelDialogueBox.hpp
-  include/CloudSeamanor/PixelInventoryGrid.hpp
-  include/CloudSeamanor/PixelQuestMenu.hpp
-  include/CloudSeamanor/PixelMinimap.hpp
-  include/CloudSeamanor/PixelCloudSeaForecastPanel.hpp
-  include/CloudSeamanor/PixelPlayerStatusPanel.hpp
-  include/CloudSeamanor/PixelDailyRecommendationPanel.hpp
-  include/CloudSeamanor/PixelTutorialBubble.hpp
-  include/CloudSeamanor/PixelTeaGardenPanel.hpp
-  include/CloudSeamanor/PixelWorkshopPanel.hpp
-  include/CloudSeamanor/PixelContractPanel.hpp
-  include/CloudSeamanor/PixelNpcDetailPanel.hpp
-  include/CloudSeamanor/PixelSpiritBeastPanel.hpp
-  include/CloudSeamanor/PixelFestivalPanel.hpp
-  include/CloudSeamanor/PixelSpiritRealmPanel.hpp
-  include/CloudSeamanor/PixelBuildingPanel.hpp
-  include/CloudSeamanor/PixelShopPanel.hpp
-  include/CloudSeamanor/PixelMailPanel.hpp
-  include/CloudSeamanor/PixelAchievementPanel.hpp
-  include/CloudSeamanor/PixelBeastiaryPanel.hpp
-  include/CloudSeamanor/LoadingScreen.hpp
-  include/CloudSeamanor/PixelContextMenu.hpp
-  include/CloudSeamanor/PixelNotificationBanner.hpp
-  include/CloudSeamanor/PixelTooltip.hpp
-  include/CloudSeamanor/PixelGameHud.hpp
-  include/CloudSeamanor/PixelSettingsPanel.hpp
+  include/CloudSeamanor/engine/GameRuntime.hpp
+  include/CloudSeamanor/engine/GameWorldState.hpp
+  include/CloudSeamanor/engine/GameWorldSystems.hpp
+  include/CloudSeamanor/engine/InteractionSystem.hpp
+  include/CloudSeamanor/engine/LevelUpSystem.hpp
+  include/CloudSeamanor/engine/PickupSystem.hpp
+  include/CloudSeamanor/engine/PlayerInteractRuntime.hpp
+  include/CloudSeamanor/engine/TargetHintRuntime.hpp
+  include/CloudSeamanor/engine/TextRenderUtils.hpp
+  include/CloudSeamanor/engine/InputManager.hpp
+  include/CloudSeamanor/engine/UISystem.hpp
+  include/CloudSeamanor/engine/DialogueEngine.hpp
+  include/CloudSeamanor/engine/EventBus.hpp
+  include/CloudSeamanor/engine/FestivalRuntimeData.hpp
+  include/CloudSeamanor/engine/PixelUiConfig.hpp
+  include/CloudSeamanor/engine/PixelArtStyle.hpp
+  include/CloudSeamanor/engine/PixelFontRenderer.hpp
+  include/CloudSeamanor/engine/PixelUiPanel.hpp
+  include/CloudSeamanor/engine/PixelProgressBar.hpp
+  include/CloudSeamanor/engine/PixelToolbar.hpp
+  include/CloudSeamanor/engine/PixelDialogueBox.hpp
+  include/CloudSeamanor/engine/PixelInventoryGrid.hpp
+  include/CloudSeamanor/engine/PixelQuestMenu.hpp
+  include/CloudSeamanor/engine/PixelMinimap.hpp
+  include/CloudSeamanor/engine/PixelCloudSeaForecastPanel.hpp
+  include/CloudSeamanor/engine/PixelPlayerStatusPanel.hpp
+  include/CloudSeamanor/engine/PixelDailyRecommendationPanel.hpp
+  include/CloudSeamanor/engine/PixelTutorialBubble.hpp
+  include/CloudSeamanor/engine/PixelTeaGardenPanel.hpp
+  include/CloudSeamanor/engine/PixelWorkshopPanel.hpp
+  include/CloudSeamanor/engine/PixelContractPanel.hpp
+  include/CloudSeamanor/engine/PixelNpcDetailPanel.hpp
+  include/CloudSeamanor/engine/PixelSpiritBeastPanel.hpp
+  include/CloudSeamanor/engine/PixelFestivalPanel.hpp
+  include/CloudSeamanor/engine/PixelSpiritRealmPanel.hpp
+  include/CloudSeamanor/engine/PixelBuildingPanel.hpp
+  include/CloudSeamanor/engine/PixelShopPanel.hpp
+  include/CloudSeamanor/engine/PixelMailPanel.hpp
+  include/CloudSeamanor/engine/PixelAchievementPanel.hpp
+  include/CloudSeamanor/engine/PixelBeastiaryPanel.hpp
+  include/CloudSeamanor/engine/LoadingScreen.hpp
+  include/CloudSeamanor/engine/PixelContextMenu.hpp
+  include/CloudSeamanor/engine/PixelNotificationBanner.hpp
+  include/CloudSeamanor/engine/PixelTooltip.hpp
+  include/CloudSeamanor/engine/PixelGameHud.hpp
+  include/CloudSeamanor/engine/PixelSettingsPanel.hpp
   include/CloudSeamanor/engine/input/InputHandler.hpp
   include/CloudSeamanor/engine/presentation/HudPresenter.hpp
   include/CloudSeamanor/engine/presentation/HudPanelPresenters.hpp
@@ -171,21 +171,21 @@ set(CLOUDSEAMANOR_ENGINE_HEADERS
   include/CloudSeamanor/engine/systems/SpiritRealmManager.hpp
   include/CloudSeamanor/engine/systems/TutorialSystem.hpp
   include/CloudSeamanor/engine/systems/WorkshopSystemRuntime.hpp
-  include/CloudSeamanor/NpcDialogueManager.hpp
+  include/CloudSeamanor/engine/NpcDialogueManager.hpp
 )
 
 # 基础设施层头文件
 set(CLOUDSEAMANOR_INFRA_HEADERS
-  include/CloudSeamanor/GameConfig.hpp
-  include/CloudSeamanor/GameConstants.hpp
-  include/CloudSeamanor/JsonValue.hpp
-  include/CloudSeamanor/Logger.hpp
-  include/CloudSeamanor/DataRegistry.hpp
+  include/CloudSeamanor/infrastructure/GameConfig.hpp
+  include/CloudSeamanor/infrastructure/GameConstants.hpp
+  include/CloudSeamanor/infrastructure/JsonValue.hpp
+  include/CloudSeamanor/infrastructure/Logger.hpp
+  include/CloudSeamanor/infrastructure/DataRegistry.hpp
   include/CloudSeamanor/Result.hpp
-  include/CloudSeamanor/ResourceManager.hpp
-  include/CloudSeamanor/UiLayoutConfig.hpp
-  include/CloudSeamanor/TmxMap.hpp
-  include/CloudSeamanor/SaveSlotManager.hpp
+  include/CloudSeamanor/infrastructure/ResourceManager.hpp
+  include/CloudSeamanor/infrastructure/UiLayoutConfig.hpp
+  include/CloudSeamanor/infrastructure/TmxMap.hpp
+  include/CloudSeamanor/infrastructure/SaveSlotManager.hpp
   include/CloudSeamanor/infrastructure/DialogueJsonParser.hpp
   include/CloudSeamanor/infrastructure/data/BattleDataLoader.hpp
   include/CloudSeamanor/infrastructure/AtmosphereDataLoader.hpp
@@ -206,6 +206,7 @@ set(CLOUDSEAMANOR_DOMAIN_SOURCES
   src/domain/CloudGuardianContract.cpp
   src/domain/CropData.cpp
   src/domain/DynamicLifeSystem.cpp
+  src/domain/NpcDevelopmentSystem.cpp
   src/domain/DiarySystem.cpp
   src/domain/FestivalSystem.cpp
   src/domain/FestivalGameplayMvp.cpp
@@ -213,7 +214,6 @@ set(CLOUDSEAMANOR_DOMAIN_SOURCES
   src/domain/HungerTable.cpp
   src/domain/HungerSystem.cpp
   src/domain/Inventory.cpp
-  src/domain/MainPlotSystem.cpp
   src/domain/Player.cpp
   src/domain/RecipeData.cpp
   src/domain/SkillSystem.cpp
@@ -221,11 +221,10 @@ set(CLOUDSEAMANOR_DOMAIN_SOURCES
   src/domain/ToolSystem.cpp
   src/domain/TeaTable.cpp
   src/domain/TeaBushTable.cpp
-  src/domain/TeaQualityCalculator.cpp
   src/domain/BuffSystem.cpp
   src/domain/BuffEffectTable.cpp
-  src/domain/TeaGarden.cpp
   src/domain/TeaBush.cpp
+  src/domain/TeaProductData.cpp
   src/domain/WorkshopSystem.cpp
   src/domain/AtmosphereState.cpp
   src/domain/RelationshipSystem.cpp
@@ -261,6 +260,9 @@ set(CLOUDSEAMANOR_ENGINE_SOURCES
   src/engine/PickupDrop.cpp
   src/engine/PlayerInteractRuntime.cpp
   src/engine/TargetHintRuntime.cpp
+  src/engine/MainPlotSystem.cpp
+  src/engine/TeaQualityCalculator.cpp
+  src/engine/TeaGarden.cpp
   src/engine/TextRenderUtils.cpp
   src/engine/InputManager.cpp
   src/engine/UISystem.cpp

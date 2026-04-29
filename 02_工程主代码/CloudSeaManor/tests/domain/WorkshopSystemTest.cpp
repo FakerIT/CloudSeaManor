@@ -1,6 +1,6 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/WorkshopSystem.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
 
 using CloudSeamanor::domain::Inventory;
 using CloudSeamanor::domain::WorkshopSystem;

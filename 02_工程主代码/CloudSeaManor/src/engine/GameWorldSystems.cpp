@@ -1,4 +1,4 @@
-#include "CloudSeamanor/GameWorldSystems.hpp"
+#include "CloudSeamanor/engine/GameWorldSystems.hpp"
 
 #include <unordered_map>
 
@@ -18,6 +18,8 @@ void GameWorldSystems::Initialize() {
     festivals_.Initialize();
     workshop_.Initialize();
     dynamic_life_.Initialize();
+    npc_development_.LoadStageRules("assets/data/npc/npc_development_stages.csv");
+    npc_development_.LoadBranchRules("assets/data/npc/npc_development_branches.csv");
 }
 
 // ============================================================================
@@ -60,9 +62,11 @@ void GameWorldSystems::CheckDailyTransitions(
 void GameWorldSystems::UpdateWorkshop(
     float delta_time,
     float cloud_density,
+    int skill_level,
+    int tool_level,
     std::unordered_map<std::string, int>& output_items
 ) {
-    workshop_.Update(delta_time, cloud_density, output_items);
+    workshop_.Update(delta_time, cloud_density, skill_level, tool_level, output_items);
 }
 
 // ============================================================================

@@ -1,5 +1,5 @@
 #include "../TestFramework.hpp"
-#include "CloudSeamanor/GameRuntime.hpp"
+#include "CloudSeamanor/engine/GameRuntime.hpp"
 
 #include <string>
 

@@ -1,11 +1,14 @@
-#include "CloudSeamanor/GameApp.hpp"
-#include "CloudSeamanor/BuffSystem.hpp"
-#include "CloudSeamanor/DialogueEngine.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/HungerTable.hpp"
+#include "CloudSeamanor/app/GameApp.hpp"
+#include "CloudSeamanor/domain/BuffSystem.hpp"
+#include "CloudSeamanor/engine/DialogueEngine.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/domain/HungerTable.hpp"
 
 #include <algorithm>
+#include <cstdlib>
 #include <fstream>
+#include <sstream>
+#include <unordered_map>
 
 namespace CloudSeamanor::engine {
 
@@ -14,6 +17,43 @@ namespace CloudSeamanor::engine {
 #define pending_save_overwrite_seconds_ ui_state_.pending_save_overwrite_seconds
 
 namespace {
+
+using FoodBuffTable = std::unordered_map<std::string, CloudSeamanor::domain::RuntimeBuff>;
+
+FoodBuffTable LoadFoodBuffTable_() {
+    FoodBuffTable table;
+    std::ifstream in("assets/data/food/food_buff_profiles.csv");
+    if (!in.is_open()) {
+        return table;
+    }
+    std::string line;
+    if (!std::getline(in, line)) {
+        return table;
+    }
+    while (std::getline(in, line)) {
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        std::stringstream ss(line);
+        std::string item_id;
+        std::string remain_text;
+        std::string recover_text;
+        std::string cost_text;
+        if (!std::getline(ss, item_id, ',')) continue;
+        if (!std::getline(ss, remain_text, ',')) continue;
+        if (!std::getline(ss, recover_text, ',')) continue;
+        if (!std::getline(ss, cost_text, ',')) continue;
+        CloudSeamanor::domain::RuntimeBuff buff;
+        buff.id = "food_buff_" + item_id;
+        buff.remaining_seconds = static_cast<float>(std::atof(remain_text.c_str()));
+        buff.stamina_recovery_multiplier = static_cast<float>(std::atof(recover_text.c_str()));
+        buff.stamina_cost_multiplier = static_cast<float>(std::atof(cost_text.c_str()));
+        if (!item_id.empty() && buff.remaining_seconds > 0.0f) {
+            table[item_id] = buff;
+        }
+    }
+    return table;
+}
 
 sf::Color AuraColorFromLayout(const infrastructure::UiLayoutConfig& layout, domain::CloudState s) {
     std::string key;
@@ -33,6 +73,10 @@ sf::Color AuraColorFromLayout(const infrastructure::UiLayoutConfig& layout, doma
 }
 
 CloudSeamanor::domain::RuntimeBuff BuildFoodBuff_(const std::string& item_id, const int hunger_restore) {
+    static const FoodBuffTable food_buffs = LoadFoodBuffTable_();
+    if (const auto it = food_buffs.find(item_id); it != food_buffs.end()) {
+        return it->second;
+    }
     CloudSeamanor::domain::RuntimeBuff buff;
     buff.id = "food_buff_" + item_id;
     buff.remaining_seconds = 120.0f;

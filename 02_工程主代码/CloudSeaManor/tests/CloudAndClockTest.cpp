@@ -1,6 +1,6 @@
 #include "TestFramework.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
 
 using CloudSeamanor::engine::RegisterTest;
 

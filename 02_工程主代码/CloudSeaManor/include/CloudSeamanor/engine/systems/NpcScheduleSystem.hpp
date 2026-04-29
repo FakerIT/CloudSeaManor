@@ -10,7 +10,8 @@
 // - Apply affection-based visual effects (transparency)
 // ============================================================================
 
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
 
 #include <unordered_map>
 
@@ -26,16 +27,38 @@ public:
     );
 
 private:
+    static constexpr float kOffscreenDistanceThreshold = 420.0f;
+    static constexpr float kOffscreenUpdateIntervalSeconds = 0.45f;
+
+    struct NpcScheduleOverrideEntry {
+        int stage = 0;
+        std::string season;
+        std::string weather;
+        std::string time_block;
+        std::string anchor_id;
+        std::string behavior_tag;
+    };
+
     [[nodiscard]] const std::vector<NpcScheduleEntry>& ResolveScheduleForNpc_(const NpcActor& npc) const;
+    [[nodiscard]] bool ApplyStageOverride_(
+        NpcActor& npc,
+        int current_minute,
+        CloudSeamanor::domain::Season season,
+        CloudSeamanor::domain::CloudState cloud_state) const;
 
     void UpdateNpcPosition_(
         NpcActor& npc,
         int current_day,
         int current_minute,
+        CloudSeamanor::domain::Season season,
+        CloudSeamanor::domain::CloudState cloud_state,
+        bool festival_active,
         float delta_seconds
     );
 
     std::unordered_map<std::string, std::vector<NpcScheduleEntry>> loaded_schedules_;
+    std::unordered_map<std::string, std::vector<NpcScheduleOverrideEntry>> schedule_overrides_;
+    std::unordered_map<std::string, float> offscreen_update_accumulator_;
 };
 
 }  // namespace CloudSeamanor::engine

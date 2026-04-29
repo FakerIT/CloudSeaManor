@@ -1,5 +1,5 @@
-#include "CloudSeamanor/PixelProgressBar.hpp"
-#include "CloudSeamanor/UiVertexHelpers.hpp"
+#include "CloudSeamanor/engine/PixelProgressBar.hpp"
+#include "CloudSeamanor/engine/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>

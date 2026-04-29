@@ -1,12 +1,12 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/InteractionSystem.hpp"
+#include "CloudSeamanor/engine/InteractionSystem.hpp"
 
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/SkillSystem.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
-#include "CloudSeamanor/Interactable.hpp"
-#include "CloudSeamanor/PickupDrop.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
+#include "CloudSeamanor/engine/Interactable.hpp"
+#include "CloudSeamanor/engine/PickupDrop.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 

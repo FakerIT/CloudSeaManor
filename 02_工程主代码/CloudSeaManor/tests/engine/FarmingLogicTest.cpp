@@ -1,6 +1,6 @@
 #include "catch2Compat.hpp"
 
-#include "CloudSeamanor/FarmingLogic.hpp"
+#include "CloudSeamanor/engine/FarmingLogic.hpp"
 
 using CloudSeamanor::engine::ApplySprinklerAutoWater;
 using CloudSeamanor::engine::ShouldPlotWiltBecauseSeason;

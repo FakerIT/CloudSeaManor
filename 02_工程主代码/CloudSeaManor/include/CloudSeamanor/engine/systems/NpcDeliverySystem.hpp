@@ -10,7 +10,7 @@
 // - 与 NPC 对话时结算奖励（金币 + 好感），并将任务标记为 Claimed
 // ============================================================================
 
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
 
 #include <functional>
 #include <optional>

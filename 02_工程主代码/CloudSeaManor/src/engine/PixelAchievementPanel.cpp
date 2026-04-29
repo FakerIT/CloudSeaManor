@@ -1,7 +1,7 @@
-#include "CloudSeamanor/PixelAchievementPanel.hpp"
+#include "CloudSeamanor/engine/PixelAchievementPanel.hpp"
 
-#include "CloudSeamanor/PixelArtStyle.hpp"
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 #include <algorithm>
 

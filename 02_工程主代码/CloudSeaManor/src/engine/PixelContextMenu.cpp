@@ -1,6 +1,6 @@
-#include "CloudSeamanor/PixelContextMenu.hpp"
+#include "CloudSeamanor/engine/PixelContextMenu.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 

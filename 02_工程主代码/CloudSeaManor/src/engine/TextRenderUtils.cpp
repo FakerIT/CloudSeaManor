@@ -1,5 +1,5 @@
-#include "CloudSeamanor/TextRenderUtils.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/engine/TextRenderUtils.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
 
 #include <algorithm>
 #include <stdexcept>

@@ -14,7 +14,7 @@
 // ============================================================================
 
 #include "../catch2Compat.hpp"
-#include "CloudSeamanor/Inventory.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
 
 using CloudSeamanor::domain::Inventory;
 using CloudSeamanor::domain::ItemCount;

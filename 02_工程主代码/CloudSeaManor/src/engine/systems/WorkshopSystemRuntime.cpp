@@ -1,12 +1,29 @@
 #include "CloudSeamanor/engine/systems/WorkshopSystemRuntime.hpp"
 
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/TextRenderUtils.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
+#include "CloudSeamanor/domain/TeaProductData.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/engine/TextRenderUtils.hpp"
 
 #include <unordered_map>
 
 namespace CloudSeamanor::engine {
+
+namespace {
+int DetectWorkshopToolLevel_(const CloudSeamanor::domain::Inventory& inventory) {
+    if (inventory.CountOf("hoe_spirit") > 0 || inventory.CountOf("watering_can_spirit") > 0) {
+        return 4;
+    }
+    if (inventory.CountOf("hoe_gold") > 0 || inventory.CountOf("watering_can_gold") > 0) {
+        return 3;
+    }
+    if (inventory.CountOf("hoe_silver") > 0 || inventory.CountOf("watering_can_silver") > 0) {
+        return 2;
+    }
+    return 1;
+}
+}  // namespace
 
 // ============================================================================
 // 【WorkshopSystemRuntime::WorkshopSystemRuntime】构造函数
@@ -26,9 +43,16 @@ WorkshopSystemRuntime::WorkshopSystemRuntime(
 // 【WorkshopSystemRuntime::Update】每帧更新工坊
 // ============================================================================
 void WorkshopSystemRuntime::Update(float delta_seconds) {
+    static const bool tea_table_loaded =
+        CloudSeamanor::domain::GetGlobalTeaProductTable().LoadFromFile("assets/data/tea/tea_products.csv");
+    (void)tea_table_loaded;
+
     const float cloud_density = systems_.GetCloud().CurrentSpiritDensity();
+    const int skill_level =
+        systems_.GetSkills().GetLevel(CloudSeamanor::domain::SkillType::SpiritFarm);
+    const int tool_level = DetectWorkshopToolLevel_(world_state_.GetInventory());
     std::unordered_map<std::string, int> outputs;
-    systems_.UpdateWorkshop(delta_seconds, cloud_density, outputs);
+    systems_.UpdateWorkshop(delta_seconds, cloud_density, skill_level, tool_level, outputs);
 
     for (const auto& [item_id, count] : outputs) {
         if (item_id == "TeaPack") {
@@ -40,9 +64,18 @@ void WorkshopSystemRuntime::Update(float delta_seconds) {
         }
         world_state_.MutableInventory().AddItem(item_id, count);
         if (hint_callback_) {
-            hint_callback_(
-                "工坊产出 " + ItemDisplayName(item_id) + " x" +
-                std::to_string(count) + "。", 3.0f);
+            if (const auto* tea = CloudSeamanor::domain::GetGlobalTeaProductTable().Get(item_id)) {
+                hint_callback_(
+                    "工坊产出 " + ItemDisplayName(item_id) + " x" + std::to_string(count)
+                    + "（品质:" + tea->quality
+                    + "，售价:" + std::to_string(tea->sell_price)
+                    + "，自用:" + tea->buff_effect_id
+                    + "，赠礼:" + tea->gift_preference + "）", 3.2f);
+            } else {
+                hint_callback_(
+                    "工坊产出 " + ItemDisplayName(item_id) + " x" +
+                    std::to_string(count) + "。", 3.0f);
+            }
         }
     }
 }

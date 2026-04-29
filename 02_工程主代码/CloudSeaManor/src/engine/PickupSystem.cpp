@@ -1,6 +1,6 @@
-#include "CloudSeamanor/PickupSystem.hpp"
+#include "CloudSeamanor/engine/PickupSystem.hpp"
 
-#include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
 
 #include <cmath>
 

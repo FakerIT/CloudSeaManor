@@ -11,7 +11,7 @@
 // ============================================================================
 
 #include "catch2Compat.hpp"
-#include "CloudSeamanor/SkillSystem.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
 
 namespace CloudSeamanor {
 namespace testing {

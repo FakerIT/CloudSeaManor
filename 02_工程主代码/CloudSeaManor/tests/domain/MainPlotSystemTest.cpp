@@ -18,10 +18,10 @@
 
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/MainPlotSystem.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/DialogueEngine.hpp"
+#include "CloudSeamanor/engine/MainPlotSystem.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/engine/DialogueEngine.hpp"
 
 using CloudSeamanor::engine::ChapterEntry;
 using CloudSeamanor::engine::DialogueChoice;

@@ -1,28 +1,28 @@
-#include "CloudSeamanor/GameRuntime.hpp"
-#include "CloudSeamanor/CloudSeaManor.hpp"
-#include "CloudSeamanor/GameAppFarming.hpp"
-#include "CloudSeamanor/GameAppHud.hpp"
-#include "CloudSeamanor/GameAppNpc.hpp"
-#include "CloudSeamanor/GameAppSave.hpp"
-#include "CloudSeamanor/GameAppScene.hpp"
-#include "CloudSeamanor/GameAppSpiritBeast.hpp"
-#include "CloudSeamanor/PlayerInteractRuntime.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/TargetHintRuntime.hpp"
-#include "CloudSeamanor/TextRenderUtils.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/EventBus.hpp"
-#include "CloudSeamanor/FestivalGameplayMvp.hpp"
-#include "CloudSeamanor/HungerTable.hpp"
-#include "CloudSeamanor/NpcDialogueManager.hpp"
-#include "CloudSeamanor/FarmingLogic.hpp"
+#include "CloudSeamanor/engine/GameRuntime.hpp"
+#include "CloudSeamanor/app/CloudSeaManor.hpp"
+#include "CloudSeamanor/app/GameAppFarming.hpp"
+#include "CloudSeamanor/app/GameAppHud.hpp"
+#include "CloudSeamanor/app/GameAppNpc.hpp"
+#include "CloudSeamanor/app/GameAppSave.hpp"
+#include "CloudSeamanor/app/GameAppScene.hpp"
+#include "CloudSeamanor/app/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/engine/PlayerInteractRuntime.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/engine/TargetHintRuntime.hpp"
+#include "CloudSeamanor/engine/TextRenderUtils.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/engine/EventBus.hpp"
+#include "CloudSeamanor/domain/FestivalGameplayMvp.hpp"
+#include "CloudSeamanor/domain/HungerTable.hpp"
+#include "CloudSeamanor/engine/NpcDialogueManager.hpp"
+#include "CloudSeamanor/engine/FarmingLogic.hpp"
 #include "CloudSeamanor/Profiling.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
-#include "CloudSeamanor/BuffSystem.hpp"
-#include "CloudSeamanor/DiarySystem.hpp"
-#include "CloudSeamanor/DataRegistry.hpp"
-#include "CloudSeamanor/TeaBushTable.hpp"
-#include "CloudSeamanor/TeaTable.hpp"
+#include "CloudSeamanor/domain/BuffSystem.hpp"
+#include "CloudSeamanor/domain/DiarySystem.hpp"
+#include "CloudSeamanor/infrastructure/DataRegistry.hpp"
+#include "CloudSeamanor/domain/TeaBushTable.hpp"
+#include "CloudSeamanor/domain/TeaTable.hpp"
 
 #include "CloudSeamanor/engine/systems/PlayerMovementSystem.hpp"
 #include "CloudSeamanor/engine/systems/PickupSystemRuntime.hpp"
@@ -36,6 +36,7 @@
 #include <algorithm>
 #include <cmath>
 #include <array>
+#include <cctype>
 #include <cstdint>
 #include <fstream>
 #include <optional>
@@ -135,6 +136,51 @@ std::string BuildBattleOutcomeSummary_(
         + "  经验 +" + std::to_string(static_cast<int>(result.total_exp_gained))
         + "  物品 +" + std::to_string(total_item_count)
         + "  掉落: " + top_drops;
+}
+
+bool ContainsTokenCaseInsensitive_(const std::string& haystack, const std::string& token) {
+    if (token.empty() || haystack.empty()) {
+        return false;
+    }
+    auto lower = [](unsigned char ch) -> char {
+        return static_cast<char>(std::tolower(ch));
+    };
+    std::string h;
+    h.reserve(haystack.size());
+    for (const char ch : haystack) {
+        h.push_back(lower(static_cast<unsigned char>(ch)));
+    }
+    std::string t;
+    t.reserve(token.size());
+    for (const char ch : token) {
+        t.push_back(lower(static_cast<unsigned char>(ch)));
+    }
+    return h.find(t) != std::string::npos;
+}
+
+bool IsGenericBattleAnchor_(const CloudSeamanor::domain::Interactable& object) {
+    // 优先：显式 enemy_id 永远视作战斗锚点。
+    if (!object.EnemyId().empty()) {
+        return true;
+    }
+    const std::string& label = object.Label();
+    static const std::array<const char*, 8> kTokens{
+        "spirit beast",
+        "spirit zone",
+        "battle",
+        "enemy",
+        "boss",
+        "encounter",
+        "polluted",
+        "combat"
+    };
+    for (const char* token : kTokens) {
+        if (ContainsTokenCaseInsensitive_(label, token)) {
+            return true;
+        }
+    }
+    // 兜底：灵界采集点/工作台不判定为战斗锚点，避免误触。
+    return false;
 }
 
 std::string CatchFishForSeason_(const CloudSeamanor::domain::GameClock& clock, int attempts) {
@@ -674,6 +720,64 @@ std::string CurrentSeasonTag_(CloudSeamanor::domain::Season season) {
     return "spring";
 }
 
+struct NpcRelationshipEventRowLocal {
+    std::string id;
+    std::string type;
+    std::string npc_a;
+    std::string npc_b;
+    std::string trigger_season;
+    int result_relationship_value = 0;
+    std::string shared_schedule_tag;
+    std::string mail_id;
+};
+
+bool SeasonMatches_(const std::string& configured, CloudSeamanor::domain::Season season) {
+    if (configured.empty() || configured == "Any") {
+        return true;
+    }
+    const std::string current_en = CurrentSeasonTag_(season);
+    const std::string current_cn = CloudSeamanor::domain::GameClock::SeasonName(season);
+    return ContainsTokenCaseInsensitive_(configured, current_en)
+        || ContainsTokenCaseInsensitive_(configured, current_cn);
+}
+
+std::vector<NpcRelationshipEventRowLocal> LoadNpcRelationshipEvents_() {
+    std::vector<NpcRelationshipEventRowLocal> rows;
+    std::ifstream in("assets/data/npc/npc_relationship_events.csv");
+    if (!in.is_open()) {
+        return rows;
+    }
+    std::string line;
+    while (std::getline(in, line)) {
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        if (line.rfind("Id,", 0) == 0) {
+            continue;
+        }
+        std::vector<std::string> fields;
+        std::stringstream ss(line);
+        std::string part;
+        while (std::getline(ss, part, ',')) {
+            fields.push_back(part);
+        }
+        if (fields.size() < 9) {
+            continue;
+        }
+        NpcRelationshipEventRowLocal row;
+        row.id = fields[0];
+        row.type = fields[1];
+        row.npc_a = fields[2];
+        row.npc_b = fields[3];
+        row.trigger_season = fields[5];
+        row.result_relationship_value = std::atoi(fields[6].c_str());
+        row.shared_schedule_tag = fields[7];
+        row.mail_id = fields[8];
+        rows.push_back(std::move(row));
+    }
+    return rows;
+}
+
 bool ShouldTriggerMailRule_(
     const MailTriggerRule& rule,
     const CloudSeamanor::domain::GameClock& clock,
@@ -995,6 +1099,7 @@ void GameRuntime::Initialize(
     (void)CloudSeamanor::domain::GetGlobalTeaBushTable().LoadFromFile(resolved_tea_bush_table_path);
     InitializeTeaBushes_();
     SyncTeaBushInteractables_();
+    SyncNpcHouseVariantInteractables_();
 
     // 初始化农业系统
     BuildTeaPlots(world_state_.MutableTeaPlots());
@@ -1050,6 +1155,19 @@ void GameRuntime::Initialize(
     systems_.InitializeContracts();
     systems_.Initialize();
     (void)systems_.MutableDynamicLife().LoadFromFile(resolved_npc_data_path);
+    {
+        std::vector<std::string> npc_ids;
+        npc_ids.reserve(world_state_.MutableNpcs().size());
+        for (const auto& npc : world_state_.MutableNpcs()) {
+            npc_ids.push_back(npc.id);
+        }
+        systems_.MutableNpcDevelopment().Initialize(npc_ids, world_state_.MutableClock().Day());
+        for (auto& npc : world_state_.MutableNpcs()) {
+            if (const auto* dev = systems_.GetNpcDevelopment().GetDevelopment(npc.id)) {
+                npc.development_stage = dev->current_stage;
+            }
+        }
+    }
     systems_.GetCloud().AdvanceToNextDay(0);
     systems_.GetCloud().UpdateForecastVisibility(0, 0);
     modules_.workshop = std::make_unique<WorkshopSystemRuntime>(
@@ -1437,9 +1555,140 @@ void GameRuntime::OnDayChanged() {
     systems_.UpdateDaily(current_season,
                          static_cast<int>(world_state_.GetSessionTime() / 100),
                          cloud_density);
+    for (auto& npc : world_state_.MutableNpcs()) {
+        const std::string previous_location = npc.current_location;
+        if (systems_.MutableNpcDevelopment().TryAdvanceByDay(npc.id, world_state_.MutableClock().Day())) {
+            if (auto* dev = systems_.MutableNpcDevelopment().GetDevelopment(npc.id)) {
+                npc.development_stage = dev->current_stage;
+                npc.current_activity = dev->current_job;
+                npc.current_location = dev->current_house_id;
+                callbacks_.push_hint(
+                    "【成长】" + npc.id + " 进入阶段 " + std::to_string(dev->current_stage) + "。",
+                    2.4f);
+                const bool key_stage = dev->current_stage >= 3;
+                const bool first_notify_for_stage = dev->last_notified_stage < dev->current_stage;
+                if (key_stage && first_notify_for_stage) {
+                    callbacks_.push_hint(
+                        "【到场演出】" + npc.display_name + " 的新生活已开启，前往 "
+                            + npc.current_location + " 可触发短剧情。",
+                        3.0f);
+                }
+                if (callbacks_.push_notification) {
+                    callbacks_.push_notification(
+                        "【人物来信】" + npc.display_name
+                        + "：我最近有了新变化，来 " + npc.current_location + " 看看吧。");
+                }
+                if (npc.id == "yunseng") {
+                    callbacks_.push_hint(
+                        "【云生成长线】当前进度：阶段 "
+                            + std::to_string(std::max(0, dev->current_stage)) + "/4。",
+                        2.6f);
+                }
+                if (!previous_location.empty() && previous_location != npc.current_location) {
+                    callbacks_.push_hint(
+                        "【行踪变化】" + npc.display_name + " 已从 " + previous_location
+                            + " 迁往 " + npc.current_location + "。",
+                        2.8f);
+                }
+                dev->last_notified_stage = dev->current_stage;
+            }
+        } else {
+            const int preparing_days = systems_.GetNpcDevelopment().GetPreparingDaysRemaining(
+                npc.id, world_state_.MutableClock().Day());
+            if (preparing_days > 0 && preparing_days <= 2) {
+                callbacks_.push_hint(
+                    "【成长准备中】" + npc.display_name + " 正在为下一阶段做准备（约 "
+                        + std::to_string(preparing_days) + " 天）。",
+                    2.2f);
+            }
+        }
+    }
+    if (world_state_.MutableClock().DayInSeason() == 1) {
+        const auto rel_rows = LoadNpcRelationshipEvents_();
+        for (const auto& row : rel_rows) {
+            if (!ContainsTokenCaseInsensitive_(row.type, "friend")
+                && !ContainsTokenCaseInsensitive_(row.type, "mentor")) {
+                continue;
+            }
+            if (!SeasonMatches_(row.trigger_season, world_state_.MutableClock().Season())) {
+                continue;
+            }
+            const std::string event_key = row.id + "@"
+                + std::to_string(CurrentSeasonKey_(world_state_.MutableClock()));
+            if (state_.npc_relationship_event_triggered_keys.contains(event_key)) {
+                continue;
+            }
+
+            CloudSeamanor::engine::NpcActor* npc_a = nullptr;
+            CloudSeamanor::engine::NpcActor* npc_b = nullptr;
+            for (auto& npc : world_state_.MutableNpcs()) {
+                if (npc.id == row.npc_a) npc_a = &npc;
+                if (npc.id == row.npc_b) npc_b = &npc;
+            }
+            if (npc_a == nullptr || npc_b == nullptr) {
+                continue;
+            }
+
+            npc_a->current_activity = row.shared_schedule_tag.empty() ? npc_a->current_activity : row.shared_schedule_tag;
+            npc_b->current_activity = row.shared_schedule_tag.empty() ? npc_b->current_activity : row.shared_schedule_tag;
+            if (auto* dev_a = systems_.MutableNpcDevelopment().GetDevelopment(npc_a->id)) {
+                dev_a->npc_relationships[npc_b->id] += row.result_relationship_value;
+            }
+            if (auto* dev_b = systems_.MutableNpcDevelopment().GetDevelopment(npc_b->id)) {
+                dev_b->npc_relationships[npc_a->id] += row.result_relationship_value;
+            }
+
+            MailOrderEntry entry;
+            entry.item_id = "";
+            entry.count = 1;
+            entry.deliver_day = world_state_.MutableClock().Day();
+            entry.claimed = false;
+            entry.opened = false;
+            entry.receipt_sent = false;
+            entry.source_rule_id = row.mail_id.empty() ? row.id : row.mail_id;
+            entry.sender = "庄园布告";
+            entry.subject = "居民关系新动态";
+            entry.body = npc_a->display_name + " 与 " + npc_b->display_name
+                + " 的关系出现了新变化，最近常在 " + npc_a->current_location + " 一带共同活动。";
+            world_state_.MutableMailOrders().push_back(std::move(entry));
+
+            callbacks_.push_hint(
+                "【关系动态】" + npc_a->display_name + " 与 " + npc_b->display_name + " 的关系更近了一步。",
+                2.8f);
+            state_.npc_relationship_event_triggered_keys.insert(event_key);
+            break;  // quarterly "small amount": only one event per season start
+        }
+    }
+    SyncNpcHouseVariantInteractables_();
     const auto* today_festival = systems_.GetFestivals().GetTodayFestival();
     world_state_.SetActiveFestivalId(today_festival ? today_festival->id : "");
     world_state_.SetFestivalNoticeText(systems_.GetFestivals().GetNoticeText());
+    callbacks_.push_hint(
+        "【灵气晨报】今日灵气阶段："
+            + std::string(systems_.GetCloud().SpiritEnergy() >= 180 ? "丰盈"
+                : systems_.GetCloud().SpiritEnergy() >= 120 ? "活跃"
+                : systems_.GetCloud().SpiritEnergy() >= 60 ? "平稳" : "低潮")
+            + "；潮汐预报："
+            + std::string(systems_.GetCloud().TideCountdownDays(world_state_.MutableClock().Day()) <= 0 ? "大潮日"
+                : systems_.GetCloud().TideCountdownDays(world_state_.MutableClock().Day()) <= 2 ? "小潮将近" : "平潮期")
+            + "。",
+        3.0f);
+    if (today_festival != nullptr) {
+        auto& unlocks = world_state_.MutableRecipeUnlocks();
+        // P0-002: 第二解锁来源（节日）——节日当天赠送一份社交向料理配方。
+        if (!unlocks["cook_fish_stew"]) {
+            unlocks["cook_fish_stew"] = true;
+            systems_.GetWorkshop().UnlockRecipe("cook_fish_stew");
+            callbacks_.push_hint("节日灵感：已解锁食谱【鱼汤】。", 2.6f);
+        }
+        if (state_.festival_quick_flow_hint_day != world_state_.MutableClock().Day()) {
+            callbacks_.push_hint(
+                "【节日安排】今日核心流程：" + today_festival->activity
+                    + "，快速参与即可领取 " + today_festival->reward + "。",
+                3.2f);
+            state_.festival_quick_flow_hint_day = world_state_.MutableClock().Day();
+        }
+    }
     if (today_festival != nullptr) {
         Event festival_event;
         festival_event.type = "FestivalActiveEvent";
@@ -1473,6 +1722,8 @@ void GameRuntime::OnDayChanged() {
         entry.count = std::max(1, rule.count);
         entry.deliver_day = world_state_.MutableClock().Day() + std::max(0, rule.delay_days);
         entry.claimed = false;
+        entry.opened = false;
+        entry.receipt_sent = false;
         entry.source_rule_id = rule.id;
         entry.sender = rule.sender_template.empty()
             ? "商会"
@@ -1493,14 +1744,40 @@ void GameRuntime::OnDayChanged() {
     }
 
     const int current_day = world_state_.MutableClock().Day();
+    const bool festival_day_active = !world_state_.GetActiveFestivalId().empty();
+    if (!festival_day_active
+        && state_.deferred_story_due_to_festival_day > 0
+        && state_.deferred_story_due_to_festival_day < current_day
+        && !plot_system_.IsPlaying()) {
+        plot_system_.CheckPlotTriggers();
+        callbacks_.push_hint("【剧情恢复】昨日因节日顺延的关键剧情，今日已恢复触发。", 3.0f);
+        state_.deferred_story_due_to_festival_day = -1;
+    }
+    if (festival_day_active && !plot_system_.IsPlaying()) {
+        const auto pending_plots = plot_system_.GetPendingPlots();
+        if (!pending_plots.empty()) {
+            state_.deferred_story_due_to_festival_day = current_day;
+            callbacks_.push_hint(
+                "【剧情顺延】今日节日优先，关键剧情将顺延至次日，避免与你的节庆安排冲突。",
+                3.2f);
+        }
+    }
     if (last_reset_day_ != current_day) {
-        ResetPlotsWateredState(world_state_, RefreshTeaPlotVisual);
+        if (!festival_day_active) {
+            ResetPlotsWateredState(world_state_, RefreshTeaPlotVisual);
+        } else if (callbacks_.push_hint) {
+            callbacks_.push_hint("【节日优待】今日农务压力已冻结，地块浇水状态将顺延一天。", 2.8f);
+        }
         ResetDailyInteractionState(world_state_,
                                    systems_.GetCloud().CurrentState() == CloudSeamanor::domain::CloudState::Clear
                                        ? 0 : 1);
         last_reset_day_ = current_day;
     }
-    crop_growth_.HandleDailyDiseaseAndPest(world_state_);
+    if (!festival_day_active) {
+        crop_growth_.HandleDailyDiseaseAndPest(world_state_);
+    } else if (callbacks_.push_hint) {
+        callbacks_.push_hint("【节日优待】今日不结算额外病虫害与喂养压力。", 2.4f);
+    }
 
     for (auto& plot : world_state_.MutableTeaPlots()) {
         if (plot.sprinkler_installed) {
@@ -1604,6 +1881,7 @@ void GameRuntime::OnDayChanged() {
         const std::string cloud_label = config_.GetString("daily_summary_cloud_label", "云海 ");
         const std::string inn_label = config_.GetString("daily_summary_inn_label", "客栈 ");
         const std::string livestock_label = config_.GetString("daily_summary_livestock_label", "畜棚 ");
+        const std::string purify_label = config_.GetString("daily_summary_purify_label", "净化回流 ");
         const std::string comfort_label = config_.GetString("daily_summary_comfort_label", "舒适度 ");
         const std::string disease_pest_label = config_.GetString("daily_summary_disease_pest_label", "病虫 ");
 
@@ -1618,6 +1896,8 @@ void GameRuntime::OnDayChanged() {
         const int eggs = world_state_.GetLivestockEggsToday();
         const int milk = world_state_.GetLivestockMilkToday();
         const int workshop_ready = std::max(0, world_state_.MutableTeaMachine().queued_output);
+        const int purify_days = std::max(0, world_state_.GetPurifyReturnDays());
+        const int purify_spirits = std::max(0, world_state_.GetPurifyReturnSpirits());
         const float comfort_rec = 1.0f + std::clamp(static_cast<float>(decor) * 0.002f, 0.0f, 0.12f);
         const float comfort_cost = 1.0f - std::clamp(static_cast<float>(decor) * 0.0015f, 0.0f, 0.10f);
         const std::string comfort_rec_text = std::to_string(comfort_rec).substr(0, 4);
@@ -1629,6 +1909,7 @@ void GameRuntime::OnDayChanged() {
             + "（" + visitor_prefix + std::to_string(world_state_.GetInnVisitorsToday()) + visitor_suffix + "）"
             + sep + livestock_label + egg_label + std::to_string(eggs) + " " + milk_label + std::to_string(milk)
             + sep + workshop_label + std::to_string(workshop_ready)
+            + sep + purify_label + std::to_string(purify_days) + "天/" + std::to_string(purify_spirits) + "灵"
             + sep + comfort_label + decor_label + std::to_string(decor)
             + "（" + comfort_rec_prefix + comfort_rec_text + " " + comfort_cost_prefix + comfort_cost_text + "）"
             + sep + disease_pest_label + std::to_string(disease) + disease_pest_sep + std::to_string(pest));
@@ -2038,10 +2319,7 @@ void GameRuntime::Update(float delta_seconds) {
                 }
                 state_.tide_festival_battle_active = false;
             }
-            if (!result.victory && !exit_by_retreat && state_.qi_deficit_days <= 0) {
-                state_.qi_deficit_days = 2;
-                callbacks_.push_hint("本次净化未完成，茶园灵气欠损 2 天。", 2.8f);
-            }
+            // 设计语义对齐：失败/撤退均无经营惩罚，仅输出结算提示。
             if (callbacks_.push_notification) {
                 callbacks_.push_notification(BuildBattleOutcomeSummary_(result, exit_by_retreat));
             }
@@ -2249,9 +2527,6 @@ void GameRuntime::RetreatBattle() {
     }
     state_.battle_exit_by_retreat = true;
     battle_manager_.Retreat();
-    if (state_.qi_deficit_days <= 0) {
-        state_.qi_deficit_days = 1;
-    }
 }
 
 bool GameRuntime::TryEnterBattleByPlayerPosition() {
@@ -2298,9 +2573,7 @@ bool GameRuntime::TryEnterBattleByPlayerPosition() {
         (zone_id == "zone_spirit_realm_2") ? kLayer2Enemies : kLayer1Enemies;
 
     for (const auto& object : world_state_.MutableInteractables()) {
-        const bool is_spirit_battle_anchor =
-            (object.Label() == "Spirit Beast") || (object.Label() == "Spirit Beast Zone");
-        if (!is_spirit_battle_anchor) {
+        if (!IsGenericBattleAnchor_(object)) {
             continue;
         }
         const auto pos = object.Shape().getPosition();
@@ -2407,6 +2680,13 @@ void GameRuntime::CollectArrivedMail() {
     for (std::size_t i = 0; i < mail_orders.size();) {
         if (!mail_orders[i].claimed && mail_orders[i].deliver_day <= day) {
             world_state_.MutableInventory().AddItem(mail_orders[i].item_id, mail_orders[i].count);
+            if (!mail_orders[i].secondary_item_id.empty() && mail_orders[i].secondary_count > 0) {
+                world_state_.MutableInventory().AddItem(mail_orders[i].secondary_item_id, mail_orders[i].secondary_count);
+            }
+            mail_orders[i].opened = true;
+            if (!mail_orders[i].receipt_sent) {
+                mail_orders[i].receipt_sent = true;
+            }
             mail_orders[i].claimed = true;
             ++delivered;
             mail_orders[i] = mail_orders.back();
@@ -2677,6 +2957,7 @@ bool GameRuntime::SaveGameToSlot(int slot_index) {
             world_state_.GetPlayer(),
             world_state_.MutableStamina(),
             world_state_.MutableHunger(),
+            world_state_.GetBuffs(),
             world_state_.MutableMainHouseRepair(),
             world_state_.MutableTeaMachine(),
             world_state_.MutableSpiritBeast(),
@@ -2722,7 +3003,8 @@ bool GameRuntime::SaveGameToSlot(int slot_index) {
             &world_state_.MutablePurifyReturnDays(),
             &world_state_.MutablePurifyReturnSpirits(),
             &world_state_.MutableFishingAttempts(),
-            &world_state_.MutableLastFishCatch())) {
+            &world_state_.MutableLastFishCatch(),
+            &systems_.GetNpcDevelopment().GetAllDevelopments())) {
         return false;
     }
 
@@ -2798,6 +3080,40 @@ bool GameRuntime::SaveGameToSlot(int slot_index) {
     metadata.saved_at_text = world_state_.MutableClock().DateText() + " " + world_state_.MutableClock().TimeText();
     metadata.day = world_state_.MutableClock().Day();
     metadata.season_text = world_state_.MutableClock().PhaseText();
+    metadata.main_plot_stage = 0;
+    if (!plot_system_.CurrentChapterId().empty()) {
+        const auto& chapters = plot_system_.GetAllChapters();
+        for (std::size_t i = 0; i < chapters.size(); ++i) {
+            if (chapters[i].id == plot_system_.CurrentChapterId()) {
+                metadata.main_plot_stage = static_cast<int>(i) + 1;
+                break;
+            }
+        }
+        if (metadata.main_plot_stage == 0) {
+            metadata.main_plot_stage = 1;
+        }
+    }
+    {
+        static const std::array<const char*, 6> kKeyAchievementIds{
+            "first_crop", "gift_expert", "master_builder", "beast_bond_max", "tide_purifier", "fest_calendar"
+        };
+        int key_count = 0;
+        const auto& ach = world_state_.GetAchievements();
+        for (const char* id : kKeyAchievementIds) {
+            const auto it = ach.find(id);
+            if (it != ach.end() && it->second) {
+                ++key_count;
+            }
+        }
+        metadata.key_achievement_count = key_count;
+    }
+    metadata.last_battle_outcome = state_.battle_exit_by_retreat
+        ? "retreat"
+        : (state_.retention_weekly_battle_victories > 0 ? "victory" : "none");
+    metadata.summary_text =
+        "主线阶段 " + std::to_string(metadata.main_plot_stage)
+        + " | 关键成就 " + std::to_string(metadata.key_achievement_count)
+        + " | 战斗 " + metadata.last_battle_outcome;
     // 存档缩略图：优先从当前窗口截帧保存为 PNG（失败则留空，UI 使用占位符渲染）。
     metadata.thumbnail_path.clear();
     if (window_ != nullptr) {
@@ -2864,6 +3180,7 @@ bool GameRuntime::LoadGameFromSlot(int slot_index) {
         world_state_.MutablePlayer(),
         world_state_.MutableStamina(),
         world_state_.MutableHunger(),
+        world_state_.MutableBuffs(),
         world_state_.MutableMainHouseRepair(),
         world_state_.MutableTeaMachine(),
         world_state_.MutableSpiritBeast(),
@@ -2932,7 +3249,23 @@ bool GameRuntime::LoadGameFromSlot(int slot_index) {
         &world_state_.MutablePurifyReturnDays(),
         &world_state_.MutablePurifyReturnSpirits(),
         &world_state_.MutableFishingAttempts(),
-        &world_state_.MutableLastFishCatch());
+        &world_state_.MutableLastFishCatch(),
+        &systems_.MutableNpcDevelopment().MutableAllDevelopments());
+    {
+        std::vector<std::string> npc_ids;
+        npc_ids.reserve(world_state_.MutableNpcs().size());
+        for (const auto& npc : world_state_.MutableNpcs()) {
+            npc_ids.push_back(npc.id);
+        }
+        systems_.MutableNpcDevelopment().Initialize(npc_ids, world_state_.MutableClock().Day());
+        for (auto& npc : world_state_.MutableNpcs()) {
+            if (const auto* dev = systems_.GetNpcDevelopment().GetDevelopment(npc.id)) {
+                npc.development_stage = dev->current_stage;
+                npc.current_activity = dev->current_job.empty() ? npc.current_activity : dev->current_job;
+                npc.current_location = dev->current_house_id.empty() ? npc.current_location : dev->current_house_id;
+            }
+        }
+    }
     SyncUnlockedRecipesToWorkshop_(world_state_.GetRecipeUnlocks(), systems_.GetWorkshop());
     // 加载主线剧情状态（从存档文件末尾读取 plot 行）
     {
@@ -3316,6 +3649,7 @@ void GameRuntime::RequestSpiritRealmTravel_(bool to_spirit_realm) {
                 &CloudSeamanor::infrastructure::Logger::Info,
                 CloudSeamanor::infrastructure::Logger::Warning);
             SyncTeaBushInteractables_();
+            SyncNpcHouseVariantInteractables_();
         });
 }
 
@@ -3370,6 +3704,73 @@ void GameRuntime::SyncTeaBushInteractables_() {
             bush.tea_id + "_leaf",
             1,
             bush.id);
+    }
+}
+
+void GameRuntime::SyncNpcHouseVariantInteractables_() {
+    auto& interactables = world_state_.MutableInteractables();
+    interactables.erase(
+        std::remove_if(
+            interactables.begin(),
+            interactables.end(),
+            [](const CloudSeamanor::domain::Interactable& i) {
+                return i.Label().rfind("NPC House Variant:", 0) == 0;
+            }),
+        interactables.end());
+    if (world_state_.GetInSpiritRealm()) {
+        return;
+    }
+
+    std::ifstream in("assets/data/npc/npc_house_variants.csv");
+    if (!in.is_open()) {
+        return;
+    }
+
+    std::unordered_map<int, std::size_t> stage_counts;
+    for (const auto& npc : world_state_.GetNpcs()) {
+        stage_counts[std::max(0, npc.development_stage)] += 1;
+    }
+
+    std::string line;
+    while (std::getline(in, line)) {
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        if (line.rfind("HouseId,", 0) == 0) {
+            continue;
+        }
+
+        std::vector<std::string> fields;
+        std::stringstream ss(line);
+        std::string part;
+        while (std::getline(ss, part, ',')) {
+            fields.push_back(part);
+        }
+        if (fields.size() < 7) {
+            continue;
+        }
+
+        const std::string house_id = fields[0];
+        const int stage = std::max(0, std::atoi(fields[1].c_str()));
+        const bool visible = std::atoi(fields[5].c_str()) != 0;
+        const std::string interaction_tag = fields[6];
+
+        if (!visible) {
+            continue;
+        }
+        if (!stage_counts.contains(stage)) {
+            continue;
+        }
+
+        const sf::Vector2f anchor = AnchorForLocation(house_id);
+        interactables.emplace_back(
+            anchor,
+            sf::Vector2f{68.0f, 68.0f},
+            CloudSeamanor::domain::InteractableType::Storage,
+            "NPC House Variant:" + house_id,
+            "",
+            1,
+            interaction_tag);
     }
 }
 

@@ -1,6 +1,6 @@
 #include "CloudSeamanor/engine/systems/SpiritRealmManager.hpp"
 
-#include "CloudSeamanor/Interactable.hpp"
+#include "CloudSeamanor/engine/Interactable.hpp"
 
 #include <algorithm>
 

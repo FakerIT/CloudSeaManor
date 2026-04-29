@@ -33,9 +33,9 @@
 
 #pragma once
 
-#include "CloudSeamanor/AtmosphereState.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/UiLayoutConfig.hpp"
+#include "CloudSeamanor/domain/AtmosphereState.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Graphics/Font.hpp>

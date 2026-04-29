@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
 
 #include <functional>
 #include <string>

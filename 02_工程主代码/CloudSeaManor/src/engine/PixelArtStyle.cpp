@@ -1,5 +1,5 @@
-#include "CloudSeamanor/PixelArtStyle.hpp"
-#include "CloudSeamanor/UiVertexHelpers.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
+#include "CloudSeamanor/engine/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>

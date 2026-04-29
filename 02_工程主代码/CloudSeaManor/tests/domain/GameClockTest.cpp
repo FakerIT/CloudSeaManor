@@ -15,7 +15,7 @@
 // ============================================================================
 
 #include "../catch2Compat.hpp"
-#include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
 
 using CloudSeamanor::domain::DayPhase;
 using CloudSeamanor::domain::GameClock;

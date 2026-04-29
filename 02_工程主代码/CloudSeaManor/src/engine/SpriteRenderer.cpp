@@ -2,7 +2,7 @@
 // 【SpriteRenderer】精灵渲染器实现
 // ============================================================================
 
-#include "CloudSeamanor/SpriteRenderer.hpp"
+#include "CloudSeamanor/engine/SpriteRenderer.hpp"
 
 #include <cmath>
 

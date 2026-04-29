@@ -1,7 +1,7 @@
 #include "CloudSeamanor/engine/input/InputHandler.hpp"
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/GameWorldSystems.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldSystems.hpp"
 
 #include <functional>
 #include <string>

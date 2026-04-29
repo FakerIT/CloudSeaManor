@@ -1,6 +1,6 @@
-#include "CloudSeamanor/CropData.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <sstream>

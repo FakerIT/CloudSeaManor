@@ -1,4 +1,4 @@
-#include "CloudSeamanor/GameRuntime.hpp"
+#include "CloudSeamanor/engine/GameRuntime.hpp"
 #include "CloudSeamanor/engine/rendering/WorldRenderer.hpp"
 
 namespace CloudSeamanor::engine {

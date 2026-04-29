@@ -1,5 +1,5 @@
-#include "CloudSeamanor/HungerSystem.hpp"
-#include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/domain/HungerSystem.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
 
 #include <algorithm>
 #include <sstream>

@@ -10,7 +10,7 @@
 // - Handle stamina consumption/recovery during movement
 // ============================================================================
 
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
 
 #include <SFML/System/Vector2.hpp>
 

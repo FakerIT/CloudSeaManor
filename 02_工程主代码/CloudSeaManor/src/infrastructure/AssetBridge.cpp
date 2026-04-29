@@ -2,9 +2,9 @@
 // 【AssetBridge】美术资源桥接器实现
 // ============================================================================
 
-#include "CloudSeamanor/AssetBridge.hpp"
+#include "CloudSeamanor/infrastructure/AssetBridge.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <algorithm>
 #include <cctype>

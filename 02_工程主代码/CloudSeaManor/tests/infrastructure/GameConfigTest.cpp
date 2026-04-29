@@ -1,5 +1,5 @@
 #include "../TestFramework.hpp"
-#include "CloudSeamanor/GameConfig.hpp"
+#include "CloudSeamanor/infrastructure/GameConfig.hpp"
 
 #include <cstdlib>
 #include <filesystem>

@@ -1,6 +1,6 @@
 #include "../TestFramework.hpp"
-#include "CloudSeamanor/GameRuntime.hpp"
-#include "CloudSeamanor/DataRegistry.hpp"
+#include "CloudSeamanor/engine/GameRuntime.hpp"
+#include "CloudSeamanor/infrastructure/DataRegistry.hpp"
 
 #include <filesystem>
 

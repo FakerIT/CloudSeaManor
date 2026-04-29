@@ -1,7 +1,7 @@
 #include "CloudSeamanor/engine/systems/CropGrowthSystem.hpp"
 
-#include "CloudSeamanor/FarmingLogic.hpp"
-#include "CloudSeamanor/CropData.hpp"
+#include "CloudSeamanor/engine/FarmingLogic.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
 
 #include <algorithm>
 #include <cstdlib>

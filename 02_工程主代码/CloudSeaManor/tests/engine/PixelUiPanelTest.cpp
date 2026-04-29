@@ -1,6 +1,6 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/PixelUiPanel.hpp"
+#include "CloudSeamanor/engine/PixelUiPanel.hpp"
 
 using CloudSeamanor::engine::PixelUiPanel;
 

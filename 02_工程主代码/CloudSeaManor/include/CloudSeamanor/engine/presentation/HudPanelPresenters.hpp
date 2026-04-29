@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CloudSeamanor/GameRuntime.hpp"
-#include "CloudSeamanor/PixelGameHud.hpp"
+#include "CloudSeamanor/engine/GameRuntime.hpp"
+#include "CloudSeamanor/engine/PixelGameHud.hpp"
 
 namespace CloudSeamanor::engine::audio {
 class AudioManager;

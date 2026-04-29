@@ -1,6 +1,6 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/DialogueEngine.hpp"
+#include "CloudSeamanor/engine/DialogueEngine.hpp"
 
 using CloudSeamanor::engine::DialogueChoice;
 using CloudSeamanor::engine::DialogueContext;

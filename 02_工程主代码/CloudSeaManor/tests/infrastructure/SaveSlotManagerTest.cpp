@@ -1,5 +1,5 @@
 #include "../TestFramework.hpp"
-#include "CloudSeamanor/SaveSlotManager.hpp"
+#include "CloudSeamanor/infrastructure/SaveSlotManager.hpp"
 
 #include <cstdlib>
 #include <filesystem>
@@ -28,6 +28,10 @@ TEST_CASE(SaveSlotManager_roundtrip_metadata_read_write) {
     input.day = 7;
     input.season_text = "春";
     input.thumbnail_path = "thumbs/slot1.png";
+    input.summary_text = "主线阶段 2 | 关键成就 3 | 战斗 victory";
+    input.main_plot_stage = 2;
+    input.key_achievement_count = 3;
+    input.last_battle_outcome = "victory";
 
     ASSERT_TRUE(manager.WriteMetadata(1, input));
     const SaveSlotMetadata output = manager.ReadMetadata(1);
@@ -37,6 +41,10 @@ TEST_CASE(SaveSlotManager_roundtrip_metadata_read_write) {
     ASSERT_EQ(output.day, input.day);
     ASSERT_EQ(output.season_text, input.season_text);
     ASSERT_EQ(output.thumbnail_path, input.thumbnail_path);
+    ASSERT_EQ(output.summary_text, input.summary_text);
+    ASSERT_EQ(output.main_plot_stage, input.main_plot_stage);
+    ASSERT_EQ(output.key_achievement_count, input.key_achievement_count);
+    ASSERT_EQ(output.last_battle_outcome, input.last_battle_outcome);
 
     std::error_code ec;
     std::filesystem::remove_all(temp_dir, ec);
@@ -73,6 +81,7 @@ TEST_CASE(SaveSlotManager_tolerates_malformed_day_field) {
         out << "day=not_a_number\n";
         out << "season=夏\n";
         out << "thumbnail=thumbs/slot1.png\n";
+        out << "main_plot_stage=invalid\n";
     }
 
     const SaveSlotMetadata output = manager.ReadMetadata(1);
@@ -80,6 +89,7 @@ TEST_CASE(SaveSlotManager_tolerates_malformed_day_field) {
     ASSERT_TRUE(output.metadata_corrupted);
     ASSERT_EQ(output.season_text, "夏");
     ASSERT_EQ(output.thumbnail_path, "thumbs/slot1.png");
+    ASSERT_EQ(output.main_plot_stage, 0);
 
     std::error_code ec;
     std::filesystem::remove_all(temp_dir, ec);

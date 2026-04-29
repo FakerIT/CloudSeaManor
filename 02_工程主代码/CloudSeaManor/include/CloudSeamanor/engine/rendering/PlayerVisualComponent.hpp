@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CloudSeamanor/Player.hpp"
+#include "CloudSeamanor/domain/Player.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 

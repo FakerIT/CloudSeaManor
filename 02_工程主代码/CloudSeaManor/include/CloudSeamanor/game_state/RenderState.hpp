@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <memory>

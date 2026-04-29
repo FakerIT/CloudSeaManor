@@ -1,6 +1,6 @@
-#include "CloudSeamanor/FestivalSystem.hpp"
+#include "CloudSeamanor/domain/FestivalSystem.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <algorithm>
 #include <cctype>

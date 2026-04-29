@@ -1,5 +1,5 @@
 #include "CloudSeamanor/engine/rendering/UiPanelInitializer.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 namespace CloudSeamanor::engine {
 

@@ -25,8 +25,8 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/System/Vector2.hpp>
 
-#include "CloudSeamanor/PickupDrop.hpp"
-#include "CloudSeamanor/Interactable.hpp"
+#include "CloudSeamanor/engine/PickupDrop.hpp"
+#include "CloudSeamanor/engine/Interactable.hpp"
 
 namespace CloudSeamanor::engine::SceneVisualFactory {
 

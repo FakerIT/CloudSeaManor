@@ -11,7 +11,7 @@
 // - Render debug text (if enabled)
 // ============================================================================
 
-#include "CloudSeamanor/UISystem.hpp"
+#include "CloudSeamanor/engine/UISystem.hpp"
 
 #include <SFML/Graphics/RenderWindow.hpp>
 

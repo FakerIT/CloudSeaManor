@@ -1,4 +1,4 @@
-#include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
 
 #include <algorithm>
 

@@ -1,7 +1,7 @@
 #include "CloudSeamanor/engine/systems/NpcDeliverySystem.hpp"
 
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <algorithm>
 #include <cctype>

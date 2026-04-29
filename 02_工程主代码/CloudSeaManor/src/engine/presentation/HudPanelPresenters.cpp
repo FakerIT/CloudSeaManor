@@ -1,10 +1,10 @@
 #include "CloudSeamanor/engine/presentation/HudPanelPresenters.hpp"
 
-#include "CloudSeamanor/AudioManager.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/GameAppRuntimeTypes.hpp"
-#include "CloudSeamanor/GameConfig.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/engine/AudioManager.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/engine/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/infrastructure/GameConfig.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <algorithm>
 #include <array>
@@ -303,13 +303,20 @@ void HudPanelPresenters::UpdateMailPanel(PixelGameHud& hud, GameRuntime& runtime
         entry.time_text = mail_time_prefix + std::to_string(order.deliver_day) + mail_time_suffix;
         if (order.deliver_day <= today) {
             ++arrived_count;
-            ++rule_unread_counts[source];
+            if (!order.opened) {
+                ++rule_unread_counts[source];
+            }
             mail_view.arrived_entries.push_back(std::move(entry));
         } else {
             mail_view.pending_entries.push_back(std::move(entry));
         }
     }
-    mail_view.unread_count = arrived_count;
+    mail_view.unread_count = 0;
+    for (const auto& order : mail_orders) {
+        if (!order.claimed && order.deliver_day <= today && !order.opened) {
+            ++mail_view.unread_count;
+        }
+    }
     if (!mail_orders.empty()) {
         const MailOrderEntry* best = nullptr;
         for (const auto& order : mail_orders) {
@@ -343,10 +350,15 @@ void HudPanelPresenters::UpdateMailPanel(PixelGameHud& hud, GameRuntime& runtime
         const std::string body_text = best->body.empty()
             ? (ItemDisplayName(best->item_id) + " x" + std::to_string(best->count))
             : best->body;
+        std::string attachment_text = ItemDisplayName(best->item_id) + " x" + std::to_string(best->count);
+        if (!best->secondary_item_id.empty() && best->secondary_count > 0) {
+            attachment_text += " + " + ItemDisplayName(best->secondary_item_id) + " x" + std::to_string(best->secondary_count);
+        }
         mail_view.detail_text =
-            mail_detail_prefix + " " + body_text
+            mail_detail_prefix + " " + body_text + "（附件: " + attachment_text + "）"
             + "  " + mail_detail_eta_prefix + std::to_string(remaining_days) + mail_detail_eta_suffix
-            + "  [" + status_text + "]" + rule_text;
+            + "  [" + status_text + "]"
+            + (best->receipt_sent ? "[已回执]" : "[待回执]") + rule_text;
     } else {
         mail_view.detail_text = mail_detail_empty;
     }
@@ -552,16 +564,11 @@ void HudPanelPresenters::UpdateNpcDetailPanel(PixelGameHud& hud, GameRuntime& ru
         npc_view.favor = selected_npc->favor;
         npc_view.talked_today = selected_npc->daily_talked;
         npc_view.gifted_today = selected_npc->daily_gifted;
-        npc_view.location = selected_npc->current_location.empty() ? "云海山庄" : selected_npc->current_location;
-        if (selected_npc->heart_level >= 10) {
-            npc_view.cloud_stage_text = "☁️💫 七彩祥云";
-        } else if (selected_npc->heart_level >= 7) {
-            npc_view.cloud_stage_text = "☁️✨ 霞云";
-        } else if (selected_npc->heart_level >= 4) {
-            npc_view.cloud_stage_text = "🌥️ 层云";
-        } else {
-            npc_view.cloud_stage_text = "☁️ 薄云";
-        }
+        npc_view.location = (selected_npc->heart_level >= 4)
+            ? (selected_npc->current_location.empty() ? "云海山庄" : selected_npc->current_location)
+            : "???（好感4级解锁）";
+        npc_view.cloud_stage_text = NpcCloudStageText(selected_npc->heart_level);
+        npc_view.legendary_style_unlocked = selected_npc->heart_level >= 10;
     }
     npc_view.title_suffix = runtime.Config().GetString("npc_detail_title_suffix", npc_view.title_suffix);
     npc_view.location_prefix = runtime.Config().GetString("npc_detail_location_prefix", npc_view.location_prefix);
@@ -684,9 +691,12 @@ void HudPanelPresenters::UpdateWorkshopPanel(PixelGameHud& hud, GameRuntime& run
             }
         }
         const int machine_progress_pct = static_cast<int>(std::max(0.0f, std::min(100.0f, m.progress)));
+        const std::string stage_text = CloudSeamanor::domain::TeaProcessStageText(m.stage);
+        const int quality_est = static_cast<int>(std::max(0.0f, m.quality_score * 10.0f));
         workshop_view.queue_lines.push_back(
-            std::to_string(i + 1) + ") " + recipe_name + "      " + std::to_string(machine_progress_pct) + "%  "
-            + (m.is_processing ? "加工中" : "空闲"));
+            std::to_string(i + 1) + ") " + recipe_name + "  " + stage_text
+            + "  " + std::to_string(machine_progress_pct) + "%  品质预估+" + std::to_string(quality_est)
+            + "  " + (m.is_processing ? "加工中" : "空闲"));
     }
     while (workshop_view.queue_lines.size() < 3) {
         workshop_view.queue_lines.push_back(

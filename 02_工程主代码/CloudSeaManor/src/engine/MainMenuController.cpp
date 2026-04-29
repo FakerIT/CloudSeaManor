@@ -1,8 +1,8 @@
 #include "CloudSeamanor/engine/MainMenuController.hpp"
 
-#include "CloudSeamanor/CloudSeamanor.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
-#include "CloudSeamanor/SaveSlotManager.hpp"
+#include "CloudSeamanor/app/CloudSeaManor.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
+#include "CloudSeamanor/infrastructure/SaveSlotManager.hpp"
 
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>

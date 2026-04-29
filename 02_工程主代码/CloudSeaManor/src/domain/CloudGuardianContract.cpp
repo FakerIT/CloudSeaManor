@@ -1,4 +1,4 @@
-#include "CloudSeamanor/CloudGuardianContract.hpp"
+#include "CloudSeamanor/domain/CloudGuardianContract.hpp"
 
 #include <algorithm>
 #include <sstream>

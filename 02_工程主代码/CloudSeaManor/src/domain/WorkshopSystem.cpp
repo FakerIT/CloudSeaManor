@@ -1,7 +1,7 @@
-#include "CloudSeamanor/WorkshopSystem.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/RecipeData.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/domain/RecipeData.hpp"
 
 #include <algorithm>
 
@@ -18,7 +18,34 @@ bool HasTag_(const RecipeDefinition& recipe, const std::string& tag) {
     return false;
 }
 
+TeaProcessStage NextTeaStage_(TeaProcessStage stage) {
+    switch (stage) {
+    case TeaProcessStage::FreshLeaf: return TeaProcessStage::Withering;
+    case TeaProcessStage::Withering: return TeaProcessStage::Fixation;
+    case TeaProcessStage::Fixation: return TeaProcessStage::Rolling;
+    case TeaProcessStage::Rolling: return TeaProcessStage::Drying;
+    case TeaProcessStage::Drying: return TeaProcessStage::FinishedTea;
+    case TeaProcessStage::FinishedTea:
+    case TeaProcessStage::Idle:
+    default:
+        return TeaProcessStage::FinishedTea;
+    }
+}
+
 }  // namespace
+
+const char* TeaProcessStageText(TeaProcessStage stage) noexcept {
+    switch (stage) {
+    case TeaProcessStage::Idle: return "待机";
+    case TeaProcessStage::FreshLeaf: return "鲜叶";
+    case TeaProcessStage::Withering: return "萎凋";
+    case TeaProcessStage::Fixation: return "杀青";
+    case TeaProcessStage::Rolling: return "揉捻";
+    case TeaProcessStage::Drying: return "干燥";
+    case TeaProcessStage::FinishedTea: return "成茶";
+    }
+    return "待机";
+}
 
 // ============================================================================
 // 【Initialize】初始化工坊系统
@@ -33,8 +60,8 @@ void WorkshopSystem::Initialize() {
     }
 
     machines_.clear();
-    machines_.push_back({"tea_machine", "", 0.0f, false, 1});
-    machines_.push_back({"ferment_machine", "", 0.0f, false, 2});
+    machines_.push_back({"tea_machine", "", 0.0f, false, 1, TeaProcessStage::Idle, 0.0f, 0.0f});
+    machines_.push_back({"ferment_machine", "", 0.0f, false, 2, TeaProcessStage::Idle, 0.0f, 0.0f});
     level_ = 1;
     unlocked_slots_ = 1;
     unlocked_recipe_ids_.clear();
@@ -46,6 +73,8 @@ void WorkshopSystem::Initialize() {
 std::vector<std::string> WorkshopSystem::Update(
     float delta_time,
     float cloud_density,
+    int skill_level,
+    int tool_level,
     std::unordered_map<std::string, int>& output_items
 ) {
     std::vector<std::string> completed_machines;
@@ -63,6 +92,14 @@ std::vector<std::string> WorkshopSystem::Update(
         // 云海加成：cloud_density * 0.5 表示灵气越浓加工越快
         const float speed = 1.0f + cloud_density * 0.5f;
         machine.progress += (100.0f / static_cast<float>(recipe->process_time)) * delta_time * speed;
+        machine.stage_progress += (100.0f / 5.0f) * delta_time * speed;
+        if (machine.stage_progress >= 100.0f && machine.stage != TeaProcessStage::FinishedTea) {
+            machine.stage = NextTeaStage_(machine.stage);
+            machine.stage_progress = 0.0f;
+        }
+        machine.quality_score += delta_time * std::max(0.0f, cloud_density) * 0.2f
+            + static_cast<float>(std::max(0, skill_level - 1)) * 0.04f
+            + static_cast<float>(std::max(0, tool_level - 1)) * 0.03f;
 
         if (machine.progress >= 100.0f) {
             output_items[recipe->output_item] += recipe->output_count;
@@ -70,6 +107,9 @@ std::vector<std::string> WorkshopSystem::Update(
             machine.progress = 0.0f;
             machine.is_processing = false;
             machine.recipe_id = "";
+            machine.stage = TeaProcessStage::Idle;
+            machine.stage_progress = 0.0f;
+            machine.quality_score = 0.0f;
         }
     }
 
@@ -115,6 +155,9 @@ bool WorkshopSystem::StartProcessing(
             machine.recipe_id = recipe_id;
             machine.progress = 0.0f;
             machine.is_processing = true;
+            machine.stage = TeaProcessStage::FreshLeaf;
+            machine.stage_progress = 0.0f;
+            machine.quality_score = 0.0f;
             return true;
         }
     }
@@ -225,6 +268,14 @@ bool WorkshopSystem::SetMachineState(
             machine.recipe_id = recipe_id;
             machine.progress = std::max(0.0f, std::min(100.0f, progress));
             machine.is_processing = is_processing;
+            if (!is_processing || recipe_id.empty()) {
+                machine.stage = TeaProcessStage::Idle;
+                machine.stage_progress = 0.0f;
+                machine.quality_score = 0.0f;
+            } else {
+                machine.stage = TeaProcessStage::FreshLeaf;
+                machine.stage_progress = 0.0f;
+            }
             return true;
         }
     }

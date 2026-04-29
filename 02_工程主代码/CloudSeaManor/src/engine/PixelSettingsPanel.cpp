@@ -1,7 +1,7 @@
-#include "CloudSeamanor/PixelSettingsPanel.hpp"
+#include "CloudSeamanor/engine/PixelSettingsPanel.hpp"
 
-#include "CloudSeamanor/PixelUiConfig.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/engine/PixelUiConfig.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
 
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>

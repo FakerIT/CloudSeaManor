@@ -1,5 +1,5 @@
-#include "CloudSeamanor/GameApp.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/app/GameApp.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <filesystem>
 #include <exception>

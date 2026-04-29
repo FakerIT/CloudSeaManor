@@ -1,6 +1,6 @@
-#include "CloudSeamanor/PixelTutorialBubble.hpp"
+#include "CloudSeamanor/engine/PixelTutorialBubble.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 namespace CloudSeamanor::engine {
 

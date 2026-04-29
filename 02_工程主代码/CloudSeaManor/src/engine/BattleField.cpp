@@ -1,8 +1,8 @@
 #include "CloudSeamanor/engine/BattleField.hpp"
 
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 #include "CloudSeamanor/engine/BattleZoneLoader.hpp"
 

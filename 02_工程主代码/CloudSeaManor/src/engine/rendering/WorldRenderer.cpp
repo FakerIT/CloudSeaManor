@@ -1,11 +1,11 @@
 #include "CloudSeamanor/engine/rendering/WorldRenderer.hpp"
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/CloudGuardianContract.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/domain/CloudGuardianContract.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
 #include "CloudSeamanor/Profiling.hpp"
-#include "CloudSeamanor/CropData.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -247,13 +247,23 @@ void WorldRenderer::RenderTeaPlots_(
         }
         
         window.draw(soil);
+        const sf::Vector2f size = soil.getSize();
+        const sf::Vector2f base = soil.getPosition();
+        if (ws.GetPurifyReturnDays() > 0) {
+            const float pulse01 = 0.5f + 0.5f * std::sin(pulse * 3.1f + base.x * 0.02f + base.y * 0.03f);
+            const std::uint8_t alpha = static_cast<std::uint8_t>(40.0f + pulse01 * 90.0f);
+            sf::CircleShape spirit_dot(3.0f);
+            spirit_dot.setFillColor(sf::Color(155, 235, 255, alpha));
+            spirit_dot.setPosition({base.x + size.x * 0.15f, base.y + size.y * 0.15f});
+            window.draw(spirit_dot);
+            spirit_dot.setPosition({base.x + size.x * 0.72f, base.y + size.y * 0.28f});
+            window.draw(spirit_dot);
+        }
 
         if (!plot.seeded) {
             continue;
         }
 
-        const sf::Vector2f size = soil.getSize();
-        const sf::Vector2f base = soil.getPosition();
         const float wave = StageWaveOffset_(plot.stage, pulse + base.x * 0.03f + base.y * 0.02f);
         
         // 获取作物尺寸

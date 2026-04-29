@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CloudSeamanor/JsonValue.hpp"
+#include "CloudSeamanor/infrastructure/JsonValue.hpp"
 
 #include <filesystem>
 #include <string>

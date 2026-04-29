@@ -1,6 +1,6 @@
-#include "CloudSeamanor/PixelPlayerStatusPanel.hpp"
+#include "CloudSeamanor/engine/PixelPlayerStatusPanel.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 namespace CloudSeamanor::engine {
 

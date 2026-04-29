@@ -1,5 +1,5 @@
 #include "../TestFramework.hpp"
-#include "CloudSeamanor/GameAppSave.hpp"
+#include "CloudSeamanor/app/GameAppSave.hpp"
 
 #include <cstdlib>
 #include <filesystem>
@@ -251,6 +251,70 @@ TEST_CASE(LoadGameState_fails_on_tampered_checksum) {
                                []() {},
                                push_hint));
 
+    CleanupSaveFiles(save_path);
+    return true;
+}
+
+TEST_CASE(LoadGameState_migrates_legacy_v5_save) {
+    const auto save_path = MakeTempSavePath();
+    {
+        std::ofstream out(save_path, std::ios::trunc);
+        ASSERT_TRUE(out.is_open());
+        out << "version|5\n";
+        out << "clock|3|480\n";
+        out << "cloud|0|1|10|5\n";
+        out << "player|100|200|80\n";
+        out << "hunger|70,100,0,0\n";
+        out << "economy|777\n";
+        out << "plot_schema|index|tilled|seeded|watered|ready|growth|stage|crop_id|quality\n";
+        out << "plot|0|1|1|0|0|12.5|1|tea_leaf|0\n";
+    }
+
+    GameClock loaded_clock;
+    CloudSeamanor::domain::CloudSystem loaded_cloud;
+    Player loaded_player;
+    StaminaSystem loaded_stamina;
+    HungerSystem loaded_hunger;
+    RepairProject loaded_repair;
+    TeaMachine loaded_machine;
+    SpiritBeast loaded_beast;
+    bool loaded_spirit_watered = false;
+    std::vector<TeaPlot> loaded_plots{TeaPlot{}};
+    int loaded_gold = 0;
+    std::vector<PriceTableEntry> loaded_prices;
+    std::vector<MailOrderEntry> loaded_mails;
+    Inventory loaded_inventory;
+    std::vector<NpcActor> loaded_npcs;
+    std::vector<sf::RectangleShape> obstacle_shapes;
+    CloudState last_cloud_state = CloudState::Clear;
+    auto push_hint = [](const std::string&, float) {};
+
+    ASSERT_TRUE(LoadGameState(save_path,
+                              loaded_clock,
+                              loaded_cloud,
+                              loaded_player,
+                              loaded_stamina,
+                              loaded_hunger,
+                              loaded_repair,
+                              loaded_machine,
+                              loaded_beast,
+                              loaded_spirit_watered,
+                              loaded_plots,
+                              loaded_gold,
+                              loaded_prices,
+                              loaded_mails,
+                              loaded_inventory,
+                              loaded_npcs,
+                              obstacle_shapes,
+                              last_cloud_state,
+                              []() {},
+                              [](TeaPlot&, bool) {},
+                              []() {},
+                              []() {},
+                              push_hint));
+
+    ASSERT_EQ(loaded_gold, 777);
+    ASSERT_EQ(loaded_plots[0].crop_id, "tea_leaf");
     CleanupSaveFiles(save_path);
     return true;
 }

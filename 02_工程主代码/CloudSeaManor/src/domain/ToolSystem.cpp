@@ -1,5 +1,5 @@
-#include "CloudSeamanor/ToolSystem.hpp"
-#include "CloudSeamanor/DataRegistry.hpp"
+#include "CloudSeamanor/domain/ToolSystem.hpp"
+#include "CloudSeamanor/infrastructure/DataRegistry.hpp"
 
 #include <algorithm>
 #include <cmath>

@@ -1,11 +1,11 @@
-#include "CloudSeamanor/TargetHintRuntime.hpp"
+#include "CloudSeamanor/engine/TargetHintRuntime.hpp"
 
-#include "CloudSeamanor/CropData.hpp"
-#include "CloudSeamanor/GameAppFarming.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/Interactable.hpp"
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/app/GameAppFarming.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/engine/Interactable.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
 
 #include <algorithm>
 

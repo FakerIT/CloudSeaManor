@@ -1,4 +1,4 @@
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <chrono>
 #include <filesystem>

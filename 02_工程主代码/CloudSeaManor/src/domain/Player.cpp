@@ -1,4 +1,4 @@
-#include "CloudSeamanor/Player.hpp"
+#include "CloudSeamanor/domain/Player.hpp"
 
 #include <algorithm>
 #include <sstream>

@@ -1,11 +1,11 @@
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
 
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
-#include "CloudSeamanor/UiLayoutConfig.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
 #include "CloudSeamanor/engine/rendering/UiPanelInitializer.hpp"
-#include "CloudSeamanor/TextRenderUtils.hpp"
+#include "CloudSeamanor/engine/TextRenderUtils.hpp"
 
 #include <algorithm>
 #include <cmath>

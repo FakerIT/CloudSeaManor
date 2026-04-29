@@ -1,6 +1,6 @@
 #include "CloudSeamanor/engine/presentation/HudPresenter.hpp"
 
-#include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <algorithm>
@@ -8,6 +8,23 @@
 #include <vector>
 
 namespace CloudSeamanor::engine {
+
+namespace {
+
+std::string AuraStageText_(int spirit_energy) {
+    if (spirit_energy >= 180) return "丰盈";
+    if (spirit_energy >= 120) return "活跃";
+    if (spirit_energy >= 60) return "平稳";
+    return "低潮";
+}
+
+std::string TideTypeText_(int tide_countdown_days) {
+    if (tide_countdown_days <= 0) return "大潮日";
+    if (tide_countdown_days <= 2) return "小潮将近";
+    return "平潮期";
+}
+
+}  // namespace
 
 void HudPresenter::UpdateCoreViews(
     PixelGameHud& hud,
@@ -72,6 +89,8 @@ void HudPresenter::UpdateCoreViews(
     const auto& cloud_system = runtime.Systems().GetCloud();
     forecast_view.today_prefix = runtime.Config().GetString("forecast_today_prefix", forecast_view.today_prefix);
     forecast_view.tomorrow_prefix = runtime.Config().GetString("forecast_tomorrow_prefix", forecast_view.tomorrow_prefix);
+    forecast_view.aura_stage_prefix = runtime.Config().GetString("forecast_aura_stage_prefix", forecast_view.aura_stage_prefix);
+    forecast_view.tide_type_prefix = runtime.Config().GetString("forecast_tide_type_prefix", forecast_view.tide_type_prefix);
     forecast_view.bonus_format_prefix = runtime.Config().GetString("forecast_bonus_prefix", forecast_view.bonus_format_prefix);
     forecast_view.bonus_midfix = runtime.Config().GetString("forecast_bonus_midfix", forecast_view.bonus_midfix);
     forecast_view.tide_countdown_prefix = runtime.Config().GetString("forecast_tide_countdown_prefix", forecast_view.tide_countdown_prefix);
@@ -80,6 +99,8 @@ void HudPresenter::UpdateCoreViews(
     forecast_view.today_state_text = cloud_system.CurrentStateText();
     forecast_view.tomorrow_state_text = cloud_system.ForecastStateText();
     forecast_view.tide_countdown_days = cloud_system.TideCountdownDays(world_state.GetClock().Day());
+    forecast_view.aura_stage_text = AuraStageText_(cloud_system.SpiritEnergy());
+    forecast_view.tide_type_text = TideTypeText_(forecast_view.tide_countdown_days);
     forecast_view.crop_bonus_percent = static_cast<int>((runtime.CloudMultiplier() - 1.0f) * 100.0f);
     forecast_view.spirit_bonus = cloud_system.SpiritEnergyGain();
     forecast_view.recommendations = BuildDailyRecommendations(

@@ -1,7 +1,7 @@
 #include "CloudSeamanor/engine/systems/TutorialSystem.hpp"
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
 
 namespace CloudSeamanor::engine {
 

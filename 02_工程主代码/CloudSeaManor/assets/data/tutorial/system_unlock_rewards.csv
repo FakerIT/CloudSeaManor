@@ -1,0 +1,7 @@
+Id,SystemId,UnlockDay,NpcGuideId,TrialPackItemId,TrialPackCount,HintText
+unlock_farming,farming_basic,2,laohuai,seed_basic,10,先试试翻土和播种吧。
+unlock_quest,quest_board,3,acha,coin_small,200,委托板上有适合新手的小任务。
+unlock_workshop,workshop_intro,5,laohuai,wood,20,工坊已开放，先做一份基础制品。
+unlock_mail,mail_panel,7,acha,tea_pack_basic,1,邮件到了，去面板看看。
+unlock_battle,battle_intro,18,wanxing,battle_tonic,2,战斗入口已开启，先体验一次净化。
+unlock_realm,spirit_realm_entry,21,wanxing,spirit_dust,3,灵界入口开放，注意携带补给。

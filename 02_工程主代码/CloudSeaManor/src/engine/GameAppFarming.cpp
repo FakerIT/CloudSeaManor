@@ -1,7 +1,7 @@
-#include "CloudSeamanor/GameAppFarming.hpp"
+#include "CloudSeamanor/app/GameAppFarming.hpp"
 
-#include "CloudSeamanor/CropData.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <algorithm>

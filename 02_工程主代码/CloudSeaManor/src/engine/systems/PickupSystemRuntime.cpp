@@ -1,9 +1,9 @@
 #include "CloudSeamanor/engine/systems/PickupSystemRuntime.hpp"
 
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/PickupSystem.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/engine/PickupSystem.hpp"
 
 namespace CloudSeamanor::engine {
 

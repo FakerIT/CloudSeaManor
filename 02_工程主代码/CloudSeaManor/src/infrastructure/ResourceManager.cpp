@@ -1,5 +1,5 @@
-#include "CloudSeamanor/ResourceManager.hpp"
-#include "CloudSeamanor/UiLayoutConfig.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
 
 #include <algorithm>
 #include <cstdlib>

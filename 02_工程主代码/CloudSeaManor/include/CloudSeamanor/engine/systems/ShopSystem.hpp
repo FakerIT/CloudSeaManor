@@ -1,8 +1,8 @@
 #pragma once
 
-#include "CloudSeamanor/GameAppRuntimeTypes.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/Inventory.hpp"
+#include "CloudSeamanor/engine/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
 
 #include <functional>
 #include <string>

@@ -1,4 +1,4 @@
-#include "CloudSeamanor/RelationshipSystem.hpp"
+#include "CloudSeamanor/domain/RelationshipSystem.hpp"
 
 #include <algorithm>
 
@@ -127,6 +127,7 @@ int RelationshipSystem::TryScheduleWedding(
     }
     state.stage = RelationshipStage::WeddingScheduled;
     state.wedding_day = desired;
+    state.wedding_ceremony_done = false;
     return desired;
 }
 
@@ -136,7 +137,16 @@ bool RelationshipSystem::OnBeginNewDay(RelationshipState& state, int new_day) co
         && new_day >= state.wedding_day) {
         state.stage = RelationshipStage::Married;
         state.married_since_day = std::max(1, new_day);
+        state.wedding_ceremony_done = true;
+        state.post_wedding_event_cursor = 1;
         return true;
+    }
+    if (state.stage == RelationshipStage::Married && state.post_wedding_event_cursor < 3) {
+        const int married_days = std::max(0, new_day - state.married_since_day);
+        if (married_days >= (state.post_wedding_event_cursor * 3)) {
+            ++state.post_wedding_event_cursor;
+            return true;
+        }
     }
     return false;
 }
@@ -151,6 +161,9 @@ void RelationshipSystem::ApplyDailyMarriageBuff(const RelationshipState& state, 
     buff.remaining_seconds = 60.0f * 60.0f * 24.0f;
     buff.stamina_recovery_multiplier = 1.05f;
     buff.stamina_cost_multiplier = 0.95f;
+    if (state.post_wedding_event_cursor >= 3) {
+        buff.stamina_recovery_multiplier = 1.08f;
+    }
     buffs.ApplyBuff(buff);
 }
 

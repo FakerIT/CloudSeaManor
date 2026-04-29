@@ -1,7 +1,7 @@
-#include "CloudSeamanor/PixelNpcDetailPanel.hpp"
+#include "CloudSeamanor/engine/PixelNpcDetailPanel.hpp"
 
-#include "CloudSeamanor/PixelArtStyle.hpp"
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 namespace CloudSeamanor::engine {
 
@@ -14,11 +14,21 @@ void PixelNpcDetailPanel::RenderContent(sf::RenderWindow& window, const sf::Floa
     const float x = inner_rect.position.x + 12.0f;
     const float y = inner_rect.position.y + 8.0f;
     const float row_h = 22.0f;
-    m_font_renderer->DrawText(window, data_.name + "  |  " + data_.title_suffix, {x, y}, TextStyle::PanelTitle());
+    TextStyle title_style = TextStyle::PanelTitle();
+    if (data_.legendary_style_unlocked) {
+        title_style.fill_color = sf::Color(245, 211, 115, 255);
+        sf::RectangleShape legend_border({inner_rect.size.x - 8.0f, inner_rect.size.y - 8.0f});
+        legend_border.setPosition({inner_rect.position.x + 4.0f, inner_rect.position.y + 4.0f});
+        legend_border.setFillColor(sf::Color(0, 0, 0, 0));
+        legend_border.setOutlineThickness(2.0f);
+        legend_border.setOutlineColor(sf::Color(245, 211, 115, 180));
+        window.draw(legend_border);
+    }
+    m_font_renderer->DrawText(window, data_.name + "  |  " + data_.title_suffix, {x, y}, title_style);
     m_font_renderer->DrawText(window, data_.location_prefix + " " + data_.location, {x, y + row_h}, TextStyle::TopRightInfo());
     m_font_renderer->DrawText(window,
                               data_.favor_prefix + " " + data_.cloud_stage_text
-                                  + "  (" + std::to_string(data_.heart_level) + "/10, favor " + std::to_string(data_.favor) + ")",
+                                  + "（阶段可见，数值隐藏）",
                               {x, y + row_h * 2.1f},
                               TextStyle::Default());
     m_font_renderer->DrawText(window, data_.heart_event_text, {x, y + row_h * 3.1f}, TextStyle::Default());

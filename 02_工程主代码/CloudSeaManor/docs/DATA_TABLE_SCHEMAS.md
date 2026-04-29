@@ -5,6 +5,21 @@
 - 关联字段统一使用全局唯一字符串 ID
 - 复杂列表字段允许用 JSON 字符串保存
 - 平铺表优先 CSV，嵌套结构可后续切换 JSON
+- 关联字段后缀统一：`Id / Ids / ProfileId / ProfileIds`
+
+## 字段命名宪章（P10-GOV-001）
+- 禁止混用：`MaxHp / max_hp / HP`，统一为 `MaxHp`
+- 禁止同义异写：`npc_id / NpcID`，统一为 `NpcId`
+- 多值关联统一 `Ids`，如 `SkillIds`
+- 配置引用统一 `ProfileId`，如 `ScheduleProfileId`
+
+## 历史字段迁移清单（兼容期）
+| 旧字段 | 新字段 | 状态 |
+|---|---|---|
+| `npc_id` | `NpcId` | 迁移中 |
+| `item_id` | `ItemId` | 迁移中 |
+| `max_hp` | `MaxHp` | 迁移中 |
+| `gift_profile` | `GiftProfileId` | 迁移中 |
 
 ## `npc_data.csv`
 | 字段 | 类型 | 说明 | 示例 |
@@ -117,3 +132,19 @@
 | `HintLines` | json array | 提示文本 | `["【界桥祭】前往灵界触发三波净化战。"]` |
 | `NoticeDays` | int | 预告天数 | `7` |
 | `Type` | string | 节日类型 | `cloud_tide` |
+
+## `npc_development_stages.csv`
+| 字段 | 类型 | 说明 | 示例 |
+|---|---|---|---|
+| `NpcId` | string | NPC 唯一 ID | `yunseng` |
+| `Stage` | int | 目标阶段 | `2` |
+| `Description` | string | 阶段描述 | `村边租屋学徒` |
+| `RequiresPlayerAction` | int | 是否需要玩家触发（0/1） | `1` |
+| `WorldTimerYears` | int | 世界保底推进年数 | `1` |
+| `PlayerCondition` | string | 玩家触发条件标签 | `gift_paper_3` |
+| `NextJob` | string | 阶段职业 | `apprentice` |
+| `NextHouseId` | string | 阶段住所 | `river_rent_house` |
+| `NextRoomLocation` | string | 阶段房间锚点 | `room_a` |
+| `AppearanceVariant` | string | 外观变体 | `variant_2` |
+| `BranchGroup` | string | 分支组 | `yunseng_main` |
+| `MinDaysSinceLastStage` | int | 与上阶段最小间隔天数 | `14` |

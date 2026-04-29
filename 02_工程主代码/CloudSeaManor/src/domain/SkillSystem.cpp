@@ -1,5 +1,5 @@
-#include "CloudSeamanor/SkillSystem.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
 
 #include <algorithm>
 #include <sstream>

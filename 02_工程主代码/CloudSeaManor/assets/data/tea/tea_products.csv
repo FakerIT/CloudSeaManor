@@ -1,0 +1,8 @@
+TeaId,Quality,SellPrice,BuffEffectId,GiftPreference
+TeaPack,普通,120,stamina_regen_small,Neutral
+spirit_tea_blend,优质,220,focus_plus,Like
+mist_green_tea_pack,上品,260,craft_speed_plus,Like
+sunset_oolong_pack,上品,280,mood_plus,Love
+frost_needle_tea_pack,珍品,360,focus_plus_plus,Love
+tide_heart_tea_brew,灵品,500,spirit_guard_plus,Love
+taichu_tea,传说,880,all_round_blessing,Favorite

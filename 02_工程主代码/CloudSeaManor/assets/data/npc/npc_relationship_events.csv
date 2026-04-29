@@ -1,0 +1,3 @@
+Id,Type,NpcA,NpcB,CompatibilityTag,TriggerSeason,ResultRelationshipValue,SharedScheduleTag,MailId
+npc_rel_001,Friendship,acha,wanxing,calm_night,Autumn,12,tea_evening_walk,npc_rel_mail_001
+npc_rel_002,Mentor,yunseng,laohuai,craft_growth,Spring,15,workshop_morning_sync,npc_rel_mail_002

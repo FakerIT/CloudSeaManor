@@ -2,11 +2,11 @@
 // 【SpriteAssetManager】美术资源管理器实现
 // ============================================================================
 
-#include "CloudSeamanor/SpriteAssetManager.hpp"
+#include "CloudSeamanor/infrastructure/SpriteAssetManager.hpp"
 
-#include "CloudSeamanor/JsonValue.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/infrastructure/JsonValue.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
 
 #include <fstream>
 #include <filesystem>

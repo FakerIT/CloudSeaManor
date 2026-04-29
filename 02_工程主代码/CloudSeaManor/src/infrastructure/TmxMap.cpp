@@ -1,5 +1,5 @@
-#include "CloudSeamanor/TmxMap.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/TmxMap.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <cstdint>
 #include <exception>

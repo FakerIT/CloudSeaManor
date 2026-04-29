@@ -1,6 +1,6 @@
 #include "CloudSeamanor/engine/systems/SpiritBeastSystem.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/app/GameAppSpiritBeast.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <cmath>

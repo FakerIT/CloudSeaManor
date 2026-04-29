@@ -1,0 +1,93 @@
+[
+  {
+    "NpcId": "yunseng",
+    "Stage": "1",
+    "Description": "杂货铺帮手",
+    "RequiresPlayerAction": "0",
+    "WorldTimerYears": "1",
+    "PlayerCondition": "help_yunseng_once",
+    "NextJob": "shop_helper",
+    "NextHouseId": "mixed_store",
+    "NextRoomLocation": "front",
+    "AppearanceVariant": "variant_1",
+    "BranchGroup": "yunseng_main"
+  },
+  {
+    "NpcId": "yunseng",
+    "Stage": "2",
+    "Description": "村边租屋学徒",
+    "RequiresPlayerAction": "1",
+    "WorldTimerYears": "1",
+    "PlayerCondition": "gift_paper_3",
+    "NextJob": "apprentice",
+    "NextHouseId": "river_rent_house",
+    "NextRoomLocation": "room_a",
+    "AppearanceVariant": "variant_2",
+    "BranchGroup": "yunseng_main"
+  },
+  {
+    "NpcId": "yunseng",
+    "Stage": "3",
+    "Description": "云生小铺店主",
+    "RequiresPlayerAction": "1",
+    "WorldTimerYears": "1",
+    "PlayerCondition": "finish_trade_quest",
+    "NextJob": "shop_owner",
+    "NextHouseId": "yunseng_shop",
+    "NextRoomLocation": "counter",
+    "AppearanceVariant": "variant_3",
+    "BranchGroup": "yunseng_main"
+  },
+  {
+    "NpcId": "yunseng",
+    "Stage": "4",
+    "Description": "双层店铺掌柜",
+    "RequiresPlayerAction": "0",
+    "WorldTimerYears": "1",
+    "PlayerCondition": "",
+    "NextJob": "master_shop_owner",
+    "NextHouseId": "yunseng_tower_house",
+    "NextRoomLocation": "office",
+    "AppearanceVariant": "variant_4",
+    "BranchGroup": "yunseng_main"
+  },
+  {
+    "NpcId": "acha",
+    "Stage": "1",
+    "Description": "客栈助手",
+    "RequiresPlayerAction": "0",
+    "WorldTimerYears": "1",
+    "PlayerCondition": "talk_acha_5",
+    "NextJob": "inn_helper",
+    "NextHouseId": "main_house",
+    "NextRoomLocation": "lobby",
+    "AppearanceVariant": "variant_1",
+    "BranchGroup": "acha_main"
+  },
+  {
+    "NpcId": "wanxing",
+    "Stage": "1",
+    "Description": "观星记录员",
+    "RequiresPlayerAction": "0",
+    "WorldTimerYears": "1",
+    "PlayerCondition": "talk_wanxing_5",
+    "NextJob": "star_recorder",
+    "NextHouseId": "observatory",
+    "NextRoomLocation": "roof",
+    "AppearanceVariant": "variant_1",
+    "BranchGroup": "wanxing_main"
+  },
+  {
+    "NpcId": "laohuai",
+    "Stage": "1",
+    "Description": "庄园匠人",
+    "RequiresPlayerAction": "0",
+    "WorldTimerYears": "1",
+    "PlayerCondition": "talk_laohuai_5",
+    "NextJob": "manor_craftsman",
+    "NextHouseId": "manor_workshop",
+    "NextRoomLocation": "bench",
+    "AppearanceVariant": "variant_1",
+    "BranchGroup": "laohuai_main"
+  }
+]

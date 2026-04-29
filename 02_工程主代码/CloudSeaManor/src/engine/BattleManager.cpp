@@ -1,7 +1,7 @@
 #include "CloudSeamanor/engine/BattleManager.hpp"
 
 #include "CloudSeamanor/engine/BattleUI.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
 
 #include <algorithm>
 #include <cctype>

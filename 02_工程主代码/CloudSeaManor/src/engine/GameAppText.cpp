@@ -1,12 +1,12 @@
-#include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
 
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/CropData.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/InputManager.hpp"
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/PixelArtStyle.hpp"
-#include "CloudSeamanor/RecipeData.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/engine/InputManager.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
+#include "CloudSeamanor/domain/RecipeData.hpp"
 
 #include <algorithm>
 #include <cstdint>
@@ -776,6 +776,20 @@ std::string NpcHeartText(int heart_level) {
         result += (i < clamped) ? "♥" : "♡";
     }
     return result;
+}
+
+std::string NpcCloudStageText(int heart_level) {
+    const int clamped = std::clamp(heart_level, 0, 10);
+    if (clamped >= 10) {
+        return "七彩祥云";
+    }
+    if (clamped >= 7) {
+        return "霞云";
+    }
+    if (clamped >= 4) {
+        return "层云";
+    }
+    return "薄云";
 }
 
 // ============================================================================

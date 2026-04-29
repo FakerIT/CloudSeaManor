@@ -13,9 +13,9 @@
 // - Disease and pest system
 // ============================================================================
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
 
 #include <functional>
 #include <string>

@@ -1,4 +1,4 @@
-#include "CloudSeamanor/Inventory.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
 
 #include <sstream>
 

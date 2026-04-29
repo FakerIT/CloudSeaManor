@@ -1,6 +1,6 @@
 #include "TestFramework.hpp"
 
-#include "CloudSeamanor/ToolSystem.hpp"
+#include "CloudSeamanor/domain/ToolSystem.hpp"
 
 using namespace CloudSeamanor::domain;
 

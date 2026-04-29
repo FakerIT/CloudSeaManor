@@ -1,5 +1,5 @@
 #include "TestFramework.hpp"
-#include "CloudSeamanor/InputManager.hpp"
+#include "CloudSeamanor/engine/InputManager.hpp"
 
 using CloudSeamanor::engine::RegisterTest;
 

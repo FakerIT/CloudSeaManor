@@ -9,7 +9,7 @@
 // - Support for gamepad (future)
 // ============================================================================
 
-#include "CloudSeamanor/InputManager.hpp"
+#include "CloudSeamanor/engine/InputManager.hpp"
 
 #include <SFML/System/Vector2.hpp>
 #include <functional>

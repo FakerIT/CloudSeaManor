@@ -1,4 +1,4 @@
-#include "CloudSeamanor/Interactable.hpp"
+#include "CloudSeamanor/engine/Interactable.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <SFML/Graphics/Color.hpp>

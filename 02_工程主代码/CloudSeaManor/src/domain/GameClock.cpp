@@ -1,4 +1,4 @@
-#include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
 
 #include <iomanip>
 #include <sstream>

@@ -9,8 +9,8 @@
 // - Initialize all HUD texts (font, size, color, position)
 // ============================================================================
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/UiLayoutConfig.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
 
 namespace CloudSeamanor::engine {
 

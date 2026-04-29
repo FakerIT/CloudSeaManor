@@ -1,13 +1,14 @@
-#include "CloudSeamanor/NpcDialogueManager.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/engine/NpcDialogueManager.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 #include "CloudSeamanor/infrastructure/DialogueJsonParser.hpp"
 
 #include <fstream>
 #include <random>
 #include <sstream>
 #include <unordered_set>
+#include <algorithm>
 
 namespace CloudSeamanor::engine {
 
@@ -263,6 +264,49 @@ std::string SeasonIndexToString(int idx) {
 }
 
 } // anonymous namespace
+
+namespace {
+void LoadStageDialoguesFromCsv_(
+    const std::string& path,
+    std::unordered_map<std::string, std::vector<StageDialogueEntry>>& out_map) {
+    out_map.clear();
+    std::ifstream in(path);
+    if (!in.is_open()) {
+        return;
+    }
+    std::string line;
+    while (std::getline(in, line)) {
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+        if (line.rfind("NpcId,", 0) == 0) {
+            continue;
+        }
+        std::vector<std::string> fields;
+        std::stringstream ss(line);
+        std::string part;
+        while (std::getline(ss, part, ',')) {
+            fields.push_back(part);
+        }
+        if (fields.size() < 6 || fields[0].empty()) {
+            continue;
+        }
+        StageDialogueEntry entry;
+        entry.stage = std::max(0, std::atoi(fields[1].c_str()));
+        entry.priority = std::max(0, std::atoi(fields[3].c_str()));
+        entry.text = fields[5];
+        if (entry.text.empty()) {
+            continue;
+        }
+        out_map[fields[0]].push_back(std::move(entry));
+    }
+    for (auto& [_, rows] : out_map) {
+        std::sort(rows.begin(), rows.end(), [](const StageDialogueEntry& a, const StageDialogueEntry& b) {
+            return a.priority > b.priority;
+        });
+    }
+}
+} // namespace
 
 // ============================================================================
 // 【NpcDialogueManager】构造函数
@@ -984,6 +1028,22 @@ std::vector<DialogueNode> NpcDialogueManager::SelectDailyDialogue(
     const std::string& npc_id,
     const NpcDialogueContext& ctx) {
     std::vector<DialogueNode> sequence;
+    if (!stage_dialogues_loaded_) {
+        LoadStageDialoguesFromCsv_(data_root_ + "/npc/npc_development_dialogue.csv", stage_dialogues_);
+        stage_dialogues_loaded_ = true;
+    }
+    if (const auto it = stage_dialogues_.find(npc_id); it != stage_dialogues_.end()) {
+        const auto stage_it = std::find_if(it->second.begin(), it->second.end(), [&](const StageDialogueEntry& e) {
+            return e.stage == ctx.npc_stage;
+        });
+        if (stage_it != it->second.end()) {
+            DialogueNode stage_node;
+            stage_node.id = npc_id + "_stage_line";
+            stage_node.speaker = ctx.npc_name;
+            stage_node.text = ReplaceExtendedTokens(stage_it->text, ctx);
+            sequence.push_back(std::move(stage_node));
+        }
+    }
 
     const std::unordered_map<std::string, std::pair<Season, int>> birthdays = {
         {"acha", {Season::Spring, 8}},
@@ -1062,6 +1122,7 @@ NpcDialogueContext BuildNpcDialogueContext(
     ctx.farm_name = farm_name;
     ctx.player_favor = npc.favor;
     ctx.npc_heart_level = npc.heart_level;
+    ctx.npc_stage = npc.development_stage;
     ctx.current_day = clock.Day();
     ctx.current_day_in_season = clock.DayInSeason();
     ctx.current_hour = clock.Hour();

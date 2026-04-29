@@ -1,6 +1,6 @@
-#include "CloudSeamanor/HungerTable.hpp"
+#include "CloudSeamanor/domain/HungerTable.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <sstream>

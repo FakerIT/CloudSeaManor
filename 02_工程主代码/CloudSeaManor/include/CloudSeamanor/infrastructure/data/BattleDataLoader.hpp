@@ -9,8 +9,8 @@
 // - Build indexed registries for engine/runtime usage.
 // ============================================================================
 
-#include "CloudSeamanor/JsonValue.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/infrastructure/JsonValue.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
 #include "CloudSeamanor/domain/battle/BattleData.hpp"
 #include "CloudSeamanor/Result.hpp"
 

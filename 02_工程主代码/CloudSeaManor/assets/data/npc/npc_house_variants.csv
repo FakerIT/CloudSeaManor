@@ -1,0 +1,7 @@
+HouseId,Stage,MapId,LayerId,SpriteId,Visible,InteractionTag
+river_rent_house,2,village,house_layer_small,house_rent_s1,1,visit_yunseng
+yunseng_shop,3,village,shop_layer_yunseng,shop_yunseng_s1,1,shop_yunseng
+yunseng_tower_house,4,village,tower_layer_yunseng,tower_yunseng_s1,1,visit_yunseng
+main_house,1,manor,inn_helper_layer,inn_helper_corner,1,visit_acha
+observatory,1,manor,observatory_layer,observatory_star_note,1,visit_wanxing
+manor_workshop,1,manor,workshop_layer,workshop_laohuai_bench,1,visit_laohuai

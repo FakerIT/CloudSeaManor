@@ -1,6 +1,6 @@
 #include "../TestFramework.hpp"
 
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
 #include "CloudSeamanor/engine/systems/NpcDeliverySystem.hpp"
 
 using CloudSeamanor::engine::GameWorldState;

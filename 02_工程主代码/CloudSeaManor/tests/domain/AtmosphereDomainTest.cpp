@@ -13,7 +13,7 @@
 // ============================================================================
 
 #include "../catch2Compat.hpp"
-#include "CloudSeamanor/AtmosphereState.hpp"
+#include "CloudSeamanor/domain/AtmosphereState.hpp"
 
 using CloudSeamanor::domain::AtmosphereDomain;
 using CloudSeamanor::domain::CloudState;

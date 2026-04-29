@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CloudSeamanor/GameWorldState.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
 
 namespace CloudSeamanor::engine {
 

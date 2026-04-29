@@ -1,24 +1,25 @@
-#include "CloudSeamanor/DynamicLifeSystem.hpp"
-#include "CloudSeamanor/GameAppSave.hpp"
+#include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/app/GameAppSave.hpp"
 
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/CropData.hpp"
-#include "CloudSeamanor/FestivalSystem.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/Logger.hpp"
-#include "CloudSeamanor/Player.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/domain/FestivalSystem.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
+#include "CloudSeamanor/domain/Player.hpp"
 #include "CloudSeamanor/Result.hpp"
-#include "CloudSeamanor/SkillSystem.hpp"
-#include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
 #include "CloudSeamanor/engine/systems/TutorialSystem.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
-#include "CloudSeamanor/GameAppFarming.hpp"
-#include "CloudSeamanor/GameAppSpiritBeast.hpp"
-#include "CloudSeamanor/NpcDialogueManager.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
+#include "CloudSeamanor/app/GameAppFarming.hpp"
+#include "CloudSeamanor/app/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/engine/NpcDialogueManager.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cstdint>
 #include <fstream>
 #include <filesystem>
@@ -64,7 +65,8 @@ std::string BuildPayload(const std::vector<std::string>& lines) {
     return oss.str();
 }
 
-constexpr int kSaveVersion = 8;
+constexpr int kSaveVersion = 9;
+constexpr int kDataSchemaVersion = 1;
 constexpr const char* kPlotSchemaTag = "plot_schema";
 
 const std::vector<std::string>& PlotFieldNames() {
@@ -437,6 +439,7 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const CloudSeamanor::domain::Player& player,
                    const CloudSeamanor::domain::StaminaSystem& stamina,
                    const CloudSeamanor::domain::HungerSystem& hunger,
+                   const CloudSeamanor::domain::BuffSystem& buffs,
                    const RepairProject& main_house_repair,
                    const TeaMachine& tea_machine,
                    const SpiritBeast& spirit_beast,
@@ -482,11 +485,13 @@ bool SaveGameState(const std::filesystem::path& save_path,
                    const int* purify_return_days,
                    const int* purify_return_spirits,
                    const int* fishing_attempts,
-                   const std::string* last_fish_catch) {
+                   const std::string* last_fish_catch,
+                   const std::unordered_map<std::string, CloudSeamanor::domain::NPCDynamicDevelopment>* npc_developments) {
     std::filesystem::create_directories(save_path.parent_path());
 
     std::vector<std::string> lines;
     lines.push_back("version|" + std::to_string(kSaveVersion));
+    lines.push_back("schema_version|" + std::to_string(kDataSchemaVersion));
     lines.push_back("clock|" + std::to_string(clock.Day()) + "|" + std::to_string(clock.TimeOfDayMinutes()));
     lines.push_back(
         "cloud|" + std::to_string(static_cast<int>(cloud_system.CurrentState())) + "|"
@@ -499,6 +504,7 @@ bool SaveGameState(const std::filesystem::path& save_path,
         + std::to_string(player_pos.y) + "|"
         + std::to_string(stamina.Current()));
     lines.push_back("hunger|" + hunger.SaveState());
+    lines.push_back("buffs|" + buffs.SaveState());
     lines.push_back(
         "repair|" + std::to_string(main_house_repair.completed ? 1 : 0) + "|"
         + std::to_string(main_house_repair.level) + "|"
@@ -534,7 +540,9 @@ bool SaveGameState(const std::filesystem::path& save_path,
             + std::to_string(relationship->confession_cooldown_until_day) + "|"
             + std::to_string(relationship->engaged_day) + "|"
             + std::to_string(relationship->wedding_day) + "|"
-            + std::to_string(relationship->married_since_day));
+            + std::to_string(relationship->married_since_day) + "|"
+            + std::to_string(relationship->wedding_ceremony_done ? 1 : 0) + "|"
+            + std::to_string(relationship->post_wedding_event_cursor));
     }
     if (decoration_score) {
         lines.push_back("decor|" + std::to_string(*decoration_score));
@@ -546,6 +554,29 @@ bool SaveGameState(const std::filesystem::path& save_path,
         for (const auto& [id, unlocked] : *achievements) {
             lines.push_back("ach|" + id + "|" + std::to_string(unlocked ? 1 : 0));
         }
+    }
+    if (achievements || battle_state || relationship) {
+        int key_achievement_count = 0;
+        if (achievements) {
+            static const std::array<const char*, 6> kKeyAchievementIds{
+                "first_crop", "gift_expert", "master_builder", "beast_bond_max", "tide_purifier", "fest_calendar"
+            };
+            for (const char* id : kKeyAchievementIds) {
+                const auto it = achievements->find(id);
+                if (it != achievements->end() && it->second) {
+                    ++key_achievement_count;
+                }
+            }
+        }
+        const int plot_stage = relationship ? static_cast<int>(relationship->stage) : 0;
+        // battle_state 由运行时以 int 序列化（0 Inactive / 2 Victory 等），这里仅做摘要。
+        const std::string last_battle = battle_state
+            ? ((*battle_state == 2) ? "victory" : "inactive")
+            : "unknown";
+        lines.push_back(
+            "save_meta|plot_stage=" + std::to_string(plot_stage)
+            + "|key_achievements=" + std::to_string(key_achievement_count)
+            + "|last_battle=" + last_battle);
     }
     if (diary_entries) {
         for (const auto& e : *diary_entries) {
@@ -602,6 +633,21 @@ bool SaveGameState(const std::filesystem::path& save_path,
     if (fishing_attempts || last_fish_catch) {
         lines.push_back("fishing_state|" + std::to_string(fishing_attempts ? std::max(0, *fishing_attempts) : 0)
                         + "|" + (last_fish_catch ? *last_fish_catch : ""));
+    }
+    if (npc_developments && !npc_developments->empty()) {
+        lines.push_back("npc_development_schema|v1");
+        for (const auto& [npc_id, dev] : *npc_developments) {
+            lines.push_back(
+                "npc_development|" + npc_id + "|"
+                + std::to_string(dev.current_stage) + "|"
+                + dev.current_job + "|"
+                + dev.current_house_id + "|"
+                + dev.current_room_location + "|"
+                + dev.appearance_variant + "|"
+                + std::to_string(dev.first_day_in_stage) + "|"
+                + std::to_string(dev.last_stage_change_day) + "|"
+                + std::to_string(dev.last_notified_stage));
+        }
     }
     if (tutorial) {
         lines.push_back(
@@ -692,10 +738,14 @@ bool SaveGameState(const std::filesystem::path& save_path,
                   << "|" << m.deliver_day
                   << "|" << m.count
                   << "|" << (m.claimed ? 1 : 0)
+                  << "|" << (m.opened ? 1 : 0)
+                  << "|" << (m.receipt_sent ? 1 : 0)
                   << "|" << m.source_rule_id
                   << "|" << m.sender
                   << "|" << m.subject
-                  << "|" << m.body;
+                  << "|" << m.body
+                  << "|" << m.secondary_item_id
+                  << "|" << m.secondary_count;
         lines.push_back(mail_line.str());
     }
     if (weekly_buy_count) {
@@ -748,7 +798,8 @@ bool SaveGameState(const std::filesystem::path& save_path,
             + std::to_string(npc.daily_favor_gain) + "|"
             + std::to_string(npc.last_gift_day) + "|"
             + std::to_string(npc.daily_talked ? 1 : 0) + "|"
-            + std::to_string(npc.last_talk_day));
+            + std::to_string(npc.last_talk_day) + "|"
+            + std::to_string(std::max(0, npc.development_stage)));
     }
 
     if (skills) {
@@ -807,6 +858,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    CloudSeamanor::domain::Player& player,
                    CloudSeamanor::domain::StaminaSystem& stamina,
                    CloudSeamanor::domain::HungerSystem& hunger,
+                   CloudSeamanor::domain::BuffSystem& buffs,
                    RepairProject& main_house_repair,
                    TeaMachine& tea_machine,
                    SpiritBeast& spirit_beast,
@@ -859,7 +911,8 @@ bool LoadGameState(const std::filesystem::path& save_path,
                    int* purify_return_days,
                    int* purify_return_spirits,
                    int* fishing_attempts,
-                   std::string* last_fish_catch) {
+                   std::string* last_fish_catch,
+                   std::unordered_map<std::string, CloudSeamanor::domain::NPCDynamicDevelopment>* npc_developments) {
     ResetLoadTargets(
         inventory,
         price_table,
@@ -883,6 +936,7 @@ bool LoadGameState(const std::filesystem::path& save_path,
     if (purify_return_spirits) *purify_return_spirits = 0;
     if (fishing_attempts) *fishing_attempts = 0;
     if (last_fish_catch) last_fish_catch->clear();
+    if (npc_developments) npc_developments->clear();
 
     std::vector<std::string> all_lines;
     std::size_t data_start = 0;
@@ -907,6 +961,9 @@ bool LoadGameState(const std::filesystem::path& save_path,
         const auto& tag = fields[0];
         if (tag == kPlotSchemaTag) {
             plot_schema_map = ParsePlotSchema(fields);
+            continue;
+        }
+        if (tag == "schema_version") {
             continue;
         }
         if (tag == "clock" && fields.size() >= 3) {
@@ -1019,6 +1076,8 @@ bool LoadGameState(const std::filesystem::path& save_path,
             stamina.SetCurrent(stamina_current.Value());
         } else if (tag == "hunger" && fields.size() >= 2) {
             hunger.LoadState(fields[1]);
+        } else if (tag == "buffs" && fields.size() >= 2) {
+            buffs.LoadState(fields[1]);
         } else if (tag == "repair" && fields.size() >= 2) {
             auto completed = ParseBool01(fields[1], "repair.completed");
             if (!completed) {
@@ -1139,6 +1198,22 @@ bool LoadGameState(const std::filesystem::path& save_path,
             relationship->engaged_day = std::max(0, engaged_day.Value());
             relationship->wedding_day = std::max(0, wedding_day.Value());
             relationship->married_since_day = std::max(0, married_since_day.Value());
+            if (fields.size() >= 8) {
+                auto ceremony_done = ParseInt(fields[7], "relationship.wedding_ceremony_done");
+                if (!ceremony_done) {
+                    push_hint(ceremony_done.Error(), 3.0f);
+                    return false;
+                }
+                relationship->wedding_ceremony_done = (ceremony_done.Value() != 0);
+            }
+            if (fields.size() >= 9) {
+                auto post_cursor = ParseInt(fields[8], "relationship.post_wedding_event_cursor");
+                if (!post_cursor) {
+                    push_hint(post_cursor.Error(), 3.0f);
+                    return false;
+                }
+                relationship->post_wedding_event_cursor = std::max(0, post_cursor.Value());
+            }
         } else if (tag == "decor" && fields.size() >= 2 && decoration_score) {
             auto d = ParseInt(fields[1], "decor.score");
             if (!d) {
@@ -1195,6 +1270,20 @@ bool LoadGameState(const std::filesystem::path& save_path,
             if (last_fish_catch && fields.size() >= 3) {
                 *last_fish_catch = fields[2];
             }
+        } else if (tag == "npc_development_schema") {
+            continue;
+        } else if (tag == "npc_development" && fields.size() >= 10 && npc_developments) {
+            CloudSeamanor::domain::NPCDynamicDevelopment dev;
+            dev.npc_id = fields[1];
+            dev.current_stage = std::max(0, ParseInt(fields[2], "npc_development.current_stage").ValueOr(0));
+            dev.current_job = fields[3];
+            dev.current_house_id = fields[4];
+            dev.current_room_location = fields[5];
+            dev.appearance_variant = fields[6];
+            dev.first_day_in_stage = std::max(1, ParseInt(fields[7], "npc_development.first_day_in_stage").ValueOr(1));
+            dev.last_stage_change_day = std::max(1, ParseInt(fields[8], "npc_development.last_stage_change_day").ValueOr(1));
+            dev.last_notified_stage = ParseInt(fields[9], "npc_development.last_notified_stage").ValueOr(-1);
+            (*npc_developments)[dev.npc_id] = std::move(dev);
         } else if (tag == "ach" && fields.size() >= 3 && achievements) {
             auto unlocked = ParseBool01(fields[2], "ach.unlocked");
             if (!unlocked) {
@@ -1202,6 +1291,9 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 return false;
             }
             (*achievements)[fields[1]] = unlocked.Value();
+        } else if (tag == "save_meta") {
+            // v9 扩展元信息，当前读取路径允许忽略，避免旧逻辑被新字段阻塞。
+            continue;
         } else if (tag == "plot") {
             auto index_text = GetPlotField(fields, plot_schema_map, "index", 1);
             if (!index_text) continue;
@@ -1407,17 +1499,45 @@ bool LoadGameState(const std::filesystem::path& save_path,
                 }
                 m.claimed = (claimed.Value() != 0);
             }
-            if (fields.size() >= 6) {
-                m.source_rule_id = fields[5];
-            }
-            if (fields.size() >= 7) {
-                m.sender = fields[6];
-            }
-            if (fields.size() >= 8) {
-                m.subject = fields[7];
-            }
-            if (fields.size() >= 9) {
-                m.body = fields[8];
+            if (fields.size() >= 10) {
+                auto opened = ParseInt(fields[5], "mail.opened");
+                auto receipt_sent = ParseInt(fields[6], "mail.receipt_sent");
+                if (!opened || !receipt_sent) {
+                    push_hint(!opened ? opened.Error() : receipt_sent.Error(), 3.0f);
+                    return false;
+                }
+                m.opened = (opened.Value() != 0);
+                m.receipt_sent = (receipt_sent.Value() != 0);
+                m.source_rule_id = fields[7];
+                m.sender = fields[8];
+                m.subject = fields[9];
+                if (fields.size() >= 11) {
+                    m.body = fields[10];
+                }
+                if (fields.size() >= 12) {
+                    m.secondary_item_id = fields[11];
+                }
+                if (fields.size() >= 13) {
+                    auto secondary_count = ParseInt(fields[12], "mail.secondary_count");
+                    if (!secondary_count) {
+                        push_hint(secondary_count.Error(), 3.0f);
+                        return false;
+                    }
+                    m.secondary_count = std::max(0, secondary_count.Value());
+                }
+            } else {
+                if (fields.size() >= 6) {
+                    m.source_rule_id = fields[5];
+                }
+                if (fields.size() >= 7) {
+                    m.sender = fields[6];
+                }
+                if (fields.size() >= 8) {
+                    m.subject = fields[7];
+                }
+                if (fields.size() >= 9) {
+                    m.body = fields[8];
+                }
             }
             mail_orders.push_back(std::move(m));
         } else if (tag == "weekly_buy" && fields.size() >= 3 && weekly_buy_count) {
@@ -1518,6 +1638,9 @@ bool LoadGameState(const std::filesystem::path& save_path,
                             npc.daily_talked = talked.Value();
                             npc.last_talk_day = last_talk.Value();
                         }
+                    }
+                    if (fields.size() >= 14) {
+                        npc.development_stage = std::max(0, ParseInt(fields[13], "npc.development_stage").ValueOr(0));
                     }
                     break;
                 }

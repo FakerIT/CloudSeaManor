@@ -4,7 +4,7 @@
 
 #include "CloudSeamanor/infrastructure/AtmosphereDataLoader.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 #include "CloudSeamanor/SfmlAdapter.hpp"
 
 #include <algorithm>

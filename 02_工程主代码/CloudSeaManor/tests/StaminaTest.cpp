@@ -1,5 +1,5 @@
 #include "TestFramework.hpp"
-#include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
 
 using CloudSeamanor::engine::RegisterTest;
 

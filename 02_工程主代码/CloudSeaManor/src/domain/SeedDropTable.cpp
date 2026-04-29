@@ -2,8 +2,8 @@
 // 【SeedDropTable.cpp】种子掉落表实现
 // ============================================================================
 
-#include "CloudSeamanor/SeedDropTable.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/domain/SeedDropTable.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <sstream>

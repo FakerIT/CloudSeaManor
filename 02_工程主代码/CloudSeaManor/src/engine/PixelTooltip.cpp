@@ -1,6 +1,6 @@
-#include "CloudSeamanor/PixelTooltip.hpp"
+#include "CloudSeamanor/engine/PixelTooltip.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 #include <algorithm>
 #include <cstdint>

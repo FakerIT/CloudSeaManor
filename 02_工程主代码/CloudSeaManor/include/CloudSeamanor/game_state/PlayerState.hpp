@@ -1,10 +1,10 @@
 #pragma once
 
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/Player.hpp"
-#include "CloudSeamanor/SkillSystem.hpp"
-#include "CloudSeamanor/Stamina.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/domain/Player.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
 
 namespace CloudSeamanor::game_state {
 

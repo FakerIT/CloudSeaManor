@@ -13,7 +13,7 @@
 // ============================================================================
 
 #include "../catch2Compat.hpp"
-#include "CloudSeamanor/Player.hpp"
+#include "CloudSeamanor/domain/Player.hpp"
 
 using CloudSeamanor::domain::FacingDirection;
 using CloudSeamanor::domain::FacingFromVector;

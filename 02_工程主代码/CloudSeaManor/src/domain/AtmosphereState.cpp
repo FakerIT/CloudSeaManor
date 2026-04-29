@@ -2,7 +2,7 @@
 // 【AtmosphereState.cpp】大气状态领域对象实现
 // ============================================================================
 
-#include "CloudSeamanor/AtmosphereState.hpp"
+#include "CloudSeamanor/domain/AtmosphereState.hpp"
 
 #include <algorithm>
 #include <cmath>

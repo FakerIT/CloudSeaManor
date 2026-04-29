@@ -1,7 +1,7 @@
 #pragma once
 
-#include "CloudSeamanor/GameAppRuntimeTypes.hpp"
-#include "CloudSeamanor/EventBus.hpp"
+#include "CloudSeamanor/engine/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/engine/EventBus.hpp"
 
 #include <functional>
 #include <string>

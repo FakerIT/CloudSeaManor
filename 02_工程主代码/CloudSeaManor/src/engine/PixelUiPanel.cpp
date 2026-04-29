@@ -1,5 +1,5 @@
-#include "CloudSeamanor/PixelUiPanel.hpp"
-#include "CloudSeamanor/UiVertexHelpers.hpp"
+#include "CloudSeamanor/engine/PixelUiPanel.hpp"
+#include "CloudSeamanor/engine/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>

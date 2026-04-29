@@ -9,7 +9,7 @@
 // - Domain system access passthrough
 // ============================================================================
 
-#include "CloudSeamanor/GameWorldSystems.hpp"
+#include "CloudSeamanor/engine/GameWorldSystems.hpp"
 
 #include <string>
 

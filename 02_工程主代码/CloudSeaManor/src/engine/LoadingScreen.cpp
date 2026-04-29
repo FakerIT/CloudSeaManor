@@ -1,6 +1,6 @@
-#include "CloudSeamanor/LoadingScreen.hpp"
+#include "CloudSeamanor/engine/LoadingScreen.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 

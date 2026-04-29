@@ -1,7 +1,7 @@
-#include "CloudSeamanor/PixelMinimap.hpp"
-#include "CloudSeamanor/PixelArtStyle.hpp"
-#include "CloudSeamanor/PixelFontRenderer.hpp"
-#include "CloudSeamanor/UiVertexHelpers.hpp"
+#include "CloudSeamanor/engine/PixelMinimap.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>

@@ -1,6 +1,6 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/CloudSystem.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
 
 using CloudSeamanor::domain::CloudState;
 using CloudSeamanor::domain::CloudSystem;

@@ -1,7 +1,7 @@
-#include "CloudSeamanor/DialogueEngine.hpp"
+#include "CloudSeamanor/engine/DialogueEngine.hpp"
 
 #include "CloudSeamanor/infrastructure/DialogueJsonParser.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <algorithm>

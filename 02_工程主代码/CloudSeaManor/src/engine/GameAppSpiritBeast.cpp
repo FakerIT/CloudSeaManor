@@ -1,8 +1,8 @@
-#include "CloudSeamanor/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/app/GameAppSpiritBeast.hpp"
 
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/Stamina.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/domain/Stamina.hpp"
 
 #include <cmath>
 #include <cstdint>

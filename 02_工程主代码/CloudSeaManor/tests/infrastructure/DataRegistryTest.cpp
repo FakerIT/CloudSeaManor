@@ -1,4 +1,4 @@
-#include "CloudSeamanor/DataRegistry.hpp"
+#include "CloudSeamanor/infrastructure/DataRegistry.hpp"
 
 #include "TestFramework.hpp"
 

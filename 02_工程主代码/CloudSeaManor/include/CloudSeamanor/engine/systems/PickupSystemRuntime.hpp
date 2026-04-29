@@ -9,7 +9,7 @@
 // - Forward hints to UI layer
 // ============================================================================
 
-#include "CloudSeamanor/PickupSystem.hpp"
+#include "CloudSeamanor/engine/PickupSystem.hpp"
 
 namespace CloudSeamanor::engine {
 

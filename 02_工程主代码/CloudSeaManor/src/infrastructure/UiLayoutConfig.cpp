@@ -1,7 +1,7 @@
-#include "CloudSeamanor/UiLayoutConfig.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
 
-#include "CloudSeamanor/JsonValue.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/JsonValue.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <exception>
 #include <fstream>

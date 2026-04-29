@@ -3,8 +3,8 @@
 // ============================================================================
 
 #include "../catch2Compat.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/PixelArtStyle.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
 
 using CloudSeamanor::domain::Season;
 using CloudSeamanor::engine::ColorPalette;

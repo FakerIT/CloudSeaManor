@@ -1,6 +1,6 @@
 #include "CloudSeamanor/infrastructure/ReferenceSaveDataSystem.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <cctype>
 #include <filesystem>

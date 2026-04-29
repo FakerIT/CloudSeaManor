@@ -1,4 +1,4 @@
-#include "CloudSeamanor/DiarySystem.hpp"
+#include "CloudSeamanor/domain/DiarySystem.hpp"
 
 #include <algorithm>
 #include <cctype>

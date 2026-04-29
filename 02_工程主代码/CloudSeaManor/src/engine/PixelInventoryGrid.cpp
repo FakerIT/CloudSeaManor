@@ -1,7 +1,7 @@
-#include "CloudSeamanor/PixelInventoryGrid.hpp"
+#include "CloudSeamanor/engine/PixelInventoryGrid.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
-#include "CloudSeamanor/UiVertexHelpers.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/UiVertexHelpers.hpp"
 
 #include <algorithm>
 #include <cmath>

@@ -23,8 +23,8 @@
 
 #pragma once
 
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
 
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>

@@ -1,5 +1,5 @@
-#include "CloudSeamanor/SaveSlotManager.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/SaveSlotManager.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 #include "CloudSeamanor/infrastructure/ReferenceSaveDataSystem.hpp"
 
 #include <cctype>
@@ -203,6 +203,10 @@ bool SaveSlotManager::WriteMetadata(int slot_index, const SaveSlotMetadata& meta
     out << "day=" << metadata.day << '\n';
     out << "season=" << metadata.season_text << '\n';
     out << "thumbnail=" << metadata.thumbnail_path << '\n';
+    out << "summary=" << metadata.summary_text << '\n';
+    out << "main_plot_stage=" << metadata.main_plot_stage << '\n';
+    out << "key_achievement_count=" << metadata.key_achievement_count << '\n';
+    out << "last_battle_outcome=" << metadata.last_battle_outcome << '\n';
     return out.good();
 }
 
@@ -251,6 +255,24 @@ SaveSlotMetadata SaveSlotManager::ReadMetadata(int slot_index) const {
             metadata.season_text = value;
         } else if (key == "thumbnail") {
             metadata.thumbnail_path = value;
+        } else if (key == "summary") {
+            metadata.summary_text = value;
+        } else if (key == "main_plot_stage") {
+            try {
+                metadata.main_plot_stage = std::stoi(value);
+            } catch (const std::exception&) {
+                metadata.metadata_corrupted = true;
+                metadata.main_plot_stage = 0;
+            }
+        } else if (key == "key_achievement_count") {
+            try {
+                metadata.key_achievement_count = std::stoi(value);
+            } catch (const std::exception&) {
+                metadata.metadata_corrupted = true;
+                metadata.key_achievement_count = 0;
+            }
+        } else if (key == "last_battle_outcome") {
+            metadata.last_battle_outcome = value;
         }
     }
     return metadata;

@@ -1,9 +1,9 @@
-#include "CloudSeamanor/PixelGameHud.hpp"
+#include "CloudSeamanor/engine/PixelGameHud.hpp"
 
-#include "CloudSeamanor/InputManager.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
-#include "CloudSeamanor/UiAtlasMappings.hpp"
-#include "CloudSeamanor/UiVertexHelpers.hpp"
+#include "CloudSeamanor/engine/InputManager.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
+#include "CloudSeamanor/engine/UiAtlasMappings.hpp"
+#include "CloudSeamanor/engine/UiVertexHelpers.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 

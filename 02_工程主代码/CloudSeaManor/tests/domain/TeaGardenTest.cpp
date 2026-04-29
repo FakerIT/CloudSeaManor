@@ -1,6 +1,6 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/TeaGarden.hpp"
+#include "CloudSeamanor/engine/TeaGarden.hpp"
 
 using CloudSeamanor::domain::CloudState;
 using CloudSeamanor::domain::CropQuality;

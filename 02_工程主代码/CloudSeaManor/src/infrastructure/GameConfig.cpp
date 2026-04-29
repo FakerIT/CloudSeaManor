@@ -1,5 +1,5 @@
-#include "CloudSeamanor/GameConfig.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/GameConfig.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <exception>
 #include <fstream>

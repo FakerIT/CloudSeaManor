@@ -1,5 +1,5 @@
 #include "CloudSeamanor/infrastructure/DialogueJsonParser.hpp"
-#include "CloudSeamanor/DialogueEngine.hpp"
+#include "CloudSeamanor/engine/DialogueEngine.hpp"
 
 #include <cctype>
 #include <exception>

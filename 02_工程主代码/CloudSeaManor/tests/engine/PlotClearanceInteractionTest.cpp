@@ -1,14 +1,14 @@
 #include "catch2Compat.hpp"
 
-#include "CloudSeamanor/Inventory.hpp"
-#include "CloudSeamanor/PlayerInteractRuntime.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/GameClock.hpp"
-#include "CloudSeamanor/SkillSystem.hpp"
-#include "CloudSeamanor/DynamicLifeSystem.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
-#include "CloudSeamanor/GameAppRuntimeTypes.hpp"
-#include "CloudSeamanor/FestivalRuntimeData.hpp"
+#include "CloudSeamanor/domain/Inventory.hpp"
+#include "CloudSeamanor/engine/PlayerInteractRuntime.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
+#include "CloudSeamanor/domain/SkillSystem.hpp"
+#include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
+#include "CloudSeamanor/engine/GameAppRuntimeTypes.hpp"
+#include "CloudSeamanor/engine/FestivalRuntimeData.hpp"
 
 #include <SFML/Graphics/RectangleShape.hpp>
 

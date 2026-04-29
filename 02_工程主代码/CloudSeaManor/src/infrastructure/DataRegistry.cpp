@@ -1,7 +1,7 @@
-#include "CloudSeamanor/DataRegistry.hpp"
+#include "CloudSeamanor/infrastructure/DataRegistry.hpp"
 
-#include "CloudSeamanor/JsonValue.hpp"
-#include "CloudSeamanor/ResourceManager.hpp"
+#include "CloudSeamanor/infrastructure/JsonValue.hpp"
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
 
 #include <cctype>
 #include <fstream>

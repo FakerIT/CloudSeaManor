@@ -1,0 +1,9 @@
+NpcId,Stage,Description,RequiresPlayerAction,WorldTimerYears,PlayerCondition,NextJob,NextHouseId,NextRoomLocation,AppearanceVariant,BranchGroup,MinDaysSinceLastStage
+yunseng,0,广场桥洞流浪者,0,0,,wanderer,bridge_shelter,square_edge,variant_0,yunseng_main,0
+yunseng,1,杂货铺帮手,0,1,help_yunseng_once,shop_helper,mixed_store,front,variant_1,yunseng_main,7
+yunseng,2,村边租屋学徒,1,1,gift_paper_3,apprentice,river_rent_house,room_a,variant_2,yunseng_main,10
+yunseng,3,云生小铺店主,1,1,finish_trade_quest,shop_owner,yunseng_shop,counter,variant_3,yunseng_main,14
+yunseng,4,双层店铺掌柜,0,1,,master_shop_owner,yunseng_tower_house,office,variant_4,yunseng_main,21
+acha,1,客栈助手,0,1,talk_acha_5,inn_helper,main_house,lobby,variant_1,acha_main,7
+wanxing,1,观星记录员,0,1,talk_wanxing_5,star_recorder,observatory,roof,variant_1,wanxing_main,7
+laohuai,1,庄园匠人,0,1,talk_laohuai_5,manor_craftsman,manor_workshop,bench,variant_1,laohuai_main,7

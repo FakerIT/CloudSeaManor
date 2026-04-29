@@ -1,8 +1,8 @@
 #include "../catch2Compat.hpp"
 
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
 #include "CloudSeamanor/engine/systems/CropGrowthSystem.hpp"
-#include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
 
 using CloudSeamanor::engine::CropGrowthSystem;
 using CloudSeamanor::engine::GameWorldState;

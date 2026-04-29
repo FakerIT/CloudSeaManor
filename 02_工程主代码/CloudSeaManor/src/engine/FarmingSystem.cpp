@@ -1,6 +1,6 @@
-#include "CloudSeamanor/FarmingSystem.hpp"
+#include "CloudSeamanor/engine/FarmingSystem.hpp"
 
-#include "CloudSeamanor/GameAppText.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
 
 #include <algorithm>
 #include <cmath>

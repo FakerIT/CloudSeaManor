@@ -23,4 +23,4 @@
 #endif
 
 // 兼容模式下，统一转发到对外聚合主头。
-#include "CloudSeamanor/CloudSeaManor.hpp"
+#include "CloudSeamanor/app/CloudSeaManor.hpp"

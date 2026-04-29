@@ -1,7 +1,7 @@
-#include "CloudSeamanor/PixelMailPanel.hpp"
+#include "CloudSeamanor/engine/PixelMailPanel.hpp"
 
-#include "CloudSeamanor/PixelArtStyle.hpp"
-#include "CloudSeamanor/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/PixelArtStyle.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
 
 #include <algorithm>
 

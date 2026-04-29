@@ -1,6 +1,6 @@
-#include "CloudSeamanor/TeaBushTable.hpp"
+#include "CloudSeamanor/domain/TeaBushTable.hpp"
 
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <sstream>

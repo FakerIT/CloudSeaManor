@@ -1,7 +1,7 @@
-#include "CloudSeamanor/PixelDialogueBox.hpp"
+#include "CloudSeamanor/engine/PixelDialogueBox.hpp"
 
-#include "CloudSeamanor/PixelFontRenderer.hpp"
-#include "CloudSeamanor/UiVertexHelpers.hpp"
+#include "CloudSeamanor/engine/PixelFontRenderer.hpp"
+#include "CloudSeamanor/engine/UiVertexHelpers.hpp"
 
 #include <SFML/Graphics/Sprite.hpp>
 

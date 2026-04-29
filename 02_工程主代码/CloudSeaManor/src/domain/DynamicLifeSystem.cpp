@@ -1,6 +1,6 @@
-#include "CloudSeamanor/DynamicLifeSystem.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/GameAppNpc.hpp"
+#include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/app/GameAppNpc.hpp"
 
 #include <algorithm>
 #include <fstream>

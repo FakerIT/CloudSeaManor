@@ -16,7 +16,7 @@
 // - Render festival decorations (data-driven)
 // ============================================================================
 
-#include "CloudSeamanor/GameWorldState.hpp"
+#include "CloudSeamanor/engine/GameWorldState.hpp"
 #include "CloudSeamanor/engine/rendering/PlayerVisualComponent.hpp"
 #include "CloudSeamanor/engine/rendering/FestivalDecorationSystem.hpp"
 

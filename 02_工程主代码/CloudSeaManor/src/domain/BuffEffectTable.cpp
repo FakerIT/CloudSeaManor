@@ -1,5 +1,5 @@
-#include "CloudSeamanor/BuffEffectTable.hpp"
-#include "CloudSeamanor/Logger.hpp"
+#include "CloudSeamanor/domain/BuffEffectTable.hpp"
+#include "CloudSeamanor/infrastructure/Logger.hpp"
 
 #include <fstream>
 #include <sstream>

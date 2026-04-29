@@ -1,0 +1,7 @@
+NpcId,BranchId,TriggerCondition,ResultJob,ResultShopType,ResultDialogueTag,PlayerSchoolTag,PlayerActionHint,FallbackBranchId
+yunseng,biz_entry,school_worldly,market_shopkeeper,general_store,branch_worldly,worldly,help_trade,biz_default
+yunseng,biz_nature,school_nature,herbal_shopkeeper,tea_herb_shop,branch_nature,nature,help_farm,biz_default
+yunseng,biz_default,,village_shopkeeper,general_store,branch_default,,,biz_default
+acha,acha_default,,inn_helper,inn_service,branch_default,,,acha_default
+wanxing,wanxing_default,,star_recorder,observatory,branch_default,,,wanxing_default
+laohuai,laohuai_default,,manor_craftsman,workshop,branch_default,,,laohuai_default

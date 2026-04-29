@@ -1,16 +1,16 @@
-#include "CloudSeamanor/InteractionSystem.hpp"
+#include "CloudSeamanor/engine/InteractionSystem.hpp"
 
-#include "CloudSeamanor/FarmingSystem.hpp"
-#include "CloudSeamanor/GameConstants.hpp"
-#include "CloudSeamanor/WorkshopSystem.hpp"
-#include "CloudSeamanor/DynamicLifeSystem.hpp"
-#include "CloudSeamanor/GameAppText.hpp"
-#include "CloudSeamanor/GameAppSpiritBeast.hpp"
-#include "CloudSeamanor/GameAppNpc.hpp"
-#include "CloudSeamanor/NpcDialogueManager.hpp"
-#include "CloudSeamanor/CloudSystem.hpp"
-#include "CloudSeamanor/CropData.hpp"
-#include "CloudSeamanor/GameClock.hpp"
+#include "CloudSeamanor/engine/FarmingSystem.hpp"
+#include "CloudSeamanor/infrastructure/GameConstants.hpp"
+#include "CloudSeamanor/domain/WorkshopSystem.hpp"
+#include "CloudSeamanor/domain/DynamicLifeSystem.hpp"
+#include "CloudSeamanor/app/GameAppText.hpp"
+#include "CloudSeamanor/app/GameAppSpiritBeast.hpp"
+#include "CloudSeamanor/app/GameAppNpc.hpp"
+#include "CloudSeamanor/engine/NpcDialogueManager.hpp"
+#include "CloudSeamanor/domain/CloudSystem.hpp"
+#include "CloudSeamanor/domain/CropData.hpp"
+#include "CloudSeamanor/domain/GameClock.hpp"
 
 #include <cmath>
 #include <vector>
