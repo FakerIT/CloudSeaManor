@@ -1,0 +1,8 @@
+Id,Name,MinLevel,RequiredPacts,AmbientPollutionRate,ToxicCloudDamage,DropMultiplier,BgmId,BackgroundSprite,UnlockCondition,ElementDominance,SpecialMechanic,RecommendedTeam
+layer0,浅层云径,1,0,0.5,0.0,1.0,scene:spirit_realm_layer1,spirit_realm_bg_shallow,always,Cloud,None,Tank+Healer
+layer1,潮汐裂谷,15,3,1.0,0.0,1.5,scene:spirit_realm_layer2,spirit_realm_bg_mid,契约卷3,Water,CloudTide,DPS+Support
+layer2,霜岚祭坛,22,5,1.5,2.0,2.5,scene:spirit_realm_layer3,spirit_realm_bg_deep,山庄等级5,Water,Frost,Support+Shield
+layer3,烈焰裂隙,28,7,2.0,3.0,3.0,scene:spirit_realm_layer4,spirit_realm_bg_fire,契约卷6+净化等级8,Fire,Vulnerability,Offensive
+layer4,幽冥古殿,32,9,2.5,4.0,3.5,scene:spirit_realm_layer5,spirit_realm_bg_void,契约卷7+终阶灵兽1只,Void,Corruption,EliteTeam
+layer5,星陨深渊,38,12,3.0,5.0,4.0,scene:spirit_realm_layer6,spirit_realm_bg_celestial,全终阶+主线6章,Void/Cloud,Stardust,UltimateTeam
+layer6,太初混沌,45,15,4.0,8.0,5.0,scene:spirit_realm_layer7,spirit_realm_bg_chaos,10终阶+真结局前置,All,ChaosOrigin,LegendaryTeam

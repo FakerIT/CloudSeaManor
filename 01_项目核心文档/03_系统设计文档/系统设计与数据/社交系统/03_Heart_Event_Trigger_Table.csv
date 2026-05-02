@@ -1,0 +1,11 @@
+event_id,npc_id,heart_level,season,weather,time_window,map_id,anchor_id,preconditions,reward,event_script
+acha_h2,acha,2,spring,any,08:00-18:00,tea_garden,tea_plot_a,none,early_fog_tea_seed_x5,evt_acha_h2
+acha_h4,acha,4,summer,rain,18:00-22:00,rain_pavilion,pavilion_center,acha_h2_completed,acha_cup_item,evt_acha_h4
+acha_h6,acha,6,autumn,dense_cloud,20:00-24:00,tea_garden,deep_area,acha_h4_completed,affection_bonus_50,evt_acha_h6
+acha_h8,acha,8,winter,snow,18:00-22:00,cloud_platform,cloud_platform_main,acha_h6_completed,family_tea_book,evt_acha_h8
+acha_h10,acha,10,any,big_tide,18:00-24:00,main_house,living_room,acha_h8_completed,proposal_ring_acha,evt_acha_h10
+xiaoman_h2,xiaoman,2,any,any,08:00-18:00,beast_ranch,feeding_zone,none,beast_snack_recipe,evt_xiaoman_h2
+xiaoman_h4,xiaoman,4,any,rain,12:00-20:00,forest_hut,hut_entry,xiaoman_h2_completed,portrait_unlock_xiaoman,evt_xiaoman_h4
+xiaoman_h6,xiaoman,6,any,any,08:00-18:00,beast_ranch,training_zone,care_beast_20_times,feed_action_unlock,evt_xiaoman_h6
+xiaoman_h8,xiaoman,8,any,any,10:00-20:00,beast_ranch,nursery_zone,nursery_unlocked,nursery_decor_blueprint,evt_xiaoman_h8
+xiaoman_h10,xiaoman,10,any,any,06:00-10:00,hill_grass,hill_center,xiaoman_h8_completed,proposal_quest_xiaoman,evt_xiaoman_h10

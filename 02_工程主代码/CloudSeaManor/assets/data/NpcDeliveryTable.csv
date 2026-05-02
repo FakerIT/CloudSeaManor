@@ -1,0 +1,11 @@
+Id,Name,Description,RewardGold,RewardExp,RewardItem,RequiredLevel,MaxAttempts,DeadlineDays
+delivery_1,急需茶叶,灵霄急需云雾茶叶制作下午茶,80,50,tea_cloudx2,5,5,3
+delivery_2,猎人的补给,清风需要回复草恢复体力,100,60,herb_healingx3,8,3,2
+delivery_3,商人的订单,逍遥需要新鲜蔬菜上架,120,70,vegetable_mixedx5,10,5,5
+delivery_4,灵兽的饲料,美黎需要灵草喂养灵兽,90,55,herb_healingx2,6,4,4
+delivery_5,药师的材料,白竹需要稀有灵芝炼制丹药,200,120,herb_rarex2,15,3,7
+delivery_6,舞者的花束,月影需要鲜花装饰舞台,70,40,flower_herbx3,4,5,2
+delivery_7,铁匠的订单,玄威需要矿石打造武器,150,80,ore_ironx5,12,3,5
+delivery_8,道长的供品,云深需要香烛供奉,60,35,incensex3,8,5,3
+delivery_9,花匠的肥料,莲花需要特殊肥料培育花朵,80,45,fertilizer_specialx2,6,4,4
+delivery_10,护卫的装备,天羽需要修复破损的护甲,180,100,armor_repair_kitx2,14,2,6

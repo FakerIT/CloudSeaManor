@@ -1,0 +1,10 @@
+Id,Name,WeaponType,Element,MinDamage,MaxDamage,AttackSpeed,CriticalRate,Durability,SpecialEffect,RequiredLevel,Price
+sword_cloud,云雾剑,Sword,Cloud,15,25,1.2,0.1,100,cloud_strike,1,200
+sword_flame,烈焰剑,Sword,Fire,20,35,1.0,0.12,120,fire_burn,5,500
+sword_water,清泉剑,Sword,Water,18,28,1.1,0.1,110,water_heal,3,350
+staff_earth,山土杖,Staff,Earth,10,20,0.8,0.08,150,earth_armor,8,800
+staff_wind,清风杖,Staff,Wind,12,22,0.9,0.1,130,wind_speed,4,450
+dagger_void,暗影匕首,Dagger,Dark,25,40,1.8,0.2,80,poison_strike,10,1000
+bow_cloud,云雾弓,Bow,Cloud,18,30,1.5,0.15,90,cloud_arrow,2,300
+staff_holy,圣光杖,Staff,Holy,15,25,0.7,0.08,180,holy_heal,12,1500
+fist_iron,铁拳套,Melee,None,20,32,1.6,0.18,200,stun_hit,1,250

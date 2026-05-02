@@ -1,0 +1,11 @@
+Id,SpiritId,UnlockCondition,RewardType,RewardId,RewardAmount,Description
+spirit_rew_1,spirit_cloud_wisp,KillCountAbove_5,Item,cloud_essence,1,击杀5只云雾灵奖励
+spirit_rew_2,spirit_flame_imp,KillCountAbove_5,Item,fire_essence,1,击杀5只焰火魔奖励
+spirit_rew_3,spirit_water_sprite,KillCountAbove_5,Item,water_essence,1,击杀5只水精灵奖励
+spirit_rew_4,spirit_earth_golem,KillCountAbove_5,Item,earth_essence,1,击杀5只土岩傀儡奖励
+spirit_rew_5,spirit_wind_faerie,KillCountAbove_5,Item,wind_essence,1,击杀5只风妖精奖励
+spirit_rew_6,spirit_void_shade,KillCountAbove_3,Item,dark_essence,2,击杀3只虚空暗影奖励
+spirit_rew_7,spirit_holy_guard,KillCountAbove_3,Item,holy_essence,2,击杀3只圣光守护奖励
+spirit_rew_8,spirit_thunder_herald,KillCountAbove_3,Item,thunder_essence,2,击杀3只雷霆使者奖励
+spirit_rew_boss_1,boss_shadow,KillOnce,Item,special_weapon,1,击杀暗影君主奖励
+spirit_rew_boss_2,boss_storm,KillOnce,Item,special_armor,1,击杀风暴领主奖励

@@ -1,0 +1,350 @@
+{
+  "npc_id": "an",
+  "greetings": [
+    {
+      "id": "an_greet_morning",
+      "text": "巳时到，$[PLAYER_NAME]！新的一天开始了，感觉如何？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "an_greet_morning_warm",
+      "text": "早安，$[PLAYER_NAME]！今天是个祥和的日子。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_afternoon",
+      "text": "午后安好，$[PLAYER_NAME]。有什么需要我帮忙的吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_evening",
+      "text": "傍晚安，$[PLAYER_NAME]。一天又要过去了呢。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_night",
+      "text": "夜深人静，$[PLAYER_NAME]。你也睡不着吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_night_warm",
+      "text": "夜色温柔，$[PLAYER_NAME]。这样的夜晚，最适合促膝长谈。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_spring",
+      "text": "春回大地，$[PLAYER_NAME]。万物复苏，一切都是新的开始。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_summer",
+      "text": "夏日炎炎，$[PLAYER_NAME]$。但在这云海山庄，总有清凉之处。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_autumn",
+      "text": "秋意渐浓，$[PLAYER_NAME]$。这是一个适合思考的季节。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_winter",
+      "text": "冬雪将至，$[PLAYER_NAME]$。该是收藏和休养的时节了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_mist",
+      "text": "薄雾弥漫，$[PLAYER_NAME]$。这朦胧的景象，总让人浮想联翩。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_dense",
+      "text": "浓云翻涌，$[PLAYER_NAME]$。云海的气势，总让人心潮澎湃。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_tide",
+      "text": "大潮来临，$[PLAYER_NAME]$！这是云海山庄最重要的时刻。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_greet_high_heart",
+      "text": "$[PLAYER_NAME]$，能遇到你，是我在这里最大的收获。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "an_st_life",
+      "text": "生活就像这云海，$[PLAYER_NAME]$。有起有落，但总体是向前的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_time",
+      "text": "时间是最公平的，$[PLAYER_NAME]$。每个人每天都只有24小时。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_balance",
+      "text": "生活需要平衡，$[PLAYER_NAME]$。工作与休息，忙碌与悠闲，缺一不可。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_wisdom",
+      "text": "智慧不在于知道多少，$[PLAYER_NAME]$。而在于懂得何时运用。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_patience",
+      "text": "耐心是一种美德，$[PLAYER_NAME]$。好的事情值得等待。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_friend",
+      "text": "朋友是人生最宝贵的财富，$[PLAYER_NAME]$。你就是一个很好的朋友。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_feeling",
+      "text": "能和你交心，$[PLAYER_NAME]$。我很珍惜这份情谊。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_heart_high",
+      "text": "$[PLAYER_NAME]$，你在我心中的位置，无人可替代。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_tide",
+      "text": "大潮是大自然的馈赠，$[PLAYER_NAME]$。我们应该心怀感激。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_st_cloud",
+      "text": "云海的变化无常，$[PLAYER_NAME]$。就像人心，变幻莫测却又美丽。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "an_farewell_1",
+      "text": "保重，$[PLAYER_NAME]$。有缘再会。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_farewell_2",
+      "text": "那就不打扰了，$[PLAYER_NAME]$。各自珍重。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_farewell_3",
+      "text": "愿你一切顺利，$[PLAYER_NAME]$。期待下次相见。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_farewell_high",
+      "text": "$[PLAYER_NAME]$，每次分别都有些不舍……但我知道，我们还会再见的。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "an_farewell_morning",
+      "text": "新的一天开始了，$[PLAYER_NAME]$。好好把握。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_farewell_evening",
+      "text": "傍晚了，$[PLAYER_NAME]$。早些归去吧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "an_farewell_night",
+      "text": "夜深了，$[PLAYER_NAME]$。愿你好梦。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

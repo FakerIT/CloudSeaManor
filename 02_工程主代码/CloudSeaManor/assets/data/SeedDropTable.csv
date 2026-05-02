@@ -1,0 +1,9 @@
+SpiritId,SpiritName,DropSeedId,DropRate,DropMin,DropMax,Season,ZoneId,Description
+spirit_cloud_wisp,云雾灵,tea_cloud,0.15,1,3,Any,zone_cloud_mist,云雾灵有几率掉落云雾茶种子
+spirit_flame_imp,焰火魔,tea_fire,0.12,1,2,Summer,zone_flame_valley,焰火魔有几率掉落烈焰茶种子
+spirit_water_sprite,水精灵,tea_water,0.15,1,3,Any,zone_water_source,水精灵有几率掉落清泉茶种子
+spirit_earth_golem,土岩傀儡,tea_earth,0.1,1,2,Autumn,zone_earth_plateau,土岩傀儡有几率掉落山土茶种子
+spirit_wind_faerie,风妖精,tea_wind,0.15,1,3,Any,zone_wind_canyon,风妖精有几率掉落清风茶种子
+spirit_void_shade,虚空暗影,tea_spirit,0.08,1,1,Any,zone_void_depths,虚空暗影有几率掉落灵芽茶种子
+spirit_holy_guard,圣光守护,tea_holy,0.05,1,1,Any,zone_holy_shrine,圣光守护有几率掉落圣泉露种子
+spirit_thunder_herald,雷霆使者,tea_earth,0.1,1,2,Summer,zone_thunder_peak,雷霆使者有几率掉落山土茶种子

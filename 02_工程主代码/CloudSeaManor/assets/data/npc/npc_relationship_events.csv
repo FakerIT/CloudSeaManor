@@ -1,0 +1,9 @@
+Id,NpcId,RelationshipType,TriggerCondition,EffectType,EffectValue,Duration,Description
+rel_heart_1,lingxiao,HeartEvent,HeartLevelAbove3,AffectionBoost,20,Instant,心事件触发后好感度提升
+rel_heart_2,lingxiao,HeartEvent,HeartLevelAbove5,SpecialDialogue,True,Perma,解锁特殊对话
+rel_heart_3,lingxiao,HeartEvent,HeartLevelAbove7,Confession,True,Perma,解锁告白选项
+rel_heart_4,lingxiao,HeartEvent,HeartLevelAbove8,Marriage,True,Perma,解锁结婚选项
+rel_daily_gift,lingxiao,DailyGift,EveryDay,AffectionBoost,5,Instant,每日送礼好感度
+rel_festival,lingxiao,Festival,Spring,AffectionBoost,30,Instant,节日期间好感度额外提升
+rel_quest,lingxiao,Quest,QuestComplete,AffectionBoost,15,Instant,完成任务后好感度提升
+rel_battle,lingxiao,BattleSupport,ZoneCleared,AffectionBoost,10,Instant,协助战斗后好感度提升

@@ -1,0 +1,39 @@
+{
+  "quest_id": "main_ch1_4",
+  "quest_name": "灵界初探",
+  "chapter": "第一章",
+  "dialogues": [
+    {
+      "speaker": "lingxiao",
+      "speaker_name": "灵霄",
+      "content": "你准备得差不多了，是时候去灵界看看了。灵界是云海山庄的重要组成部分，那里有许多奇妙的生物和机遇。",
+      "expression": "serious"
+    },
+    {
+      "speaker": "lingxiao",
+      "speaker_name": "灵霄",
+      "content": "不过要小心，灵界中也有被污染的灵体。不要害怕，你身上有云海的力量，足以净化它们。",
+      "expression": "serious"
+    },
+    {
+      "speaker": "player",
+      "choices": [
+        {"text": "我会小心的", "response": "careful"},
+        {"text": "有什么要注意的吗？", "response": "warning"}
+      ]
+    }
+  ],
+  "responses": {
+    "careful": {
+      "speaker": "lingxiao",
+      "content": "很好。记住，如果遇到危险就立刻撤退。灵界随时可以再来，但你的安全最重要。",
+      "expression": "concerned"
+    },
+    "warning": {
+      "speaker": "lingxiao",
+      "speaker_name": "灵霄",
+      "content": "浓云海和潮汐天气时灵界会变得更加活跃，危险与机遇并存。另外，污染较重的区域灵体会更强壮。量力而行。",
+      "expression": "serious"
+    }
+  }
+}

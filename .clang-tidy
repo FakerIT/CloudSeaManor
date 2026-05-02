@@ -1,0 +1,112 @@
+# clang-tidy 配置
+# 《云海山庄》代码质量检查
+# 运行方式: clang-tidy src/**/*.cpp --header-filter='.*' --format-style=file
+
+Checks: >
+  clang-diagnostic-*,
+  clang-analyzer-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  portability-*,
+  -modernize-use-trailing-return-type,
+  -readability-magic-numbers,
+  -readability-identifier-length,
+  -readability-identifier-length,
+  -modernize-loop-convert,
+  -readability-else-after-return,
+  -readability-isolate-declaration,
+  -cppcoreguidelines-special-member-functions,
+  -hicpp-special-member-functions,
+  -cppcoreguidelines-non-private-member-variables
+
+# 命名规范检查
+CheckOptions:
+  # 类名: PascalCase
+  - key: readability-identifier-naming.ClassCase
+    value: PascalCase
+  - key: readability-identifier-naming.StructCase
+    value: PascalCase
+
+  # 函数名: PascalCase
+  - key: readability-identifier-naming.FunctionCase
+    value: PascalCase
+
+  # 成员变量: snake_case，可选 _ 后缀
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.MutableMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.ProtectedMemberCase
+    value: lower_case
+
+  # 常量: UPPER_SNAKE_CASE
+  - key: readability-identifier-naming.ConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.EnumConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.MacroCase
+    value: UPPER_CASE
+
+  # 命名空间: snake_case
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+
+  # 参数: snake_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+
+  # 类型别名: PascalCase
+  - key: readability-identifier-naming.TypeAliasCase
+    value: PascalCase
+  - key: readability-identifier-naming.TypedefCase
+    value: PascalCase
+
+  # 模板参数: PascalCase
+  - key: readability-identifier-naming.TemplateParameterCase
+    value: PascalCase
+  - key: readability-identifier-naming.TemplateTemplateParameterCase
+    value: PascalCase
+
+  # 虚函数: PascalCase
+  - key: readability-identifier-naming.VirtualFunctionCase
+    value: PascalCase
+  - key: readability-identifier-naming.OverriddenMethodCase
+    value: PascalCase
+
+  # 枚举: PascalCase (值)
+  - key: readability-identifier-naming.EnumCase
+    value: PascalCase
+
+  # 数组: snake_case
+  - key: readability-identifier-naming.GlobalArrayCase
+    value: lower_case
+  - key: readability-identifier-naming.LocalArrayCase
+    value: lower_case
+
+  # 指针/引用: 跟随变量名
+  - key: readability-identifier-naming.PointerCase
+    value: lower_case
+  - key: readability-identifier-naming.ConstReferenceCase
+    value: lower_case
+
+# 性能优化建议
+  - key: performance-move-const-arg.CheckTriviallyCopyableMove
+    value: true
+  - key: performance-enum-constexpr-constructor
+    value: 2
+
+# 现代 C++ 特性
+  - key: modernize-use-nullptr.NullMacros
+    value: 'NULL'
+  - key: modernize-use-override.AllowShortFunctionsOnASingleLine
+    value: Empty
+  - key: modernize-use-override.FinalFields
+    value: override
+
+# 排除的警告（项目特定）
+WarningsAsErrors: ''

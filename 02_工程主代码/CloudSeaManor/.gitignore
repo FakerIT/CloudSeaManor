@@ -1,0 +1,35 @@
+# Ignore generated build artifacts
+/build/
+/out/
+/.vs/
+/x64/
+/.idea/
+/.vscode/
+
+# CMake generated files
+/CMakeUserPresets.json
+/CMakeFiles/
+/CMakeCache.txt
+/cmake_install.cmake
+/compile_commands.json
+/Testing/
+
+# Runtime generated files
+/logs/
+/saves/
+
+# Visual Studio generated files
+*.VC.db
+*.VC.opendb
+*.suo
+*.user
+*.userosscache
+*.ilk
+*.pdb
+*.ipch
+
+# Temporary files
+*.tmp
+*.bak
+*.obj
+*.o

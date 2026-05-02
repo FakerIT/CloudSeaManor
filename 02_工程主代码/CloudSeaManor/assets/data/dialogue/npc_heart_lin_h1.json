@@ -1,0 +1,92 @@
+{
+  "event_id": "lin_h1",
+  "npc_id": "lin",
+  "title": "春季午后在主屋",
+  "description": "与林伯在春季午后的主屋相遇",
+  "nodes": [
+    {
+      "id": "lin_h1_start",
+      "speaker": "林伯",
+      "text": "哟，$[PLAYER_NAME]来了。坐吧，喝杯茶歇歇脚。",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "谢谢林伯。",
+          "next_node_id": "lin_h1_tea"
+        },
+        {
+          "id": "choice_2",
+          "text": "林伯最近身体还好吗？",
+          "next_node_id": "lin_h1_health"
+        }
+      ]
+    },
+    {
+      "id": "lin_h1_tea",
+      "speaker": "林伯",
+      "text": "这茶是今年的新茶，香吧？这片土地养人，种什么都长得好。",
+      "choices": [
+        {
+          "id": "choice_learn",
+          "text": "能教我一些种茶的知识吗？",
+          "next_node_id": "lin_h1_teach"
+        }
+      ]
+    },
+    {
+      "id": "lin_h1_health",
+      "speaker": "林伯",
+      "text": "哈哈，老骨头还硬朗着呢。只要还能种地，就还能动弹。",
+      "choices": [
+        {
+          "id": "choice_work",
+          "text": "林伯真是闲不住。",
+          "next_node_id": "lin_h1_work"
+        }
+      ]
+    },
+    {
+      "id": "lin_h1_teach",
+      "speaker": "林伯",
+      "text": "种茶啊，最重要的是耐心。茶叶和人一样，急不得。你愿意学，老头子就愿意教。",
+      "choices": [
+        {
+          "id": "choice_patient",
+          "text": "我会好好学的。",
+          "next_node_id": "lin_h1_patient"
+        }
+      ]
+    },
+    {
+      "id": "lin_h1_work",
+      "speaker": "林伯",
+      "text": "土地是庄家的根，不动弹怎么行？再说了，看着你们年轻人把山庄经营得越来越好，我心里也高兴。",
+      "choices": [
+        {
+          "id": "choice_joy",
+          "text": "都是林伯教得好。",
+          "next_node_id": "lin_h1_patient"
+        }
+      ]
+    },
+    {
+      "id": "lin_h1_patient",
+      "speaker": "林伯",
+      "text": "好，有这份心就对了。$[PLAYER_NAME]，山庄交给你，老头子放心。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我会努力的，林伯。",
+          "next_node_id": "lin_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "lin_h1_end",
+      "speaker": "林伯",
+      "text": "嗯，去吧。有什么不懂的，随时来找老头子。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

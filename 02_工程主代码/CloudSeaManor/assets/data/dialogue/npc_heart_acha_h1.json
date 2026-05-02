@@ -1,0 +1,85 @@
+{
+  "event_id": "acha_h1",
+  "npc_id": "acha",
+  "title": "春季清晨进茶园",
+  "description": "与阿茶在春季清晨的茶园相遇",
+  "nodes": [
+    {
+      "id": "acha_h1_start",
+      "speaker": "阿茶",
+      "text": "早安，$[PLAYER_NAME]。今天的露水特别重，茶芽应该会很嫩。",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "我可以帮忙采茶吗？",
+          "next_node_id": "acha_h1_agree"
+        },
+        {
+          "id": "choice_2",
+          "text": "你每天都这么早起来吗？",
+          "next_node_id": "acha_h1_routine"
+        }
+      ]
+    },
+    {
+      "id": "acha_h1_agree",
+      "speaker": "阿茶",
+      "text": "当然可以。采茶讲究手法轻柔，不能伤到茶芽。来，我教你。",
+      "choices": [
+        {
+          "id": "choice_continue",
+          "text": "（认真学采茶）",
+          "next_node_id": "acha_h1_learn"
+        }
+      ]
+    },
+    {
+      "id": "acha_h1_routine",
+      "speaker": "阿茶",
+      "text": "是啊……种茶的人，哪有睡懒觉的。茶树不会等人。",
+      "choices": [
+        {
+          "id": "choice_sympathy",
+          "text": "辛苦了。我能帮什么忙吗？",
+          "next_node_id": "acha_h1_agree"
+        },
+        {
+          "id": "choice_thinking",
+          "text": "这就是茶农的生活啊……",
+          "next_node_id": "acha_h1_life"
+        }
+      ]
+    },
+    {
+      "id": "acha_h1_learn",
+      "speaker": "阿茶",
+      "text": "你的手指很稳……比我想象中更有天赋。这片茶园，有你在真好。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "以后我每天都来帮忙。",
+          "next_node_id": "acha_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "acha_h1_life",
+      "speaker": "阿茶",
+      "text": "种茶是辛苦，但看着茶芽一点点长大……那种感觉，只有种茶的人才懂。",
+      "choices": [
+        {
+          "id": "choice_support",
+          "text": "我想更了解茶。",
+          "next_node_id": "acha_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "acha_h1_end",
+      "speaker": "阿茶",
+      "text": "$[PLAYER_NAME]，今天的茶特别香。也许是因为……有你在的缘故。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

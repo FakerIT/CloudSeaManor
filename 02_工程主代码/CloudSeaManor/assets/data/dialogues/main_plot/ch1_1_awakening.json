@@ -1,0 +1,42 @@
+{
+  "quest_id": "main_ch1_1",
+  "quest_name": "梦中醒来",
+  "chapter": "第一章",
+  "dialogues": [
+    {
+      "speaker": "narrator",
+      "content": "你缓缓睁开眼睛，映入眼帘的是一片云雾缭绕的天空。远处，一座古朴的山庄若隐若现。"
+    },
+    {
+      "speaker": "lingxiao",
+      "speaker_name": "灵霄",
+      "content": "你醒了？这里是云海山庄，从今以后，这里就是你的家了。",
+      "expression": "kind"
+    },
+    {
+      "speaker": "player",
+      "choices": [
+        {"text": "我怎么会在这里？", "response": "lingxiao_explain"},
+        {"text": "这里是哪里？", "response": "lingxiao_guide"},
+        {"text": "感觉好迷茫...", "response": "lingxiao_comfort"}
+      ]
+    }
+  ],
+  "responses": {
+    "lingxiao_explain": {
+      "speaker": "lingxiao",
+      "content": "说来话长。你与云海有着特殊的缘分，是云海选择了你。不用想太多，先熟悉一下这里的环境吧。",
+      "expression": "gentle"
+    },
+    "lingxiao_guide": {
+      "speaker": "lingxiao",
+      "content": "云海山庄是一个远离尘世喧嚣的世外桃源。这里有茶园、花田、温泉，还有许多友善的居民。跟着我，我带你四处看看。",
+      "expression": "proud"
+    },
+    "lingxiao_comfort": {
+      "speaker": "lingxiao",
+      "content": "不要担心，每个人初来乍到都会有些不适应。我会一直在这里帮助你的。",
+      "expression": "kind"
+    }
+  }
+}

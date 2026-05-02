@@ -1,0 +1,44 @@
+{
+  "quest_id": "main_ch6_6",
+  "quest_name": "云海重光",
+  "chapter": "第六章",
+  "dialogues": [
+    {
+      "speaker": "narrator",
+      "content": "混沌之源被净化了。云海山庄的天空重新变得澄澈，灵气如潮水般涌回大地。"
+    },
+    {
+      "speaker": "lingxiao",
+      "speaker_name": "灵霄",
+      "content": "你做到了...云海山庄得救了。",
+      "expression": "moved"
+    },
+    {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "这真是历史性的时刻。我的研究终于可以继续下去了。",
+      "expression": "grateful"
+    },
+    {
+      "speaker": "qiao",
+      "speaker_name": "晴",
+      "content": "我要画下这一刻...这是云海最美的风景。",
+      "expression": "inspired"
+    },
+    {
+      "speaker": "he",
+      "speaker_name": "和",
+      "content": "山庄的居民们都在等待好消息。我要去告诉他们这个喜讯。",
+      "expression": "joyful"
+    },
+    {
+      "speaker": "player",
+      "content": "这一切都离不开大家的支持。云海山庄是我们共同的家，我会一直守护它。",
+      "expression": "determined"
+    },
+    {
+      "speaker": "narrator",
+      "content": "夕阳西下，云海之上泛起金色的光芒。新的故事，就此开始..."
+    }
+  ]
+}

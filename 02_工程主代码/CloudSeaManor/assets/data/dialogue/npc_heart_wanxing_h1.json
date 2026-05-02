@@ -1,0 +1,92 @@
+{
+  "event_id": "wanxing_h1",
+  "npc_id": "wanxing",
+  "title": "春季夜晚在观星台",
+  "description": "与晚星在春季夜晚的观星台相遇",
+  "nodes": [
+    {
+      "id": "wanxing_h1_start",
+      "speaker": "晚星",
+      "text": "$[PLAYER_NAME]……今晚的星星好亮。你也来看星星吗？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "是。我听说这里的星空很美。",
+          "next_node_id": "wanxing_h1_beautiful"
+        },
+        {
+          "id": "choice_2",
+          "text": "你经常一个人在这里看星星吗？",
+          "next_node_id": "wanxing_h1_alone"
+        }
+      ]
+    },
+    {
+      "id": "wanxing_h1_beautiful",
+      "speaker": "晚星",
+      "text": "云海的星空，是世界上最安静的地方。每颗星星都有自己的故事……你想听吗？",
+      "choices": [
+        {
+          "id": "choice_listen",
+          "text": "当然想听。",
+          "next_node_id": "wanxing_h1_story"
+        }
+      ]
+    },
+    {
+      "id": "wanxing_h1_alone",
+      "speaker": "晚星",
+      "text": "……嗯。以前是一个人。但今晚，有你。",
+      "choices": [
+        {
+          "id": "choice_company",
+          "text": "以后我陪你一起看。",
+          "next_node_id": "wanxing_h1_promise"
+        }
+      ]
+    },
+    {
+      "id": "wanxing_h1_story",
+      "speaker": "晚星",
+      "text": "那颗是北辰星，无论季节如何变换，它永远指向北方……就像有些东西，永远不会改变。",
+      "choices": [
+        {
+          "id": "choice_meaning",
+          "text": "就像你吗？",
+          "next_node_id": "wanxing_h1_meaning"
+        }
+      ]
+    },
+    {
+      "id": "wanxing_h1_promise",
+      "speaker": "晚星",
+      "text": "$[PLAYER_NAME]……你知道吗？星星最怕的不是云遮，而是没有人一起看。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我记住了。",
+          "next_node_id": "wanxing_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "wanxing_h1_meaning",
+      "speaker": "晚星",
+      "text": "……也许吧。但今晚，我更想说——星星找到了新的故事。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我很荣幸能听你讲。",
+          "next_node_id": "wanxing_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "wanxing_h1_end",
+      "speaker": "晚星",
+      "text": "今晚的星星，我会记住的。因为……有你在的星空，是不一样的。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

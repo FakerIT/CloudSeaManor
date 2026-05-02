@@ -1,0 +1,78 @@
+{
+  "quest_id": "side_beast_friend",
+  "quest_name": "灵兽之友",
+  "quest_type": "Side",
+  "quest_line": "Collection",
+  "description": "与云海山庄的所有灵兽建立深厚羁绊",
+  "difficulty": "Hard",
+  "reputation_reward": 80,
+  
+  "objectives": [
+    {
+      "id": "obj_1",
+      "type": "collect",
+      "target": "spirit_beast",
+      "count": 10,
+      "description": "收集10种不同的灵兽",
+      "progress": 0,
+      "required": true
+    },
+    {
+      "id": "obj_2",
+      "type": "bond",
+      "target": "heart",
+      "count": 3,
+      "description": "与灵兽建立3心以上羁绊",
+      "progress": 0,
+      "required": true
+    }
+  ],
+  
+  "stages": [
+    {
+      "stage": 1,
+      "requirement": "obtain_3_beasts",
+      "description": "初识灵兽",
+      "dialogue": {
+        "speaker": "mo",
+        "content": "灵兽是云海最珍贵的伙伴。你已经结识了几位，继续寻找更多吧。",
+        "expression": "gentle"
+      }
+    },
+    {
+      "stage": 2,
+      "requirement": "obtain_7_beasts",
+      "description": "灵兽环绕",
+      "dialogue": {
+        "speaker": "ning",
+        "content": "灵兽们都很喜欢你呢。照顾好它们，它们会成为你最忠诚的伙伴。",
+        "expression": "loving"
+      }
+    },
+    {
+      "stage": 3,
+      "requirement": "obtain_10_beasts",
+      "description": "灵兽之友",
+      "dialogue": {
+        "speaker": "wanxing",
+        "content": "能与如此多的灵兽建立羁绊，说明你有着非凡的亲和力。",
+        "expression": "admiring"
+      }
+    }
+  ],
+  
+  "rewards": {
+    "item": [
+      {"id": "beast_trophy", "name": "灵兽之友奖杯", "description": "表彰你与灵兽们的深厚友谊"}
+    ],
+    "buff": [
+      {"id": "beast_whisper", "name": "灵兽之语", "effect": "灵兽好感获取+50%", "duration": "permanent"}
+    ],
+    "title": "灵兽之友"
+  },
+  
+  "unlock_condition": {
+    "main_chapter": 2,
+    "beast_obtained": 1
+  }
+}

@@ -1,0 +1,17 @@
+Id,DecorationId,DecorationName,ElementType,AuraDelta,BalanceEffect,Description
+deco_wind_chime,deco_wind_chime,风铃,Wind,2,Destabilize,提升风元素权重，可能打破平衡
+deco_banner_light,deco_banner_light,轻幡,Wind,2,Destabilize,提升风元素权重，可能打破平衡
+deco_water_basin,deco_water_basin,水钵,Dew,2,Destabilize,提升露元素权重，可能打破平衡
+deco_fountain,deco_fountain,流泉,Dew,3,Destabilize,提升露元素权重，可能打破平衡
+deco_sun_mirror,deco_sun_mirror,晨光镜,Glow,2,Destabilize,提升霞元素权重，可能打破平衡
+deco_lamp,deco_lamp,霞灯,Glow,2,Destabilize,提升霞元素权重，可能打破平衡
+deco_rock_garden,deco_rock_garden,石景,Earth,3,Stabilize,提供平衡稳定效果
+deco_old_tree,deco_old_tree,古木,Earth,2;Wind:1,Stabilize,提供平衡稳定效果
+deco_stone_path,deco_stone_path,石板路,Earth,1,Stabilize,提供平衡稳定效果
+deco_cloud_shrine,deco_cloud_shrine,云海祠堂,Cloud,3,Tide:2;Glow:1,Stabilize,提升云元素权重，并微微影响潮和霞
+deco_tide_stone,deco_tide_stone,潮汐石,Tide,3,Destabilize,提升潮元素权重，可能打破平衡
+deco_rain_vessel,deco_rain_vessel,雨缸,Dew;Cloud,2;2,NearBalanced,同时提升露和云元素，有利于接近平衡
+deco_fire_pit,deco_fire_pit,火塘,Fire,3,Destabilize,提升火元素权重，可能打破平衡
+deco_balanced_bloom,deco_balanced_bloom,平衡花坛,All,1;1;1;1;1,NearBalanced,小幅提升所有元素，有利于平衡
+deco_harmony_bell,deco_harmony_bell,和合铃,Wind;Dew,2;2,NearBalanced,同时提升风和露，有利于接近平衡
+deco_rainbow_bowl,deco_rainbow_bowl,虹碗,Glow;Tide,2;2,NearBalanced,同时提升霞和潮，有利于接近平衡

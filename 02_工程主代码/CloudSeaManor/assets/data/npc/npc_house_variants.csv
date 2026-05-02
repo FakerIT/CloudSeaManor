@@ -1,0 +1,11 @@
+Id,NpcId,HouseType,VariantName,UnlockCondition,Decorations,Description
+house_1,lingxiao,Teahouse,Basic,NewGame,tea_set;shelf_bamboo,灵霄的茶室，基本装饰
+house_2,lingxiao,Teahouse,Elegant,FavorAbove60,tea_set_premium;scroll_painting;jade_decor,灵霄的茶室，雅致装饰
+house_3,lingxiao,Teahouse,Luxurious,FavorAbove100,tea_set_royal;art_collection;spirit_ornament,灵霄的茶室，奢华装饰
+house_4,qingfeng,HunterLodge,Basic,NewGame,weapon_rack;hunting_trophy;fireplace,清风的猎人之家
+house_5,qingfeng,HunterLodge,Refined,FavorAbove60,weapon_rack_premium;forest_artwork;beast_pelt,清风的高级猎人之家
+house_6,xiaoyao,Shop,Basic,NewGame,shelf_goods;counter;sign_board,逍遥的杂货铺
+house_7,xiaoyao,Shop,Prosperous,FavorAbove60,shelf_luxury;gold_accent;rare_display,逍遥的繁荣商铺
+house_8,meili,PetHouse,Basic,NewGame,pet_bed;toy_chest;feeding_station,美黎的灵兽之家
+house_9,meili,PetHouse,Paradise,FavorAbove60,pet_park;grooming_station;healing_corner,美黎的灵兽天堂
+house_10,baizhu,Pharmacy,Basic,NewGame,herb_shelf;cauldron;reference_books,白竹的药房

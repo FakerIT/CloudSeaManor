@@ -1,0 +1,80 @@
+{
+  "event_id": "qiao_h1",
+  "npc_id": "qiao",
+  "title": "茶香四溢",
+  "description": "在茶棚遇到乔茶",
+  "nodes": [
+    {
+      "id": "qiao_h1_start",
+      "speaker": "乔茶",
+      "text": "来，坐下喝杯茶吧。赶路辛苦了吧？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "这茶真香啊。",
+          "next_node_id": "qiao_h1_tea"
+        },
+        {
+          "id": "choice_2",
+          "text": "你是这里的茶棚主人？",
+          "next_node_id": "qiao_h1_owner"
+        }
+      ]
+    },
+    {
+      "id": "qiao_h1_tea",
+      "speaker": "乔茶",
+      "text": "这是今年的新茶，用山泉水泡的。茶叶好不好，水最重要。",
+      "choices": [
+        {
+          "id": "choice_water",
+          "text": "泉水有什么讲究吗？",
+          "next_node_id": "qiao_h1_water"
+        }
+      ]
+    },
+    {
+      "id": "qiao_h1_owner",
+      "speaker": "乔茶",
+      "text": "算是吧。我这茶棚开了也有二十年了，来来往往的旅人，我都记得。",
+      "choices": [
+        {
+          "id": "choice_story",
+          "text": "一定有很多故事吧？",
+          "next_node_id": "qiao_h1_story"
+        }
+      ]
+    },
+    {
+      "id": "qiao_h1_water",
+      "speaker": "乔茶",
+      "text": "你看这泉水，冬暖夏凉，泡出来的茶特别甘甜。好水配好茶，才是正道。",
+      "choices": [
+        {
+          "id": "choice_learn",
+          "text": "受教了。",
+          "next_node_id": "qiao_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "qiao_h1_story",
+      "speaker": "乔茶",
+      "text": "故事太多了，有时候我自己都记不清。不过今天能遇到你，也算是一个好故事。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我也这么觉得。",
+          "next_node_id": "qiao_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "qiao_h1_end",
+      "speaker": "乔茶",
+      "text": "以后路过就进来坐坐，茶水管够。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

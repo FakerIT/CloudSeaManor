@@ -1,0 +1,97 @@
+{
+  "quest_id": "side_tea_master",
+  "quest_name": "茶道宗师",
+  "quest_type": "Side",
+  "quest_line": "Skill",
+  "description": "成为云海山庄的制茶大师，传承茶道精髓",
+  "difficulty": "Hard",
+  "reputation_reward": 50,
+  
+  "objectives": [
+    {
+      "id": "obj_1",
+      "type": "craft",
+      "target": "tea",
+      "count": 100,
+      "description": "制作100份灵茶",
+      "progress": 0,
+      "required": true
+    },
+    {
+      "id": "obj_2",
+      "type": "quality",
+      "target": "excellent",
+      "count": 50,
+      "description": "品质达到优秀50次",
+      "progress": 0,
+      "required": true
+    },
+    {
+      "id": "obj_3",
+      "type": "teach",
+      "target": "npc",
+      "count": 5,
+      "description": "传授制茶技艺给5位居民",
+      "progress": 0,
+      "required": true
+    }
+  ],
+  
+  "stages": [
+    {
+      "stage": 1,
+      "requirement": "craft_10_tea",
+      "description": "初入茶道",
+      "dialogue": {
+        "speaker": "acha",
+        "content": "想要成为茶道宗师，首先要精通制茶的基础。来，帮我制作10份灵茶，让我看看你的水平。",
+        "expression": "teaching"
+      }
+    },
+    {
+      "stage": 2,
+      "requirement": "craft_50_tea",
+      "description": "渐入佳境",
+      "dialogue": {
+        "speaker": "xiaoman",
+        "content": "你已经掌握了基础，但真正的茶道在于对品质的追求。继续努力，让每一份茶都成为艺术品。",
+        "expression": "encouraging"
+      }
+    },
+    {
+      "stage": 3,
+      "requirement": "craft_100_tea",
+      "description": "茶道有成",
+      "dialogue": {
+        "speaker": "yu",
+        "content": "你的茶道修为已经很高了。将这份技艺传授给他人，让更多人感受茶的魅力吧。",
+        "expression": "scholarly"
+      }
+    },
+    {
+      "stage": 4,
+      "requirement": "teach_5_npc",
+      "description": "薪火相传",
+      "dialogue": {
+        "speaker": "lingxiao",
+        "content": "你不仅精通茶道，更懂得分享。这正是茶道宗师应有的风范。",
+        "expression": "proud"
+      }
+    }
+  ],
+  
+  "rewards": {
+    "item": [
+      {"id": "tea_pot_legend", "name": "传说茶壶", "description": "历代茶道宗师传承的神器"}
+    ],
+    "buff": [
+      {"id": "tea_master", "name": "茶道宗师", "effect": "制茶品质+30%", "duration": "permanent"}
+    ],
+    "title": "茶道宗师"
+  },
+  
+  "unlock_condition": {
+    "main_chapter": 2,
+    "skill_level": 5
+  }
+}

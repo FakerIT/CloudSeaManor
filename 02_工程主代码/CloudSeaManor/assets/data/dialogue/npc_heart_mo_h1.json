@@ -1,0 +1,80 @@
+{
+  "event_id": "mo_h1",
+  "npc_id": "mo",
+  "title": "作家的灵感",
+  "description": "在书房遇到作家墨言",
+  "nodes": [
+    {
+      "id": "mo_h1_start",
+      "speaker": "墨言",
+      "text": "啊，打扰到你了？我正在写一段很难的场景……主角站在十字路口，不知道该往哪走。",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "你经常遇到写不下去的时候吗？",
+          "next_node_id": "mo_h1_writer"
+        },
+        {
+          "id": "choice_2",
+          "text": "我可以帮忙出主意吗？",
+          "next_node_id": "mo_h1_help"
+        }
+      ]
+    },
+    {
+      "id": "mo_h1_writer",
+      "speaker": "墨言",
+      "text": "每隔几天就会有一次。写作就是这样，灵感来了挡都挡不住，走了怎么追也追不回来。",
+      "choices": [
+        {
+          "id": "choice_understand",
+          "text": "我能理解这种感觉。",
+          "next_node_id": "mo_h1_feeling"
+        }
+      ]
+    },
+    {
+      "id": "mo_h1_help",
+      "speaker": "墨言",
+      "text": "真的？太好了！有时候旁观者的想法，反而能打开新局面。",
+      "choices": [
+        {
+          "id": "choice_idea",
+          "text": "也许他应该问问路边的老人。",
+          "next_node_id": "mo_h1_idea"
+        }
+      ]
+    },
+    {
+      "id": "mo_h1_feeling",
+      "speaker": "墨言",
+      "text": "很少有人能理解。$[PLAYER_NAME]，你愿意听我说这些，真的很感谢。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我愿意听你讲。",
+          "next_node_id": "mo_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "mo_h1_idea",
+      "speaker": "墨言",
+      "text": "问路边的老人……对！就是这样！有时候答案就在身边，只是我们太急了。",
+      "choices": [
+        {
+          "id": "choice_creative",
+          "text": "希望能帮到你。",
+          "next_node_id": "mo_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "mo_h1_end",
+      "speaker": "墨言",
+      "text": "你是我故事里的贵客。这个十字路口的场景，就写给你了。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

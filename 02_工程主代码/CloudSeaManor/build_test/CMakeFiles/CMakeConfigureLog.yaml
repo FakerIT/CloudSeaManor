@@ -1,0 +1,1990 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.26100 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerId.cmake:468 (find_file)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerId.cmake:506 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/"
+    found: "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.40+3e7442088
+      鐢熸垚鍚姩鏃堕棿涓?2026/5/2/鍛ㄥ叚 23:39:45銆?
+      
+      鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\4.3.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj鈥?榛樿鐩爣)銆?
+      PrepareForBuild:
+        姝ｅ湪鍒涘缓鐩綍鈥淒ebug\\鈥濄€?
+        宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+        姝ｅ湪鍒涘缓鐩綍鈥淒ebug\\CompilerIdCXX.tlog\\鈥濄€?
+      InitializeBuildStatus:
+        姝ｅ湪鍒涘缓鈥淒ebug\\CompilerIdCXX.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+        姝ｅ湪瀵光€淒ebug\\CompilerIdCXX.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+      ClCompile:
+        D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc143.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\4.3.2\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        姝ｅ湪鍒犻櫎鏂囦欢鈥淒ebug\\CompilerIdCXX.tlog\\unsuccessfulbuild鈥濄€?
+        姝ｅ湪瀵光€淒ebug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
+      宸插畬鎴愮敓鎴愰」鐩€淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\4.3.2\\CompilerIdCXX\\CompilerIdCXX.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
+      
+      宸叉垚鍔熺敓鎴愩€?
+          0 涓鍛?
+          0 涓敊璇?
+      
+      宸茬敤鏃堕棿 00:00:00.39
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/4.3.2/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files/Bandizip/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/"
+    searched_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files/Bandizip/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/"
+    searched_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.com"
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link.exe"
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lld-link"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/lld-link.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/lld-link.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files/dotnet/lld-link.com"
+      - "C:/Program Files/dotnet/lld-link.exe"
+      - "C:/Program Files/dotnet/lld-link"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/lld-link"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/lld-link.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/lld-link.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/lld-link"
+      - "C:/Program Files/Bandizip/lld-link.com"
+      - "C:/Program Files/Bandizip/lld-link.exe"
+      - "C:/Program Files/Bandizip/lld-link"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/lld-link.com"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/lld-link.exe"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Program Files/CMake/bin/lld-link.com"
+      - "C:/Program Files/CMake/bin/lld-link.exe"
+      - "C:/Program Files/CMake/bin/lld-link"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/lld-link.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/lld-link.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/lld-link"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/lld-link.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/lld-link.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/lld-link"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/lld-link.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/lld-link.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files/Bandizip/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/"
+    searched_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.com"
+    found: "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files/Bandizip/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/"
+    searched_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.com"
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt.exe"
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/mt"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/mt.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/mt.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "C:/Program Files/dotnet/mt.com"
+      - "C:/Program Files/dotnet/mt.exe"
+      - "C:/Program Files/dotnet/mt"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/mt"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/mt.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/mt.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/mt"
+      - "C:/Program Files/Bandizip/mt.com"
+      - "C:/Program Files/Bandizip/mt.exe"
+      - "C:/Program Files/Bandizip/mt"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/mt.com"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/mt.exe"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/mt"
+      - "C:/Program Files/Git/cmd/mt.com"
+      - "C:/Program Files/Git/cmd/mt.exe"
+      - "C:/Program Files/Git/cmd/mt"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt"
+      - "C:/Program Files/CMake/bin/mt.com"
+      - "C:/Program Files/CMake/bin/mt.exe"
+      - "C:/Program Files/CMake/bin/mt"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/mt.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/mt.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/mt"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/mt.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/mt.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/mt"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/mt.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/mt.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files/Bandizip/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/"
+    searched_directories:
+      - "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.com"
+    found: "D:/vs/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/lib.exe"
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineRCCompiler.cmake:40 (find_program)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/Platform/Windows-MSVC.cmake:592 (enable_language)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/Platform/Windows-MSVC.cmake:565 (__windows_compiler_msvc_enable_rc)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/Platform/Windows-MSVC-CXX.cmake:6 (__windows_compiler_msvc)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeCXXInformation.cmake:48 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_RC_COMPILER"
+    description: "RC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "rc"
+    candidate_directories:
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files/Bandizip/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Program Files/CMake/sbin/"
+      - "C:/Program Files/CMake/"
+      - "C:/Program Files/CloudSeamanor_game/bin/"
+      - "C:/Program Files/CloudSeamanor_game/sbin/"
+      - "C:/Program Files/CloudSeamanor_game/"
+    searched_directories:
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/rc.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/rc.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/rc"
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "C:/Program Files/dotnet/rc.com"
+      - "C:/Program Files/dotnet/rc.exe"
+      - "C:/Program Files/dotnet/rc"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc.com"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc.exe"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/rc"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/rc.com"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/rc.exe"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/rc"
+      - "C:/Program Files/Bandizip/rc.com"
+      - "C:/Program Files/Bandizip/rc.exe"
+      - "C:/Program Files/Bandizip/rc"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/rc.com"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/rc.exe"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/rc"
+      - "C:/Program Files/Git/cmd/rc.com"
+      - "C:/Program Files/Git/cmd/rc.exe"
+      - "C:/Program Files/Git/cmd/rc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/rc.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/rc.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/rc"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/rc.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/rc.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/rc"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/rc.com"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/rc.exe"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Program Files/CMake/bin/rc.com"
+      - "C:/Program Files/CMake/bin/rc.exe"
+      - "C:/Program Files/CMake/bin/rc"
+      - "C:/Program Files/CMake/sbin/rc.com"
+      - "C:/Program Files/CMake/sbin/rc.exe"
+      - "C:/Program Files/CMake/sbin/rc"
+      - "C:/Program Files/CMake/rc.com"
+      - "C:/Program Files/CMake/rc.exe"
+      - "C:/Program Files/CMake/rc"
+      - "C:/Program Files/CloudSeamanor_game/bin/rc.com"
+      - "C:/Program Files/CloudSeamanor_game/bin/rc.exe"
+      - "C:/Program Files/CloudSeamanor_game/bin/rc"
+      - "C:/Program Files/CloudSeamanor_game/sbin/rc.com"
+      - "C:/Program Files/CloudSeamanor_game/sbin/rc.exe"
+      - "C:/Program Files/CloudSeamanor_game/sbin/rc"
+      - "C:/Program Files/CloudSeamanor_game/rc.com"
+      - "C:/Program Files/CloudSeamanor_game/rc.exe"
+      - "C:/Program Files/CloudSeamanor_game/rc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/CloudSeamanor_game"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files/CloudSeamanor_game"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-8q00ui"
+      binary: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-8q00ui"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-8q00ui'
+        
+        Run Build Command(s): D:/vs/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_76e83.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.40+3e7442088
+        鐢熸垚鍚姩鏃堕棿涓?2026/5/2/鍛ㄥ叚 23:39:46銆?
+        
+        鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-8q00ui\\cmTC_76e83.vcxproj鈥?榛樿鐩爣)銆?
+        PrepareForBuild:
+          宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+          姝ｅ湪鍒涘缓鐩綍鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-8q00ui\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_76e83.dir\\Debug\\cmTC_76e83.tlog\\鈥濄€?
+        InitializeBuildStatus:
+          姝ｅ湪鍒涘缓鈥渃mTC_76e83.dir\\Debug\\cmTC_76e83.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_76e83.dir\\Debug\\cmTC_76e83.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+        ClCompile:
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_76e83.dir\\Debug\\\\" /Fd"cmTC_76e83.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35226 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_76e83.dir\\Debug\\\\" /Fd"cmTC_76e83.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+        Link:
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-8q00ui\\Debug\\cmTC_76e83.exe" /INCREMENTAL /ILK:"cmTC_76e83.dir\\Debug\\cmTC_76e83.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/CloudSeaManor/02_宸ョ▼涓讳唬鐮?CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-8q00ui/Debug/cmTC_76e83.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/CloudSeaManor/02_宸ョ▼涓讳唬鐮?CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-8q00ui/Debug/cmTC_76e83.lib" /MACHINE:X64  /machine:x64 cmTC_76e83.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_76e83.vcxproj -> D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-8q00ui\\Debug\\cmTC_76e83.exe
+        FinalizeBuildStatus:
+          姝ｅ湪鍒犻櫎鏂囦欢鈥渃mTC_76e83.dir\\Debug\\cmTC_76e83.tlog\\unsuccessfulbuild鈥濄€?
+          姝ｅ湪瀵光€渃mTC_76e83.dir\\Debug\\cmTC_76e83.tlog\\cmTC_76e83.lastbuildstate鈥濇墽琛?Touch 浠诲姟銆?
+        宸插畬鎴愮敓鎴愰」鐩€淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-8q00ui\\cmTC_76e83.vcxproj鈥?榛樿鐩爣)鐨勬搷浣溿€?
+        
+        宸叉垚鍔熺敓鎴愩€?
+            0 涓鍛?
+            0 涓敊璇?
+        
+        宸茬敤鏃堕棿 00:00:00.39
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'CXX': D:/vs/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "D:/vs/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.44.35226.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "find-v1"
+    backtrace:
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:93 (find_path)"
+      - "CMakeLists.txt:41 (find_package)"
+    mode: "path"
+    variable: "SFML_DOC_DIR"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "SFML.tag"
+    candidate_directories:
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/SFML/doc/"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/share/doc/SFML/"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML/doc/"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/doc/SFML/"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/SFML/doc/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/share/doc/SFML/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML/doc/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/doc/SFML/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/SFML/doc/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/share/doc/SFML/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/"
+      - "C:/Windows/System32/SFML/doc/"
+      - "C:/Windows/System32/share/doc/SFML/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/SFML/doc/"
+      - "C:/Windows/share/doc/SFML/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/SFML/doc/"
+      - "C:/Windows/System32/wbem/share/doc/SFML/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/SFML/doc/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/share/doc/SFML/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/SFML/doc/"
+      - "C:/Windows/System32/OpenSSH/share/doc/SFML/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/dotnet/SFML/doc/"
+      - "C:/Program Files/dotnet/share/doc/SFML/"
+      - "C:/Program Files/dotnet/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/SFML/doc/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/share/doc/SFML/"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/SFML/doc/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/share/doc/SFML/"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/"
+      - "C:/Program Files/Bandizip/SFML/doc/"
+      - "C:/Program Files/Bandizip/share/doc/SFML/"
+      - "C:/Program Files/Bandizip/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/SFML/doc/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/share/doc/SFML/"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/"
+      - "C:/Program Files/Git/cmd/SFML/doc/"
+      - "C:/Program Files/Git/cmd/share/doc/SFML/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/SFML/doc/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/share/doc/SFML/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Program Files/CMake/bin/SFML/doc/"
+      - "C:/Program Files/CMake/bin/share/doc/SFML/"
+      - "C:/Program Files/CMake/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/SFML/doc/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/share/doc/SFML/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/SFML/doc/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/share/doc/SFML/"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/SFML/doc/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/share/doc/SFML/"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/SFML/doc/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/share/doc/SFML/"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/"
+      - "C:/Program Files/include/SFML/doc/"
+      - "C:/Program Files/include/share/doc/SFML/"
+      - "C:/Program Files/include/"
+      - "C:/Program Files/SFML/doc/"
+      - "C:/Program Files/share/doc/SFML/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/include/SFML/doc/"
+      - "C:/Program Files (x86)/include/share/doc/SFML/"
+      - "C:/Program Files (x86)/include/"
+      - "C:/Program Files (x86)/SFML/doc/"
+      - "C:/Program Files (x86)/share/doc/SFML/"
+      - "C:/Program Files (x86)/"
+      - "C:/Program Files/CMake/include/SFML/doc/"
+      - "C:/Program Files/CMake/include/share/doc/SFML/"
+      - "C:/Program Files/CMake/include/"
+      - "C:/Program Files/CMake/SFML/doc/"
+      - "C:/Program Files/CMake/share/doc/SFML/"
+      - "C:/Program Files/CMake/"
+      - "C:/Program Files/CloudSeamanor_game/include/SFML/doc/"
+      - "C:/Program Files/CloudSeamanor_game/include/share/doc/SFML/"
+      - "C:/Program Files/CloudSeamanor_game/include/"
+      - "C:/Program Files/CloudSeamanor_game/SFML/doc/"
+      - "C:/Program Files/CloudSeamanor_game/share/doc/SFML/"
+      - "C:/Program Files/CloudSeamanor_game/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML/doc/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/doc/SFML/"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/"
+      - "C:/Users/Administrator/Library/Frameworks/SFML/doc/"
+      - "C:/Users/Administrator/Library/Frameworks/share/doc/SFML/"
+      - "C:/Users/Administrator/Library/Frameworks/"
+      - "/Library/Frameworks/SFML/doc/"
+      - "/Library/Frameworks/share/doc/SFML/"
+      - "/Library/Frameworks/"
+      - "/usr/local/SFML/doc/"
+      - "/usr/local/share/doc/SFML/"
+      - "/usr/local/"
+      - "/usr/SFML/doc/"
+      - "/usr/share/doc/SFML/"
+      - "/usr/"
+      - "/sw/SFML/doc/"
+      - "/sw/share/doc/SFML/"
+      - "/sw/"
+      - "/opt/local/SFML/doc/"
+      - "/opt/local/share/doc/SFML/"
+      - "/opt/local/"
+      - "/opt/csw/SFML/doc/"
+      - "/opt/csw/share/doc/SFML/"
+      - "/opt/csw/"
+      - "/opt/SFML/doc/"
+      - "/opt/share/doc/SFML/"
+      - "/opt/"
+    searched_directories:
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/SFML/doc/SFML.tag"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/share/doc/SFML/SFML.tag"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/SFML.tag"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML/doc/SFML.tag"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/doc/SFML/SFML.tag"
+      - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/SFML/doc/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/share/doc/SFML/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/include/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML/doc/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/doc/SFML/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/SFML/doc/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/share/doc/SFML/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/resources/helpers/SFML.tag"
+      - "C:/Windows/System32/SFML/doc/SFML.tag"
+      - "C:/Windows/System32/share/doc/SFML/SFML.tag"
+      - "C:/Windows/System32/SFML.tag"
+      - "C:/Windows/SFML/doc/SFML.tag"
+      - "C:/Windows/share/doc/SFML/SFML.tag"
+      - "C:/Windows/SFML.tag"
+      - "C:/Windows/System32/wbem/SFML/doc/SFML.tag"
+      - "C:/Windows/System32/wbem/share/doc/SFML/SFML.tag"
+      - "C:/Windows/System32/wbem/SFML.tag"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/SFML/doc/SFML.tag"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/share/doc/SFML/SFML.tag"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/SFML.tag"
+      - "C:/Windows/System32/OpenSSH/SFML/doc/SFML.tag"
+      - "C:/Windows/System32/OpenSSH/share/doc/SFML/SFML.tag"
+      - "C:/Windows/System32/OpenSSH/SFML.tag"
+      - "C:/Program Files/dotnet/SFML/doc/SFML.tag"
+      - "C:/Program Files/dotnet/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/dotnet/SFML.tag"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/SFML/doc/SFML.tag"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/share/doc/SFML/SFML.tag"
+      - "C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common/SFML.tag"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/SFML/doc/SFML.tag"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR/SFML.tag"
+      - "C:/Program Files/Bandizip/SFML/doc/SFML.tag"
+      - "C:/Program Files/Bandizip/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/Bandizip/SFML.tag"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/SFML/doc/SFML.tag"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/Microsoft SQL Server/170/Tools/Binn/SFML.tag"
+      - "C:/Program Files/Git/cmd/SFML/doc/SFML.tag"
+      - "C:/Program Files/Git/cmd/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/Git/cmd/SFML.tag"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/SFML/doc/SFML.tag"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/share/doc/SFML/SFML.tag"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/SFML.tag"
+      - "C:/Program Files/CMake/bin/SFML/doc/SFML.tag"
+      - "C:/Program Files/CMake/bin/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/CMake/bin/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/SFML/doc/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/share/doc/SFML/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/codeBin/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/SFML/doc/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/share/doc/SFML/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Microsoft/WindowsApps/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/SFML/doc/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/share/doc/SFML/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/Kiro/bin/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/SFML/doc/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/share/doc/SFML/SFML.tag"
+      - "C:/Users/Administrator/AppData/Local/Programs/cursor/resources/app/bin/SFML.tag"
+      - "C:/Program Files/include/SFML/doc/SFML.tag"
+      - "C:/Program Files/include/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/include/SFML.tag"
+      - "C:/Program Files/SFML/doc/SFML.tag"
+      - "C:/Program Files/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/SFML.tag"
+      - "C:/Program Files (x86)/include/SFML/doc/SFML.tag"
+      - "C:/Program Files (x86)/include/share/doc/SFML/SFML.tag"
+      - "C:/Program Files (x86)/include/SFML.tag"
+      - "C:/Program Files (x86)/SFML/doc/SFML.tag"
+      - "C:/Program Files (x86)/share/doc/SFML/SFML.tag"
+      - "C:/Program Files (x86)/SFML.tag"
+      - "C:/Program Files/CMake/include/SFML/doc/SFML.tag"
+      - "C:/Program Files/CMake/include/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/CMake/include/SFML.tag"
+      - "C:/Program Files/CMake/SFML/doc/SFML.tag"
+      - "C:/Program Files/CMake/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/CMake/SFML.tag"
+      - "C:/Program Files/CloudSeamanor_game/include/SFML/doc/SFML.tag"
+      - "C:/Program Files/CloudSeamanor_game/include/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/CloudSeamanor_game/include/SFML.tag"
+      - "C:/Program Files/CloudSeamanor_game/SFML/doc/SFML.tag"
+      - "C:/Program Files/CloudSeamanor_game/share/doc/SFML/SFML.tag"
+      - "C:/Program Files/CloudSeamanor_game/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML/doc/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/doc/SFML/SFML.tag"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFML.tag"
+      - "C:/Users/Administrator/Library/Frameworks/SFML/doc/SFML.tag"
+      - "C:/Users/Administrator/Library/Frameworks/share/doc/SFML/SFML.tag"
+      - "C:/Users/Administrator/Library/Frameworks/SFML.tag"
+      - "/Library/Frameworks/SFML/doc/SFML.tag"
+      - "/Library/Frameworks/share/doc/SFML/SFML.tag"
+      - "/Library/Frameworks/SFML.tag"
+      - "/usr/local/SFML/doc/SFML.tag"
+      - "/usr/local/share/doc/SFML/SFML.tag"
+      - "/usr/local/SFML.tag"
+      - "/usr/SFML/doc/SFML.tag"
+      - "/usr/share/doc/SFML/SFML.tag"
+      - "/usr/SFML.tag"
+      - "/sw/SFML/doc/SFML.tag"
+      - "/sw/share/doc/SFML/SFML.tag"
+      - "/sw/SFML.tag"
+      - "/opt/local/SFML/doc/SFML.tag"
+      - "/opt/local/share/doc/SFML/SFML.tag"
+      - "/opt/local/SFML.tag"
+      - "/opt/csw/SFML/doc/SFML.tag"
+      - "/opt/csw/share/doc/SFML/SFML.tag"
+      - "/opt/csw/SFML.tag"
+      - "/opt/SFML/doc/SFML.tag"
+      - "/opt/share/doc/SFML/SFML.tag"
+      - "/opt/SFML.tag"
+    found: false
+    search_context:
+      package_stack:
+        -
+          package_paths:
+            - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      CMAKE_PREFIX_PATH:
+        - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/CloudSeamanor_game"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files/CloudSeamanor_game"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLGraphicsDependencies.cmake:14 (find_dependency)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:146 (include)"
+      - "CMakeLists.txt:41 (find_package)"
+    name: "Freetype"
+    configs:
+      -
+        filename: "Freetype.cps"
+        kind: "cps"
+      -
+        filename: "freetype.cps"
+        kind: "cps"
+      -
+        filename: "FreetypeConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "freetype-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Freetype"
+      search_paths:
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/../../../"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/FreetypeConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/freetype-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/Freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/Freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/FreetypeConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/freetype-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/Freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/Freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/freetype.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/freetype/FreetypeConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/freetype/freetype-config.cmake"
+      mode: "config"
+      version: "2.13.2"
+    search_context:
+      package_stack:
+        -
+          package_paths:
+            - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      CMAKE_PREFIX_PATH:
+        - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/CloudSeamanor_game"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files/CloudSeamanor_game"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/Vorbis/VorbisConfig.cmake:28 (find_dependency)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLAudioDependencies.cmake:34 (find_dependency)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:146 (include)"
+      - "CMakeLists.txt:41 (find_package)"
+    name: "Ogg"
+    configs:
+      -
+        filename: "Ogg.cps"
+        kind: "cps"
+      -
+        filename: "ogg.cps"
+        kind: "cps"
+      -
+        filename: "OggConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "ogg-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Ogg"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/OggConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/ogg-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/Ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/Ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/OggConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/ogg-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/Ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/Ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/ogg.cps"
+        mode: "cps"
+        reason: "no_exist"
+    found:
+      path: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/Ogg/OggConfig.cmake"
+      mode: "config"
+      version: "1.3.5"
+    search_context:
+      package_stack:
+        -
+          package_paths:
+            - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      CMAKE_PREFIX_PATH:
+        - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/CloudSeamanor_game"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files/CloudSeamanor_game"
+      CMAKE_MODULE_PATH:
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLAudioDependencies.cmake:34 (find_dependency)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:146 (include)"
+      - "CMakeLists.txt:41 (find_package)"
+    name: "Vorbis"
+    configs:
+      -
+        filename: "Vorbis.cps"
+        kind: "cps"
+      -
+        filename: "vorbis.cps"
+        kind: "cps"
+      -
+        filename: "VorbisConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "vorbis-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "Vorbis"
+      search_paths:
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/../../../"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/VorbisConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/vorbis-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/Vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/Vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/VorbisConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/vorbis-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/Vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/Vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/vorbis.cps"
+        mode: "cps"
+        reason: "no_exist"
+    found:
+      path: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/Vorbis/VorbisConfig.cmake"
+      mode: "config"
+      version: "1.3.7"
+    search_context:
+      package_stack:
+        -
+          package_paths:
+            - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      CMAKE_PREFIX_PATH:
+        - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/CloudSeamanor_game"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files/CloudSeamanor_game"
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLAudioDependencies.cmake:35 (find_dependency)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:146 (include)"
+      - "CMakeLists.txt:41 (find_package)"
+    name: "FLAC"
+    configs:
+      -
+        filename: "FLAC.cps"
+        kind: "cps"
+      -
+        filename: "flac.cps"
+        kind: "cps"
+      -
+        filename: "FLACConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "flac-config.cmake"
+        kind: "cmake"
+    version_request:
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "FLAC"
+      search_paths:
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/../../../"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/FLACConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/flac-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/FLAC.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/flac.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/FLAC.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/flac.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/FLACConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/flac-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/FLAC.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/flac.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/FLAC.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/flac.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/FLAC/FLACConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+    found:
+      path: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/FLAC/flac-config.cmake"
+      mode: "config"
+      version: "1.4.3"
+    search_context:
+      package_stack:
+        -
+          package_paths:
+            - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      CMAKE_PREFIX_PATH:
+        - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/CloudSeamanor_game"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files/CloudSeamanor_game"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/Internal/CheckSourceCompiles.cmake:104 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CheckCXXSourceCompiles.cmake:103 (cmake_check_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindThreads.cmake:162 (check_cxx_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindThreads.cmake:226 (_threads_check_libc)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLSystemDependencies.cmake:8 (find_dependency)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:146 (include)"
+      - "CMakeLists.txt:41 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-p66nki"
+      binary: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-p66nki"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-p66nki'
+        
+        Run Build Command(s): D:/vs/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_c6a40.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.40+3e7442088
+        鐢熸垚鍚姩鏃堕棿涓?2026/5/2/鍛ㄥ叚 23:39:46銆?
+        
+        鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj鈥?榛樿鐩爣)銆?
+        PrepareForBuild:
+          宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+          姝ｅ湪鍒涘缓鐩綍鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_c6a40.dir\\Debug\\cmTC_c6a40.tlog\\鈥濄€?
+        InitializeBuildStatus:
+          姝ｅ湪鍒涘缓鈥渃mTC_c6a40.dir\\Debug\\cmTC_c6a40.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_c6a40.dir\\Debug\\cmTC_c6a40.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+        SetModuleDependencies:
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_c6a40.dir\\Debug\\cmTC_c6a40_MD.tlog\\鈥濄€?
+          姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_c6a40.dir\\Debug\\\\" /scanDependencies "cmTC_c6a40.dir\\Debug\\\\" /Fo"cmTC_c6a40.dir\\Debug\\\\" /Fd"cmTC_c6a40.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35226 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_c6a40.dir\\Debug\\\\" /scanDependencies "cmTC_c6a40.dir\\Debug\\\\" /Fo"cmTC_c6a40.dir\\Debug\\\\" /Fd"cmTC_c6a40.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx"
+          src.cxx
+        D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx(1,10): fatal  error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+        D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx(1,10): error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+        D:\\vs\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets(532,5): warning MSB8074: 鏃犳硶璇诲彇妯″潡渚濊禆椤规枃浠?cmTC_c6a40.dir\\Debug\\src.cxx.module.json: 搴斾负鏉ヨ嚜鍛藉悕绌洪棿鈥溾€濈殑鍏冪礌鈥渞oot鈥濄€傘€傞亣鍒板悕绉颁负鈥溾€濄€佸懡鍚嶇┖闂翠负鈥溾€濈殑鈥淣one鈥濄€?鐢熸垚椤哄簭鍙兘涓嶆纭€?[D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+        ClCompile:
+          姝ｅ湪缂栬瘧...
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_c6a40.dir\\Debug\\\\" /Fo"cmTC_c6a40.dir\\Debug\\\\" /Fd"cmTC_c6a40.dir\\Debug\\vc143.pdb" /sourceDependencies "cmTC_c6a40.dir\\Debug\\.d.json" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35226 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_c6a40.dir\\Debug\\\\" /Fo"cmTC_c6a40.dir\\Debug\\\\" /Fd"cmTC_c6a40.dir\\Debug\\vc143.pdb" /sourceDependencies "cmTC_c6a40.dir\\Debug\\.d.json" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx"
+          src.cxx
+        D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx(1,10): error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+        宸插畬鎴愮敓鎴愰」鐩€淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj鈥?榛樿鐩爣)鐨勬搷浣?- 澶辫触銆?
+        
+        鐢熸垚澶辫触銆?
+        
+        鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj鈥?榛樿鐩爣) (1) ->
+        (SetModuleDependencies 鐩爣) -> 
+          D:\\vs\\MSBuild\\Microsoft\\VC\\v170\\Microsoft.CppCommon.targets(532,5): warning MSB8074: 鏃犳硶璇诲彇妯″潡渚濊禆椤规枃浠?cmTC_c6a40.dir\\Debug\\src.cxx.module.json: 搴斾负鏉ヨ嚜鍛藉悕绌洪棿鈥溾€濈殑鍏冪礌鈥渞oot鈥濄€傘€傞亣鍒板悕绉颁负鈥溾€濄€佸懡鍚嶇┖闂翠负鈥溾€濈殑鈥淣one鈥濄€?鐢熸垚椤哄簭鍙兘涓嶆纭€?[D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+        
+        
+        鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj鈥?榛樿鐩爣) (1) ->
+        (SetModuleDependencies 鐩爣) -> 
+          D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx(1,10): fatal  error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+          D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx(1,10): error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+        
+        
+        鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj鈥?榛樿鐩爣) (1) ->
+        (ClCompile 鐩爣) -> 
+          D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\src.cxx(1,10): error C1083: 鏃犳硶鎵撳紑鍖呮嫭鏂囦欢: 鈥減thread.h鈥? No such file or directory [D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-p66nki\\cmTC_c6a40.vcxproj]
+        
+            1 涓鍛?
+            3 涓敊璇?
+        
+        宸茬敤鏃堕棿 00:00:00.34
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindThreads.cmake:175 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindThreads.cmake:238 (_threads_check_lib)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLSystemDependencies.cmake:8 (find_dependency)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:146 (include)"
+      - "CMakeLists.txt:41 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-si6qjs"
+      binary: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-si6qjs"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-si6qjs'
+        
+        Run Build Command(s): D:/vs/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_ccbb7.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.40+3e7442088
+        鐢熸垚鍚姩鏃堕棿涓?2026/5/2/鍛ㄥ叚 23:39:47銆?
+        
+        鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\cmTC_ccbb7.vcxproj鈥?榛樿鐩爣)銆?
+        PrepareForBuild:
+          宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+          姝ｅ湪鍒涘缓鐩綍鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_ccbb7.dir\\Debug\\cmTC_ccbb7.tlog\\鈥濄€?
+        InitializeBuildStatus:
+          姝ｅ湪鍒涘缓鈥渃mTC_ccbb7.dir\\Debug\\cmTC_ccbb7.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_ccbb7.dir\\Debug\\cmTC_ccbb7.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+        SetModuleDependencies:
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_ccbb7.dir\\Debug\\cmTC_ccbb7_MD.tlog\\鈥濄€?
+          姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_ccbb7.dir\\Debug\\\\" /scanDependencies "cmTC_ccbb7.dir\\Debug\\\\" /Fo"cmTC_ccbb7.dir\\Debug\\\\" /Fd"cmTC_ccbb7.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\CheckFunctionExists.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35226 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_ccbb7.dir\\Debug\\\\" /scanDependencies "cmTC_ccbb7.dir\\Debug\\\\" /Fo"cmTC_ccbb7.dir\\Debug\\\\" /Fd"cmTC_ccbb7.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        ClCompile:
+          姝ｅ湪缂栬瘧...
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_ccbb7.dir\\Debug\\\\" /Fo"cmTC_ccbb7.dir\\Debug\\\\" /Fd"cmTC_ccbb7.dir\\Debug\\vc143.pdb" /sourceDependencies "cmTC_ccbb7.dir\\Debug\\.d.json" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\CheckFunctionExists.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35226 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_ccbb7.dir\\Debug\\\\" /Fo"cmTC_ccbb7.dir\\Debug\\\\" /Fd"cmTC_ccbb7.dir\\Debug\\vc143.pdb" /sourceDependencies "cmTC_ccbb7.dir\\Debug\\.d.json" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\Debug\\cmTC_ccbb7.exe" /INCREMENTAL /ILK:"cmTC_ccbb7.dir\\Debug\\cmTC_ccbb7.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/CloudSeaManor/02_宸ョ▼涓讳唬鐮?CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-si6qjs/Debug/cmTC_ccbb7.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/CloudSeaManor/02_宸ョ▼涓讳唬鐮?CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-si6qjs/Debug/cmTC_ccbb7.lib" /MACHINE:X64  /machine:x64 cmTC_ccbb7.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減threads.lib鈥?[D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\cmTC_ccbb7.vcxproj]
+        宸插畬鎴愮敓鎴愰」鐩€淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\cmTC_ccbb7.vcxproj鈥?榛樿鐩爣)鐨勬搷浣?- 澶辫触銆?
+        
+        鐢熸垚澶辫触銆?
+        
+        鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\cmTC_ccbb7.vcxproj鈥?榛樿鐩爣) (1) ->
+        (Link 鐩爣) -> 
+          LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減threads.lib鈥?[D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-si6qjs\\cmTC_ccbb7.vcxproj]
+        
+            0 涓鍛?
+            1 涓敊璇?
+        
+        宸茬敤鏃堕棿 00:00:00.40
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindThreads.cmake:175 (check_library_exists)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/FindThreads.cmake:239 (_threads_check_lib)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:93 (find_package)"
+      - "C:/Program Files/CMake/share/cmake-4.3/Modules/CMakeFindDependencyMacro.cmake:125 (__find_dependency_common)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLSystemDependencies.cmake:8 (find_dependency)"
+      - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake:146 (include)"
+      - "CMakeLists.txt:41 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-tcweoo"
+      binary: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-tcweoo"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_STDLIB_MODULES_JSON: ""
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML;D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-tcweoo'
+        
+        Run Build Command(s): D:/vs/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_e2c71.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.40+3e7442088
+        鐢熸垚鍚姩鏃堕棿涓?2026/5/2/鍛ㄥ叚 23:39:47銆?
+        
+        鑺傜偣 1 涓婄殑椤圭洰鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\cmTC_e2c71.vcxproj鈥?榛樿鐩爣)銆?
+        PrepareForBuild:
+          宸插惎鐢ㄧ粨鏋勫寲杈撳嚭銆傜紪璇戝櫒璇婃柇鐨勬牸寮忚缃皢鍙嶆槧閿欒灞傛缁撴瀯銆傛湁鍏宠缁嗕俊鎭紝璇峰弬闃?https://aka.ms/cpp/structured-output銆?
+          姝ｅ湪鍒涘缓鐩綍鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\Debug\\鈥濄€?
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_e2c71.dir\\Debug\\cmTC_e2c71.tlog\\鈥濄€?
+        InitializeBuildStatus:
+          姝ｅ湪鍒涘缓鈥渃mTC_e2c71.dir\\Debug\\cmTC_e2c71.tlog\\unsuccessfulbuild鈥濓紝鍥犱负宸叉寚瀹氣€淎lwaysCreate鈥濄€?
+          姝ｅ湪瀵光€渃mTC_e2c71.dir\\Debug\\cmTC_e2c71.tlog\\unsuccessfulbuild鈥濇墽琛?Touch 浠诲姟銆?
+        SetModuleDependencies:
+          姝ｅ湪鍒涘缓鐩綍鈥渃mTC_e2c71.dir\\Debug\\cmTC_e2c71_MD.tlog\\鈥濄€?
+          姝ｅ湪鎵弿婧愪互鏌ユ壘妯″潡渚濊禆椤?..
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_e2c71.dir\\Debug\\\\" /scanDependencies "cmTC_e2c71.dir\\Debug\\\\" /Fo"cmTC_e2c71.dir\\Debug\\\\" /Fd"cmTC_e2c71.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\CheckFunctionExists.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35226 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_e2c71.dir\\Debug\\\\" /scanDependencies "cmTC_e2c71.dir\\Debug\\\\" /Fo"cmTC_e2c71.dir\\Debug\\\\" /Fd"cmTC_e2c71.dir\\Debug\\vc143.pdb" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        ClCompile:
+          姝ｅ湪缂栬瘧...
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_e2c71.dir\\Debug\\\\" /Fo"cmTC_e2c71.dir\\Debug\\\\" /Fd"cmTC_e2c71.dir\\Debug\\vc143.pdb" /sourceDependencies "cmTC_e2c71.dir\\Debug\\.d.json" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\CheckFunctionExists.cxx"
+          鐢ㄤ簬 x64 鐨?Microsoft (R) C/C++ 浼樺寲缂栬瘧鍣?19.44.35226 鐗?
+          鐗堟潈鎵€鏈?C) Microsoft Corporation銆備繚鐣欐墍鏈夋潈鍒┿€?
+          cl /c /Zi /W1 /WX- /diagnostics:column /FS /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /std:c++20 /ifcOutput "cmTC_e2c71.dir\\Debug\\\\" /Fo"cmTC_e2c71.dir\\Debug\\\\" /Fd"cmTC_e2c71.dir\\Debug\\vc143.pdb" /sourceDependencies "cmTC_e2c71.dir\\Debug\\.d.json" /external:W1 /TP /errorReport:queue "D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\CheckFunctionExists.cxx"
+          CheckFunctionExists.cxx
+        Link:
+          D:\\vs\\VC\\Tools\\MSVC\\14.44.35207\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\Debug\\cmTC_e2c71.exe" /INCREMENTAL /ILK:"cmTC_e2c71.dir\\Debug\\cmTC_e2c71.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/CloudSeaManor/02_宸ョ▼涓讳唬鐮?CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-tcweoo/Debug/cmTC_e2c71.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/CloudSeaManor/02_宸ョ▼涓讳唬鐮?CloudSeaManor/build_test/CMakeFiles/CMakeScratch/TryCompile-tcweoo/Debug/cmTC_e2c71.lib" /MACHINE:X64  /machine:x64 cmTC_e2c71.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減thread.lib鈥?[D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\cmTC_e2c71.vcxproj]
+        宸插畬鎴愮敓鎴愰」鐩€淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\cmTC_e2c71.vcxproj鈥?榛樿鐩爣)鐨勬搷浣?- 澶辫触銆?
+        
+        鐢熸垚澶辫触銆?
+        
+        鈥淒:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\cmTC_e2c71.vcxproj鈥?榛樿鐩爣) (1) ->
+        (Link 鐩爣) -> 
+          LINK : fatal error LNK1104: 鏃犳硶鎵撳紑鏂囦欢鈥減thread.lib鈥?[D:\\CloudSeaManor\\02_宸ョ▼涓讳唬鐮乗CloudSeaManor\\build_test\\CMakeFiles\\CMakeScratch\\TryCompile-tcweoo\\cmTC_e2c71.vcxproj]
+        
+            0 涓鍛?
+            1 涓敊璇?
+        
+        宸茬敤鏃堕棿 00:00:00.40
+        
+      exitCode: 1
+  -
+    kind: "find_package-v1"
+    backtrace:
+      - "CMakeLists.txt:41 (find_package)"
+    name: "SFML"
+    components:
+      -
+        name: "Graphics"
+        required: true
+        found: false
+      -
+        name: "Window"
+        required: true
+        found: false
+      -
+        name: "System"
+        required: true
+        found: false
+      -
+        name: "Audio"
+        required: true
+        found: false
+    configs:
+      -
+        filename: "SFML.cps"
+        kind: "cps"
+      -
+        filename: "sfml.cps"
+        kind: "cps"
+      -
+        filename: "SFMLConfig.cmake"
+        kind: "cmake"
+      -
+        filename: "sfml-config.cmake"
+        kind: "cmake"
+    version_request:
+      version: "3"
+      version_complete: "3"
+      exact: false
+    settings:
+      required: "required_explicit"
+      quiet: false
+      global: false
+      policy_scope: true
+      bypass_provider: false
+      names:
+        - "SFML"
+      path_suffixes:
+        - ""
+      paths:
+        CMAKE_FIND_USE_CMAKE_PATH: true
+        CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+        CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+        CMAKE_FIND_USE_INSTALL_PREFIX: true
+        CMAKE_FIND_USE_PACKAGE_ROOT_PATH: true
+        CMAKE_FIND_USE_CMAKE_PACKAGE_REGISTRY: true
+        CMAKE_FIND_USE_SYSTEM_PACKAGE_REGISTRY: true
+        CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
+    candidates:
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/SFMLConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/sfml-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/SFML.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/lib/cps/sfml.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/SFML.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/build_test/CMakeFiles/pkgRedirects/share/cps/sfml.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/SFMLConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/sfml-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/SFML.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cps/sfml.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/SFML.cps"
+        mode: "cps"
+        reason: "no_exist"
+      -
+        path: "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/share/cps/sfml.cps"
+        mode: "cps"
+        reason: "no_exist"
+    found:
+      path: "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML/SFMLConfig.cmake"
+      mode: "config"
+      version: "3.0.2"
+    search_context:
+      CMAKE_PREFIX_PATH:
+        - "D:/CloudSeaManor/02_\u5de5\u7a0b\u4e3b\u4ee3\u7801/CloudSeaManor/../../03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2"
+      ENV{PATH}:
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\resources\\helpers"
+        - "C:\\Windows\\system32"
+        - "C:\\Windows"
+        - "C:\\Windows\\System32\\Wbem"
+        - "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\Windows\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\dotnet\\"
+        - "C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common"
+        - "C:\\Program Files\\NVIDIA Corporation\\NVIDIA App\\NvDLISR"
+        - "C:\\Program Files\\Bandizip\\"
+        - "C:\\Program Files\\Microsoft SQL Server\\170\\Tools\\Binn\\"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Program Files\\CMake\\bin"
+        - "c:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\codeBin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\Kiro\\bin"
+        - "C:\\Users\\Administrator\\AppData\\Local\\Programs\\cursor\\resources\\app\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files/CloudSeamanor_game"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Program Files/CMake"
+        - "C:/Program Files/CloudSeamanor_game"
+      CMAKE_MODULE_PATH:
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+        - "D:/CloudSeaManor/03_\u53c2\u8003\u4e0e\u7b2c\u4e09\u65b9\u8d44\u6e90/01_SFML\u5f15\u64ce/SFML/SFML-3.0.2/lib/cmake/SFML"
+...

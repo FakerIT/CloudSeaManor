@@ -1,0 +1,68 @@
+{
+  "event_id": "shu_h1",
+  "npc_id": "shu",
+  "title": "云海的观测者",
+  "description": "在观测站遇到书羽",
+  "nodes": [
+    {
+      "id": "shu_h1_start",
+      "speaker": "书羽",
+      "text": "今天的云很有规律……哦，有人来了。你是来观测云的吗？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "你对云很有研究？",
+          "next_node_id": "shu_h1_study"
+        },
+        {
+          "id": "choice_2",
+          "text": "云有什么规律？",
+          "next_node_id": "shu_h1_rule"
+        }
+      ]
+    },
+    {
+      "id": "shu_h1_study",
+      "speaker": "书羽",
+      "text": "谈不上研究，只是喜欢观察。云海的变化是有规律的，观察久了就能预知天气。",
+      "choices": [
+        {
+          "id": "choice_weather",
+          "text": "那明天天气怎么样？",
+          "next_node_id": "shu_h1_weather"
+        }
+      ]
+    },
+    {
+      "id": "shu_h1_rule",
+      "speaker": "书羽",
+      "text": "你看那些云，形状和移动方向都藏着信息。学会读懂它们，就能读懂天空的语言。",
+      "choices": [
+        {
+          "id": "choice_language",
+          "text": "天空的语言？",
+          "next_node_id": "shu_h1_weather"
+        }
+      ]
+    },
+    {
+      "id": "shu_h1_weather",
+      "speaker": "书羽",
+      "text": "根据今天的云，明天应该是晴天。观测云海久了，感觉自己也和大自然连在一起了。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "听起来很神奇。",
+          "next_node_id": "shu_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "shu_h1_end",
+      "speaker": "书羽",
+      "text": "以后想学观云就来找我，我教你。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

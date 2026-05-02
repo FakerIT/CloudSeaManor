@@ -1,0 +1,21 @@
+# 钓鱼系统鱼种数据表
+
+> 版本：v1.0 | 日期：2026-05-02
+> 格式：CSV
+
+```csv
+Id,NameZh,NameEn,BasePrice,MinWeight,MaxWeight,Difficulty,Season,Weather,TimeRange,LocationId,Rarity,Tier,DescriptionZh
+cloudCarp,云鲤,Cloud Carp,30,0.5,2.0,1,spring|summer|autumn|winter,any,0600-2200,main_farm,common,1,你最常钓到的鱼，浑身透着云雾般的色泽
+mistEel,雾鳝,Mist Eel,50,0.8,3.0,2,spring|summer,lightMist,0600-1800,main_farm|spirit_realm,common,1,喜欢在薄雾中出没，身体如流水般柔软
+rainDewFish,雨露鱼,Raindew Fish,45,0.3,1.5,2,summer|autumn,heavyRain,1200-2400,main_farm|river,uncommon,1,雨后更容易钓到，肉质鲜嫩
+tideKoi,潮汐锦鲤,Tide Koi,200,1.5,5.0,4,any,tide,0000-2400,spirit_realm,tide,2,大潮时才会出现的珍稀锦鲤，据说能带来好运
+starfish,星河鱼,Starlight Fish,180,1.0,4.0,4,autumn|winter,clear,1800-0600,river,rare,2,在星空下闪烁着微光，极为罕见
+moonPetunia,月华鱼,Moon Petunia,150,0.5,2.5,3,any,tide,2200-0400,river|spirit_realm,uncommon,2,只在夜晚和大潮时出没，味道鲜美
+springCharm,春灵鲤,Spring Charm,80,1.0,3.5,2,spring,any,0600-2000,main_farm,common,1,春季特有的鱼，寓意吉祥
+summerFlame,夏焰鱼,Summer Flame,90,0.8,3.0,3,summer,clear,1000-1800,river,uncommon,2,夏季阳光下如火焰般闪耀
+autumnLeaf,秋叶鱼,Autumn Leaf,70,1.2,4.0,2,autumn,any,0800-2000,main_farm|river,common,1,秋季飘落的红叶鱼，味道清甜
+winterCrystal,冬晶鱼,Winter Crystal,100,0.5,2.0,3,winter,snow|clear,0600-1800,river|spirit_realm,uncommon,2,冬季特有的鱼，肉质如水晶般透明
+spiritWisp,灵虚鱼,Spirit Wisp,300,0.3,1.0,5,any,any,0000-2400,spirit_realm,rare,3,灵界的游魂所化，触碰会让人心神荡漾
+cloudDragon,云蛟龙,Cloud Dragon,500,3.0,8.0,5,any,tide,1200-2400,spirit_realm,legendary,4,传说中掌控云海的龙族后裔，极为罕见
+primordialKun,太初鲲,Primordial Kun,1000,10.0,30.0,5,any,tide,0600-1800,spirit_realm_deep,legendary,5,太初之鲲，化而为鸟，其名为鹏
+```

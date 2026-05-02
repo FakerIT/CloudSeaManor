@@ -1,0 +1,9 @@
+Id,ItemId,ItemName,Description,ItemType
+mem_desc_1,tea_cloud,云雾茶,淡淡的茶香让人心境平和,memory_trigger
+mem_desc_2,tea_spirit,灵芽茶,传说中能沟通茶灵的神茶,memory_trigger
+mem_desc_3,pet_cloud,云绒,柔软的白色小灵兽，极其可爱,memory_trigger
+mem_desc_4,flower_lotus,清莲,出淤泥而不染的高洁之花,memory_trigger
+mem_desc_5,weapon_cloud_sword,云雾剑,轻盈如云，锋利如雾,memory_trigger
+mem_desc_6,herb_rare,灵芝,珍贵的药用菌类,memory_trigger
+mem_desc_7,cloud_essence,云之精华,云海凝聚的灵气结晶,memory_trigger
+mem_desc_8,spirit_crystal,灵石,蕴含强大灵力的水晶,memory_trigger

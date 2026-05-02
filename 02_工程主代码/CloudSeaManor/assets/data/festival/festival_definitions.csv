@@ -1,0 +1,13 @@
+Id,Name,Description,Type,Season,Day,NoticeDays,Activity,Reward,BuffTag
+spring_awakening,山庄苏醒祭,庆祝山庄苏醒,Normal,0,8,3,祭祀,木材x5,stamina_bonus
+spring_tea_bud,灵茶初芽节,庆祝灵茶发芽,Normal,0,15,3,采茶比赛,灵茶x3,growth_bonus
+spring_date,春风约会日,春季约会活动,Normal,0,22,3,约会,好感+20,social_bonus
+summer_lantern,云海灯会,云海上的灯会,Normal,1,12,3,放灯,灯芯x5,cloud_bonus
+summer_beast_sports,灵兽运动会,灵兽们的运动比赛,Normal,1,19,3,比赛,灵茶x5,pet_bonus
+summer_hot_spring,夏夜温泉祭,温泉开放夜,Normal,1,26,3,温泉,体力+50,stamina_recovery
+autumn_harvest,丰收宴,庆祝丰收,Normal,2,7,3,宴席,作物x10,harvest_bonus
+autumn_beast_contest,灵兽大比,灵兽展示大赛,Normal,2,14,3,比试,灵茶x5,pet_bonus
+autumn_memory,秋忆祭,回忆与感恩,Normal,2,23,3,祭祀,好感+20,social_bonus
+winter_guard,雪雾守岁,守岁迎新,Normal,3,15,3,守岁,体力+100,stamina_recovery
+winter_grand,年终云海大典,年终盛大庆典,Normal,3,28,3,庆典,灵茶x10,all_bonus
+cloud_tide,云海大潮,云海最盛大的时刻,CloudTide,1,21,7,潮祭,灵气+50,spirit_bonus

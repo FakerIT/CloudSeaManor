@@ -1,0 +1,13 @@
+Id,NpcId,Stage,RequiredPoints,RequiredFavor,NextStage,DialogueId,Description
+dev_stage_1,lingxiao,Stage1,0,0,Stage2,dial_lingxiao_1,初始阶段
+dev_stage_2,lingxiao,Stage2,50,30,Stage3,dial_lingxiao_2,好感阶段
+dev_stage_3,lingxiao,Stage3,150,60,Stage4,dial_lingxiao_3,朋友阶段
+dev_stage_4,lingxiao,Stage4,300,100,Stage5,dial_lingxiao_4,知己阶段
+dev_stage_5,lingxiao,Stage5,500,150,Stage6,dial_lingxiao_5,挚友阶段
+dev_stage_6,lingxiao,Stage6,800,200,None,dial_lingxiao_6,恋人阶段
+dev_stage_1,qingfeng,Stage1,0,0,Stage2,dial_qingfeng_1,初始阶段
+dev_stage_2,qingfeng,Stage2,50,30,Stage3,dial_qingfeng_2,好感阶段
+dev_stage_3,qingfeng,Stage3,150,60,Stage4,dial_qingfeng_3,朋友阶段
+dev_stage_4,qingfeng,Stage4,300,100,Stage5,dial_qingfeng_4,知己阶段
+dev_stage_5,qingfeng,Stage5,500,150,Stage6,dial_qingfeng_5,挚友阶段
+dev_stage_6,qingfeng,Stage6,800,200,None,dial_qingfeng_6,恋人阶段

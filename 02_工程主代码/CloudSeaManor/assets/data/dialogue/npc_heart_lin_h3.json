@@ -1,0 +1,150 @@
+{
+  "event_id": "lin_h3",
+  "npc_id": "lin",
+  "title": "老槐树下听往事",
+  "description": "与老槐在老槐树下聆听他讲述往事",
+  "nodes": [
+    {
+      "id": "lin_h3_start",
+      "speaker": "老槐",
+      "text": "哟，是$[PLAYER_NAME]啊。今晚月色不错，坐吧。",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "想找您聊聊天",
+          "next_node_id": "lin_h3_chat"
+        },
+        {
+          "id": "choice_2",
+          "text": "这树真老了，比我见过的都老",
+          "next_node_id": "lin_h3_tree"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_chat",
+      "speaker": "老槐",
+      "text": "聊天？好，好啊。这年头愿意找老头子聊天的人不多了。城里人都忙着看手机，没人看天。",
+      "choices": [
+        {
+          "id": "choice_listen",
+          "text": "我愿意听您讲",
+          "next_node_id": "lin_h3_story"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_tree",
+      "speaker": "老槐",
+      "text": "这棵树啊，是我爷爷的爷爷种下的。少说也有三百年了。我小时候，它就这么大；现在我老了，它还是这么大。",
+      "choices": [
+        {
+          "id": "choice_wise",
+          "text": "树是慢慢长的，人也是",
+          "next_node_id": "lin_h3_philosophy"
+        },
+        {
+          "id": "choice_curious",
+          "text": "这树有什么故事吗？",
+          "next_node_id": "lin_h3_story"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_philosophy",
+      "speaker": "老槐",
+      "text": "哈，你这小子说话有几分道理。我活了七十多年，才慢慢明白这个道理。急不得，慢慢来。",
+      "choices": [
+        {
+          "id": "choice_learn_more",
+          "text": "想听听您的故事",
+          "next_node_id": "lin_h3_story"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_story",
+      "speaker": "老槐",
+      "text": "故事？行，那我就讲讲年轻时候的事。五十年前，这山脚下还是一片荒地。我带着村里的年轻人，一锄头一锄头地开出来的。",
+      "choices": [
+        {
+          "id": "choice_hard",
+          "text": "那一定很辛苦吧",
+          "next_node_id": "lin_h3_hardship"
+        },
+        {
+          "id": "choice_inspire",
+          "text": "现在的山庄就是您那时候建的？",
+          "next_node_id": "lin_h3_proud"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_hardship",
+      "speaker": "老槐",
+      "text": "辛苦？那是真辛苦。白天开荒，晚上还要防野兽。有时候累了，直接睡在荒地里。但是看着那片地从荒到绿，心里踏实。",
+      "choices": [
+        {
+          "id": "choice_respect",
+          "text": "您是真真正正的开创者",
+          "next_node_id": "lin_h3_proud"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_proud",
+      "speaker": "老槐",
+      "text": "开创者？不敢当。我就是个种地的老头子。但是看着你们年轻人一代代在这片土地上生活、成长，我心里高兴。",
+      "choices": [
+        {
+          "id": "choice_gratitude",
+          "text": "谢谢您为我们做的一切",
+          "next_node_id": "lin_h3_legacy"
+        },
+        {
+          "id": "choice_continue",
+          "text": "您年轻时候有没有后悔过？",
+          "next_node_id": "lin_h3_regret"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_regret",
+      "speaker": "老槐",
+      "text": "后悔？……年轻时候走过的路，哪有什么可后悔的。就算走错了，也是自己的路。",
+      "choices": [
+        {
+          "id": "choice_wisdom",
+          "text": "这话我要记住",
+          "next_node_id": "lin_h3_legacy"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_legacy",
+      "speaker": "老槐",
+      "text": "$[PLAYER_NAME]，我老了，但这片土地还年轻。山庄的未来，是你们年轻人的。看着你们，我就觉得这辈子值了。",
+      "choices": [
+        {
+          "id": "choice_promise",
+          "text": "我会好好守护这里的",
+          "next_node_id": "lin_h3_end"
+        }
+      ]
+    },
+    {
+      "id": "lin_h3_end",
+      "speaker": "老槐",
+      "text": "好，好啊。$[PLAYER_NAME]，以后想聊天了，就来找老头子。这棵老槐树会一直在这里，听我们说话。",
+      "is_ending": true,
+      "reward_favor": 25,
+      "reward_items": [
+        {
+          "item_id": "ancient_seed",
+          "count": 3,
+          "description": "老槐珍藏的古茶种子"
+        }
+      ]
+    }
+  ]
+}

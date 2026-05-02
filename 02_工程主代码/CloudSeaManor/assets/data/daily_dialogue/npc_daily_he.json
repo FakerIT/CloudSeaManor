@@ -1,0 +1,350 @@
+{
+  "npc_id": "he",
+  "greetings": [
+    {
+      "id": "he_greet_morning",
+      "text": "秋水时至，$[PLAYER_NAME]！这么早就在山里走，精神真好啊。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "he_greet_morning_warm",
+      "text": "早安，$[PLAYER_NAME]！秋日的清晨最是清爽，适合出行。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_afternoon",
+      "text": "午后时光正好，$[PLAYER_NAME]！这天色，让人想起远方的山水。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_evening",
+      "text": "夕阳西下，$[PLAYER_NAME]！这山间的暮色，最能洗涤人心。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_night",
+      "text": "夜深林静，$[PLAYER_NAME]。这般时辰独自行走，想必有心事？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_night_warm",
+      "text": "月明星稀，$[PLAYER_NAME]！这样的夜晚，最适合静心。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_spring",
+      "text": "春回大地，$[PLAYER_NAME]！万物复苏，山间又有新景了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_summer",
+      "text": "夏日山风清凉，$[PLAYER_NAME]！这时候进山，最是惬意。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_autumn",
+      "text": "秋高气爽，$[PLAYER_NAME]！这是我最爱的季节，满山红叶如诗。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_winter",
+      "text": "冬雪覆山，$[PLAYER_NAME]！银装素裹，又是另一番天地。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_mist",
+      "text": "云雾缭绕，$[PLAYER_NAME]！这般仙境，最能忘忧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_dense",
+      "text": "浓云翻涌，$[PLAYER_NAME]！此景只应天上有。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_tide",
+      "text": "大潮临世，$[PLAYER_NAME]！云海如怒涛，何其壮哉！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_greet_high_heart",
+      "text": "$[PLAYER_NAME]，有友同行，山川更美。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "he_st_nature",
+      "text": "山川有灵，$[PLAYER_NAME]。你若用心感受，便能听见它的声音。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_journey",
+      "text": "我曾游历四方，$[PLAYER_NAME]。但最让我牵挂的，还是这云海山庄。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_zen",
+      "text": "行到水穷处，坐看云起时。$[PLAYER_NAME]，这是我一直追求的境界。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_cloud",
+      "text": "云海无常形，$[PLAYER_NAME]。做人亦当如此，随遇而安。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_wisdom",
+      "text": "山间的道理，需慢慢体悟。$[PLAYER_NAME]，你是个好苗子。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_friend",
+      "text": "人生难得一知己，$[PLAYER_NAME]。能与你相识，是我的福分。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_heart_high",
+      "text": "$[PLAYER_NAME]，你在我心中，如同这山间的清风——让人心旷神怡。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_peace",
+      "text": "心静自然凉，$[PLAYER_NAME]。无论外界如何喧嚣，内心安定便是晴天。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_path",
+      "text": "每条路都有它的意义，$[PLAYER_NAME]。重要的不是目的地，而是沿途的风景。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_st_tide",
+      "text": "大潮如人生的高峰，$[PLAYER_NAME]$。到了那一刻，一切努力都会有回报。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "he_farewell_1",
+      "text": "后会有期，$[PLAYER_NAME]。愿你前路坦荡。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_farewell_2",
+      "text": "山高水长，$[PLAYER_NAME]$。他日再会。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_farewell_3",
+      "text": "去吧，$[PLAYER_NAME]$。记住，山水永远在这里等你。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_farewell_high",
+      "text": "$[PLAYER_NAME]$，不知何时再能与你同行……珍重。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "he_farewell_morning",
+      "text": "清晨出行，$[PLAYER_NAME]$。愿你今日顺遂。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_farewell_evening",
+      "text": "暮色将至，$[PLAYER_NAME]$。早些归去，路上小心。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "he_farewell_night",
+      "text": "夜深露重，$[PLAYER_NAME]$。归途珍重。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

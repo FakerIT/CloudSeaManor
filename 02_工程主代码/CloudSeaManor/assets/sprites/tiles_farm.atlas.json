@@ -1,0 +1,42 @@
+{
+  "$schema": "../../docs/atlas_schema.json",
+  "id": "tiles_farm",
+  "texture": "assets/textures/third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png",
+  "width": 256,
+  "height": 128,
+  "description": "农场地形图集 - Farm Expansion (Kenney)",
+  "grid": {
+    "frame_width": 16,
+    "frame_height": 16,
+    "columns": 16,
+    "rows": 8
+  },
+  "frames": [
+    {"id": "dirt_1",        "x": 0,   "y": 0,   "w": 16, "h": 16},
+    {"id": "dirt_2",        "x": 16,  "y": 0,   "w": 16, "h": 16},
+    {"id": "dirt_3",        "x": 32,  "y": 0,   "w": 16, "h": 16},
+    {"id": "grass_1",       "x": 48,  "y": 0,   "w": 16, "h": 16},
+    {"id": "grass_2",       "x": 64,  "y": 0,   "w": 16, "h": 16},
+    {"id": "grass_3",       "x": 80,  "y": 0,   "w": 16, "h": 16},
+    {"id": "water_1",       "x": 96,  "y": 0,   "w": 16, "h": 16},
+    {"id": "water_2",       "x": 112, "y": 0,   "w": 16, "h": 16},
+    {"id": "water_3",       "x": 128, "y": 0,   "w": 16, "h": 16},
+    {"id": "path_stone_1",  "x": 144, "y": 0,   "w": 16, "h": 16},
+    {"id": "path_stone_2",  "x": 160, "y": 0,   "w": 16, "h": 16},
+    {"id": "crop_wheat_1",   "x": 0,   "y": 16,  "w": 16, "h": 16},
+    {"id": "crop_wheat_2",   "x": 16,  "y": 16,  "w": 16, "h": 16},
+    {"id": "crop_wheat_3",   "x": 32,  "y": 16,  "w": 16, "h": 16},
+    {"id": "crop_carrot_1",  "x": 48,  "y": 16,  "w": 16, "h": 16},
+    {"id": "crop_carrot_2",  "x": 64,  "y": 16,  "w": 16, "h": 16},
+    {"id": "crop_carrot_3",  "x": 80,  "y": 16,  "w": 16, "h": 16},
+    {"id": "tree_apple_1",   "x": 192, "y": 16,  "w": 16, "h": 16},
+    {"id": "tree_apple_2",   "x": 208, "y": 16,  "w": 16, "h": 16},
+    {"id": "hoe_wood",       "x": 0,   "y": 32,  "w": 16, "h": 16},
+    {"id": "shovel_wood",    "x": 32,  "y": 32,  "w": 16, "h": 16},
+    {"id": "watering_can",   "x": 64,  "y": 32,  "w": 16, "h": 16}
+  ],
+  "animations": [
+    {"id": "water_idle", "frames": ["water_1", "water_2", "water_3"], "fps": 4, "loop": true},
+    {"id": "crop_wheat_grow", "frames": ["crop_wheat_1", "crop_wheat_2", "crop_wheat_3"], "fps": 2, "loop": true}
+  ]
+}

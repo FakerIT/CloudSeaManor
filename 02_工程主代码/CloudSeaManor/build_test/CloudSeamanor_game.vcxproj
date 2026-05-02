@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A7A6BA96-6910-3968-BF9E-E805F7F0BC7C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>CloudSeamanor_game</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CloudSeamanor_game.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">CloudSeamanor_game</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CloudSeamanor_game.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">CloudSeamanor_game</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CloudSeamanor_game.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">CloudSeamanor_game</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CloudSeamanor_game.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">CloudSeamanor_game</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/CloudSeaManor/03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/include" /utf-8 /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SFML_STATIC;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SFML_STATIC;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>Debug\CloudSeamanor_core.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-graphics-s-d.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\freetyped.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-window-s-d.lib;opengl32.lib;gdi32.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-audio-s-d.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-system-s-d.lib;winmm.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisfiled.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisencd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\FLACd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\oggd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/$(Configuration);D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/Debug/CloudSeamanor_game.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/Debug/CloudSeamanor_game.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/CloudSeaManor/03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/include" /utf-8 /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>Release\CloudSeamanor_core.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-graphics-s.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\freetype.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-window-s.lib;opengl32.lib;gdi32.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-audio-s.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-system-s.lib;winmm.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisfile.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisenc.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbis.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\FLAC.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\ogg.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/$(Configuration);D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/Release/CloudSeamanor_game.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/Release/CloudSeamanor_game.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/CloudSeaManor/03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/include" /utf-8 /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>MinSizeRel\CloudSeamanor_core.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-graphics-s-d.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\freetyped.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-window-s-d.lib;opengl32.lib;gdi32.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-audio-s-d.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-system-s-d.lib;winmm.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisfiled.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisencd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\FLACd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\oggd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/$(Configuration);D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/MinSizeRel/CloudSeamanor_game.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/MinSizeRel/CloudSeamanor_game.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "D:/CloudSeaManor/03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/include" /utf-8 /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SFML_STATIC;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>RelWithDebInfo\CloudSeamanor_core.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-graphics-s-d.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\freetyped.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-window-s-d.lib;opengl32.lib;gdi32.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-audio-s-d.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\sfml-system-s-d.lib;winmm.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisfiled.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisencd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\vorbisd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\FLACd.lib;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\oggd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/$(Configuration);D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug;D:/CloudSeaManor/02_工程主代码/CloudSeaManor/../../03_参考与第三方资源/01_SFML引擎/SFML/SFML-3.0.2/lib/debug/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/RelWithDebInfo/CloudSeamanor_game.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/RelWithDebInfo/CloudSeamanor_game.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/CloudSeaManor/02_工程主代码/CloudSeaManor/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/CloudSeaManor/02_工程主代码/CloudSeaManor -BD:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test --check-stamp-file D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeCXXCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeRCCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeSystem.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/CloudSeaManor/02_工程主代码/CloudSeaManor/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/CloudSeaManor/02_工程主代码/CloudSeaManor -BD:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test --check-stamp-file D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeCXXCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeRCCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeSystem.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/CloudSeaManor/02_工程主代码/CloudSeaManor/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/CloudSeaManor/02_工程主代码/CloudSeaManor -BD:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test --check-stamp-file D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeCXXCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeRCCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeSystem.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/CloudSeaManor/02_工程主代码/CloudSeaManor/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SD:/CloudSeaManor/02_工程主代码/CloudSeaManor -BD:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test --check-stamp-file D:/CloudSeaManor/02_工程主代码/CloudSeaManor/build_test/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeLanguageInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\CheckLibraryExists.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Compiler\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindOpenGL.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindPackageMessage.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\FindThreads.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Linker\MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\Windows.cmake;C:\Program Files\CMake\share\cmake-4.3\Modules\Platform\WindowsPaths.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeCXXCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeRCCompiler.cmake;D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\4.3.2\CMakeSystem.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\flac-config.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\FLAC\targets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Ogg\OggTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLAudioStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLGraphicsStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLSystemStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowDependencies.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\SFML\SFMLWindowStaticTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfig.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisConfigVersion.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\Vorbis\VorbisTargets.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-debug.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-release.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config-version.cmake;D:\CloudSeaManor\03_参考与第三方资源\01_SFML引擎\SFML\SFML-3.0.2\lib\cmake\freetype\freetype-config.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\app\main.cpp" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\ZERO_CHECK.vcxproj">
+      <Project>{7CE5ADC4-D3F7-3E6D-A92B-5F7F79359F37}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CloudSeamanor_core.vcxproj">
+      <Project>{4EDC8527-96E5-3CD3-8BF9-83AF1487201D}</Project>
+      <Name>CloudSeamanor_core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

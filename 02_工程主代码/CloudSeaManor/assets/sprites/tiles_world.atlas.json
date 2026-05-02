@@ -1,0 +1,23 @@
+{
+  "$schema": "../../docs/atlas_schema.json",
+  "id": "tiles_world",
+  "texture": "assets/textures/third_party/kenney_tiny-town/Tilemap/tilemap_packed.png",
+  "width": 256,
+  "height": 320,
+  "description": "世界地图占位瓦片 - Tiny Town (Kenney)",
+  "grid": {
+    "frame_width": 16,
+    "frame_height": 16,
+    "columns": 16,
+    "rows": 20
+  },
+  "frames": [
+    {"id": "world_tile_grass_a",  "x": 0,   "y": 32,  "w": 16, "h": 16},
+    {"id": "world_tile_grass_b",  "x": 16,  "y": 32,  "w": 16, "h": 16},
+    {"id": "world_tile_grass_c",  "x": 32,  "y": 32,  "w": 16, "h": 16},
+    {"id": "world_player",        "x": 0,   "y": 48,  "w": 16, "h": 16},
+    {"id": "world_npc",           "x": 16,  "y": 48,  "w": 16, "h": 16},
+    {"id": "world_spirit_beast",  "x": 32,  "y": 48,  "w": 16, "h": 16}
+  ],
+  "animations": []
+}

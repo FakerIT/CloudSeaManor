@@ -1,0 +1,14 @@
+Id,LayerId,Name,PositionX,PositionY,Size,EnemySpawnTable,ResourceSpawnTable,SpecialEvent,AmbientEffect,VisitLimit,DailyReset
+area_cloud_shore,layer0,云雾之滨,100,150,Medium,cloud_wisp:60;wind_faerie:40,cloud_herb:30;mist_crystal:20;tea_seed_basic:50,cloud_blessing:10,Cloud+10,3,Daily
+area_mist_valley,layer0,雾隐谷,200,300,Large,cloud_wisp:50;wind_faerie:30;water_sprite:20,cloud_herb:40;mist_crystal:30;spirit_stone:10,rare_cloud:5,Cloud+20,5,Weekly
+area_tide_bridge,layer1,潮汐之桥,150,250,Small,water_sprite:40;flame_imp:30;earth_golem:30,sea_essence:25;tide_pearl:15;spirit_stone:20,treasure_chest:3,tide_bonus:30,2,Weekly
+area_flame_springs,layer1,焰泉交汇,300,400,Medium,flame_imp:50;water_sprite:30;wind_faerie:20,fire_essence:20;water_essence:20;mixed_tea:30,tide_event:8,element_conflict:20,4,Weekly
+area_frost_path,layer2,霜岚小径,180,280,Medium,ice_spirit:60;frost_herald:40,ice_crystal:35;frost_herb:25;winter_tea:40,blizzard_warning:10,frost_damage:15,3,Daily
+area_ice_shrine,layer2,寒霜祭坛,400,350,Large,ice_spirit:30;frost_herald:40;void_shade:30,ice_crystal:40;blessing_crystal:20;spirit_ice:15,ancient_blessing:5,frost_aura:25,2,Weekly
+area_blaze_corridor,layer3,烈焰走廊,220,320,Medium,flame_imp:40;thunder_herald:30;void_shade:30,fire_essence:30;thunder_essence:25;blazing_tea:45,volcanic_eruption:10,fire_damage:30,3,Daily
+area_inferno_core,layer3,炎心深处,500,450,Large,flame_imp:25;fire_golem:35;thunder_herald:40,fire_essence:40;inferno_core:20;legendary_tea:10,phoenix_appear:2,fire_storm:40,1,Weekly
+area_shadow_hall,layer4,幽冥殿堂,300,400,Large,void_shade:50;corruption_spirit:30;thunder_herald:20,void_crystal:30;dark_essence:25;shadow_herb:20,corruption_ritual:10,void_corruption:35,2,Weekly
+area_night_garden,layer4,夜幕花园,450,500,Medium,corruption_spirit:40;flower_faerie:30;void_shade:30,night_bloom:35;dream_essence:25;spirit_rose:15,dream_walk:5,moonlight_blessing:20,3,Weekly
+area_stardust_falls,layer5,星陨瀑布,380,480,Large,celestial_spirit:50;star_herald:30;void_shade:20,stardust:40;celestial_essence:30;heavenly_tea:30,star_falling:3,stardust_rain:50,1,Weekly
+area_celestial_path,layer5,天道之路,550,600,Medium,celestial_spirit:30;dragon_spirit:35;phoenix_essence:35,celestial_tea:25;immortal_essence:25;dragon_scale:20,celestial_blessing:2,divine_aura:60,1,Weekly
+area_chaos_origin,layer6,太初混沌源,500,550,Small,chaos_origin:80;void_lord:20,chaos_essence:50;primordial_tea:40;origin_fragment:10,chaos_emergence:1,chaos_corruption:80,0,None

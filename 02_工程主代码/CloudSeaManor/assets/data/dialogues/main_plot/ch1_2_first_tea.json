@@ -1,0 +1,38 @@
+{
+  "quest_id": "main_ch1_2",
+  "quest_name": "初识灵茶",
+  "chapter": "第一章",
+  "dialogues": [
+    {
+      "speaker": "lingxiao",
+      "speaker_name": "灵霄",
+      "content": "今天我来教你采茶的基础。这是山庄最重要的技能之一。",
+      "expression": "teaching"
+    },
+    {
+      "speaker": "lingxiao",
+      "speaker_name": "灵霄",
+      "content": "采茶讲究'轻、准、柔'。用指尖轻轻拈住茶芽，向上一提即可。力道太重会伤了茶树，太轻又摘不下来。",
+      "expression": "teaching"
+    },
+    {
+      "speaker": "player",
+      "choices": [
+        {"text": "我试试看", "response": "try_harvest"},
+        {"text": "有什么诀窍吗？", "response": "tips"}
+      ]
+    }
+  ],
+  "responses": {
+    "try_harvest": {
+      "speaker": "lingxiao",
+      "content": "很好，就是这样。你很有天赋，第一次采茶就能掌握要领。继续练习，你会越来越熟练的。",
+      "expression": "praise"
+    },
+    "tips": {
+      "speaker": "lingxiao",
+      "content": "记住，选择茶芽时要看它的色泽和饱满度。最优质的茶芽呈嫩绿色，轻轻一掐就能断开。另外，早晨的茶叶品质最佳。",
+      "expression": "teaching"
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "event_id": "acha_h3",
+  "npc_id": "acha",
+  "title": "雨夜共品一壶茶",
+  "description": "与阿茶在雨夜共品灵茶的温馨时刻",
+  "nodes": [
+    {
+      "id": "acha_h3_start",
+      "speaker": "阿茶",
+      "text": "雨下得真大……$[PLAYER_NAME]，你今晚怎么来了？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "听到雨声就想来看看你",
+          "next_node_id": "acha_h3_came_for_you"
+        },
+        {
+          "id": "choice_2",
+          "text": "正好路过，想讨杯热茶",
+          "next_node_id": "acha_h3_tea_request"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_came_for_you",
+      "speaker": "阿茶",
+      "text": "……你这个人，真是让人措手不及。进来吧，外面湿气重。",
+      "choices": [
+        {
+          "id": "choice_enter",
+          "text": "（跟着进屋）",
+          "next_node_id": "acha_h3_inside"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_tea_request",
+      "speaker": "阿茶",
+      "text": "讨茶？呵，你倒是会挑时候。来，正好新烘了一批春茶。",
+      "choices": [
+        {
+          "id": "choice_grateful",
+          "text": "那我可太幸运了",
+          "next_node_id": "acha_h3_inside"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_inside",
+      "speaker": "阿茶",
+      "text": "这壶茶我等了三年才舍得开。种子是爷爷留下的最后一批……今天想和你一起品。",
+      "choices": [
+        {
+          "id": "choice_honor",
+          "text": "我何德何能，能喝到这壶茶？",
+          "next_node_id": "acha_h3_honor"
+        },
+        {
+          "id": "choice_ask",
+          "text": "这茶对你来说一定很特别吧",
+          "next_node_id": "acha_h3_story"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_honor",
+      "speaker": "阿茶",
+      "text": "特别的人才值得喝这壶特别的茶。$[PLAYER_NAME]，我一直想找一个人，和我一起记住这个味道。",
+      "choices": [
+        {
+          "id": "choice_accept",
+          "text": "我会好好记住这个味道的",
+          "next_node_id": "acha_h3_memory"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_story",
+      "speaker": "阿茶",
+      "text": "爷爷走的那天，也是这样的雨夜。他说，这茶喝完，就该我自己守着这片茶园了。",
+      "choices": [
+        {
+          "id": "choice_comfort",
+          "text": "你把茶园守得很好",
+          "next_node_id": "acha_h3_grateful"
+        },
+        {
+          "id": "choice_listen",
+          "text": "愿意和我多说说爷爷的事吗？",
+          "next_node_id": "acha_h3_memory"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_grateful",
+      "speaker": "阿茶",
+      "text": "……谢谢你这么说。有你这句话，这些年的坚持就值得了。",
+      "choices": [
+        {
+          "id": "choice_together",
+          "text": "以后我陪你一起守",
+          "next_node_id": "acha_h3_end_positive"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_memory",
+      "speaker": "阿茶",
+      "text": "他教我采茶、教我制茶……最常说的话是：'茶会记住每一个照顾它的人。'我想，他一定也记住我了。",
+      "choices": [
+        {
+          "id": "choice_understand",
+          "text": "茶也会记住你的",
+          "next_node_id": "acha_h3_end_positive"
+        }
+      ]
+    },
+    {
+      "id": "acha_h3_end_positive",
+      "speaker": "阿茶",
+      "text": "窗外的雨好像小了一些……$[PLAYER_NAME]，谢谢你今晚来陪我。这壶茶，是我泡过最温暖的一壶。",
+      "is_ending": true,
+      "reward_favor": 25,
+      "reward_items": [
+        {
+          "item_id": "legacy_tea_leaf",
+          "count": 3,
+          "description": "爷爷留下的古茶树叶"
+        }
+      ]
+    }
+  ]
+}

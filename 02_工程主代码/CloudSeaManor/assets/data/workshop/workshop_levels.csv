@@ -1,0 +1,5 @@
+Id,DisplayName,SkillPointsRequired,SkillTier,UnlockRequirement,SkillIds,Description
+workshop_basic,基础工坊,0,1,NewGame,basic_brew;simple_craft,学习基础的加工制作
+workshop_intermediate,中级工坊,15,2,WorkshopUseAbove_20,quality_brew;reinforced_craft,提升制作品质
+workshop_advanced,高级工坊,30,3,WorkshopUseAbove_50,special_brew;master_craft,解锁特殊制作配方
+workshop_master,工坊大师,50,4,FavorAbove60_xuanwei,legendary_brew;spirit_forge,成为工坊大师

@@ -1,0 +1,6 @@
+Id,UnlockCount,RewardType,RewardId,RewardAmount,Description
+reward_1,3,Buff,tea_spirit_speed,1,收集3个茶灵：茶灵架小型展示底座
+reward_2,6,Buff,tea_drink_stamina,15,收集6个茶灵：茶饮体力恢复小幅提升+15%
+reward_3,12,Buff,tea_spirit_comment,1,收集12个茶灵：茶灵评论事件池解锁
+reward_4,15,Buff,manor_aura_daily,10,收集15个茶灵：庄园每日灵气+10
+reward_5,20,Title,Title_TeaSpiritMaster,1,收集全部茶灵：获得「茶灵大师」称号

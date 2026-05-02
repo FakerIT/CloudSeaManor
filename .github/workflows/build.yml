@@ -1,0 +1,60 @@
+name: Build & Check
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - '02_工程主代码/CloudSeaManor/**'
+      - '.github/workflows/**'
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache SFML
+        id: cache-sfml
+        uses: actions/cache@v4
+        with:
+          path: D:/CloudSeaManor/05_参考与第三方资源/01_SFML引擎/SFML-3.0.2
+          key: sfml-3.0.2-windows
+
+      - name: Download SFML
+        if: steps.cache-sfml.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://www.sfml-dev.org/files/SFML-3.0.2-vc17-64-bit.zip" -OutFile sfml.zip
+          Expand-Archive -Path sfml.zip -DestinationPath D:/
+          Rename-Item D:/SFML-3.0.2-vc17-64-bit D:/SFML-3.0.2
+
+      - name: Configure CMake
+        shell: pwsh
+        env:
+          SFML_ROOT: D:/CloudSeaManor/05_参考与第三方资源/01_SFML引擎/SFML-3.0.2
+        run: cmake -S 02_工程主代码/CloudSeaManor -B 02_工程主代码/CloudSeaManor/build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build Debug
+        run: cmake --build 02_工程主代码/CloudSeaManor/build --config Debug
+
+      - name: Build Tests
+        run: cmake --build 02_工程主代码/CloudSeaManor/build --config Debug --target CloudSeamanor_tests
+
+      - name: Run Tests
+        working-directory: 02_工程主代码/CloudSeaManor/build/Debug
+        run: ./CloudSeamanor_tests.exe
+
+  format-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format
+
+      - name: Check formatting
+        run: |
+          find 02_工程主代码/CloudSeaManor/src 02_工程主代码/CloudSeaManor/include -name '*.cpp' -o -name '*.hpp' | \
+          xargs clang-format --dry-run --Werror --style=file:${{ github.workspace }}/02_工程主代码/CloudSeaManor/.clang-format

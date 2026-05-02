@@ -1,0 +1,32 @@
+﻿{
+  "version": "1.1.0",
+  "global": {
+    "money": 2450,
+    "aura": 312.5,
+    "weather_state": 2,
+    "time": {
+      "year": 1,
+      "season": 1,
+      "day": 12,
+      "minute": 870
+    }
+  },
+  "entities": [
+    {
+      "entity_id": 10001,
+      "prefab_id": 201,
+      "tile_x": 34,
+      "tile_y": 18,
+      "state": 3
+    }
+  ],
+  "socials": [
+    {
+      "npc_id": "acha",
+      "heart_level": 4,
+      "affection": 720,
+      "talked_today": true,
+      "gifted_today": false
+    }
+  ]
+}

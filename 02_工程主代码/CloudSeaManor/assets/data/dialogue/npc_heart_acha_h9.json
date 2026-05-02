@@ -1,0 +1,128 @@
+{
+  "event_id": "acha_h9",
+  "npc_id": "acha",
+  "title": "云开见月明",
+  "description": "与阿茶在云海山庄共度的第九个心阶段，终于等到你",
+  "nodes": [
+    {
+      "id": "acha_h9_start",
+      "speaker": "阿茶",
+      "text": "$[PLAYER_NAME]……你看，今晚的云海格外清澈。",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "像你的眼睛一样清澈",
+          "next_node_id": "acha_h9_compliment"
+        },
+        {
+          "id": "choice_2",
+          "text": "是啊，难得的好天气",
+          "next_node_id": "acha_h9_weather"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_compliment",
+      "speaker": "阿茶",
+      "text": "……你总是这样，说话让人不知道该怎么接。",
+      "choices": [
+        {
+          "id": "choice_embarrassed",
+          "text": "我说的是真心话",
+          "next_node_id": "acha_h9_sincere"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_weather",
+      "speaker": "阿茶",
+      "text": "不只是天气好。是……有你在的夜晚，什么都显得格外好。",
+      "choices": [
+        {
+          "id": "choice_understand",
+          "text": "我懂你的意思",
+          "next_node_id": "acha_h9_understand"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_sincere",
+      "speaker": "阿茶",
+      "text": "这些年守着茶园，我一直以为自己会就这样一个人过下去。直到你来了。",
+      "choices": [
+        {
+          "id": "choice_listen",
+          "text": "我在听",
+          "next_node_id": "acha_h9_confession"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_understand",
+      "speaker": "阿茶",
+      "text": "从你第一次喝我泡的茶开始，我就知道……你和其他人不一样。",
+      "choices": [
+        {
+          "id": "choice_different",
+          "text": "哪里不一样？",
+          "next_node_id": "acha_h9_confession"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_confession",
+      "speaker": "阿茶",
+      "text": "你会认真品每一壶茶，会记得我说过的每一句话，会在下雨的夜晚特意来看我。$[PLAYER_NAME]，我……喜欢你。",
+      "choices": [
+        {
+          "id": "choice_accept",
+          "text": "我也是，从很早以前就……",
+          "next_node_id": "acha_h9_accept"
+        },
+        {
+          "id": "choice_love",
+          "text": "阿茶，我也喜欢你",
+          "next_node_id": "acha_h9_accept"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_accept",
+      "speaker": "阿茶",
+      "text": "……真的吗？我还以为，只有我一个人在胡思乱想。",
+      "choices": [
+        {
+          "id": "choice_reassure",
+          "text": "不是一个人。从今以后，我们一起",
+          "next_node_id": "acha_h9_future"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_future",
+      "speaker": "阿茶",
+      "text": "茶园这么大，以前觉得空，现在觉得刚刚好。能和你一起打理的话……一定很幸福。",
+      "choices": [
+        {
+          "id": "choice_promise",
+          "text": "我答应你，一起守护这片茶园",
+          "next_node_id": "acha_h9_promise"
+        }
+      ]
+    },
+    {
+      "id": "acha_h9_promise",
+      "speaker": "阿茶",
+      "text": "好。那……这是我们的约定。月下盟约，茶为见证。$[PLAYER_NAME]，以后的路，我们一起走。",
+      "is_ending": true,
+      "reward_favor": 30,
+      "reward_items": [
+        {
+          "item_id": "moon_pledge_token",
+          "count": 1,
+          "description": "月下盟约令 - 阿茶与你的信物"
+        }
+      ]
+    }
+  ]
+}

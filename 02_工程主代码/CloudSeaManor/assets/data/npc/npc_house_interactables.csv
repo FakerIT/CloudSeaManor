@@ -1,0 +1,8 @@
+Id,NpcId,InteractableType,RequiredFavor,DialogueText,EffectType,EffectId,EffectValue,Description
+interact_1,baizhu,Cauldron,20,需要帮忙炼药吗？,Craft,alchemy_basic,1,药师炼药台
+interact_2,xuanwei,Anvil,30,这把武器需要修理吗？,Repair,weapon_repair,1,铁匠铁砧
+interact_3,meili,PetBed,15,来看看灵兽们吗？,Bond,pet_bond,5,灵兽休息处
+interact_4,lingxiao,TeaSet,25,来喝杯茶吧？,Buff,stamina_restore,30,精美茶具
+interact_5,yueying,DanceFloor,40,能为你跳一支舞吗？,Buff,spirit_restore,50,舞池地板
+interact_6,yunshen,MeditationMat,50,与我一同冥想吧。,Buff,wisdom_gain,20,冥想蒲团
+interact_7,lianhua,FlowerBed,20,来欣赏一下我的花园吧。,Buff,mood_restore,40,花园花圃

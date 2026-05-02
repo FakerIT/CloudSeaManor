@@ -1,0 +1,145 @@
+{
+  "event_id": "xiaoman_h3",
+  "npc_id": "xiaoman",
+  "title": "丰收夜的烟火",
+  "description": "与小满在丰穰祭夜晚的温馨时刻",
+  "nodes": [
+    {
+      "id": "xiaoman_h3_start",
+      "speaker": "小满",
+      "text": "$[PLAYER_NAME]！你看你看，烟火好漂亮！这是我第一次这么近看烟火！",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "你好像特别开心",
+          "next_node_id": "xiaoman_h3_happy"
+        },
+        {
+          "id": "choice_2",
+          "text": "小心别挤到别人了",
+          "next_node_id": "xiaoman_h3_warn"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_happy",
+      "speaker": "小满",
+      "text": "当然开心啦！丰收的粮食变成美酒，美酒换来烟火。这样的夜晚，一年只有一次呀！",
+      "choices": [
+        {
+          "id": "choice_agree",
+          "text": "和你一起看更开心",
+          "next_node_id": "xiaoman_h3_together"
+        },
+        {
+          "id": "choice_curious",
+          "text": "小满家乡的丰收节也这样吗？",
+          "next_node_id": "xiaoman_h3_hometown"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_warn",
+      "speaker": "小满",
+      "text": "啊……对不起对不起！我太激动了。但是你看那颗蓝色的，像不像云海的颜色？",
+      "choices": [
+        {
+          "id": "choice_blue",
+          "text": "确实像，是今晚最亮的一颗",
+          "next_node_id": "xiaoman_h3_romantic"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_hometown",
+      "speaker": "小满",
+      "text": "我家乡的丰收节……没有这么热闹。大家就是围在一起吃饭，然后各自回家睡觉。",
+      "choices": [
+        {
+          "id": "choice_miss",
+          "text": "会想家吗？",
+          "next_node_id": "xiaoman_h3_nostalgia"
+        },
+        {
+          "id": "choice_comfort",
+          "text": "这里也是你的家",
+          "next_node_id": "xiaoman_h3_home"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_nostalgia",
+      "speaker": "小满",
+      "text": "……有时候会。特别是吃到自己种的稻米的时候，会想起妈妈做的饭。但是云海山庄也很好啊，有大家陪我。",
+      "choices": [
+        {
+          "id": "choice_comfort2",
+          "text": "以后有我陪你",
+          "next_node_id": "xiaoman_h3_home"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_home",
+      "speaker": "小满",
+      "text": "$[PLAYER_NAME]……谢谢你。从我来到山庄，你是第一个对我说这种话的人。",
+      "choices": [
+        {
+          "id": "choice_smile",
+          "text": "这是真心话",
+          "next_node_id": "xiaoman_h3_together"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_together",
+      "speaker": "小满",
+      "text": "快看！又一颗金色的！$[PLAYER_NAME]，我们来许愿吧！听说烟火许愿很灵的！",
+      "choices": [
+        {
+          "id": "choice_wish",
+          "text": "好，一起许愿",
+          "next_node_id": "xiaoman_h3_wish_scene"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_romantic",
+      "speaker": "小满",
+      "text": "真的吗？……$[PLAYER_NAME]，你知道吗，你站在烟火前面的时候，比那颗蓝色的还亮。",
+      "choices": [
+        {
+          "id": "choice_blush",
+          "text": "（脸红了）",
+          "next_node_id": "xiaoman_h3_wish_scene"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_wish_scene",
+      "speaker": "小满",
+      "text": "好了！我许好了！你许的什么愿望呀？……啊，不对，说出来就不灵了！",
+      "choices": [
+        {
+          "id": "choice_secret",
+          "text": "愿望藏在心里就好",
+          "next_node_id": "xiaoman_h3_end"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h3_end",
+      "speaker": "小满",
+      "text": "嗯！$[PLAYER_NAME]，今年的丰穰祭是我过得最开心的一次。以后的每年，我们一起来看烟火好不好？",
+      "is_ending": true,
+      "reward_favor": 25,
+      "reward_items": [
+        {
+          "item_id": "firework_shard",
+          "count": 5,
+          "description": "烟火碎片 - 丰穰祭的纪念"
+        }
+      ]
+    }
+  ]
+}

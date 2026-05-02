@@ -1,0 +1,350 @@
+{
+  "npc_id": "ning",
+  "greetings": [
+    {
+      "id": "ning_greet_morning",
+      "text": "早安，$[PLAYER_NAME]！今天的阳光真温暖，适合在院子里坐坐。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "ning_greet_morning_warm",
+      "text": "早上好，$[PLAYER_NAME]！今天天气真好，让人心情舒畅。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_afternoon",
+      "text": "午后好，$[PLAYER_NAME]。我在整理花圃，有事找我？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_evening",
+      "text": "傍晚好，$[PLAYER_NAME]。一天的忙碌终于可以歇歇了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_night",
+      "text": "晚上好，$[PLAYER_NAME]。这么晚还没休息呢？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_night_warm",
+      "text": "夜晚的花圃特别安静，$[PLAYER_NAME]。要不要一起看看月亮？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_spring",
+      "text": "春天来了，$[PLAYER_NAME]！花圃里的花都开了，过来看看？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_summer",
+      "text": "夏天花圃最热闹，$[PLAYER_NAME]。蝴蝶蜜蜂都来了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_autumn",
+      "text": "秋天的花圃别有韵味，$[PLAYER_NAME]。很多花都在这个时候开得最美。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_winter",
+      "text": "冬天的花圃安静下来了，$[PLAYER_NAME]。不过有些花是专门在冬天开的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_mist",
+      "text": "薄雾天气，$[PLAYER_NAME]。花儿看起来特别朦胧美。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_dense",
+      "text": "浓云天气，$[PLAYER_NAME]。花儿们都在努力吸收灵气呢。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_tide",
+      "text": "大潮来了，$[PLAYER_NAME]！这可是花儿们最期待的天气。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_greet_high_heart",
+      "text": "$[PLAYER_NAME]，每次看到你，都觉得心里暖暖的。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "ning_st_garden",
+      "text": "照顾花圃是我每天最开心的事，$[PLAYER_NAME]。看着花儿一点点长大，很有成就感。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_flower",
+      "text": "不同的花有不同的脾性，$[PLAYER_NAME]$。就像人一样，每一朵都是独特的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_care",
+      "text": "养花最重要的是耐心，$[PLAYER_NAME]$。急不得，得慢慢来。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_beauty",
+      "text": "美就在身边，$[PLAYER_NAME]$。只要用心去发现，到处都是风景。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_season",
+      "text": "每个季节都有值得欣赏的花，$[PLAYER_NAME]$。春天看樱，夏天赏荷，秋冬各有风华。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_friend",
+      "text": "能和你聊天真开心，$[PLAYER_NAME]$。这种感觉就像花儿需要阳光一样自然。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_heart_high",
+      "text": "$[PLAYER_NAME]$，你就像我生命中的阳光，让一切都变得温暖起来。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_peace",
+      "text": "在花圃里忙碌的时候，心里特别平静，$[PLAYER_NAME]$。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_gift",
+      "text": "等花开了，我摘一朵送你，$[PLAYER_NAME]$。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_st_tide",
+      "text": "大潮的时候花会长得特别好，$[PLAYER_NAME]$。灵气充沛嘛。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "ning_farewell_1",
+      "text": "慢走，$[PLAYER_NAME]$。有空来花圃坐坐。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_farewell_2",
+      "text": "那我去忙了，$[PLAYER_NAME]$。花儿们还等着我呢。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_farewell_3",
+      "text": "记得常来，$[PLAYER_NAME]$。我的花儿们也想你啦。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_farewell_high",
+      "text": "$[PLAYER_NAME]$，你一走我就开始想你了……快去快回啊。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_farewell_morning",
+      "text": "清晨时光最美好，$[PLAYER_NAME]$。好好享受这一天吧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_farewell_evening",
+      "text": "傍晚的花圃最美，$[PLAYER_NAME]$。可惜你要走了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "ning_farewell_night",
+      "text": "夜深了，$[PLAYER_NAME]$。早点回去休息，明天见。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

@@ -1,0 +1,350 @@
+{
+  "npc_id": "qiao",
+  "greetings": [
+    {
+      "id": "qiao_greet_morning",
+      "text": "锦绣年华须珍惜，$[PLAYER_NAME]！这么早就来逛街了？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "qiao_greet_morning_warm",
+      "text": "早安，$[PLAYER_NAME]！今日云霞似锦，定是个好日子。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_afternoon",
+      "text": "午后阳光正好，$[PLAYER_NAME]。我这儿的绣品又添了几幅新花样，来瞧瞧？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_evening",
+      "text": "傍晚的霞光最入画，$[PLAYER_NAME]。你看那天边的云，像不像一匹锦缎？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_night",
+      "text": "夜深了，$[PLAYER_NAME]。我还在赶制这批锦缎呢，客人催得紧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_night_warm",
+      "text": "夜晚的绣活儿最出活儿，$[PLAYER_NAME]。这么晚还来看我，感动呢。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_spring",
+      "text": "春暖花开，$[PLAYER_NAME]！这季节的绣线颜色最鲜亮。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_summer",
+      "text": "夏日的绣布最难处理，$[PLAYER_NAME]。得在清晨或傍晚才能上手。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_autumn",
+      "text": "秋天是收获的季节，$[PLAYER_NAME]。我新织的锦缎用了秋叶的颜色。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_winter",
+      "text": "冬日绣活儿，$[PLAYER_NAME]。围炉刺绣，最是惬意。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_mist",
+      "text": "薄雾蒙蒙，$[PLAYER_NAME]。这天气最适合绣云雾纹样了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_dense",
+      "text": "浓云似海，$[PLAYER_NAME]！我正愁没灵感，这云海来得正好。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_tide",
+      "text": "大潮涌动，$[PLAYER_NAME]！这气势若能绣出来，定是绝世佳作！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_greet_high_heart",
+      "text": "$[PLAYER_NAME]，你每次来都让我灵感涌动，真想绣一幅你的模样。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "qiao_st_craft",
+      "text": "刺绣讲究的是心静，$[PLAYER_NAME]。一针一线皆有情。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_art",
+      "text": "好的绣品要有灵气，$[PLAYER_NAME]。用心绣出来的东西，才能打动人。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_color",
+      "text": "色彩搭配是关键，$[PLAYER_NAME]$。你看这云海的颜色，就是最好的调色盘。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_cloud",
+      "text": "云海的每一刻都不一样，$[PLAYER_NAME]$。我想把它的美永远留住。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_story",
+      "text": "每一幅绣品背后都有一个故事，$[PLAYER_NAME]$。你愿意听听我的故事吗？",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_feeling",
+      "text": "和你聊天的时候，$[PLAYER_NAME]$，我总觉得绣出来的花纹都更生动了几分。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_heart_high",
+      "text": "$[PLAYER_NAME]$，你在我眼里，就像这云海一样——温柔又让人沉醉。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_inspiration",
+      "text": "好针法需日积月累，$[PLAYER_NAME]$。但灵感这东西，说来就来。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_season",
+      "text": "四季都有独特之美，$[PLAYER_NAME]$。春花秋叶，夏云冬雪，都是我绣不完的题材。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_st_tide",
+      "text": "大潮的气势太磅礴了，$[PLAYER_NAME]$。我得好好想想怎么表现。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "qiao_farewell_1",
+      "text": "慢走，$[PLAYER_NAME]$。有空常来坐坐，看我绣花也是一种享受。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_farewell_2",
+      "text": "那我继续绣了，$[PLAYER_NAME]$。期待下次见面。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_farewell_3",
+      "text": "记得常来，$[PLAYER_NAME]$。好的绣品需要懂得欣赏的人来看。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_farewell_high",
+      "text": "$[PLAYER_NAME]$，你一走我反而更想你了……这话怎么说出口呢。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_farewell_morning",
+      "text": "清晨的时光最珍贵，$[PLAYER_NAME]$。我也得抓紧绣活了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_farewell_evening",
+      "text": "傍晚的光线最适合看绣品，$[PLAYER_NAME]$。可惜你要走了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "qiao_farewell_night",
+      "text": "夜深了，$[PLAYER_NAME]$。路上小心，早些休息。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

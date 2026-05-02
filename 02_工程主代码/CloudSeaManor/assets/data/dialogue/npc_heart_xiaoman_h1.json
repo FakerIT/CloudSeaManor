@@ -1,0 +1,104 @@
+{
+  "event_id": "xiaoman_h1",
+  "npc_id": "xiaoman",
+  "title": "春季白天在灵境花园",
+  "description": "与小满在春季白天的灵境花园相遇",
+  "nodes": [
+    {
+      "id": "xiaoman_h1_start",
+      "speaker": "小满",
+      "text": "啊！$[PLAYER_NAME]！你看，灵兽们今天特别开心！春天来了，它们都精神多了！",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "它们喜欢春天吗？",
+          "next_node_id": "xiaoman_h1_animals"
+        },
+        {
+          "id": "choice_2",
+          "text": "你在照顾它们？",
+          "next_node_id": "xiaoman_h1_care"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h1_animals",
+      "speaker": "小满",
+      "text": "当然啦！春天是万物复苏的季节，灵兽们也要开始新一年的成长了~",
+      "choices": [
+        {
+          "id": "choice_help",
+          "text": "我能帮什么忙吗？",
+          "next_node_id": "xiaoman_h1_help"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h1_care",
+      "speaker": "小满",
+      "text": "嗯！灵兽们就像我的家人一样。每天看着它们健康成长，就是我最开心的事。",
+      "choices": [
+        {
+          "id": "choice_family",
+          "text": "你一定很爱它们。",
+          "next_node_id": "xiaoman_h1_love"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h1_help",
+      "speaker": "小满",
+      "text": "真的吗？！太好了！$PLAYER_NAME，你来帮我喂这只小家伙吧，它最喜欢新朋友了~",
+      "choices": [
+        {
+          "id": "choice_feed",
+          "text": "（轻轻抚摸灵兽）",
+          "next_node_id": "xiaoman_h1_feeding"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h1_love",
+      "speaker": "小满",
+      "text": "它们也爱我呀~每次看到它们亮晶晶的眼睛，所有的辛苦都值得了！",
+      "choices": [
+        {
+          "id": "choice_understand",
+          "text": "我懂这种感觉。",
+          "next_node_id": "xiaoman_h1_feeling"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h1_feeding",
+      "speaker": "小满",
+      "text": "哇！它好喜欢你！$[PLAYER_NAME]，谢谢你……有你在，灵兽们会更幸福的。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我也很开心。",
+          "next_node_id": "xiaoman_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h1_feeling",
+      "speaker": "小满",
+      "text": "真的吗？太好了！$[PLAYER_NAME]，你一定能成为很棒的灵兽守护者的！",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我会努力的。",
+          "next_node_id": "xiaoman_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h1_end",
+      "speaker": "小满",
+      "text": "春天的第一天，就交到了新朋友！$[PLAYER_NAME]，下次再来玩哦~",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

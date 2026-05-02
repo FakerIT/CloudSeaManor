@@ -1,0 +1,40 @@
+{
+  "festivals": [
+    {
+      "id": "spring_awakening",
+      "decorations": ["lantern_red", "banner_spring", "flower_pink"],
+      "bgm": "festival_spring",
+      "color_theme": "#FFB7C5"
+    },
+    {
+      "id": "spring_tea_bud",
+      "decorations": ["tea_leaf_green", "basket_woven", "flower_white"],
+      "bgm": "festival_tea",
+      "color_theme": "#90EE90"
+    },
+    {
+      "id": "summer_lantern",
+      "decorations": ["lantern_colorful", "lantern_floating", "ribbon_silk"],
+      "bgm": "festival_lantern",
+      "color_theme": "#FFD700"
+    },
+    {
+      "id": "autumn_harvest",
+      "decorations": ["crop_golden", "basket_full", "leaf_orange"],
+      "bgm": "festival_harvest",
+      "color_theme": "#FFA500"
+    },
+    {
+      "id": "winter_guard",
+      "decorations": ["lantern_warm", "fire_pit", "snow_decor"],
+      "bgm": "festival_winter",
+      "color_theme": "#ADD8E6"
+    },
+    {
+      "id": "cloud_tide",
+      "decorations": ["spirit_orb", "cloud_crystal", "lantern_ancient"],
+      "bgm": "festival_cloud_tide",
+      "color_theme": "#E6E6FA"
+    }
+  ]
+}

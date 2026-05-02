@@ -1,0 +1,31 @@
+{
+  "$schema": "../../docs/atlas_schema.json",
+  "id": "npc_villagers",
+  "texture": "assets/textures/third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png",
+  "width": 192,
+  "height": 176,
+  "description": "NPC 村民角色图集 - Tiny Town (Kenney)",
+  "grid": {
+    "frame_width": 16,
+    "frame_height": 32,
+    "columns": 16,
+    "rows": 10
+  },
+  "frames": [
+    {"id": "npc_farmer_m_1",   "x": 0,   "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_farmer_m_2",   "x": 16,  "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_farmer_f_1",   "x": 32,  "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_farmer_f_2",   "x": 48,  "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_merchant_m_1", "x": 64,  "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_merchant_m_2", "x": 80,  "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_merchant_f_1", "x": 96,  "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_merchant_f_2", "x": 112, "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_elder_m_1",    "x": 128, "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_elder_m_2",    "x": 144, "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_elder_f_1",    "x": 160, "y": 0,   "w": 16, "h": 32},
+    {"id": "npc_elder_f_2",    "x": 176, "y": 0,   "w": 16, "h": 32}
+  ],
+  "animations": [
+    {"id": "npc_idle", "frames": ["npc_farmer_m_1", "npc_farmer_m_2"], "fps": 2, "loop": true}
+  ]
+}

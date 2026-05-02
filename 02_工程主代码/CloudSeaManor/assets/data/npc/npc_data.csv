@@ -1,0 +1,11 @@
+Id,Name,Age,Gender,Occupation,Location,DefaultSchedule,BaseSchedulePriority,MinGiftValue,MaxGiftValue,HeartThresholds,Marriageable,DialogueStyle,SpriteId,Introduction
+npc_lingxiao,灵霄,22,Female,茶艺师,茶室,morning_tea,5,10,50,50;100;200;500;1000,true,polite,npc_lingxiao,灵霄是山庄的首席茶艺师，性格温和，擅长各类灵茶的制作。
+npc_qingfeng,清风,25,Male,猎人,山庄外围,morning_hunt,4,15,60,60;120;250;600;1200,true,casual,npc_qingfeng,清风是山庄的守护猎人，沉默寡言但内心温柔。
+npc_xiaoyao,逍遥,28,Male,商人,市集,morning_shop,3,20,80,80;160;320;700;1500,true,humorous,npc_xiaoyao,逍遥经营着山庄的杂货铺，性格开朗，精通各种货物的行情。
+npc_meili,美黎,20,Female,灵兽师,灵兽园,morning_pet,4,12,55,55;110;220;500;1100,true,gentle,npc_meili,美黎负责照顾山庄的灵兽们，对各类灵兽如数家珍。
+npc_baizhu,白竹,30,Male,药师,药房,morning_herb,5,18,70,70;140;280;650;1400,true,wise,npc_baizhu,白竹是山庄的资深药师，精通各种草药和丹药的炼制。
+npc_yueying,月影,24,Female,舞者,广场,evening_dance,3,14,65,65;130;260;580;1200,true,elegant,npc_yueying,月影是山庄的舞蹈家，在月圆之夜表演云海之舞。
+npc_xuanwei,玄威,35,Male,铁匠,铁匠铺,morning_forge,4,25,90,90;180;360;800;1800,true,gruff,npc_xuanwei,玄威是山庄的铁匠，沉默寡言但打造的工具品质极佳。
+npc_yunshen,云深,40,Male,道长,道观,morning_meditation,5,30,100,100;200;400;900;2000,true,serene,npc_yunshen,云深道长修行多年，通晓天地之道，是山庄的精神领袖。
+npc_lianhua,莲花,18,Female,花匠,花园,morning_flower,3,10,45,45;90;180;400;900,true,sweet,npc_lianhua,莲花负责照料山庄的花园，性格天真烂漫。
+npc_tianyu,天羽,26,Male,护卫,大门,morning_guard,4,22,85,85;170;340;750;1600,true,serious,npc_tianyu,天羽是山庄的护卫队长，责任心强，守护着山庄的安全。

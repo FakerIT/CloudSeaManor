@@ -1,0 +1,64 @@
+{
+  "gift_preferences": {
+    "lingxiao": {
+      "loves": ["tea_cloud", "tea_rare", "tea_spirit"],
+      "likes": ["flower_rare", "herb_healing", "book_poetry"],
+      "dislikes": ["meat_raw", "alcohol_strong"],
+      "neutral": ["gold", "ore_common"]
+    },
+    "qingfeng": {
+      "loves": ["meat_cooked", "herb_healing", "weapon_rare"],
+      "likes": ["fur_premium", "herb_mana", "wine_fine"],
+      "dislikes": ["tea_spirit", "flower_delicate"],
+      "neutral": ["gold", "vegetable"]
+    },
+    "xiaoyao": {
+      "loves": ["gold", "book_rare", "wine_fine"],
+      "likes": ["tea_rare", "snack_delicious", "silk_premium"],
+      "dislikes": ["weapon_bloody", "herb_poison"],
+      "neutral": ["ore_common", "vegetable"]
+    },
+    "meili": {
+      "loves": ["pet_food_premium", "flower_rare", "pet_accessory"],
+      "likes": ["herb_healing", "milk_fresh", "fruit_sweet"],
+      "dislikes": ["weapon", "ore_dark"],
+      "neutral": ["gold", "vegetable"]
+    },
+    "baizhu": {
+      "loves": ["herb_rare", "book_medicine", "crystal_healing"],
+      "likes": ["tea_rare", "herb_mana", "wine_medicinal"],
+      "dislikes": ["meat_raw", "alcohol_strong"],
+      "neutral": ["gold", "ore_common"]
+    },
+    "yueying": {
+      "loves": ["flower_rare", "silk_premium", "perfume_floral"],
+      "likes": ["tea_cloud", "jewel_fine", "fan_elegant"],
+      "dislikes": ["weapon", "ore_dark"],
+      "neutral": ["gold", "herb_common"]
+    },
+    "xuanwei": {
+      "loves": ["ore_rare", "weapon_blueprint", "forge_material"],
+      "likes": ["meat_cooked", "ale_strong", "ore_iron"],
+      "dislikes": ["silk_delicate", "perfume"],
+      "neutral": ["gold", "herb_common"]
+    },
+    "yunshen": {
+      "loves": ["incense_premium", "tea_spirit", "book_wisdom"],
+      "likes": ["herb_healing", "crystal_pure", "jade_jade"],
+      "dislikes": ["gold_excessive", "weapon"],
+      "neutral": ["ore_common", "vegetable"]
+    },
+    "lianhua": {
+      "loves": ["flower_rare", "fertilizer_special", "seed_rare"],
+      "likes": ["water_pure", "herb_healing", "butterfly_rainbow"],
+      "dislikes": ["ore_dark", "weapon"],
+      "neutral": ["gold", "vegetable"]
+    },
+    "tianyu": {
+      "loves": ["weapon_rare", "armor_heavy", "tactical_book"],
+      "likes": ["herb_healing", "meat_cooked", "ale_strong"],
+      "dislikes": ["silk_delicate", "perfume"],
+      "neutral": ["gold", "ore_common"]
+    }
+  }
+}

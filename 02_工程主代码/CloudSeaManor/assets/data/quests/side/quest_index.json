@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "total_quests": 5,
+  "quests": [
+    {
+      "id": "side_tea_master",
+      "name": "茶道宗师",
+      "type": "Skill",
+      "difficulty": "Hard",
+      "reputation": 50
+    },
+    {
+      "id": "side_beast_friend",
+      "name": "灵兽之友",
+      "type": "Collection",
+      "difficulty": "Hard",
+      "reputation": 80
+    },
+    {
+      "id": "side_cloud_guardian",
+      "name": "云海守护者",
+      "type": "Combat",
+      "difficulty": "Hard",
+      "reputation": 100
+    },
+    {
+      "id": "side_tea_spirit",
+      "name": "茶灵收集者",
+      "type": "Collection",
+      "difficulty": "Hard",
+      "reputation": 60
+    },
+    {
+      "id": "side_ecology_master",
+      "name": "生态大师",
+      "type": "Management",
+      "difficulty": "Hard",
+      "reputation": 70
+    }
+  ]
+}

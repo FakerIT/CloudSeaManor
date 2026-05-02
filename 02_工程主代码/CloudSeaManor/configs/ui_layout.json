@@ -1,0 +1,285 @@
+{
+  "$schema": "./ui_layout_schema.json",
+  "version": "1.0.0",
+  "description": "UI布局配置 - 云海山庄",
+
+  "panels": {
+    "main_panel": {
+      "position": [824, 18],
+      "size": [430, 178],
+      "fill_color": "#FBF4E0F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 2.0,
+      "alpha": 230
+    },
+    "inventory_panel": {
+      "position": [824, 208],
+      "size": [430, 172],
+      "fill_color": "#F7EFD2F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 2.0,
+      "alpha": 228
+    },
+    "dialogue_panel": {
+      "position": [824, 392],
+      "size": [430, 126],
+      "fill_color": "#FEFEF8F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 2.0,
+      "alpha": 224
+    },
+    "hint_panel": {
+      "position": [40, 648],
+      "size": [1214, 48],
+      "fill_color": "#FBF4E0E6",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 2.0,
+      "alpha": 218
+    },
+    "stamina_bar": {
+      "position": [850, 156],
+      "size": [360, 18],
+      "fill_color": "#C8C0A8",
+      "outline_color": "#6E6454",
+      "outline_thickness": 1.0,
+      "fill_color_stamina": "#8FBC8F"
+    },
+    "workshop_progress": {
+      "position": [850, 356],
+      "size": [360, 12],
+      "fill_color": "#C8C0A8",
+      "outline_color": "#6E6454",
+      "outline_thickness": 1.0,
+      "fill_color_progress": "#D4A84B"
+    },
+    "aura_overlay": {
+      "position": [0, 0],
+      "size": [1280, 720],
+      "fullscreen": true
+    },
+    "festival_notice": {
+      "position": [40, 16],
+      "size": [760, 36],
+      "fill_color": "#FBF4E0DC",
+      "outline_thickness": 0.0,
+      "alpha": 220
+    },
+    "main_menu_panel": {
+      "position": [360, 180],
+      "size": [560, 360],
+      "fill_color": "#FBF4E0F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 2.0,
+      "alpha": 240
+    },
+
+    "pixel_top_right_info": {
+      "position": [998, 6],
+      "size": [276, 64],
+      "fill_color": "#FBF4E0F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 1.0
+    },
+    "pixel_bottom_right_status": {
+      "position": [998, 658],
+      "size": [276, 58],
+      "fill_color": "#FBF4E0F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 1.0
+    },
+    "pixel_toolbar": {
+      "position": [332, 662],
+      "size": [616, 62],
+      "fill_color": "#FBF4E0E6",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 1.0
+    },
+    "pixel_dialogue_box": {
+      "position": [40, 520],
+      "size": [1200, 160],
+      "fill_color": "#FEFEF8E6",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 1.0
+    },
+    "pixel_inventory": {
+      "position": [320, 120],
+      "size": [640, 480],
+      "fill_color": "#FBF4E0F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 1.0
+    },
+    "pixel_quest_menu": {
+      "position": [820, 150],
+      "size": [360, 420],
+      "fill_color": "#FBF4E0F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 1.0
+    },
+    "pixel_minimap": {
+      "position": [384, 104],
+      "size": [512, 512],
+      "fill_color": "#E8D8A8F0",
+      "outline_color": "#5C3A1E",
+      "outline_thickness": 1.0
+    },
+    "pixel_minimap_inner": {
+      "position": [392, 112],
+      "size": [496, 496],
+      "fill_color": "#F7EFD2F0"
+    },
+    "pixel_stamina_bar": {
+      "position": [1002, 664],
+      "size": [272, 12],
+      "fill_color": "#C8C0A8",
+      "outline_color": "#6E6454",
+      "outline_thickness": 1.0
+    },
+    "pixel_stamina_fill": {
+      "position": [1002, 664],
+      "size": [272, 12],
+      "fill_color": "#8FBC8F"
+    },
+    "pixel_stamina_low": {
+      "position": [1002, 664],
+      "size": [272, 12],
+      "fill_color": "#FFB6C1"
+    },
+    "pixel_stamina_full": {
+      "position": [1002, 664],
+      "size": [272, 12],
+      "fill_color": "#4C7AA8"
+    }
+  },
+
+  "texts": {
+    "hud": {
+      "position": [850, 34],
+      "font_size": 17,
+      "color": "#3D2517"
+    },
+    "inventory": {
+      "position": [850, 224],
+      "font_size": 17,
+      "color": "#3D2517"
+    },
+    "hint": {
+      "position": [60, 660],
+      "font_size": 18,
+      "color": "#2D1B0E"
+    },
+    "dialogue": {
+      "position": [850, 408],
+      "font_size": 17,
+      "color": "#2D1B0E"
+    },
+    "debug": {
+      "position": [52, 48],
+      "font_size": 15,
+      "color": "#2E8B57"
+    },
+    "world_tip": {
+      "position": [56, 610],
+      "font_size": 16,
+      "color": "#2D1B0E"
+    },
+    "festival_notice": {
+      "position": [52, 22],
+      "font_size": 16,
+      "color": "#3D2517"
+    },
+    "level_up": {
+      "position": [440, 300],
+      "font_size": 28,
+      "color": "#D4A84B",
+      "outline_thickness": 1.5,
+      "outline_color": "#785014"
+    },
+    "main_menu_title": {
+      "position": [520, 220],
+      "font_size": 48,
+      "color": "#3D2517"
+    },
+    "main_menu_item0": {
+      "position": [590, 320],
+      "font_size": 30,
+      "color": "#3D2517"
+    },
+    "main_menu_item1": {
+      "position": [590, 384],
+      "font_size": 30,
+      "color": "#3D2517"
+    },
+    "main_menu_item2": {
+      "position": [590, 448],
+      "font_size": 30,
+      "color": "#3D2517"
+    },
+
+    "pixel_top_right_time": {
+      "position": [1008, 14],
+      "font_size": 12,
+      "color": "#2D1B0E"
+    },
+    "pixel_top_right_season": {
+      "position": [1008, 30],
+      "font_size": 12,
+      "color": "#2D1B0E"
+    },
+    "pixel_top_right_weather": {
+      "position": [1008, 46],
+      "font_size": 12,
+      "color": "#2D1B0E"
+    },
+    "pixel_coin": {
+      "position": [1006, 680],
+      "font_size": 14,
+      "color": "#D4A84B",
+      "outline_thickness": 0.5,
+      "outline_color": "#5C3A1E"
+    },
+    "pixel_stamina_warning": {
+      "position": [1110, 680],
+      "font_size": 14,
+      "color": "#2D1B0E"
+    }
+  },
+
+  "colors": {
+    "button_default_text": "#3D2517",
+    "button_hover_text": "#3D2517",
+    "button_selected_text": "#D4A84B",
+    "button_disabled_text": "#6E6454",
+    "button_default_bg": "#FEFEF8",
+    "button_hover_bg": "#FFFACD",
+    "button_selected_bg": "#90EE90",
+    "button_disabled_bg": "#C8C0A8",
+    "main_menu_item_normal": "#3D2517",
+    "main_menu_item_selected": "#D4A84B",
+    "cloud_clear": {
+      "background": "#4C7AA8",
+      "aura": "transparent"
+    },
+    "cloud_mist": {
+      "background": "#586C7A",
+      "aura": "#586C7A14"
+    },
+    "cloud_dense": {
+      "background": "#34404F",
+      "aura": "#34404F1E"
+    },
+    "cloud_tide": {
+      "background": "#2A2244",
+      "aura": "#2A224428"
+    }
+  },
+
+  "numbers": {
+    "world_tip_wave_amplitude": 2.0,
+    "world_tip_wave_period": 0.5
+  },
+
+  "fonts": {
+    "primary": "default",
+    "fallback": "auto"
+  }
+}

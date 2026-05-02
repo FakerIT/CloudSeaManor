@@ -1,0 +1,11 @@
+Id,QuestName,Description,QuestType,RequiredNpc,RequiredItem,RequiredKill,RequiredDeliver,RewardGold,RewardExp,RewardItem,NextQuestId,MinDay
+quest_intro,初来乍到,熟悉山庄环境，与灵霄交谈,Dialogue,lingxiao,,,,100,50,,quest_tea_harvest,1
+quest_tea_harvest,采茶入门,帮助灵霄采集5份云雾茶叶,Harvest,lingxiao,,,tea_leafx5,150,80,,quest_tea_craft,3
+quest_tea_craft,制茶初成,使用茶叶制作一杯云雾茶,Craft,lingxiao,,,tea_cloudx1,200,100,tool_teapot,quest_first_delivery,5
+quest_first_delivery,首次送货,将灵霄的茶送到市集给逍遥,Deliver,xiaoyao,,,item_tea_packagex1,180,90,,quest_herb_gathering,7
+quest_herb_gathering,草药采集,帮助白竹采集10份回复草,Harvest,baizhu,,,herb_healingx10,220,110,herb_healingx3,quest_first_battle,10
+quest_first_battle,初战灵兽,在云雾之境击败3只云雾灵,Battle,,,spirit_cloud_wispx3,,300,150,weapon_cloud_sword,quest_pet_adopt,14
+quest_pet_adopt,灵兽认主,去灵兽园领取一只灵兽作为伙伴,Dialogue,meili,,,,250,120,pet_cloud,quest_weekly_delivery,18
+quest_weekly_delivery,每周送货,每周给指定NPC送货3次,Deliver,,,,,200,100,,quest_advanced_battle,21
+quest_advanced_battle,深入灵域,挑战烈焰谷并击败焰火魔,Battle,,,spirit_flame_impx1,,500,250,armor_fireproof,quest_ending,28
+quest_ending,云海守望,成为真正的云海守望者,Special,,,,1000,500,special_title_cloud_guardian,,35

@@ -1,0 +1,361 @@
+{
+  "npc_id": "song",
+  "greetings": [
+    {
+      "id": "song_greet_morning",
+      "text": "哟，是$[PLAYER_NAME]啊！今天又带了什么好货要卖给我？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "song_greet_morning_warm",
+      "text": "早上好，$[PLAYER_NAME]！今天天气不错，生意应该会好。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_afternoon",
+      "text": "午后了，$[PLAYER_NAME]。今天的市集人流量不错，好东西不愁卖。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_evening",
+      "text": "傍晚了，$[PLAYER_NAME]。今天的货快卖完了，有空来逛逛。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_night",
+      "text": "这么晚了还在外面跑？$[PLAYER_NAME]，小心天黑路滑啊。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_spring",
+      "text": "春天来了，$[PLAYER_NAME]！这个季节的蔬菜最新鲜，价格也好。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_summer",
+      "text": "夏天热啊，$[PLAYER_NAME]。水果类的生意最近很火，你有的话记得找我。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_autumn",
+      "text": "秋天是收获的季节，$[PLAYER_NAME]！各种农产品都值钱，好好把握。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_winter",
+      "text": "冬天来了，$[PLAYER_NAME]。根茎类的蔬菜最耐放，价格也稳定。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_mist",
+      "text": "薄雾天啊，$[PLAYER_NAME]。这种天气适合在屋里喝杯热茶，生意可以晚点再谈。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_dense",
+      "text": "浓云海的天气，$[PLAYER_NAME]。这种时候云海山庄的特产最值钱，你懂的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_tide",
+      "text": "大潮来了！$[PLAYER_NAME]，这可是难得的机会，好东西卖好价钱！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_high_heart",
+      "text": "$[PLAYER_NAME]，咱们合作这么久，关系不一般了。有什么需要帮忙的尽管开口。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_favor_low",
+      "text": "哟，新面孔啊！$[PLAYER_NAME]，我是松年，在这云海山庄做买卖的。",
+      "favor_min": 0,
+      "favor_max": 50,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_greet_favor_mid",
+      "text": "$[PLAYER_NAME]，最近货不错啊！咱们合作越来越顺了。",
+      "favor_min": 51,
+      "favor_max": 150,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "song_st_trade",
+      "text": "做买卖嘛，讲究的就是一个诚信。$[PLAYER_NAME]，咱们打交道这么久，你应该明白我的为人。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_market",
+      "text": "最近市集行情不错，$[PLAYER_NAME]。各种作物的价格都比较稳定。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_cloud",
+      "text": "你知道吗，$[PLAYER_NAME]？云海山庄的特产在外面可值钱了，特别是大潮时候的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_season",
+      "text": "每个季节都有自己的好东西，$[PLAYER_NAME]。关键是要把握好时机。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_travel",
+      "text": "以前走南闯北的，见过不少地方。但要说住得舒服，还得是云海山庄。$[PLAYER_NAME]，你说是不是？",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_friend",
+      "text": "$[PLAYER_NAME]，在这山庄待久了，大家都成了老朋友。比起以前到处跑，现在这样挺好的。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_money",
+      "text": "钱嘛，够花就行。$[PLAYER_NAME]，最重要的还是活得开心。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_advice",
+      "text": "$[PLAYER_NAME]，有空多关注一下市场行情。种什么、什么时候卖，这里头有讲究。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_quality",
+      "text": "品质好的东西永远不愁卖，$[PLAYER_NAME]。你种的茶我就特别喜欢，价格好商量。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_st_heart_high",
+      "text": "$[PLAYER_NAME]，你是我在这山庄最好的主顾了。有什么好东西，记得第一时间找我。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "song_farewell_1",
+      "text": "行，那我先忙了。$[PLAYER_NAME]，有好货记得找我啊！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_farewell_2",
+      "text": "慢走，$[PLAYER_NAME]。改天再聊生意经。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_farewell_3",
+      "text": "去吧，$[PLAYER_NAME]。我这边还得整理一下今天的账目。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_farewell_high",
+      "text": "$[PLAYER_NAME]，有空常来坐坐。咱们老朋友了，喝杯茶再走也行。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "song_farewell_morning",
+      "text": "早起的鸟儿有虫吃，$[PLAYER_NAME]。我也得去开铺了，回见！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_farewell_evening",
+      "text": "天快黑了，$[PLAYER_NAME]。早点回去休息，明天还有活儿要干呢。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "song_farewell_night",
+      "text": "夜深了，$[PLAYER_NAME]$。路上小心，有什么事明天再说。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

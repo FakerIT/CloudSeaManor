@@ -1,0 +1,361 @@
+{
+  "npc_id": "yan",
+  "greetings": [
+    {
+      "id": "yan_greet_morning",
+      "text": "晨钟暮鼓，$[PLAYER_NAME]$。修行之人，当惜时如金。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "yan_greet_morning_warm",
+      "text": "善，$[PLAYER_NAME]$。今日气清，适合静坐修行。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_afternoon",
+      "text": "午后修行，$[PLAYER_NAME]$。心静则神清。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_evening",
+      "text": "日落修行，$[PLAYER_NAME]$。观云卷云舒，悟人生百态。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_night",
+      "text": "夜深了，$[PLAYER_NAME]$。修行者当早睡早起，顺应天时。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_night_warm",
+      "text": "夜能澄心，$[PLAYER_NAME]$。这般时辰，最宜冥想。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_spring",
+      "text": "春来万物生，$[PLAYER_NAME]$。正是修身养性之时。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_summer",
+      "text": "夏长养心，$[PLAYER_NAME]$。心静自然凉。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_autumn",
+      "text": "秋收敛神，$[PLAYER_NAME]$。内观己身，外察天地。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_winter",
+      "text": "冬藏养气，$[PLAYER_NAME]$。待来年春发。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_mist",
+      "text": "薄雾朦胧，$[PLAYER_NAME]$。此乃天地之气，最宜吐纳。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_dense",
+      "text": "浓云蔽日，$[PLAYER_NAME]$。灵气充沛，可借天时修行。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_tide",
+      "text": "大潮临世，$[PLAYER_NAME]$。此乃百年难遇之机缘，当珍惜。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_greet_high_heart",
+      "text": "$[PLAYER_NAME]$，你与道有缘。望日后多加精进。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "yan_st_tao",
+      "text": "道法自然，$[PLAYER_NAME]$。顺应天道，方能长久。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_meditation",
+      "text": "每日静坐一个时辰，$[PLAYER_NAME]$。持之以恒，必有所得。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_cloud",
+      "text": "云本无心，$[PLAYER_NAME]$。人有心而观云，云亦有意。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_balance",
+      "text": "阴阳调和，$[PLAYER_NAME]$。万事万物皆需平衡。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_wisdom",
+      "text": "上善若水，$[PLAYER_NAME]$。水利万物而不争。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_breath",
+      "text": "吐纳之法，$[PLAYER_NAME]$。吸天地灵气，呼体内浊气。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_student",
+      "text": "你若有心向道，$[PLAYER_NAME]$。我可传授一些修行之法。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_friend",
+      "text": "缘起缘灭，$[PLAYER_NAME]$。能相遇便是缘分，当珍惜。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_heart_high",
+      "text": "$[PLAYER_NAME]$，你心性纯良，日后必有所成。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_tide",
+      "text": "大潮之时灵气最盛，$[PLAYER_NAME]$。修行者可借此时突破。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_st_aura",
+      "text": "山庄灵气日盛，$[PLAYER_NAME]$。你是功臣之一。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "yan_farewell_1",
+      "text": "善，$[PLAYER_NAME]$。各随其缘。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_farewell_2",
+      "text": "去罢，$[PLAYER_NAME]$。修行之路漫漫，当勤勉不辍。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_farewell_3",
+      "text": "缘尽则散，$[PLAYER_NAME]$。他日有缘再会。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_farewell_high",
+      "text": "$[PLAYER_NAME]$，望你修行路上不忘本心。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_farewell_morning",
+      "text": "晨时已过，$[PLAYER_NAME]$。当珍惜光阴。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_farewell_evening",
+      "text": "日暮当归，$[PLAYER_NAME]$。早些歇息。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yan_farewell_night",
+      "text": "夜深了，$[PLAYER_NAME]$。当早入眠，顺应天时。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

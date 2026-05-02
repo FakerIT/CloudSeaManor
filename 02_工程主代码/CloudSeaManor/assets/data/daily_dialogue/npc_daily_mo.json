@@ -1,0 +1,361 @@
+{
+  "npc_id": "mo",
+  "greetings": [
+    {
+      "id": "mo_greet_morning",
+      "text": "……$[PLAYER_NAME]$，这么早就起来了？……嗯。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "mo_greet_morning_warm",
+      "text": "早……$[PLAYER_NAME]$，今天……天气不错。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_afternoon",
+      "text": "午后……$[PLAYER_NAME]$，有什么事？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_evening",
+      "text": "傍晚……$[PLAYER_NAME]$，要……回去了吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_night",
+      "text": "……$[PLAYER_NAME]$……你也……喜欢夜晚吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_night_warm",
+      "text": "夜晚……很安静……$[PLAYER_NAME]$，我……喜欢这种感觉。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_spring",
+      "text": "春天……$[PLAYER_NAME]$，花……开了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_summer",
+      "text": "夏天……$[PLAYER_NAME]$，萤火虫……很漂亮。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_autumn",
+      "text": "秋天……$[PLAYER_NAME]$，落叶……很美。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_winter",
+      "text": "冬天……$[PLAYER_NAME]$，安静……很舒服。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_mist",
+      "text": "薄雾……$[PLAYER_NAME]$，世界……模糊了。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_dense",
+      "text": "浓云……$[PLAYER_NAME]$，像……棉花糖。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_tide",
+      "text": "大潮……$[PLAYER_NAME]$，很……壮观。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_greet_high_heart",
+      "text": "$[PLAYER_NAME]$……能和你说话……很高兴。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "mo_st_silence",
+      "text": "……沉默……也很好……$[PLAYER_NAME]$。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_stars",
+      "text": "星星……$[PLAYER_NAME]$……你看……那颗最亮的……像你。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_art",
+      "text": "我……喜欢画画……$[PLAYER_NAME]$。用……墨……画出……心里想的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_dream",
+      "text": "有时候……$[PLAYER_NAME]$……我觉得……梦里……更真实。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_memory",
+      "text": "我的记忆……像……雾一样……$[PLAYER_NAME]$……有时候……看不清。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_cloud",
+      "text": "云……$[PLAYER_NAME]$……会变成……什么形状呢？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_feeling",
+      "text": "和你在一起……$[PLAYER_NAME]$……很安心。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_peace",
+      "text": "世界……$[PLAYER_NAME]$……很喧闹……但……你的声音……很安静。",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_heart_high",
+      "text": "$[PLAYER_NAME]$……你……像……月光……温柔……让人……安心。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_mist",
+      "text": "薄雾……$[PLAYER_NAME]$……让我……想起……小时候。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_st_tide",
+      "text": "大潮……$[PLAYER_NAME]$……像……海……但……更……温柔。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "mo_farewell_1",
+      "text": "……再见……$[PLAYER_NAME]$。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_farewell_2",
+      "text": "……嗯……$[PLAYER_NAME]$……回去……小心。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_farewell_3",
+      "text": "……下次……$[PLAYER_NAME]$……再聊。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_farewell_high",
+      "text": "$[PLAYER_NAME]$……能……多待……一会儿吗？",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_farewell_morning",
+      "text": "……清晨……$[PLAYER_NAME]$……很美。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_farewell_evening",
+      "text": "……傍晚……$[PLAYER_NAME]$……像……一幅画。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "mo_farewell_night",
+      "text": "……夜晚……$[PLAYER_NAME]$……很安静……晚安。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

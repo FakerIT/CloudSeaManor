@@ -1,0 +1,21 @@
+﻿{
+  "version": "1.0",
+  "tiers": {
+    "love": { "affection": 100 },
+    "like": { "affection": 20 },
+    "normal": { "affection": 8 },
+    "dislike": { "affection": -15 }
+  },
+  "npcs": {
+    "acha": {
+      "love": ["early_fog_tea", "handmade_tea_snack", "love_letter"],
+      "like": ["peach", "tea_oil_fruit"],
+      "normal": ["cloud_rice"]
+    },
+    "xiaoman": {
+      "love": ["beast_treat", "spirit_fruit", "lingwu_qing_tea"],
+      "like": ["blueberry", "sweet_pie"],
+      "normal": ["star_grass"]
+    }
+  }
+}

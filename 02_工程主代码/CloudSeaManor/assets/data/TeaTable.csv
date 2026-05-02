@@ -1,0 +1,8 @@
+Id,DisplayName,Element,Rarity,BaseGrowthDays,BaseYield,BaseQuality,Price,SellPrice,BuffTag,Description
+tea_cloud,云雾茶,Cloud,Normal,7,3,60,50,30,,清淡回甘的日常茶饮
+tea_fire,烈焰红,Fire,Rare,10,2,70,120,80,fire_resist,火属性灵茶，温暖身心
+tea_water,清泉绿,Water,Fine,6,4,65,80,50,water_clarity,水属性灵茶，清热解毒
+tea_earth,山土黄,Earth,Rare,12,2,75,150,100,earth_stable,土属性灵茶，稳重醇厚
+tea_wind,清风白,Wind,Fine,8,3,68,90,55,wind_agile,风属性灵茶，轻盈爽口
+tea_spirit,灵芽茶,Spirit,Spirit,14,1,85,300,200,spirit_link,传说中的灵茶，可与茶灵沟通
+tea_holy,圣泉露,Holy,Holy,21,1,95,500,350,holy_blessing,神圣灵茶，治愈一切

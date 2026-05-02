@@ -1,0 +1,8 @@
+Id,Name,Result,EffectType,EffectValue,Duration,Cooldown,RequiredItems,RequiredStamina,Description
+recipe_tea_basic,基础灵茶,tea_cloud,QualityBonus,1.2,Instant,10,tea_leafx3,10,制作一杯云雾茶
+recipe_tea_fire,烈焰红茶,tea_fire,QualityBonus,1.3,Instant,30,tea_leafx5;fire_herbx2,20,制作烈焰红茶
+recipe_tea_water,清泉绿茶,tea_water,QualityBonus,1.25,Instant,20,tea_leafx4;water_herbx1,15,制作清泉绿茶
+recipe_potion_heal,回复药水,hp_potion_small,HealPlayer,50,Instant,60,herb_healingx3;water_purex1,10,制作小瓶回复药水
+recipe_potion_mana,灵力药水,mp_potion_small,RestoreMana,30,Instant,60,herb_manax2;water_purex1,10,制作小瓶灵力药水
+recipe_potion_greater,高级药水,hp_potion_large,HealPlayer,150,Instant,180,herb_healingx5;herb_rarex1;water_purex2,25,制作大瓶回复药水
+recipe_food_stew,杂烩炖菜,food_stew,StaminaRestore,30,Instant,30,vegetable_mixedx3,15,制作一份营养炖菜

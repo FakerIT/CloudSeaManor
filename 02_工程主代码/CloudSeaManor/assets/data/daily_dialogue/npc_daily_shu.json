@@ -1,0 +1,350 @@
+{
+  "npc_id": "shu",
+  "greetings": [
+    {
+      "id": "shu_greet_morning",
+      "text": "早安，$[PLAYER_NAME]！今天也要元气满满哦！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "shu_greet_morning_warm",
+      "text": "早安早安，$[PLAYER_NAME]！今天天气真棒！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_afternoon",
+      "text": "下午好呀，$[PLAYER_NAME]！今天过得怎么样？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_evening",
+      "text": "傍晚啦，$[PLAYER_NAME]！今天辛苦了呢！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_night",
+      "text": "晚上好，$[PLAYER_NAME]！这么晚还在外面呀？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_night_warm",
+      "text": "夜晚出来散步吗，$[PLAYER_NAME]？星星很漂亮呢！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_spring",
+      "text": "春天来啦，$[PLAYER_NAME]！到处都是新生命呢！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_summer",
+      "text": "夏天到啦，$[PLAYER_NAME]！虽然热但有很多好玩的事呢！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_autumn",
+      "text": "秋天来啦，$[PLAYER_NAME]！落叶红红黄黄的，好漂亮！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_winter",
+      "text": "冬天来啦，$[PLAYER_NAME]！虽然冷但好浪漫！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_mist",
+      "text": "薄雾蒙蒙的，$[PLAYER_NAME]！好像仙境一样！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_dense",
+      "text": "云海好浓呀，$[PLAYER_NAME]！感觉伸手就能摸到云呢！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_tide",
+      "text": "大潮来啦，$[PLAYER_NAME]！好壮观啊！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_greet_high_heart",
+      "text": "$[PLAYER_NAME]！每次看到你我就超开心的！",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "shu_st_happy",
+      "text": "开心最重要啦，$[PLAYER_NAME]！你今天开心吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_friend",
+      "text": "你是我最好的朋友，$[PLAYER_NAME]！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_curious",
+      "text": "诶诶，$[PLAYER_NAME]！你有没有听说过那个传说？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_adventure",
+      "text": "好想去探险啊，$[PLAYER_NAME]！要不要一起？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_food",
+      "text": "今天吃了什么好吃的呀，$[PLAYER_NAME]？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_secret",
+      "text": "我跟你说哦，$[PLAYER_NAME]$！我昨天发现了一个秘密……",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_heart_high",
+      "text": "$[PLAYER_NAME]$，有你在的地方，就是最开心的！",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_cloud",
+      "text": "云海每天都不一样呢，$[PLAYER_NAME]$！像棉花糖一样软软的！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_season",
+      "text": "每个季节都有好玩的事，$[PLAYER_NAME]$！你最喜欢哪个季节？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_st_tide",
+      "text": "大潮的时候整个山庄都不一样了，$[PLAYER_NAME]$！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "shu_farewell_1",
+      "text": "拜拜，$[PLAYER_NAME]$！下次再一起玩哦！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_farewell_2",
+      "text": "那我先走啦，$[PLAYER_NAME]$！记得想我哦！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_farewell_3",
+      "text": "好啦，$[PLAYER_NAME]$！有空再来找我玩！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_farewell_high",
+      "text": "$[PLAYER_NAME]$……才不想让你走呢！下次要早点来找我哦！",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_farewell_morning",
+      "text": "上午加油哦，$[PLAYER_NAME]$！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_farewell_evening",
+      "text": "傍晚啦，$[PLAYER_NAME]$！早点回去休息哦！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "shu_farewell_night",
+      "text": "晚安，$[PLAYER_NAME]$！做个好梦哦！",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

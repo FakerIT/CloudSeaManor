@@ -1,0 +1,11 @@
+Id,Body,Description,BuffType,BuffValue,Duration,Stackable,MaxStack
+buff_profile_1,回血草粥,恢复少量生命,Heal,30,Instant,false,1
+buff_profile_2,回血草炖肉,恢复中量生命,Heal,80,Instant,false,1
+buff_profile_3,灵力草汤,恢复少量灵力,RestoreMana,20,Instant,false,1
+buff_profile_4,高级回血药,恢复大量生命,Heal,200,Instant,false,1
+buff_profile_5,体力恢复汤,恢复体力,StaminaRestore,50,Instant,false,1
+buff_profile_6,茶泡饭,小幅恢复所有属性,AllRestore,15,Instant,false,1
+buff_profile_7,灵茶套餐,中幅恢复所有属性,AllRestore,40,Instant,false,1
+buff_profile_8,灵芽茶料理,大幅恢复所有属性,AllRestore,100,Instant,false,1
+buff_profile_9,抗火药剂,提供火属性抗性,FireResist,20,300,NoStack,1
+buff_profile_10,抗寒药剂,提供冰属性抗性,IceResist,20,300,NoStack,1

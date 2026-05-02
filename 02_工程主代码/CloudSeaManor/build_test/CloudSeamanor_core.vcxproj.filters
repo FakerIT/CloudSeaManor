@@ -1,0 +1,978 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\CloudSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\CloudGuardianContract.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\CropData.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\DynamicLifeSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\NpcDevelopmentSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\DiarySystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\FestivalSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\FestivalGameplayMvp.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\GameClock.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\HungerTable.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\HungerSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\Inventory.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\Player.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\RecipeData.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\SkillSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\Stamina.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\ToolSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\TeaTable.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\TeaBushTable.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\BuffSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\BuffEffectTable.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\TeaBush.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\TeaProductData.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\WorkshopSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\AtmosphereState.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\RelationshipSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\SeedDropTable.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\ManorEcologySystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\PlayerMemorySystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\TeaSpiritDexSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\domain\FestivalMiniGameSystem.cpp">
+      <Filter>src\domain</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\FarmingSystem.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameApp.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppMenu.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\MainMenuController.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\SceneManager.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppFarming.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppHud.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppInput.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppNpc.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppSave.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppScene.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppSpiritBeast.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppText.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameAppWeather.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameRuntime.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameWorldState.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameLoopCoordinator.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameLoopRegistry.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\LoopDebugPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\FestivalRuntimeData.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\GameWorldSystems.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\InteractionSystem.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\Interactable.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\LevelUpSystem.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PickupSystem.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PickupDrop.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PlayerInteractRuntime.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\TargetHintRuntime.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\MainPlotSystem.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\TeaQualityCalculator.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\TeaGarden.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\TextRenderUtils.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\InputManager.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\UISystem.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\DialogueEngine.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\EventBus.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\UiLayoutSerializer.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\PlayerMovementSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\PickupSystemRuntime.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\CropGrowthSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\AchievementSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\DecorationSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\NpcScheduleSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\QuestManager.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\ShopSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\NpcDeliverySystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\InnSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\CoopSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\PetSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\SpiritBeastSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\SpiritRealmManager.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\TutorialSystem.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\systems\WorkshopSystemRuntime.cpp">
+      <Filter>src\engine\systems</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\NpcDialogueManager.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelFestivalMiniGamePanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelToolUpgradePanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelArtStyle.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelFontRenderer.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelUiPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelProgressBar.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelToolbar.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelDialogueBox.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelInventoryGrid.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelQuestMenu.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelMinimap.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelCloudSeaForecastPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelPlayerStatusPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelDailyRecommendationPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelTutorialBubble.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelTeaGardenPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelWorkshopPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelContractPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelNpcDetailPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelNpcSchedulePanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelSpiritBeastPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelFestivalPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelSpiritRealmPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelBuildingPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelShopPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelMailPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelAchievementPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelBeastiaryPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\LoadingScreen.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelContextMenu.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelNotificationBanner.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelTooltip.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelGameHud.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\PixelSettingsPanel.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\presentation\HudPresenter.cpp">
+      <Filter>src\engine\presentation</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\presentation\HudPanelPresenters.cpp">
+      <Filter>src\engine\presentation</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\presentation\HudSideEffects.cpp">
+      <Filter>src\engine\presentation</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\input\InputHandler.cpp">
+      <Filter>src\engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\rendering\HudRenderer.cpp">
+      <Filter>src\engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\rendering\SceneVisualStore.cpp">
+      <Filter>src\engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\rendering\FestivalDecorationSystem.cpp">
+      <Filter>src\engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\rendering\WorldRenderer.cpp">
+      <Filter>src\engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\rendering\PlayerVisualComponent.cpp">
+      <Filter>src\engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\rendering\UiPanelInitializer.cpp">
+      <Filter>src\engine\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\AtmosphereRenderer.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\AudioManager.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\BattleField.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\BattleUI.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\BattleManager.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\BattleRenderer.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\engine\BattleZoneLoader.cpp">
+      <Filter>src\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\GameConfig.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\JsonValue.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\Logger.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\DataRegistry.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\ResourceManager.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\SpriteMapping.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\UiLayoutConfig.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\TmxMap.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\SaveSlotManager.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\AtmosphereDataLoader.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\DialogueJsonParser.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\ReferenceSaveDataSystem.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\ModLoader.cpp">
+      <Filter>src\infrastructure</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\src\infrastructure\data\BattleDataLoader.cpp">
+      <Filter>src\infrastructure\data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\MathTypes.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\CloudSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\CloudGuardianContract.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\CropData.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\DynamicLifeSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\DiarySystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\FestivalSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\FestivalGameplayMvp.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\GameClock.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\HungerTable.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\HungerSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\Interactable.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\Inventory.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\MainPlotSystem.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PickupDrop.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\Player.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\ProfileHelper.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\RecipeData.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\SkillSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\Stamina.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\TeaProcessingRecipe.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\BuffSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\TeaGarden.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\TeaBush.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\TeaBushTable.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\TeaTable.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\TeaQualityCalculator.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\BuffEffectTable.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\WorkshopSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\AtmosphereState.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\RelationshipSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\SeedDropTable.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\ManorEcologySystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\PlayerMemorySystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\TeaSpiritDexSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\domain\FestivalMiniGameSystem.hpp">
+      <Filter>include\CloudSeamanor\domain</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\CloudSeaManor.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\FarmingSystem.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameApp.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\AudioManager.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppFarming.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppHud.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppNpc.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\GameAppRuntimeTypes.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppSave.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppScene.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppSpiritBeast.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppText.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppWeather.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\app\GameAppState.hpp">
+      <Filter>include\CloudSeamanor\app</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\game_state\PlayerState.hpp">
+      <Filter>include\CloudSeamanor\game_state</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\game_state\RenderState.hpp">
+      <Filter>include\CloudSeamanor\game_state</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\GameRuntime.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\GameWorldState.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\GameWorldSystems.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\GameLoopCoordinator.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\GameLoopRegistry.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\LoopDebugPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\InteractionSystem.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\LevelUpSystem.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PickupSystem.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PlayerInteractRuntime.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\TargetHintRuntime.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\TextRenderUtils.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\InputManager.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\UISystem.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\DialogueEngine.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\EventBus.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\FestivalRuntimeData.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelUiConfig.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelArtStyle.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelFontRenderer.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelUiPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelProgressBar.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelToolbar.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelDialogueBox.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelInventoryGrid.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelQuestMenu.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelMinimap.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelCloudSeaForecastPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelPlayerStatusPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelDailyRecommendationPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelTutorialBubble.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelTeaGardenPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelWorkshopPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelContractPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelNpcDetailPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelNpcSchedulePanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelSpiritBeastPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelFestivalPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelSpiritRealmPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelBuildingPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelShopPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelMailPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelAchievementPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelBeastiaryPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\LoadingScreen.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelContextMenu.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelNotificationBanner.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelTooltip.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelGameHud.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelSettingsPanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\input\InputHandler.hpp">
+      <Filter>include\CloudSeamanor\engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\presentation\HudPresenter.hpp">
+      <Filter>include\CloudSeamanor\engine\presentation</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\presentation\HudPanelPresenters.hpp">
+      <Filter>include\CloudSeamanor\engine\presentation</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\presentation\HudSideEffects.hpp">
+      <Filter>include\CloudSeamanor\engine\presentation</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\rendering\HudRenderer.hpp">
+      <Filter>include\CloudSeamanor\engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\rendering\SceneVisualStore.hpp">
+      <Filter>include\CloudSeamanor\engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\rendering\WorldRenderer.hpp">
+      <Filter>include\CloudSeamanor\engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\rendering\PlayerVisualComponent.hpp">
+      <Filter>include\CloudSeamanor\engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\rendering\UiPanelInitializer.hpp">
+      <Filter>include\CloudSeamanor\engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\rendering\AtmosphereRenderer.hpp">
+      <Filter>include\CloudSeamanor\engine\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\BattleEntities.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\BattleField.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\BattleUI.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\BattleManager.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\BattleRenderer.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\BattleZoneLoader.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\PlayerMovementSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\PickupSystemRuntime.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\CropGrowthSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\AchievementSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\DecorationSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\NpcScheduleSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\QuestManager.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\ShopSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\NpcDeliverySystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\InnSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\CoopSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\PetSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\SpiritBeastSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\SpiritRealmManager.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\TutorialSystem.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\systems\WorkshopSystemRuntime.hpp">
+      <Filter>include\CloudSeamanor\engine\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\NpcDialogueManager.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelFestivalMiniGamePanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\engine\PixelToolUpgradePanel.hpp">
+      <Filter>include\CloudSeamanor\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\GameConfig.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\GameConstants.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\JsonValue.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\Logger.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\DataRegistry.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\Result.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\ResourceManager.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\UiLayoutConfig.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\TmxMap.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\SaveSlotManager.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\DialogueJsonParser.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\data\BattleDataLoader.hpp">
+      <Filter>include\CloudSeamanor\infrastructure\data</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\AtmosphereDataLoader.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\include\CloudSeamanor\infrastructure\ReferenceSaveDataSystem.hpp">
+      <Filter>include\CloudSeamanor\infrastructure</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{0D01937D-7200-3E23-8353-16FF26D7EE5A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor">
+      <UniqueIdentifier>{BC34A40B-D1FC-30AD-B989-2F97E60BD830}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\app">
+      <UniqueIdentifier>{AE15004F-6094-3BFB-9CDB-DCB3B404795E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\domain">
+      <UniqueIdentifier>{1E74639A-42E9-3B10-A474-609833B452C9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\engine">
+      <UniqueIdentifier>{D242A62F-1F78-3CFD-9061-F8B300F10787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\engine\input">
+      <UniqueIdentifier>{FF858894-2B0F-3776-B734-C83373082C84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\engine\presentation">
+      <UniqueIdentifier>{1329AA32-42BE-31CC-9882-2846E3055E3F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\engine\rendering">
+      <UniqueIdentifier>{44214F81-0A26-3FE0-A1EC-1AEAEF777001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\engine\systems">
+      <UniqueIdentifier>{33B5196A-B7D6-3BCC-855F-BBB98B3FC83F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\game_state">
+      <UniqueIdentifier>{BC1D787C-D67E-349D-B252-4A3216051E2E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\infrastructure">
+      <UniqueIdentifier>{1CCCB0E5-9C50-3C7D-B18D-3C532D833AE9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor\infrastructure\data">
+      <UniqueIdentifier>{104A9BD8-4E1C-31A6-AAEB-B1D5ADBDB3E9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{C2424B7B-9D46-3FFB-BEAC-8A56D16F8F0E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\domain">
+      <UniqueIdentifier>{89A8CF39-DFEA-3BED-9AFC-B934CA52C87C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine">
+      <UniqueIdentifier>{68E668D4-BF05-3630-9887-77BE4711BE60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\input">
+      <UniqueIdentifier>{548272F5-B8B7-3E68-94C3-5387AFFF0EAD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\presentation">
+      <UniqueIdentifier>{1D449521-FC90-341A-BCAC-46C5081E242E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\rendering">
+      <UniqueIdentifier>{91AEB578-2D6E-3D62-8AFB-576AFE4B6C96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\engine\systems">
+      <UniqueIdentifier>{A191C285-AE50-3625-968D-E8589955ADC6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\infrastructure">
+      <UniqueIdentifier>{DB44762B-8004-3831-B25C-F4486E27CAAB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\infrastructure\data">
+      <UniqueIdentifier>{D7996F68-28DC-322B-A5D6-C737E21463D7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

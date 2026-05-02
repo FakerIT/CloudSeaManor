@@ -1,0 +1,40 @@
+{
+  "quest_id": "main_ch2_3",
+  "quest_name": "结识伙伴",
+  "chapter": "第二章",
+  "dialogues": [
+    {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "你就是新来的？我听说过你。我是这里的学者，对云海的一切都充满好奇。",
+      "expression": "curious"
+    },
+    {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "如果你对灵界感兴趣，可以来找我聊聊。我研究灵界生态很久了，或许能给你一些帮助。",
+      "expression": "scholarly"
+    },
+    {
+      "speaker": "player",
+      "choices": [
+        {"text": "我很想了解灵界", "response": "learn_spirit"},
+        {"text": "你研究出什么了吗？", "response": "research"}
+      ]
+    }
+  ],
+  "responses": {
+    "learn_spirit": {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "很好！灵界是云海最神秘的部分。不同层次的灵界有不同的灵体和资源。层数越深，危险越大，但收获也越丰厚。",
+      "expression": "enthusiastic"
+    },
+    "research": {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "我发现灵界的活跃程度与云海天气密切相关。浓云海和潮汐天气时，灵界的入口会更加稳定，这是进入深层的好时机。",
+      "expression": "scholarly"
+    }
+  }
+}

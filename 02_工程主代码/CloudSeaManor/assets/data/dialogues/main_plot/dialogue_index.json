@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "total_dialogues": 15,
+  "dialogues": [
+    {"id": "ch1_1_awakening", "file": "ch1_1_awakening.json", "chapter": "第一章", "quest_id": "main_ch1_1"},
+    {"id": "ch1_2_first_tea", "file": "ch1_2_first_tea.json", "chapter": "第一章", "quest_id": "main_ch1_2"},
+    {"id": "ch1_3_first_harvest", "file": "ch1_3_first_harvest.json", "chapter": "第一章", "quest_id": "main_ch1_3"},
+    {"id": "ch1_4_spirit_realm", "file": "ch1_4_spirit_realm.json", "chapter": "第一章", "quest_id": "main_ch1_4"},
+    {"id": "ch1_5_first_purify", "file": "ch1_5_first_purify.json", "chapter": "第一章", "quest_id": "main_ch1_5"},
+    {"id": "ch2_3_meet_partners", "file": "ch2_3_meet_partners.json", "chapter": "第二章", "quest_id": "main_ch2_3"},
+    {"id": "ch2_4_spirit_beast", "file": "ch2_4_spirit_beast.json", "chapter": "第二章", "quest_id": "main_ch2_4"},
+    {"id": "ch3_1_shadow_appears", "file": "ch3_1_shadow_appears.json", "chapter": "第三章", "quest_id": "main_ch3_1"},
+    {"id": "ch3_3_shadow_wolf", "file": "ch3_3_shadow_wolf.json", "chapter": "第三章", "quest_id": "main_ch3_3"},
+    {"id": "ch4_1_dream_world", "file": "ch4_1_dream_world.json", "chapter": "第四章", "quest_id": "main_ch4_1"},
+    {"id": "ch5_1_stardust_depths", "file": "ch5_1_stardust_depths.json", "chapter": "第五章", "quest_id": "main_ch5_1"},
+    {"id": "ch5_2_galaxy_lord", "file": "ch5_2_galaxy_lord.json", "chapter": "第五章", "quest_id": "main_ch5_2"},
+    {"id": "ch6_3_dragon_awaken", "file": "ch6_3_dragon_awaken.json", "chapter": "第六章", "quest_id": "main_ch6_3"},
+    {"id": "ch6_4_phoenix_rebirth", "file": "ch6_4_phoenix_rebirth.json", "chapter": "第六章", "quest_id": "main_ch6_4"},
+    {"id": "ch6_6_cloud_restored", "file": "ch6_6_cloud_restored.json", "chapter": "第六章", "quest_id": "main_ch6_6"}
+  ],
+  "placeholder_templates": {
+    "spouse": "{spouse_name}",
+    "player": "{player_name}",
+    "item": "{item_name}",
+    "place": "{place_name}"
+  }
+}

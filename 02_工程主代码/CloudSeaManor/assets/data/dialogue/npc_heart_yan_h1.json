@@ -1,0 +1,80 @@
+{
+  "event_id": "yan_h1",
+  "npc_id": "yan",
+  "title": "琴音悠扬",
+  "description": "在庭院遇到琴师雁归",
+  "nodes": [
+    {
+      "id": "yan_h1_start",
+      "speaker": "雁归",
+      "text": "这曲子弹到一半，总觉得缺了点什么……啊，有人来了。",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "这曲子很好听。",
+          "next_node_id": "yan_h1_music"
+        },
+        {
+          "id": "choice_2",
+          "text": "你在为什么烦恼？",
+          "next_node_id": "yan_h1_worry"
+        }
+      ]
+    },
+    {
+      "id": "yan_h1_music",
+      "speaker": "雁归",
+      "text": "谢谢，但这曲子还没完成。总觉得少了一点意境。",
+      "choices": [
+        {
+          "id": "choice_feeling",
+          "text": "缺的是什么意境？",
+          "next_node_id": "yan_h1_feeling"
+        }
+      ]
+    },
+    {
+      "id": "yan_h1_worry",
+      "speaker": "雁归",
+      "text": "这曲子想表达归乡的情绪，但我从来没有离开过故乡……所以总是差一点。",
+      "choices": [
+        {
+          "id": "choice_understand",
+          "text": "没离开过故乡也是一种幸福。",
+          "next_node_id": "yan_h1_happy"
+        }
+      ]
+    },
+    {
+      "id": "yan_h1_feeling",
+      "speaker": "雁归",
+      "text": "也许缺的是一份期待吧。等待归来的那种心情，我没有体会过。",
+      "choices": [
+        {
+          "id": "choice_wait",
+          "text": "我愿意听你讲讲。",
+          "next_node_id": "yan_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "yan_h1_happy",
+      "speaker": "雁归",
+      "text": "说得对。也许我应该珍惜这份幸福，而不是去追求没有的情感。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "你能想通就好。",
+          "next_node_id": "yan_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "yan_h1_end",
+      "speaker": "雁归",
+      "text": "谢谢你愿意听我弹琴。下次有了灵感，我弹给你听。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

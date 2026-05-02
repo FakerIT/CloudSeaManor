@@ -1,0 +1,5 @@
+Id,NpcId,StageFrom,StageTo,LocationId,TimeOfDay,Weather,DialogueText,Description
+override_1,lingxiao,Stage6,Stage6,loc_teahouse_rooftop,evening,Clear,我在这里等你。有一件事，想当面告诉你。,告白场景
+override_2,qingfeng,Stage5,Stage5,loc_mountain_summit,evening,Cloudy,来山顶，有话和你说。,重要对话场景
+override_3,baizhu,Stage5,Stage5,loc_pharmacy_garden,afternoon,Sunny,这里种植着世间最珍贵的草药，我带你看看。,药师密室场景
+override_4,yueying,Stage6,Stage6,loc_plaza_center,night,FullMoon,你愿意...和我共舞一生吗？,求婚场景

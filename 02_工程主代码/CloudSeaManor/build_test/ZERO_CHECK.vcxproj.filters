@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\CloudSeaManor\02_工程主代码\CloudSeaManor\build_test\CMakeFiles\be5fe85bb62e42849db5e8d21c823756\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8210ED9D-89BB-3F76-91DA-90EE113CDD88}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

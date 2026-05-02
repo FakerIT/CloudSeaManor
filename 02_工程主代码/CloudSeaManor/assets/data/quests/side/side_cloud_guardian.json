@@ -1,0 +1,78 @@
+{
+  "quest_id": "side_cloud_guardian",
+  "quest_name": "云海守护者",
+  "quest_type": "Side",
+  "quest_line": "Combat",
+  "description": "守护云海山庄的和平，净化一切污染",
+  "difficulty": "Hard",
+  "reputation_reward": 100,
+  
+  "objectives": [
+    {
+      "id": "obj_1",
+      "type": "purify",
+      "target": "enemy",
+      "count": 100,
+      "description": "完成100次净化",
+      "progress": 0,
+      "required": true
+    },
+    {
+      "id": "obj_2",
+      "type": "defeat",
+      "target": "corruption",
+      "count": 50,
+      "description": "击败50只污染灵",
+      "progress": 0,
+      "required": true
+    }
+  ],
+  
+  "stages": [
+    {
+      "stage": 1,
+      "requirement": "purify_30",
+      "description": "初试锋芒",
+      "dialogue": {
+        "speaker": "lin",
+        "content": "你已经展现了守护者的潜质。继续净化那些被污染的灵体，还云海一片清明。",
+        "expression": "serious"
+      }
+    },
+    {
+      "stage": 2,
+      "requirement": "purify_60",
+      "description": "声名鹊起",
+      "dialogue": {
+        "speaker": "yu",
+        "content": "你的净化记录令人印象深刻。继续努力，云海需要你。",
+        "expression": "grateful"
+      }
+    },
+    {
+      "stage": 3,
+      "requirement": "purify_100",
+      "description": "云海守护者",
+      "dialogue": {
+        "speaker": "lingxiao",
+        "content": "你已经成为了真正的云海守护者。感谢你为云海所做的一切。",
+        "expression": "proud"
+      }
+    }
+  ],
+  
+  "rewards": {
+    "item": [
+      {"id": "cloud_crown", "name": "云海守护冠", "description": "授予守护云海和平的勇士"}
+    ],
+    "buff": [
+      {"id": "guardian_aura", "name": "守护者光环", "effect": "战斗中获得经验+30%", "duration": "permanent"}
+    ],
+    "title": "云海守护者"
+  },
+  
+  "unlock_condition": {
+    "main_chapter": 3,
+    "purify_count": 10
+  }
+}

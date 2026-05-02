@@ -1,0 +1,10 @@
+# 鱼饵数据表
+
+```csv
+Id,NameZh,NameEn,Price,EffectType,EffectValue,StackSize,UnlockCondition
+common_bait,普通鱼饵,Common Bait,2,chanceIncrease,5,10,default
+quality_bait,优质鱼饵,Quality Bait,5,chanceIncrease,10,10,quality_rod
+spirit_bait,灵气鱼饵,Spirit Bait,20,spiritChance,20,5,spirit_realm_enter
+cloud_bait,云雾鱼饵,Cloud Bait,15,rareChance,30,5,shop
+tide_bait,潮汐鱼饵,Tide Bait,50,tideFishChance,100,3,tide_essence_x1
+```

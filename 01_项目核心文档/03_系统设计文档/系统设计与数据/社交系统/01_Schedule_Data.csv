@@ -1,0 +1,6 @@
+﻿npc_id,day_type,time_start,time_end,map_id,anchor_id,behavior,notes
+acha,weekday,08:00,12:00,tea_garden,tea_plot_a,work,采茶与巡查
+acha,weekday,14:00,18:00,acha_house,table_01,idle,整理茶谱
+xiaoman,weekday,09:00,13:00,beast_ranch,feeding_zone,work,灵兽喂养
+xiaoman,weekday,15:00,19:00,hill_path,patrol_a,walk,带灵兽散步
+npc_template,festival_day,10:00,22:00,festival_map,festival_center,event,节日专用日程

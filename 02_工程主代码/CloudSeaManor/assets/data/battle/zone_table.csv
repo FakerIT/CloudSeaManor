@@ -1,0 +1,9 @@
+Id,Name,Level,MinPollution,MaxPollution,EnemySpiritIds,Difficulty,Rewards,Description
+zone_cloud_mist,云雾之境,1,0,100,"spirit_cloud_wisp;spirit_cloud_wisp;spirit_cloud_wisp",Easy,"exp:50;gold:100;cloud_essencex2",云海深处的朦胧地带，适合新手修行
+zone_flame_valley,烈焰谷,5,100,300,"spirit_flame_imp;spirit_flame_imp;spirit_water_sprite",Medium,"exp:150;gold:300;fire_essencex3",火焰环绕的山谷，需要小心行动
+zone_water_source,清泉之源,3,50,200,"spirit_water_sprite;spirit_water_sprite;spirit_wind_faerie",Easy,"exp:100;gold:200;water_essencex2",清澈的水源，灵兽众多
+zone_earth_plateau,土岩高原,7,200,400,"spirit_earth_golem;spirit_earth_golem;spirit_wind_faerie",Medium,"exp:200;gold:400;earth_essencex3",高原地带，土系灵兽为主
+zone_wind_canyon,风之峡谷,4,100,250,"spirit_wind_faerie;spirit_wind_faerie;spirit_cloud_wisp",Medium,"exp:120;gold:250;wind_essencex2",强风呼啸的峡谷
+zone_void_depths,虚空深处,10,400,800,"spirit_void_shade;spirit_void_shade;spirit_thunder_herald",Hard,"exp:500;gold:800;dark_essencex4",危险的虚空区域
+zone_holy_shrine,圣光圣地,8,300,600,"spirit_holy_guard;spirit_holy_guard;spirit_water_sprite",Hard,"exp:350;gold:600;holy_essencex3",神圣的修行圣地
+zone_thunder_peak,雷霆之巅,9,500,900,"spirit_thunder_herald;spirit_void_shade;spirit_holy_guard",VeryHard,"exp:600;gold:1000;thunder_essencex4",雷电交加的山峰

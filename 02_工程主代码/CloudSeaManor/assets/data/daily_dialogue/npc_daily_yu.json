@@ -1,0 +1,361 @@
+{
+  "npc_id": "yu",
+  "greetings": [
+    {
+      "id": "yu_greet_morning",
+      "text": "清晨的云海最美了……$[PLAYER_NAME]，你也是来看云的吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "yu_greet_morning_warm",
+      "text": "早安，$[PLAYER_NAME]。今天的云海很安静，像一幅水墨画。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_afternoon",
+      "text": "午后的云海开始翻涌了，$[PLAYER_NAME]。这种变化最让人着迷。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "午后",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_evening",
+      "text": "傍晚的霞光染在云海上，$[PLAYER_NAME]。你看，像不像彩色的绸缎？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_night",
+      "text": "夜晚的云海很神秘，$[PLAYER_NAME]。我很少见到有人会在这个时候出来。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 3
+    },
+    {
+      "id": "yu_greet_night_warm",
+      "text": "夜晚的云海别有一番风味，$[PLAYER_NAME]。要一起看一会儿吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_spring",
+      "text": "春天的云海最轻盈，$[PLAYER_NAME]。像棉花糖一样柔软。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "春",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_summer",
+      "text": "夏天的云海涨得最高，$[PLAYER_NAME]。有时候会漫过山顶呢。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "夏",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_autumn",
+      "text": "秋天的云海最清澈，$[PLAYER_NAME]$。能看得很远很远。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "秋",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_winter",
+      "text": "冬天的云海最沉静，$[PLAYER_NAME]$。有时候会凝结成霜，像云做的棉絮。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "冬",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_mist",
+      "text": "薄雾天啊，$[PLAYER_NAME]$。这是云海最温柔的时候。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_dense",
+      "text": "浓云海来了！$[PLAYER_NAME]$，这是我最期待的时刻。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "浓云",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_tide",
+      "text": "大潮……$[PLAYER_NAME]$，你见过大潮的云海吗？那是我见过的最美景象。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_greet_high_heart",
+      "text": "$[PLAYER_NAME]$……能和你一起看云，是我最开心的事。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    }
+  ],
+  "small_talks": [
+    {
+      "id": "yu_st_cloud",
+      "text": "云海是有生命的，$[PLAYER_NAME]$。你仔细看，每一片云都有自己的表情。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_observation",
+      "text": "我从小就喜欢看云，$[PLAYER_NAME]$。外公说我天生就是观察云海的命。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_peak",
+      "text": "这座山是看云最好的地方，$[PLAYER_NAME]$。整个云海都在脚下。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_peace",
+      "text": "看云的时候，心里会变得很平静。$[PLAYER_NAME]$，你有没有这种感觉？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_mist",
+      "text": "薄雾的时候，云海就像仙境。$[PLAYER_NAME]$，你觉得呢？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "薄雾",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_tide",
+      "text": "大潮来的时候，整个世界都被云海淹没了。$[PLAYER_NAME]$，那种感觉……无法用语言形容。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_secret",
+      "text": "$[PLAYER_NAME]$，我有一个秘密——云海深处藏着一个传说中的地方。",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_feeling",
+      "text": "云海的状态和人心的状态是相通的，$[PLAYER_NAME]$。你信吗？",
+      "favor_min": 50,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 2,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_heart_high",
+      "text": "$[PLAYER_NAME]$，有你在身边的时候，连云海都变得更加温柔了。",
+      "favor_min": 150,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 6,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_st_weather_predict",
+      "text": "我能从云的形状预测明天的天气，$[PLAYER_NAME]$。这是多年观察练出来的。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ],
+  "farewells": [
+    {
+      "id": "yu_farewell_1",
+      "text": "那我继续看云了，$[PLAYER_NAME]$。有空再来。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_farewell_2",
+      "text": "路上小心，$[PLAYER_NAME]$。云海的路有些陡。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_farewell_3",
+      "text": "下次云海有变化的时候，我告诉你。$[PLAYER_NAME]$。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_farewell_high",
+      "text": "$[PLAYER_NAME]$……下次能不能多陪我一会儿？",
+      "favor_min": 100,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "",
+      "heart_min": 4,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_farewell_morning",
+      "text": "清晨的云海还会变化好几个时辰，$[PLAYER_NAME]$。你先忙吧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "清晨",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_farewell_evening",
+      "text": "傍晚的霞光还在，$[PLAYER_NAME]$。你想再看看吗？",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "傍晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_farewell_night",
+      "text": "夜晚的云海很危险，$[PLAYER_NAME]$。早点回去吧。",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "夜晚",
+      "weather": "",
+      "heart_min": 0,
+      "heart_max": 10
+    },
+    {
+      "id": "yu_farewell_tide",
+      "text": "大潮还没退呢，$[PLAYER_NAME]$。这可是难得一见的景象……",
+      "favor_min": 0,
+      "favor_max": 999,
+      "season": "",
+      "time_of_day": "",
+      "weather": "大潮",
+      "heart_min": 0,
+      "heart_max": 10
+    }
+  ]
+}

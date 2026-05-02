@@ -1,0 +1,88 @@
+# 茶灵契约数据表
+
+> 版本：v1.0 | 日期：2026-05-02
+
+```csv
+Id,NameZh,NameEn,DescriptionZh,RequiredItemId,UnlockCondition,RewardItemId,RewardCount,PrerequisiteContractId
+contract_001,清风茶灵契约,Wind Spirit Contract,收集清风茶所需的材料，召唤清风茶灵,windTeaSeed,day>=3,none,0,
+contract_002,明月茶灵契约,Moon Spirit Contract,收集明月茶所需的材料，召唤明月茶灵,moonTeaSeed,contract_001,moonStone,1,
+contract_003,朝霞茶灵契约,Dawn Spirit Contract,收集朝霞茶所需的材料，召唤朝霞茶灵,sunriseTeaSeed,contract_002,sunriseEssence,1,
+contract_004,暮云茶灵契约,Dusk Spirit Contract,收集暮云茶所需的材料，召唤暮云茶灵,duskTeaSeed,contract_003,cloudFragment,3,
+contract_005,星辰茶灵契约,Star Spirit Contract,收集星辰茶所需的材料，召唤星辰茶灵,starTeaSeed,contract_004,starlightDust,5,
+contract_006,太初茶灵契约,Primordial Spirit Contract,收集太初茶所需的材料，召唤传说中的太初茶灵,primordialTeaSeed,contract_005,primordialEssence,1,
+```
+
+---
+
+## Bundle条目数据表 (contract_bundles.csv)
+
+```csv
+Id,ContractId,ItemId,ItemCount,ItemNameZh,DescriptionZh
+bundle_001,contract_001,windHerb,3,清风草,生于山巅的轻盈草药
+bundle_002,contract_001,cloudDew,1,云露,清晨凝聚的纯净露珠
+bundle_003,contract_001,windEssence,1,风之精华,蕴含清风之力的精华
+bundle_004,contract_002,moonPetal,3,月华花瓣,月光下盛开的花瓣
+bundle_005,contract_002,nightDew,1,夜露,夜晚凝聚的神秘露珠
+bundle_006,contract_002,moonStone,1,月华石,月光凝聚而成的宝石
+bundle_007,contract_003,sunriseMist,3,朝霞雾,黎明时分的神秘雾气
+bundle_008,contract_003,firstLight,1,第一缕阳光,清晨的第一缕阳光
+bundle_009,contract_003,sunriseEssence,1,朝阳精华,蕴含朝阳的力量
+bundle_010,contract_004,twilightCloud,3,暮云,黄昏时分的云朵
+bundle_011,contract_004,eveningDew,1,暮露,傍晚凝聚的露珠
+bundle_012,contract_004,cloudFragment,3,云之碎片,云海凝聚的碎片
+bundle_013,contract_005,starlight,5,星光,夜空中的点点星光
+bundle_014,contract_005,cosmicDust,3,宇宙尘埃,太空中飘落的尘埃
+bundle_015,contract_005,starlightDust,5,星光粉,研磨成粉的星光
+bundle_016,contract_006,primordialTeaLeaf,1,太初茶叶,传说中最古老的茶叶
+bundle_017,contract_006,chaosFragment,3,混沌碎片,天地初开时的碎片
+bundle_018,contract_006,primordialEssence,1,太初精华,蕴含太初之力的精华
+```
+
+---
+
+## 契约奖励数据表 (contract_rewards.csv)
+
+```csv
+Id,ContractId,RewardType,RewardId,RewardCount,RewardDescriptionZh,BonusEffect
+reward_001,contract_001,item,windSpiritTea,1,清风茶灵图鉴解锁,windTeaQualityBonus+10
+reward_002,contract_001,buff,windBlessing,1,清风祝福：采茶速度+20%,farmingSpeed+20
+reward_003,contract_002,item,moonSpiritTea,1,明月茶灵图鉴解锁,moonTeaQualityBonus+10
+reward_004,contract_002,buff,moonReflection,1,明月映照：夜晚体力恢复+30%,staminaRegen+30
+reward_005,contract_003,item,sunriseSpiritTea,1,朝霞茶灵图鉴解锁,sunriseTeaQualityBonus+10
+reward_006,contract_003,buff,sunriseBlessing,1,朝霞祝福：作物产量+15%,cropYield+15
+reward_007,contract_004,item,duskSpiritTea,1,暮云茶灵图鉴解锁,duskTeaQualityBonus+10
+reward_008,contract_004,buff,duskCalm,1,暮云静心：制作成功率+10%,craftSuccess+10
+reward_009,contract_005,item,starSpiritTea,1,星辰茶灵图鉴解锁,starTeaQualityBonus+10
+reward_010,contract_005,buff,starGuidance,1,星辰指引：钓鱼成功率+20%,fishingBonus+20
+reward_011,contract_006,title,PrimordialMaster,1,太初茶师称号,allStats+5
+reward_012,contract_006,buff,primordialBlessing,1,太初祝福：所有收益+25%,allYield+25
+reward_013,contract_006,item,primordialTeaSet,1,太初茶具套装,unlockUltimateWorkshop
+```
+
+---
+
+## 茶灵图鉴数据表 (tea_spirit_catalog.csv)
+
+```csv
+Id,ContractId,SpiritNameZh,SpiritNameEn,DescriptionZh,VisualColor,UnlockAnimation,HabitatZh
+spirit_001,contract_001,清风茶灵,Wind Spirit,居住在茶田上方的清风中,88CCFF,微风飘动,茶田上空
+spirit_002,contract_002,明月茶灵,Moon Spirit,栖息于月光照耀之处,FFDD88,月光洒落,夜间茶田
+spirit_003,contract_003,朝霞茶灵,Dawn Spirit,迎接第一缕阳光的存在,FFAA66,晨曦闪耀,清晨茶田
+spirit_004,contract_004,暮云茶灵,Dusk Spirit,守护黄昏时分的宁静,CCHH88,暮云环绕,傍晚茶田
+spirit_005,contract_005,星辰茶灵,Star Spirit,与星辰同辉的存在,FFEE99,星光闪烁,夜晚山顶
+spirit_006,contract_006,太初茶灵,Primordial Spirit,太古之初的茶之守护神,FFFFFF,天地初开,茶境秘境
+```
+
+---
+
+## 玩家契约进度数据表 (contract_progress.csv) - 运行时生成
+
+```csv
+ContractId,CompletionCount,IsCompleted,IsRewarded,CompletedAt
+contract_001,0,false,false,0
+contract_002,0,false,false,0
+contract_003,0,false,false,0
+contract_004,0,false,false,0
+contract_005,0,false,false,0
+contract_006,0,false,false,0
+```

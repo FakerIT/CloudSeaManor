@@ -1,0 +1,23 @@
+# 《云海山庄》成就奖励配置表
+# Achievement Rewards Configuration
+#
+# 字段说明：
+# AchievementId - 成就ID（与 AchievementSystem 中的定义一致）
+# RewardType - 奖励类型：GOLD / ITEM
+# ItemId - 物品ID（ITEM 类型时填写，GOLD 时留空）
+# Amount - 数量
+# HintText - 提示文本（显示给玩家的消息）
+# HintDuration - 提示显示时长（秒）
+
+AchievementId,RewardType,ItemId,Amount,HintText,HintDuration
+first_crop,GOLD,,100,成就奖励：金币 +100,1.8
+ten_crops,GOLD,,500,成就奖励：金币 +500,1.8
+gift_expert,ITEM,TeaPack,1,成就奖励：茶包 x1,1.8
+master_builder,ITEM,Wood,5,成就奖励：木材 x5,1.8
+home_designer,GOLD,,200,成就奖励：金币 +200,1.8
+beast_bond,ITEM,Feed,1,成就奖励：饲料 x1,1.8
+beast_bond_max,GOLD,,300,成就奖励：金币 +300,1.8
+beast_all_types,ITEM,star_fragment,1,成就奖励：星辰碎片 x1,1.8
+tide_purifier,ITEM,legendary_tide,1,成就奖励：潮汐印记 x1,1.8
+fest_calendar,GOLD,,150,成就奖励：金币 +150,1.8
+small_tycoon,ITEM,TeaPack,2,成就奖励：茶包 x2,1.8

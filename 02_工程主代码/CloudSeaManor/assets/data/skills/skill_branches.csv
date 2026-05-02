@@ -1,0 +1,13 @@
+Id,Name,SkillPointsRequired,SkillTier,UnlockRequirement,SkillIds,Description
+branch_cloud_1,云雾分支,0,1,FavorAbove30_lingxiao,cloud_touch;cloud_shield,云雾系基础技能
+branch_cloud_2,云海深化,30,2,FavorAbove60_lingxiao,cloud_surge;mist_form,云雾系进阶技能
+branch_cloud_3,云海真谛,60,3,FavorAbove100_lingxiao,cloud_dragon;sea_of_clouds,云雾系高级技能
+branch_fire_1,烈焰分支,0,1,BattleZoneCleared_zone_flame_valley,fire_ball;burning_grip,火系基础技能
+branch_fire_2,烈焰深化,30,2,FavorAbove60_qingfeng,flame_rain;meteor,火系进阶技能
+branch_fire_3,烈焰真谛,60,3,FavorAbove100_qingfeng,inferno;phoenix_rebirth,火系高级技能
+branch_water_1,清泉分支,0,1,FavorAbove30_baizhu,water_blast;healing_mist,水系基础技能
+branch_water_2,清泉深化,30,2,FavorAbove60_baizhu,tidal_wave;temple_of_water,水系进阶技能
+branch_water_3,清泉真谛,60,3,FavorAbove100_baizhu,ocean_depths;water_dragon,水系高级技能
+branch_earth_1,山土分支,0,1,FavorAbove30_xuanwei,rock_throw;earth_wall,土系基础技能
+branch_earth_2,山土深化,30,2,FavorAbove60_xuanwei,mountain_fist;earthquake,土系进阶技能
+branch_earth_3,山土真谛,60,3,FavorAbove100_xuanwei,continent_smash;earth_guardian,土系高级技能

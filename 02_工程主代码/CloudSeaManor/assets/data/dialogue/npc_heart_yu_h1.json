@@ -1,0 +1,80 @@
+{
+  "event_id": "yu_h1",
+  "npc_id": "yu",
+  "title": "云端上的等待",
+  "description": "在山顶遇到看云的阿雨",
+  "nodes": [
+    {
+      "id": "yu_h1_start",
+      "speaker": "阿雨",
+      "text": "你看那朵云……像不像一只兔子？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "真的有点像！",
+          "next_node_id": "yu_h1_cloud"
+        },
+        {
+          "id": "choice_2",
+          "text": "你经常这样看云吗？",
+          "next_node_id": "yu_h1_often"
+        }
+      ]
+    },
+    {
+      "id": "yu_h1_cloud",
+      "speaker": "阿雨",
+      "text": "云是最自由的东西，想变成什么就变成什么。不用在意别人的眼光。",
+      "choices": [
+        {
+          "id": "choice_free",
+          "text": "说得真好。",
+          "next_node_id": "yu_h1_feeling"
+        }
+      ]
+    },
+    {
+      "id": "yu_h1_often",
+      "speaker": "阿雨",
+      "text": "每天都会看。有时候是在等风来，有时候是在想事情。",
+      "choices": [
+        {
+          "id": "choice_wait",
+          "text": "今天在等什么？",
+          "next_node_id": "yu_h1_wait"
+        }
+      ]
+    },
+    {
+      "id": "yu_h1_feeling",
+      "speaker": "阿雨",
+      "text": "你看云的时候，眼睛会发光。很久没看到这样的人了。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "谢谢你。",
+          "next_node_id": "yu_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "yu_h1_wait",
+      "speaker": "阿雨",
+      "text": "也许是在等一个愿意一起看云的人吧。",
+      "choices": [
+        {
+          "id": "choice_together",
+          "text": "我可以陪你一起等。",
+          "next_node_id": "yu_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "yu_h1_end",
+      "speaker": "阿雨",
+      "text": "今天的云，我会记住的。因为有你一起看。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

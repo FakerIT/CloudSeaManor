@@ -1,0 +1,7 @@
+Id,Name,Element,Rarity,Habitat,Behavior,PetType,MaxAffinity,FeedItem,FeedItem2,SpecialAbility,DropItems,Description
+pet_cloud,云绒,Spirit,Fine,CloudRealm,Docile,Fluffy,100,cloud_herb,cloud_dew,cloud_walk,cloud_herbx2,云绒是云海中的精灵，毛茸茸的非常可爱
+pet_flame,焰羽,Spirit,Rare,Volcano,Aggressive,Flying,80,fire_herb,flame_fruit,fire_walk,fire_herbx2,焰羽是火属性的飞行灵兽，羽翼带着火焰
+pet_water,水灵,Spirit,Fine,Spring,Calm,Aquatic,100,water_herb,lily_root,water_walk,water_herbx2,水灵是水属性的灵兽，能在水中自由游动
+pet_earth,岩甲,Spirit,Rare,Mountain,Defensive,Tank,120,earth_herb,stone_fruit,earth_walk,earth_herbx2,岩甲是土属性的灵兽，背甲坚硬无比
+pet_wind,风羽,Spirit,Fine,Sky,Playful,Flying,90,wind_herb,feather_wind,wind_walk,wind_herbx2,风羽是风属性的灵兽，身形轻盈如风
+pet_spirit,灵崽,Spirit,Spirit,Any,Docile,Special,150,special_herb,spirit_crystal,spirit_link,spirit_herbx3,灵崽是传说中的灵兽，极为稀有

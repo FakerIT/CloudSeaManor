@@ -1,0 +1,6 @@
+Id,DisplayName,SkillPointsRequired,SkillTier,UnlockRequirement,SkillIds,Description
+fishing_basic,基础钓鱼,0,1,NewGame,cast_basic;reel_basic,学习基础的钓鱼技巧
+fishing_intermediate,静心垂钓,10,2,FishCountAbove_10,cast_far;patience,学会远投和耐心等待
+fishing_advanced,灵鱼感知,20,3,FishCountAbove_30,detect_spirit;sense_location,感知灵鱼的位置
+fishing_master,云海钓客,30,4,FavorAbove50_qingfeng,cloud_walk;tide_read,在云海中自由钓鱼
+fishing_legend,钓神之路,50,5,FishCountAbove_100,master_cast;legendary_catch,成为传说中的钓神

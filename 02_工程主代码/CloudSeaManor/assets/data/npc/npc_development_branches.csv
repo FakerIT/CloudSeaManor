@@ -1,0 +1,9 @@
+Id,NpcId,StageFrom,StageTo,BranchName,RequiredPoints,UnlockCondition,Description
+branch_1,lingxiao,Stage3,Stage4,茶道之路,150,FavorAbove60,深入学习茶道
+branch_2,lingxiao,Stage4,Stage5,守护之心,300,FavorAbove100,建立更深的羁绊
+branch_3,qingfeng,Stage3,Stage4,猎人之道,150,FavorAbove60,学习狩猎技巧
+branch_4,qingfeng,Stage4,Stage5,守护誓言,300,FavorAbove100,建立信任
+branch_5,xiaoyao,Stage3,Stage4,商道,150,FavorAbove60,学习经商之道
+branch_6,xiaoyao,Stage4,Stage5,诚信为本,300,FavorAbove100,建立商业伙伴关系
+branch_7,meili,Stage3,Stage4,灵兽之道,150,FavorAbove60,学习照顾灵兽
+branch_8,meili,Stage4,Stage5,伙伴羁绊,300,FavorAbove100,与灵兽建立深厚感情

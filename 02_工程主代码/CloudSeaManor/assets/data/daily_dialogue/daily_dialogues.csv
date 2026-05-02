@@ -1,0 +1,17 @@
+Id,NpcId,Season,Day,Weather,TimeOfDay,DialogueText,NextDialogueId,EffectPoints,Tags
+dd_lingxiao_1,lingxiao,Spring,5,Sunny,morning,春天的早晨，适合喝一杯清茶。,dd_lingxiao_2,2,season_spring
+dd_lingxiao_2,lingxiao,Spring,5,Sunny,morning,云雾茶在春天品质最好。,None,3,season_spring;tea
+dd_lingxiao_3,lingxiao,Summer,15,Rainy,afternoon,雨天的茶，别有一番滋味。,None,2,season_summer;rain
+dd_lingxiao_4,lingxiao,Autumn,10,Cloudy,evening,秋天的云海最美了。,None,3,season_autumn;cloud
+dd_lingxiao_5,lingxiao,Winter,25,Snow,night,雪夜里煮茶，最是温暖。,None,4,season_winter;snow
+dd_qingfeng_1,qingfeng,Spring,8,Sunny,morning,山林里的动物开始活跃了。,dd_qingfeng_2,2,hunting;spring
+dd_qingfeng_2,qingfeng,Spring,8,Sunny,morning,该去巡逻了。,None,3,hunting;duty
+dd_qingfeng_3,qingfeng,Summer,20,Hot,noon,夏天山里很凉快，来避暑吧。,None,2,summer;comfort
+dd_qingfeng_4,qingfeng,Autumn,5,Crisp,evening,秋天的山林，色彩斑斓。,None,3,autumn;beauty
+dd_qingfeng_5,qingfeng,Winter,15,Snow,morning,雪后山路危险，要小心。,None,4,winter;caution
+dd_xiaoyao_1,xiaoyao,Spring,12,Sunny,morning,春天新货到，快来看看！,dd_xiaoyao_2,2,trade;spring
+dd_xiaoyao_2,xiaoyao,Spring,12,Sunny,morning,今天的萝卜特别新鲜！,None,3,trade;fresh
+dd_meili_1,meili,Spring,18,Sunny,morning,灵兽们在春天最活泼了！,dd_meili_2,2,pets;spring
+dd_meili_2,meili,Spring,18,Sunny,morning,云绒最近学会新技能了！,None,4,pets;skill
+dd_baizhu_1,baizhu,Spring,22,Cloudy,morning,春天是采药的好时节。,dd_baizhu_2,2,herb;spring
+dd_baizhu_2,baizhu,Spring,22,Cloudy,morning,来看看我新炼的丹药吧。,None,3,herb;alchemy

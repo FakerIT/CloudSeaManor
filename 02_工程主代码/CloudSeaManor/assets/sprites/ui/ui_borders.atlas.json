@@ -1,0 +1,26 @@
+{
+  "$schema": "../../docs/atlas_schema.json",
+  "id": "ui_borders",
+  "texture": "assets/textures/third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png",
+  "width": 256,
+  "height": 320,
+  "description": "UI 边框图集 - 使用 Tiny Town 瓦片资源",
+  "grid": {
+    "frame_width": 16,
+    "frame_height": 16,
+    "columns": 16,
+    "rows": 20
+  },
+  "frames": [
+    {"id": "border_corner_tl", "x": 0,   "y": 0,   "w": 16, "h": 16},
+    {"id": "border_corner_tr", "x": 16,  "y": 0,   "w": 16, "h": 16},
+    {"id": "border_corner_bl", "x": 32,  "y": 0,   "w": 16, "h": 16},
+    {"id": "border_corner_br", "x": 48,  "y": 0,   "w": 16, "h": 16},
+    {"id": "border_top",       "x": 64,  "y": 0,   "w": 16, "h": 16},
+    {"id": "border_bottom",    "x": 80,  "y": 0,   "w": 16, "h": 16},
+    {"id": "border_left",      "x": 96,  "y": 0,   "w": 16, "h": 16},
+    {"id": "border_right",     "x": 112, "y": 0,   "w": 16, "h": 16},
+    {"id": "border_fill",      "x": 128, "y": 0,   "w": 16, "h": 16}
+  ],
+  "animations": []
+}

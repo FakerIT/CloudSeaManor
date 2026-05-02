@@ -1,0 +1,40 @@
+{
+  "quest_id": "main_ch3_1",
+  "quest_name": "阴影初现",
+  "chapter": "第三章",
+  "dialogues": [
+    {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "我发现了一些异常...云海中的灵气正在被什么东西侵蚀。",
+      "expression": "worried"
+    },
+    {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "这种现象在灵界深层尤为明显。你最近去过灵界吗？有没有感觉到什么不对劲的地方？",
+      "expression": "serious"
+    },
+    {
+      "speaker": "player",
+      "choices": [
+        {"text": "确实感觉灵气变浑浊了", "response": "confirm"},
+        {"text": "我没注意到什么异常", "response": "deny"}
+      ]
+    }
+  ],
+  "responses": {
+    "confirm": {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "果然...这不是错觉。虚空的力量正在渗透进云海。我们必须尽快调查清楚，在情况恶化之前找到解决方案。",
+      "expression": "serious"
+    },
+    "deny": {
+      "speaker": "yu",
+      "speaker_name": "于",
+      "content": "可能你的感觉还不够敏锐。仔细感受一下，云雾之中是否夹杂着一种让人不安的气息？那就是虚空的污染。",
+      "expression": "thoughtful"
+    }
+  }
+}

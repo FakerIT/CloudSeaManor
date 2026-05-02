@@ -1,0 +1,10 @@
+# 钓鱼技艺技能表
+
+```csv
+Level,SkillNameZh,SkillNameEn,FishingPowerBonus,NewUnlocksZh
+1,初学渔者,Beginner Angler,+5,解锁普通鱼饵
+2,云海钓手,Cloud Sea Fisher,+10,解锁云雾浮漂图纸
+3,灵界渔夫,Spirit Realm Fisher,+15,解锁铱金鱼竿
+4,潮汐大师,Tide Master,+20,解锁潮汐鱼饵
+5,太初钓者,Primordial Angler,+25,解锁所有传说鱼类
+```

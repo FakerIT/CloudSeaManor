@@ -1,0 +1,80 @@
+{
+  "event_id": "song_h1",
+  "npc_id": "song",
+  "title": "与商人的初次相遇",
+  "description": "在山路上遇到商人阿松",
+  "nodes": [
+    {
+      "id": "song_h1_start",
+      "speaker": "阿松",
+      "text": "哟，是新来的旅人啊。我叫阿松，专门在这山里跑商的。你要买点什么吗？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "你经常在这条路上走吗？",
+          "next_node_id": "song_h1_path"
+        },
+        {
+          "id": "choice_2",
+          "text": "有什么新鲜货吗？",
+          "next_node_id": "song_h1_goods"
+        }
+      ]
+    },
+    {
+      "id": "song_h1_path",
+      "speaker": "阿松",
+      "text": "这条路我走了二十年了。哪里有落石，哪里有暗流，我闭着眼都知道。",
+      "choices": [
+        {
+          "id": "choice_understand",
+          "text": "这条路很危险吧？",
+          "next_node_id": "song_h1_danger"
+        }
+      ]
+    },
+    {
+      "id": "song_h1_goods",
+      "speaker": "阿松",
+      "text": "新鲜的没有，但都是实打实的好东西。山里人，不玩虚的。",
+      "choices": [
+        {
+          "id": "choice_trust",
+          "text": "那我就放心了。",
+          "next_node_id": "song_h1_trust"
+        }
+      ]
+    },
+    {
+      "id": "song_h1_danger",
+      "speaker": "阿松",
+      "text": "习惯了就不觉得危险。不过有个人作伴，总比一个人强。",
+      "choices": [
+        {
+          "id": "choice_company",
+          "text": "以后我可以陪你走。",
+          "next_node_id": "song_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "song_h1_trust",
+      "speaker": "阿松",
+      "text": "哈哈，这话我爱听。以后常来，我给你留最好的货。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "一定常来。",
+          "next_node_id": "song_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "song_h1_end",
+      "speaker": "阿松",
+      "text": "好，山路再长，也长不过交情。欢迎常来。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

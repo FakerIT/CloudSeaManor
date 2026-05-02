@@ -1,0 +1,17 @@
+Id,Name,Value,Description
+balance_player_base_hp,玩家基础生命,200,玩家初始生命值
+balance_player_base_attack,玩家基础攻击,15,玩家初始攻击力
+balance_player_base_defense,玩家基础防御,10,玩家初始防御力
+balance_player_base_speed,玩家基础速度,12,玩家初始速度
+balance_stamina_regen_rate,体力恢复速率,5,每分钟恢复的体力
+balance_stamina_regen_time,体力恢复间隔,60,体力恢复的间隔（秒）
+balance_cloud_damage_bonus,云属性伤害加成,1.2,云属性技能伤害倍率
+balance_fire_damage_bonus,火属性伤害加成,1.3,火属性技能伤害倍率
+balance_water_damage_bonus,水属性伤害加成,1.2,水属性技能伤害倍率
+balance_earth_damage_bonus,土属性伤害加成,1.25,土属性技能伤害倍率
+balance_wind_damage_bonus,风属性伤害加成,1.2,风属性技能伤害倍率
+balance_holy_damage_bonus,圣属性伤害加成,1.4,圣属性技能伤害倍率
+balance_dark_damage_bonus,暗属性伤害加成,1.35,暗属性技能伤害倍率
+balance_critical_multiplier,暴击倍率,2.0,暴击伤害倍率
+balance_enemy_level_scaling,敌人等级缩放,1.1,敌人等级影响属性倍率
+balance_reward_multiplier,奖励倍率,1.0,所有奖励的全局倍率

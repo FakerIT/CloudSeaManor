@@ -1,0 +1,760 @@
+#include "CloudSeamanor/infrastructure/ResourceManager.hpp"
+#include "CloudSeamanor/infrastructure/UiLayoutConfig.hpp"
+#include "CloudSeamanor/infrastructure/SpriteMapping.hpp"
+
+#include <algorithm>
+#include <cstdlib>
+#include <filesystem>
+#include <fstream>
+#include <sstream>
+
+namespace CloudSeamanor::infrastructure {
+
+namespace {
+
+// ============================================================================
+// 【CreateDefaultTexture】创建 1×1 品红色占位纹理
+// ============================================================================
+std::unique_ptr<sf::Texture> CreateDefaultTexture() {
+    auto tex = std::make_unique<sf::Texture>();
+    // SFML 3.0: Image 构造函数接受 Vector2u size 和 Color
+    sf::Image img(sf::Vector2u(1, 1), sf::Color(255, 0, 255));  // 品红色
+    const bool loaded = tex->loadFromImage(img);
+    (void)loaded;
+    tex->setSmooth(false);
+    return tex;
+}
+
+// ============================================================================
+// 【IsPathTraversalSafe】检查规范化后的路径是否在允许的基础目录范围内
+// 防止 `../` 逃逸攻击
+// ============================================================================
+bool IsPathTraversalSafe(const std::filesystem::path& base_dir,
+                         const std::filesystem::path& normalized_path) {
+    // 将基础目录也规范化
+    auto abs_base = std::filesystem::absolute(base_dir).lexically_normal();
+
+    // 检查规范化后的路径是否以基础目录开头
+    // 需要确保路径解析后仍在 base_dir 的子树内
+    auto abs_path = std::filesystem::absolute(normalized_path).lexically_normal();
+
+    // Windows 下需要统一路径分隔符
+    std::string base_str = abs_base.generic_string();
+    std::string path_str = abs_path.generic_string();
+
+    // 确保路径以基础目录开头，并且后面要么是路径分隔符，要么完全相同
+    if (path_str.size() < base_str.size()) {
+        return false;
+    }
+
+    // 比较前缀
+    std::string prefix = path_str.substr(0, base_str.size());
+    if (prefix != base_str) {
+        return false;
+    }
+
+    // 检查前缀后是路径分隔符或结束
+    if (path_str.size() > base_str.size()) {
+        char next_char = path_str[base_str.size()];
+        if (next_char != '/' && next_char != '\\') {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+// ============================================================================
+// 【CreateDefaultFont】创建默认字体占位符
+// ============================================================================
+std::unique_ptr<sf::Font> CreateDefaultFont() {
+    return std::make_unique<sf::Font>();
+}
+
+// ============================================================================
+// 【BuildStr】简单的字符串拼接辅助（避免引入 fmt 依赖）
+// ============================================================================
+inline std::string BuildStr() { return {}; }
+template <typename T0>
+std::string BuildStr(const T0& v0) {
+    std::ostringstream oss;
+    oss << v0;
+    return oss.str();
+}
+template <typename T0, typename T1>
+std::string BuildStr(const T0& v0, const T1& v1) {
+    std::ostringstream oss;
+    oss << v0 << v1;
+    return oss.str();
+}
+template <typename T0, typename T1, typename T2>
+std::string BuildStr(const T0& v0, const T1& v1, const T2& v2) {
+    std::ostringstream oss;
+    oss << v0 << v1 << v2;
+    return oss.str();
+}
+template <typename T0, typename T1, typename T2, typename T3>
+std::string BuildStr(const T0& v0, const T1& v1, const T2& v2, const T3& v3) {
+    std::ostringstream oss;
+    oss << v0 << v1 << v2 << v3;
+    return oss.str();
+}
+template <typename T0, typename T1, typename T2, typename T3, typename T4>
+std::string BuildStr(const T0& v0, const T1& v1, const T2& v2, const T3& v3, const T4& v4) {
+    std::ostringstream oss;
+    oss << v0 << v1 << v2 << v3 << v4;
+    return oss.str();
+}
+template <typename T0, typename T1, typename T2, typename T3, typename T4, typename T5>
+std::string BuildStr(const T0& v0, const T1& v1, const T2& v2, const T3& v3, const T4& v4, const T5& v5) {
+    std::ostringstream oss;
+    oss << v0 << v1 << v2 << v3 << v4 << v5;
+    return oss.str();
+}
+
+bool IsAutoFontToken(const std::string& value) {
+    return value.empty() || value == "default" || value == "auto";
+}
+
+std::vector<std::string> BuildConfiguredFontPathCandidates(const std::string& configured_value) {
+    std::vector<std::string> candidates;
+    if (IsAutoFontToken(configured_value)) {
+        return candidates;
+    }
+    candidates.push_back(configured_value);
+    candidates.push_back(BuildStr("./", configured_value));
+    candidates.push_back(BuildStr("assets/fonts/", configured_value));
+    candidates.push_back(BuildStr("./assets/fonts/", configured_value));
+#ifdef _WIN32
+    const char* windir = std::getenv("WINDIR");
+    const std::string font_dir = windir ? BuildStr(windir, "/Fonts/") : "C:/Windows/Fonts/";
+    candidates.push_back(BuildStr(font_dir, configured_value));
+    candidates.push_back(BuildStr("C:/Windows/Fonts/", configured_value));
+#elif defined(__APPLE__)
+    candidates.push_back(BuildStr("/System/Library/Fonts/", configured_value));
+    candidates.push_back(BuildStr("/Library/Fonts/", configured_value));
+    if (const char* home = std::getenv("HOME")) {
+        candidates.push_back(BuildStr(home, "/Library/Fonts/", configured_value));
+    }
+#else
+    candidates.push_back(BuildStr("/usr/share/fonts/", configured_value));
+    candidates.push_back(BuildStr("/usr/share/fonts/truetype/", configured_value));
+    candidates.push_back(BuildStr("/usr/share/fonts/opentype/", configured_value));
+    if (const char* home = std::getenv("HOME")) {
+        candidates.push_back(BuildStr(home, "/.local/share/fonts/", configured_value));
+        candidates.push_back(BuildStr(home, "/.fonts/", configured_value));
+    }
+#endif
+    return candidates;
+}
+
+}  // namespace
+
+// ============================================================================
+// 【Acquire】增加引用计数
+// ============================================================================
+void ResourceManager::Acquire(const std::string& id) {
+    auto it = ref_counts_.find(id);
+    if (it == ref_counts_.end()) {
+        // 尝试从纹理、字体、音效中查找
+        if (textures_.contains(id) || fonts_.contains(id) || sound_buffers_.contains(id)) {
+            ref_counts_[id] = 1;
+            Logger::Info(BuildStr("ResourceManager: Acquire '", id, "' ref_count=1 (new entry)"));
+        } else {
+            Logger::Warning(BuildStr("ResourceManager: Acquire '", id, "' - 资源未找到"));
+        }
+        return;
+    }
+    ++it->second;
+    Logger::Info(BuildStr("ResourceManager: Acquire '", id, "' ref_count=", std::to_string(it->second)));
+}
+
+// ============================================================================
+// 【Release】减少引用计数
+// ============================================================================
+void ResourceManager::Release(const std::string& id) {
+    auto it = ref_counts_.find(id);
+    if (it == ref_counts_.end()) {
+        Logger::Warning(BuildStr("ResourceManager: Release '", id, "' - 资源未找到"));
+        return;
+    }
+    --it->second;
+    if (it->second < 0) {
+        Logger::Warning(BuildStr("ResourceManager: Release '", id, "' - 引用计数异常（小于0）"));
+        it->second = 0;
+    }
+    Logger::Info(BuildStr("ResourceManager: Release '", id, "' ref_count=", std::to_string(it->second)));
+}
+
+// ============================================================================
+// 【LoadTexture】加载纹理
+// ============================================================================
+bool ResourceManager::LoadTexture(const std::string& id, const std::string& path) {
+    const auto result = LoadTextureResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadTextureResult(const std::string& id, const std::string& path) {
+    if (textures_.contains(id)) {
+        return {};
+    }
+
+    auto tex = std::make_unique<sf::Texture>();
+    if (!tex->loadFromFile(path)) {
+        return BuildStr("无法加载纹理 '", id, "'，路径='", path, "'");
+    }
+    tex->setSmooth(false);
+
+    textures_.emplace(id, std::move(tex));
+    ref_counts_[id] = 1;
+    Logger::Info(BuildStr("ResourceManager: 加载纹理 '", id, "'（路径='", path, "')"));
+    return {};
+}
+
+// ============================================================================
+// 【GetTexture】获取纹理引用
+// ============================================================================
+sf::Texture& ResourceManager::GetTexture(const std::string& id) {
+    auto it = textures_.find(id);
+    if (it == textures_.end()) {
+        Logger::Warning(BuildStr("ResourceManager: 纹理未找到 '", id, "'，使用默认占位符"));
+        if (!default_texture_) {
+            default_texture_ = CreateDefaultTexture();
+        }
+        return *default_texture_;
+    }
+    return *it->second;
+}
+
+// ============================================================================
+// 【HasTexture】检查纹理是否存在
+// ============================================================================
+bool ResourceManager::HasTexture(const std::string& id) const {
+    return textures_.contains(id);
+}
+
+// ============================================================================
+// 【UnloadTexture】卸载纹理
+// ============================================================================
+void ResourceManager::UnloadTexture(const std::string& id) {
+    auto it = textures_.find(id);
+    if (it != textures_.end()) {
+        textures_.erase(it);
+        ref_counts_.erase(id);
+        Logger::Info(BuildStr("ResourceManager: 卸载纹理 '", id, "'"));
+    }
+}
+
+// ============================================================================
+// 【LoadFont】加载字体
+// ============================================================================
+bool ResourceManager::LoadFont(const std::string& id, const std::string& path) {
+    const auto result = LoadFontResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadFontResult(const std::string& id, const std::string& path) {
+    if (fonts_.contains(id)) {
+        return {};
+    }
+
+    auto font = std::make_unique<sf::Font>();
+    if (!font->openFromFile(path)) {
+        return BuildStr("无法加载字体 '", id, "'，路径='", path, "'");
+    }
+
+    fonts_.emplace(id, std::move(font));
+    ref_counts_[id] = 1;
+    Logger::Info(BuildStr("ResourceManager: 加载字体 '", id, "'（路径='", path, "')"));
+    return {};
+}
+
+// ============================================================================
+// 【GetFont】获取字体引用
+// ============================================================================
+sf::Font& ResourceManager::GetFont(const std::string& id) {
+    auto it = fonts_.find(id);
+    if (it == fonts_.end()) {
+        Logger::Warning(BuildStr("ResourceManager: 字体未找到 '", id, "'，使用默认占位符"));
+        if (!default_font_) {
+            default_font_ = CreateDefaultFont();
+        }
+        return *default_font_;
+    }
+    return *it->second;
+}
+
+// ============================================================================
+// 【HasFont】检查字体是否存在
+// ============================================================================
+bool ResourceManager::HasFont(const std::string& id) const {
+    return fonts_.contains(id);
+}
+
+bool ResourceManager::LoadSoundBuffer(const std::string& id, const std::string& path) {
+    const auto result = LoadSoundBufferResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadSoundBufferResult(const std::string& id, const std::string& path) {
+    if (sound_buffers_.contains(id)) {
+        return {};
+    }
+
+    auto sound = std::make_unique<sf::SoundBuffer>();
+    if (!sound->loadFromFile(path)) {
+        return BuildStr("无法加载音效 '", id, "'，路径='", path, "'");
+    }
+
+    sound_buffers_.emplace(id, std::move(sound));
+    ref_counts_[id] = 1;
+    Logger::Info(BuildStr("ResourceManager: 加载音效 '", id, "'（路径='", path, "')"));
+    return {};
+}
+
+sf::SoundBuffer& ResourceManager::GetSoundBuffer(const std::string& id) {
+    auto it = sound_buffers_.find(id);
+    if (it == sound_buffers_.end()) {
+        Logger::Warning(BuildStr("ResourceManager: 音效未找到 '", id, "'，使用默认占位符"));
+        if (!default_sound_buffer_) {
+            default_sound_buffer_ = std::make_unique<sf::SoundBuffer>();
+        }
+        return *default_sound_buffer_;
+    }
+    return *it->second;
+}
+
+bool ResourceManager::HasSoundBuffer(const std::string& id) const {
+    return sound_buffers_.contains(id);
+}
+
+void ResourceManager::UnloadSoundBuffer(const std::string& id) {
+    auto it = sound_buffers_.find(id);
+    if (it != sound_buffers_.end()) {
+        sound_buffers_.erase(it);
+        ref_counts_.erase(id);
+        Logger::Info(BuildStr("ResourceManager: 卸载音效 '", id, "'"));
+    }
+}
+
+// ============================================================================
+// 【LoadText】加载文本
+// ============================================================================
+bool ResourceManager::LoadText(const std::string& id, const std::string& path) {
+    const auto result = LoadTextResult(id, path);
+    if (!result.Ok()) {
+        Logger::Warning("ResourceManager: " + result.Error());
+        return false;
+    }
+    return true;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadTextResult(const std::string& id, const std::string& path) {
+    if (texts_.contains(id)) {
+        return {};
+    }
+    std::ifstream in(path, std::ios::binary);
+    if (!in.is_open()) {
+        return BuildStr("无法加载文本 '", id, "'，路径='", path, "'");
+    }
+    std::ostringstream ss;
+    ss << in.rdbuf();
+    texts_.emplace(id, ss.str());
+    ref_counts_[id] = 1;
+    Logger::Info(BuildStr("ResourceManager: 加载文本 '", id, "'（路径='", path, "')"));
+    return {};
+}
+
+const std::string& ResourceManager::GetText(const std::string& id) {
+    auto it = texts_.find(id);
+    if (it == texts_.end()) {
+        Logger::Warning(BuildStr("ResourceManager: 文本未找到 '", id, "'，返回空字符串"));
+        default_text_.clear();
+        return default_text_;
+    }
+    return it->second;
+}
+
+bool ResourceManager::HasText(const std::string& id) const {
+    return texts_.contains(id);
+}
+
+void ResourceManager::SetDataRoots(std::vector<std::filesystem::path> data_roots) {
+    data_roots_ = std::move(data_roots);
+}
+
+std::filesystem::path ResourceManager::ResolveDataPath(const std::string& relative_path) const {
+    const std::filesystem::path input_path(relative_path);
+
+    // 安全检查：防止路径遍历攻击
+    // 检查是否存在 `..` 逃逸
+    for (const auto& part : input_path) {
+        if (part == ".." || part == ".") {
+            Logger::Warning("ResourceManager: 路径包含非法遍历序列 '" + part.string() +
+                           "'，拒绝加载: " + relative_path);
+            return {};
+        }
+    }
+
+    const std::filesystem::path normalized = input_path.lexically_normal();
+
+    // 如果是绝对路径，检查其安全性
+    if (normalized.is_absolute()) {
+        bool is_safe = false;
+        for (const auto& root : data_roots_) {
+            if (IsPathTraversalSafe(root, normalized)) {
+                is_safe = true;
+                break;
+            }
+        }
+        if (!is_safe) {
+            Logger::Warning("ResourceManager: 绝对路径超出允许范围: " + normalized.string());
+            return {};
+        }
+        if (std::filesystem::exists(normalized)) {
+            return normalized;
+        }
+        return {};
+    }
+
+    // 相对路径：在 data_roots_ 中查找
+    for (const auto& root : data_roots_) {
+        const auto candidate = (root / normalized).lexically_normal();
+        if (std::filesystem::exists(candidate)) {
+            // 验证候选路径在允许范围内
+            if (IsPathTraversalSafe(root, candidate)) {
+                return candidate;
+            }
+        }
+    }
+
+    // 最后尝试相对于当前工作目录
+    if (std::filesystem::exists(normalized)) {
+        return normalized;
+    }
+
+    return normalized;
+}
+
+CloudSeamanor::Result<void> ResourceManager::LoadResolvedText(
+    const std::string& id,
+    const std::string& relative_path) {
+    const auto resolved_path = ResolveDataPath(relative_path);
+    return LoadTextResult(id, resolved_path.string());
+}
+
+void ResourceManager::UnloadText(const std::string& id) {
+    auto it = texts_.find(id);
+    if (it != texts_.end()) {
+        texts_.erase(it);
+        ref_counts_.erase(id);
+        Logger::Info(BuildStr("ResourceManager: 卸载文本 '", id, "'"));
+    }
+}
+
+// ============================================================================
+// 【UnloadFont】卸载字体
+// ============================================================================
+void ResourceManager::UnloadFont(const std::string& id) {
+    auto it = fonts_.find(id);
+    if (it != fonts_.end()) {
+        fonts_.erase(it);
+        ref_counts_.erase(id);
+        Logger::Info(BuildStr("ResourceManager: 卸载字体 '", id, "'"));
+    }
+}
+
+// ============================================================================
+// 【LoadBestAvailableFont】搜索并加载最佳可用字体
+// ============================================================================
+bool ResourceManager::LoadBestAvailableFont(const std::string& id) {
+    if (fonts_.contains(id)) {
+        return true;
+    }
+
+    const std::vector<std::pair<std::string, std::string>> candidates = BuildFontCandidates_();
+
+    for (const auto& [path, desc] : candidates) {
+        std::error_code ec;
+        if (!std::filesystem::exists(path, ec)) {
+            continue;
+        }
+        if (LoadFont(id, path)) {
+            Logger::Info(BuildStr("ResourceManager: 字体 '", id, "' 加载成功（", desc, "）"));
+            return true;
+        }
+    }
+
+    Logger::Error(BuildStr("ResourceManager: 字体 '", id, "' 未能加载，所有候选路径均失败"));
+    return false;
+}
+
+// ============================================================================
+// 【GetMainFont】获取主字体
+// ============================================================================
+sf::Font& ResourceManager::GetMainFont() {
+    if (!best_main_font_id_.empty() && HasFont(best_main_font_id_)) {
+        return GetFont(best_main_font_id_);
+    }
+
+    constexpr const char* kMainFontId = "best_main_font";
+    if (LoadBestAvailableFont(kMainFontId)) {
+        best_main_font_id_ = kMainFontId;
+        return GetFont(kMainFontId);
+    }
+
+    Logger::Warning("ResourceManager: 主字体加载失败，返回空引用");
+    static sf::Font dummy_font;
+    return dummy_font;
+}
+
+// ============================================================================
+// 【PreloadBundle】批量预加载
+// ============================================================================
+void ResourceManager::PreloadBundle(const std::string& bundle_name) {
+    (void)bundle_name;
+    UiLayoutConfig ui_layout;
+    if (ui_layout.LoadFromFile("configs/ui_layout.json")) {
+        const auto& ui_data = ui_layout.Data();
+        bool loaded_from_ui = false;
+
+        const auto primary_candidates = BuildConfiguredFontPathCandidates(ui_data.primary_font);
+        for (const auto& candidate : primary_candidates) {
+            if (LoadFont("best_main_font", candidate)) {
+                best_main_font_id_ = "best_main_font";
+                Logger::Info(BuildStr("ResourceManager: 已从 ui_layout.primary 加载主字体（", candidate, "）"));
+                loaded_from_ui = true;
+                break;
+            }
+        }
+
+        if (!loaded_from_ui) {
+            const auto fallback_candidates = BuildConfiguredFontPathCandidates(ui_data.fallback_font);
+            for (const auto& candidate : fallback_candidates) {
+                if (LoadFont("best_main_font", candidate)) {
+                    best_main_font_id_ = "best_main_font";
+                    Logger::Info(BuildStr("ResourceManager: 已从 ui_layout.fallback 加载主字体（", candidate, "）"));
+                    loaded_from_ui = true;
+                    break;
+                }
+            }
+        }
+
+        if (!loaded_from_ui) {
+            Logger::Warning("ResourceManager: ui_layout 配置字体加载失败，回退到自动字体搜索链");
+        }
+    } else {
+        Logger::Warning("ResourceManager: 未找到 ui_layout 配置，回退到自动字体搜索链");
+    }
+
+    LoadBestAvailableFont("best_main_font");
+}
+
+// ============================================================================
+// 【ReleaseUnused】释放未使用资源
+// ============================================================================
+void ResourceManager::ReleaseUnused() {
+    std::vector<std::string> to_remove;
+    for (const auto& [id, count] : ref_counts_) {
+        if (count <= 0) {
+            to_remove.push_back(id);
+        }
+    }
+    for (const auto& id : to_remove) {
+        UnloadTexture(id);
+        UnloadFont(id);
+        UnloadSoundBuffer(id);
+    }
+    Logger::Info(BuildStr("ResourceManager: ReleaseUnused 完成，释放了 ", to_remove.size(), " 个未使用资源"));
+}
+
+// ============================================================================
+// 【ReleaseAll】释放所有资源
+// ============================================================================
+void ResourceManager::ReleaseAll() {
+    textures_.clear();
+    fonts_.clear();
+    sound_buffers_.clear();
+    texts_.clear();
+    ref_counts_.clear();
+    best_main_font_id_.clear();
+    Logger::Info("ResourceManager: 所有资源已释放");
+}
+
+// ============================================================================
+// 【PrintStats】输出统计信息
+// ============================================================================
+void ResourceManager::PrintStats() const {
+    const auto stats = GetStats();
+    std::ostringstream oss;
+    oss << "ResourceManager 统计: 纹理=" << stats.texture_count << " 个, 字体=" << stats.font_count << " 个, "
+        << "音效=" << stats.sound_buffer_count << " 个, "
+        << "纹理内存估算=" << (stats.total_texture_memory_bytes / 1024) << " KB, 字体内存估算="
+        << (stats.total_font_memory_bytes / 1024) << " KB, 音效内存估算="
+        << (stats.total_sound_memory_bytes / 1024) << " KB";
+    if (stats.memory_usage_estimated) {
+        oss << " [基于硬编码平均值估算]";
+    }
+    Logger::Info(oss.str());
+}
+
+// ============================================================================
+// 【GetStats】获取统计信息
+// ============================================================================
+ResourceStats ResourceManager::GetStats() const {
+    ResourceStats stats;
+    stats.texture_count = textures_.size();
+    stats.font_count = fonts_.size();
+    stats.sound_buffer_count = sound_buffers_.size();
+
+    // 硬编码平均值估算，实际内存以调试工具为准
+    // 纹理：假设平均 256KB（常见 512x512 RGBA）
+    // 字体：假设平均 2MB（矢量字体 + 字形缓存）
+    // 音效：假设平均 512KB（常见 5-10秒 OGG）
+    stats.total_texture_memory_bytes = stats.texture_count * 256 * 1024;
+    stats.total_font_memory_bytes = stats.font_count * 2 * 1024 * 1024;
+    stats.total_sound_memory_bytes = stats.sound_buffer_count * 512 * 1024;
+    stats.memory_usage_estimated = true;  // 标记为估算值
+
+    return stats;
+}
+
+// ============================================================================
+// 【GetSystemFontSearchPaths_】系统字体搜索路径（保留备用）
+// ============================================================================
+std::vector<std::pair<std::string, std::string>> ResourceManager::GetSystemFontSearchPaths_() {
+    std::vector<std::pair<std::string, std::string>> paths;
+#ifdef _WIN32
+    const char* windir = std::getenv("WINDIR");
+    std::string font_dir = windir ? std::string(windir) + "/Fonts/" : "C:/Windows/Fonts/";
+    paths.push_back({font_dir + "SourceHanSansCN-Normal.ttf", "思源黑体"});
+    paths.push_back({font_dir + "simhei.ttf", "黑体"});
+    paths.push_back({font_dir + "msyh.ttc", "雅黑"});
+    paths.push_back({font_dir + "simsun.ttc", "宋体"});
+    paths.push_back({font_dir + "arial.ttf", "Arial"});
+#elif defined(__APPLE__)
+    const char* home = std::getenv("HOME");
+    paths.push_back({"/System/Library/Fonts/PingFang.ttc", "苹方"});
+    paths.push_back({"/System/Library/Fonts/STHeiti Light.ttc", "华文黑体"});
+    paths.push_back({"/Library/Fonts/Arial Unicode.ttf", "Arial Unicode"});
+    paths.push_back({"/System/Library/Fonts/Helvetica.ttc", "Helvetica"});
+    if (home) {
+        paths.push_back({std::string(home) + "/Library/Fonts/Arial Unicode.ttf", "Arial Unicode（用户）"});
+        paths.push_back({std::string(home) + "/Library/Fonts/PingFang.ttc", "苹方（用户）"});
+    }
+#else
+    const char* home = std::getenv("HOME");
+    paths.push_back({"/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc", "Noto Sans CJK"});
+    paths.push_back({"/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc", "Noto Sans CJK"});
+    paths.push_back({"/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc", "文泉驿正黑"});
+    paths.push_back({"/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", "DejaVu Sans"});
+    if (home) {
+        paths.push_back({std::string(home) + "/.local/share/fonts/NotoSansCJK-Regular.ttc", "Noto Sans CJK（用户）"});
+        paths.push_back({std::string(home) + "/.fonts/NotoSansCJK-Regular.ttc", "Noto Sans CJK（用户）"});
+    }
+#endif
+    return paths;
+}
+
+std::vector<std::pair<std::string, std::string>> ResourceManager::GetProjectFontSearchPaths_() {
+    return {
+        {"assets/fonts/simhei.ttf", "黑体（项目）"},
+        {"assets/fonts/msyh.ttc", "雅黑（项目）"},
+        {"assets/fonts/arial.ttf", "Arial（项目）"},
+        {"./assets/fonts/simhei.ttf", "黑体（项目./）"},
+        {"./assets/fonts/msyh.ttc", "雅黑（项目./）"},
+        {"./assets/fonts/arial.ttf", "Arial（项目./）"},
+    };
+}
+
+std::vector<std::pair<std::string, std::string>> ResourceManager::BuildFontCandidates_() {
+    auto system_fonts = GetSystemFontSearchPaths_();
+    auto project_fonts = GetProjectFontSearchPaths_();
+    std::vector<std::pair<std::string, std::string>> candidates;
+    candidates.reserve(system_fonts.size() + project_fonts.size());
+    candidates.insert(candidates.end(), project_fonts.begin(), project_fonts.end());
+    candidates.insert(candidates.end(), system_fonts.begin(), system_fonts.end());
+    return candidates;
+}
+
+// ============================================================================
+// 【SetSpriteMapping】设置映射表
+// ============================================================================
+void ResourceManager::SetSpriteMapping(const SpriteMapping* mapping, const std::string& base_path) {
+    sprite_mapping_ = mapping;
+    sprite_base_path_ = base_path;
+    if (mapping) {
+        Logger::Info("ResourceManager: SpriteMapping 已设置，共 "
+                    + std::to_string(mapping->Size()) + " 个资源");
+    }
+}
+
+// ============================================================================
+// 【LoadTextureBySpriteId】通过 SpriteId 加载纹理
+// ============================================================================
+bool ResourceManager::LoadTextureBySpriteId(const std::string& sprite_id,
+                                           const std::string& texture_id) {
+    if (!sprite_mapping_) {
+        Logger::Warning("ResourceManager: SpriteMapping 未设置，无法通过 SpriteId 加载");
+        return false;
+    }
+
+    auto info = sprite_mapping_->Get(sprite_id);
+    if (!info.has_value()) {
+        Logger::Warning("ResourceManager: SpriteId 未找到: " + sprite_id);
+        return false;
+    }
+
+    const auto& sprite_info = info.value();
+    std::string full_path = sprite_info.GetFullPath(sprite_base_path_);
+
+    // 如果纹理已加载，直接返回
+    std::string tex_id = texture_id.empty() ? sprite_id : texture_id;
+    if (HasTexture(tex_id)) {
+        return true;
+    }
+
+    bool success = LoadTexture(tex_id, full_path);
+    if (success) {
+        Logger::Info("ResourceManager: 通过 SpriteId 加载纹理成功: " + sprite_id
+                   + " -> " + tex_id);
+    } else {
+        Logger::Warning("ResourceManager: 通过 SpriteId 加载纹理失败: " + sprite_id
+                       + " (路径: " + full_path + ")");
+    }
+    return success;
+}
+
+// ============================================================================
+// 【PreloadTexturesBySpriteIds】批量预加载
+// ============================================================================
+size_t ResourceManager::PreloadTexturesBySpriteIds(const std::vector<std::string>& sprite_ids) {
+    if (!sprite_mapping_) {
+        Logger::Warning("ResourceManager: SpriteMapping 未设置，无法批量预加载");
+        return 0;
+    }
+
+    size_t success_count = 0;
+    for (const auto& sprite_id : sprite_ids) {
+        if (LoadTextureBySpriteId(sprite_id)) {
+            ++success_count;
+        }
+    }
+    Logger::Info("ResourceManager: 批量预加载完成，成功 " + std::to_string(success_count)
+                + "/" + std::to_string(sprite_ids.size()) + " 个纹理");
+    return success_count;
+}
+
+}  // namespace CloudSeamanor::infrastructure

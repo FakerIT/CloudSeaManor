@@ -1,0 +1,209 @@
+{
+  "schema_version": "1.0.0",
+  "last_updated": "2026-05-01",
+  "description": "《云海山庄》数据表版本管理配置文件",
+  "maintainer": "开发团队",
+  "tables": {
+    "battle": {
+      "version": "1.2.0",
+      "description": "战斗系统数据表",
+      "tables": [
+        "SpiritTable.csv",
+        "SkillTable.csv",
+        "ZoneTable.csv",
+        "SeedDropTable.csv"
+      ],
+      "status": "active"
+    },
+    "crops": {
+      "version": "2.1.0",
+      "description": "农作物数据表",
+      "tables": [
+        "CropTable.csv"
+      ],
+      "status": "active"
+    },
+    "dialogue": {
+      "version": "1.3.0",
+      "description": "对话系统数据表",
+      "tables": [
+        "NPC_Texts.json",
+        "Gift_Preference.json",
+        "npc_heart_*.json",
+        "npc_daily_*.json"
+      ],
+      "status": "active"
+    },
+    "festival": {
+      "version": "1.1.0",
+      "description": "节日系统数据表",
+      "tables": [
+        "festival_definitions.csv"
+      ],
+      "status": "active"
+    },
+    "inventory": {
+      "version": "1.0.0",
+      "description": "物品数据表",
+      "tables": [
+        "items.csv"
+      ],
+      "status": "active"
+    },
+    "npc": {
+      "version": "1.2.0",
+      "description": "NPC 数据表",
+      "tables": [
+        "npc_data.csv",
+        "npc_schedule_*.csv",
+        "npc_development_*.csv"
+      ],
+      "status": "active"
+    },
+    "pet": {
+      "version": "1.0.0",
+      "description": "灵兽数据表",
+      "tables": [
+        "pet_data.csv"
+      ],
+      "status": "active"
+    },
+    "recipes": {
+      "version": "1.1.0",
+      "description": "配方数据表",
+      "tables": [
+        "recipes.csv"
+      ],
+      "status": "active"
+    },
+    "skills": {
+      "version": "1.1.0",
+      "description": "技能数据表",
+      "tables": [
+        "skill_data.csv",
+        "skills/branches.csv"
+      ],
+      "status": "active"
+    },
+    "social": {
+      "version": "1.2.0",
+      "description": "社交系统数据表",
+      "tables": [
+        "memory_type_rules.csv",
+        "memory_hooks.csv",
+        "memory_mail_templates.csv",
+        "npc_relationship_events.csv"
+      ],
+      "status": "active"
+    },
+    "tea": {
+      "version": "1.0.0",
+      "description": "茶系统数据表",
+      "tables": [
+        "tea_data.csv",
+        "tea/tea_spirits.csv",
+        "tea/tea_spirit_unlock_rules.csv",
+        "tea/tea_spirit_rewards.csv"
+      ],
+      "status": "active"
+    },
+    "tool": {
+      "version": "1.0.0",
+      "description": "工具数据表",
+      "tables": [
+        "tool_data.csv"
+      ],
+      "status": "active"
+    },
+    "weapon": {
+      "version": "1.0.0",
+      "description": "武器数据表",
+      "tables": [
+        "weapon_data.csv"
+      ],
+      "status": "active"
+    },
+    "world": {
+      "version": "1.0.0",
+      "description": "世界数据表",
+      "tables": [
+        "MapPositions.csv"
+      ],
+      "status": "active"
+    },
+    "ecology": {
+      "version": "1.0.0",
+      "description": "生态数据表",
+      "tables": [
+        "ecology_planting_effects.csv",
+        "ecology_decoration_effects.csv",
+        "ecology_event_rules.csv",
+        "ecology_npc_comments.csv",
+        "spirit_tide_calendar.csv"
+      ],
+      "status": "active"
+    },
+    "fishing": {
+      "version": "1.0.0",
+      "description": "钓鱼数据表",
+      "tables": [
+        "fishing/spots.csv"
+      ],
+      "status": "active"
+    },
+    "workshop": {
+      "version": "1.1.0",
+      "description": "工坊数据表",
+      "tables": [
+        "workshop_recipes.csv"
+      ],
+      "status": "active"
+    },
+    "diary": {
+      "version": "1.0.0",
+      "description": "日记数据表",
+      "tables": [
+        "diary/entries.csv"
+      ],
+      "status": "active"
+    },
+    "spirit_realm": {
+      "version": "1.0.0",
+      "description": "灵界数据表",
+      "tables": [
+        "spirit_realm_layers.csv",
+        "spirit_realm_bosses.csv"
+      ],
+      "status": "active"
+    }
+  },
+  "migration_history": [
+    {
+      "version": "1.0.0",
+      "date": "2026-04-01",
+      "description": "初始版本"
+    },
+    {
+      "version": "1.1.0",
+      "date": "2026-04-15",
+      "description": "新增节日系统、钓鱼系统"
+    },
+    {
+      "version": "1.2.0",
+      "date": "2026-04-28",
+      "description": "新增战斗系统扩展、社交系统、动态叙事系统"
+    },
+    {
+      "version": "1.3.0",
+      "date": "2026-05-01",
+      "description": "数据表规范化，整合数据驱动架构"
+    }
+  ],
+  "notes": [
+    "所有新增数据表必须在此文件注册",
+    "版本号格式：MAJOR.MINOR",
+    "MAJOR 变更表示破坏性修改",
+    "每次发布前更新 last_updated",
+    "查看 CHANGELOG.md 了解详细变更"
+  ]
+}

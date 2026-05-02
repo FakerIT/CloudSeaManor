@@ -1,0 +1,8 @@
+Id,DisplayName,ToolType,Tier,StaminaCost,Durability,SpecialEffect,Price,Description
+tool_watering_can,浇水壶,WateringTool,1,5,100,None,50,基础的浇水工具
+tool_hoe,锄头,HoeTool,1,8,80,None,80,用于翻土的农具
+tool_sickle,镰刀,HarvestTool,1,3,120,None,60,收割作物的工具
+tool_tea_shears,采茶剪,HarvestTool,2,2,150,HarvestBonus,150,专门用于采摘灵茶
+tool_watering_can_premium,灵泉浇水壶,WateringTool,2,3,150,QualityBonus,300,提升茶叶品质
+tool_hoe_premium,精钢锄头,HoeTool,2,5,120,None,200,更耐用的锄头
+tool_blessed_sickle,祝福镰刀,HarvestTool,3,2,200,HarvestBonusPlus,500,大幅提升收获量

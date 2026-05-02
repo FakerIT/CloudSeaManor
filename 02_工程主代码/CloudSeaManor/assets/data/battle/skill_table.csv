@@ -1,0 +1,17 @@
+Id,Name,ElementType,DamageType,BaseDamage,ScalingStat,ScalingRatio,Cooldown,CostType,CostAmount,TargetType,EffectDescription,RequiredWeaponType
+cloud_touch,云雾之触,Cloud,Magical,30,Magic,1.2,3,Stamina,10,Single,轻柔的云雾攻击,None
+cloud_shield,云雾护盾,Cloud,Magical,0,Defense,1.0,5,Stamina,15,Self,形成云雾护盾,None
+fire_ball,火球术,Fire,Magical,50,Magic,1.5,4,Mana,20,Single,发射炽热的火球,None
+burning_grip,燃烧之握,Fire,Magical,40,Magic,1.3,3,Mana,15,Single,火焰灼烧对手,None
+water_blast,水弹,Water,Magical,35,Magic,1.2,3,Stamina,8,Single,用水流冲击对手,None
+healing_mist,治愈之雾,Water,Magical,0,Recovery,2.0,6,Mana,25,Ally,治愈队友的生命,None
+rock_throw,掷石,Earth,Physical,45,Attack,1.4,4,Stamina,12,Single,投掷巨大的岩石,None
+earth_wall,土墙,Earth,Magical,0,Defense,1.5,5,Stamina,15,Self,召唤土墙防御,None
+wind_slice,风刃,Wind,Magical,40,Magic,1.3,3,Stamina,10,Single,切割空气的风刃,None
+cyclone,旋风,Wind,Magical,55,Magic,1.4,5,Stamina,20,All,召唤旋风攻击全体,None
+shadow_strike,暗影打击,Dark,Magical,60,Magic,1.6,4,Mana,25,Single,暗影突袭,None
+void_bolt,虚空之矢,Dark,Magical,70,Magic,1.7,5,Mana,30,Single,虚空能量凝聚的箭矢,None
+holy_strike,圣光打击,Holy,Magical,50,Magic,1.5,4,Mana,20,Single,神圣之光净化邪祟,None
+divine_shield,神圣护盾,Holy,Magical,0,Defense,2.0,6,Mana,30,Self,神圣护盾保护自己,None
+thunder_bolt,雷霆,Lightning,Magical,65,Magic,1.6,4,Mana,25,Single,召唤雷电劈向敌人,None
+chain_lightning,连锁闪电,Lightning,Magical,45,Magic,1.4,5,Mana,30,Multi,闪电在敌群中跳跃,None

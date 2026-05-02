@@ -1,0 +1,11 @@
+Id,Title,Content,TriggerCondition,Season,Day,Weather,Tags
+ms_1,山庄的清晨,清晨的云海如诗如画，远处传来灵鸟的啼鸣。,NewGame,Spring,1,Sunny,intro;atmosphere
+ms_2,第一次浇水,看着水滴落在干燥的土壤上，我感受到了生命萌发的喜悦。,FirstCropPlanted,Spring,3,Rainy,skill;farming
+ms_3,云雾茶香,灵霄递给我一杯她亲手泡制的云雾茶，那清香让我忘却了所有烦恼。,FirstTeaReceived,Spring,5,Cloudy,relationship;tea
+ms_4,猎人的孤独,清风独自站在山崖边，望着远方的云海。他说，守护是最长情的陪伴。,FavorAbove50_qingfeng,Summer,8,Clear,character;wisdom
+ms_5,商人的精明,逍遥笑称自己是"最会算账的诗人"，虽然常常亏本但从不卖假货。,FavorAbove50_xiaoyao,Autumn,12,Cloudy,humor;character
+ms_6,灵兽的羁绊,云绒突然跳到了我的肩上，用毛茸茸的脑袋蹭了蹭我的手。,PetBondAbove30,Summer,15,Sunny,pets;bond
+ms_7,月下的誓言,月影在月光下翩翩起舞，她说，每一支舞都是对云海的赞歌。,FavorAbove60_yueying,Autumn,18,Clear,art;beauty
+ms_8,匠人的骄傲,玄威敲打铁块的声音很有节奏感，他说，每一把好刀都有自己的灵魂。,FavorAbove60_xuanwei,Winter,5,Cloudy,craft;spirit
+ms_9,道的尽头,云深道长说，道在日常生活中，在每一次呼吸之间。,FavorAbove80_yunshen,Winter,10,Snow,wisdom;philosophy
+ms_10,云海的真谛,站在山庄最高处，我终于明白，云海不只是风景，更是心灵的归宿。,CloudDensityAbove90,Any,Any,Cloudy,climax;enlightenment

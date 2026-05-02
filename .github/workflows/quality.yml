@@ -1,0 +1,242 @@
+name: Quality Assurance
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - '02_工程主代码/CloudSeaManor/**'
+      - '.github/workflows/quality.yml'
+  pull_request:
+    branches: [main, develop]
+
+env:
+  BUILD_TYPE: Debug
+  PROJECT_ROOT: ${{ github.workspace }}
+
+jobs:
+  # ==========================================
+  # 1. 代码格式检查
+  # ==========================================
+  format-check:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format clang-tidy
+
+      - name: Check code formatting
+        working-directory: ${{ env.PROJECT_ROOT }}
+        run: |
+          find 02_工程主代码/CloudSeaManor/src 02_工程主代码/CloudSeaManor/include \
+            -name '*.cpp' -o -name '*.hpp' | \
+          xargs clang-format --dry-run --Werror --style=file
+
+  # ==========================================
+  # 2. 代码质量扫描
+  # ==========================================
+  clang-tidy:
+    name: Clang-Tidy Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get install -y clang-tidy cmake build-essential
+
+      - name: Configure CMake
+        shell: pwsh
+        env:
+          SFML_ROOT: ${{ env.PROJECT_ROOT }}/05_参考与第三方资源/01_SFML引擎/SFML-3.0.2
+        run: |
+          cmake -S 02_工程主代码/CloudSeaManor -B build -G "Unix Makefiles" \
+            -DCMAKE_BUILD_TYPE=Debug \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Run clang-tidy
+        run: |
+          find 02_工程主代码/CloudSeaManor/src -name '*.cpp' | \
+          head -20 | \
+          xargs clang-tidy \
+            -header-filter='02_工程主代码/CloudSeaManor/.*' \
+            -checks='clang-diagnostic-*,clang-analyzer-*,readability-*,performance-*,modernize-*' \
+            -format-style=file \
+            -p build 2>&1 | head -100 || true
+
+  # ==========================================
+  # 3. 静态分析
+  # ==========================================
+  static-analysis:
+    name: Static Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for forbidden patterns
+        run: |
+          echo "检查禁止的模式..."
+
+          # 检查是否有 Utils/Helper/Common 文件
+          echo ""
+          echo "=== 检查禁止的命名 ==="
+          find 02_工程主代码/CloudSeaManor/src -name "Utils.*" -o \
+            -name "Helper.*" -o \
+            -name "Common.*" -o \
+            -name "Temp.*" -o \
+            -name "Misc.*" | grep -v "test" || echo "✓ 无禁止的命名"
+
+          # 检查 domain 层是否使用 SFML
+          echo ""
+          echo "=== 检查 domain 层 SFML 依赖 ==="
+          if grep -r "sf::" 02_工程主代码/CloudSeaManor/src/domain/ --include="*.cpp" --include="*.hpp" 2>/dev/null; then
+            echo "✗ 错误：domain 层不应使用 SFML"
+            exit 1
+          else
+            echo "✓ domain 层无 SFML 依赖"
+          fi
+
+  # ==========================================
+  # 4. Windows Debug 构建
+  # ==========================================
+  build-windows-debug:
+    name: Build Windows (Debug)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache SFML
+        id: cache-sfml
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_ROOT }}/05_参考与第三方资源/01_SFML引擎/SFML-3.0.2
+          key: sfml-3.0.2-windows
+
+      - name: Download SFML
+        if: steps.cache-sfml.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://www.sfml-dev.org/files/SFML-3.0.2-vc17-64-bit.zip" -OutFile sfml.zip
+          Expand-Archive -Path sfml.zip -DestinationPath ${{ env.PROJECT_ROOT }}/05_参考与第三方资源/01_SFML引擎/
+          Get-ChildItem -Path ${{ env.PROJECT_ROOT }}/05_参考与第三方资源/01_SFML引擎/ -Directory | Where-Object { $_.Name -like "SFML*" } | Rename-Item -NewName "SFML-3.0.2"
+
+      - name: Configure CMake
+        shell: pwsh
+        env:
+          SFML_ROOT: ${{ env.PROJECT_ROOT }}/05_参考与第三方资源/01_SFML引擎/SFML-3.0.2
+        run: |
+          cmake -S 02_工程主代码/CloudSeaManor -B 02_工程主代码/CloudSeaManor/build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build Debug
+        run: cmake --build 02_工程主代码/CloudSeaManor/build --config Debug -j4
+
+      - name: Build Tests
+        run: cmake --build 02_工程主代码/CloudSeaManor/build --config Debug --target CloudSeamanor_tests
+
+      - name: Run Tests
+        working-directory: 02_工程主代码/CloudSeaManor/build/Debug
+        run: ./CloudSeamanor_tests.exe
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-debug-build
+          path: 02_工程主代码/CloudSeaManor/build/Debug/*.exe
+          retention-days: 7
+
+  # ==========================================
+  # 5. Windows Release 构建
+  # ==========================================
+  build-windows-release:
+    name: Build Windows (Release)
+    runs-on: windows-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'release'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache SFML
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.PROJECT_ROOT }}/05_参考与第三方资源/01_SFML引擎/SFML-3.0.2
+          key: sfml-3.0.2-windows
+
+      - name: Configure CMake
+        shell: pwsh
+        env:
+          SFML_ROOT: ${{ env.PROJECT_ROOT }}/05_参考与第三方资源/01_SFML引擎/SFML-3.0.2
+        run: |
+          cmake -S 02_工程主代码/CloudSeaManor -B 02_工程主代码/CloudSeaManor/build-release -G "Visual Studio 17 2022" -A x64
+
+      - name: Build Release
+        run: cmake --build 02_工程主代码/CloudSeaManor/build-release --config Release -j4
+
+      - name: Create Release Package
+        shell: pwsh
+        run: |
+          $version = $env:GITHUB_REF_NAME -replace 'refs/tags/v', ''
+          $tag = if ($env:GITHUB_REF_NAME -match 'refs/tags/') { $true } else { $false }
+
+          # 复制构建产物
+          New-Item -ItemType Directory -Path "02_工程主代码/CloudSeaManor/build-release/pkg" -Force
+          Copy-Item "02_工程主代码/CloudSeaManor/build-release/Release/*.exe" "02_工程主代码/CloudSeaManor/build-release/pkg/"
+
+          # 复制必要资源
+          Copy-Item "02_工程主代码/CloudSeaManor/assets" "02_工程主代码/CloudSeaManor/build-release/pkg/" -Recurse
+          Copy-Item "02_工程主代码/CloudSeaManor/configs" "02_工程主代码/CloudSeaManor/build-release/pkg/" -Recurse
+
+          # 打包
+          Compress-Archive -Path "02_工程主代码/CloudSeaManor/build-release/pkg/*" -DestinationPath "02_工程主代码/CloudSeaManor/build-release/CloudSeaManor.zip" -Force
+
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-release-build
+          path: 02_工程主代码/CloudSeaManor/build-release/CloudSeaManor.zip
+          retention-days: 30
+
+      - name: Upload Release Asset
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: 02_工程主代码/CloudSeaManor/build-release/CloudSeaManor.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ==========================================
+  # 6. 代码行数统计
+  # ==========================================
+  code-stats:
+    name: Code Statistics
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Count lines of code
+        run: |
+          echo "## 代码统计" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          echo "### C++ 代码行数" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          find 02_工程主代码/CloudSeaManor/src 02_工程主代码/CloudSeaManor/include \
+            \( -name '*.cpp' -o -name '*.hpp' \) -exec wc -l {} + | tail -1 >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 文件数统计" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "源文件 (.cpp): $(find 02_工程主代码/CloudSeaManor/src -name '*.cpp' | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "头文件 (.hpp): $(find 02_工程主代码/CloudSeaManor/include -name '*.hpp' | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "测试文件: $(find 02_工程主代码/CloudSeaManor/tests -name '*.cpp' | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 数据文件统计" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "CSV 文件: $(find 02_工程主代码/CloudSeaManor/assets/data -name '*.csv' | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo "JSON 文件: $(find 02_工程主代码/CloudSeaManor/assets/data -name '*.json' | wc -l)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+
+          # 输出到控制台
+          find 02_工程主代码/CloudSeaManor/src 02_工程主代码/CloudSeaManor/include \
+            \( -name '*.cpp' -o -name '*.hpp' \) -exec wc -l {} + | tail -1

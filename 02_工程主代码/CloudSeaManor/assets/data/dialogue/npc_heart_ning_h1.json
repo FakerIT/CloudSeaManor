@@ -1,0 +1,68 @@
+{
+  "event_id": "ning_h1",
+  "npc_id": "ning",
+  "title": "发呆的午后",
+  "description": "在树下遇到发呆的宁安",
+  "nodes": [
+    {
+      "id": "ning_h1_start",
+      "speaker": "宁安",
+      "text": "嗯……发呆真舒服。啊，你也在啊。来，一起发呆吗？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "你经常在这里发呆吗？",
+          "next_node_id": "ning_h1_often"
+        },
+        {
+          "id": "choice_2",
+          "text": "发呆有什么好处吗？",
+          "next_node_id": "ning_h1_benefit"
+        }
+      ]
+    },
+    {
+      "id": "ning_h1_often",
+      "speaker": "宁安",
+      "text": "每天都会来。发呆的时候，什么都不用想，很舒服。",
+      "choices": [
+        {
+          "id": "choice_peace",
+          "text": "听起来很惬意。",
+          "next_node_id": "ning_h1_peace"
+        }
+      ]
+    },
+    {
+      "id": "ning_h1_benefit",
+      "speaker": "宁安",
+      "text": "发呆的时候，脑子会自己整理东西。有时候想不通的事，发一会儿呆就想通了。",
+      "choices": [
+        {
+          "id": "choice_wisdom",
+          "text": "原来发呆也是智慧啊。",
+          "next_node_id": "ning_h1_peace"
+        }
+      ]
+    },
+    {
+      "id": "ning_h1_peace",
+      "speaker": "宁安",
+      "text": "哈哈，你也是个懂生活的人。现在懂发呆的人不多了。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "以后我也来发呆。",
+          "next_node_id": "ning_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "ning_h1_end",
+      "speaker": "宁安",
+      "text": "嗯，这棵树下的位置我分你一半。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

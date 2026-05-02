@@ -1,0 +1,68 @@
+{
+  "event_id": "an_h1",
+  "npc_id": "an",
+  "title": "田间的老农",
+  "description": "在田间遇到老农安然",
+  "nodes": [
+    {
+      "id": "an_h1_start",
+      "speaker": "安然",
+      "text": "哟，是新来的吧？我是安然，管这片田的。",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "这片田都种些什么？",
+          "next_node_id": "an_h1_crop"
+        },
+        {
+          "id": "choice_2",
+          "text": "种田辛苦吗？",
+          "next_node_id": "an_h1_hard"
+        }
+      ]
+    },
+    {
+      "id": "an_h1_crop",
+      "speaker": "安然",
+      "text": "什么都有，稻子、蔬菜、茶树。这片土地肥沃，种什么长什么。",
+      "choices": [
+        {
+          "id": "choice_fertile",
+          "text": "真是一片好地方。",
+          "next_node_id": "an_h1_land"
+        }
+      ]
+    },
+    {
+      "id": "an_h1_hard",
+      "speaker": "安然",
+      "text": "辛苦是辛苦，但看着庄稼一点点长大，心里踏实。",
+      "choices": [
+        {
+          "id": "choice_harvest",
+          "text": "丰收的时候一定很开心吧？",
+          "next_node_id": "an_h1_land"
+        }
+      ]
+    },
+    {
+      "id": "an_h1_land",
+      "speaker": "安然",
+      "text": "种田就是这样，一分耕耘一分收获。这片土地不会亏待人。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "我学到了很多。",
+          "next_node_id": "an_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "an_h1_end",
+      "speaker": "安然",
+      "text": "年轻人，愿意种地就是好的。有什么不懂的尽管来问。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

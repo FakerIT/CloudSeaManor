@@ -1,0 +1,9 @@
+# 钓鱼地点数据表
+
+```csv
+Id,NameZh,Description,RequiredItem,MinDay,AvailableSeasons,DifficultyModifier
+main_farm,云海山庄农场,你的主农场池塘,NONE,1,all,0
+river,观云河,贯穿山庄的河流,NONE,1,all,1
+spirit_realm,灵界浅层,灵气充沛的水域,NONE,10,all,2
+spirit_realm_deep,灵界深层,危险而神秘的水域,SpiritFishingRod,30,all,4
+```

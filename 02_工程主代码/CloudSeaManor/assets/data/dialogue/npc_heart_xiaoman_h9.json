@@ -1,0 +1,135 @@
+{
+  "event_id": "xiaoman_h9",
+  "npc_id": "xiaoman",
+  "title": "稻香深处的告白",
+  "description": "与小满在丰收季节的稻田边，终于说出那句等待已久的话",
+  "nodes": [
+    {
+      "id": "xiaoman_h9_start",
+      "speaker": "小满",
+      "text": "$[PLAYER_NAME]，你看这片稻田，金灿灿的，像不像铺了一地的星星？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "比星星还漂亮",
+          "next_node_id": "xiaoman_h9_comparison"
+        },
+        {
+          "id": "choice_2",
+          "text": "丰收的感觉真好",
+          "next_node_id": "xiaoman_h9_harvest"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_comparison",
+      "speaker": "小满",
+      "text": "嘿嘿，你总是这么会说话。不过……我觉得最漂亮的，还是你看着稻田时候的笑容。",
+      "choices": [
+        {
+          "id": "choice_blush",
+          "text": "（脸有点热）",
+          "next_node_id": "xiaoman_h9_shy"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_harvest",
+      "speaker": "小满",
+      "text": "嗯！一年的辛苦总算有了回报。不过……比起稻子，我更开心的是，能和你一起收获。",
+      "choices": [
+        {
+          "id": "choice_happy",
+          "text": "有你在，我也觉得特别满足",
+          "next_node_id": "xiaoman_h9_together"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_shy",
+      "speaker": "小满",
+      "text": "哎呀，你的脸红了！好可爱……咳咳，我什么都没说！",
+      "choices": [
+        {
+          "id": "choice_tease",
+          "text": "你才是可爱的那一个",
+          "next_node_id": "xiaoman_h9_tease_back"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_together",
+      "speaker": "小满",
+      "text": "真的吗？$[PLAYER_NAME]，其实……有件事我憋在心里很久了。",
+      "choices": [
+        {
+          "id": "choice_listen",
+          "text": "我在听，你说",
+          "next_node_id": "xiaoman_h9_confession"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_tease_back",
+      "speaker": "小满",
+      "text": "才、才不是呢！……算了，不跟你争了。我、我有话想跟你说。",
+      "choices": [
+        {
+          "id": "choice_attentive",
+          "text": "好，我认真听",
+          "next_node_id": "xiaoman_h9_confession"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_confession",
+      "speaker": "小满",
+      "text": "从第一次在田里遇见你，我就觉得你不一样。你会蹲下来看刚发芽的稻子，会认真听我讲家乡的故事……你懂我。",
+      "choices": [
+        {
+          "id": "choice_understand",
+          "text": "我也懂你",
+          "next_node_id": "xiaoman_h9_deep"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_deep",
+      "speaker": "小满",
+      "text": "所以……所以我想问你，$[PLAYER_NAME]，你愿不愿意……一直陪我看这片稻田？每年丰收的时候，一起收获？",
+      "choices": [
+        {
+          "id": "choice_yes",
+          "text": "我愿意，每一年都陪你",
+          "next_node_id": "xiaoman_h9_yes"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_yes",
+      "speaker": "小满",
+      "text": "真的吗？！太好了太好了！$[PLAYER_NAME]，我好开心！这是我这辈子最幸福的秋天！",
+      "choices": [
+        {
+          "id": "choice_hug",
+          "text": "以后每年丰收，我们都在一起",
+          "next_node_id": "xiaoman_h9_promise"
+        }
+      ]
+    },
+    {
+      "id": "xiaoman_h9_promise",
+      "speaker": "小满",
+      "text": "嗯！说好了哦！这把稻穗送给你，就当是我们的信物。以后看到它，就像看到我一样。",
+      "is_ending": true,
+      "reward_favor": 30,
+      "reward_items": [
+        {
+          "item_id": "golden_ear_token",
+          "count": 1,
+          "description": "金穗之约 - 小满与你的定情信物"
+        }
+      ]
+    }
+  ]
+}

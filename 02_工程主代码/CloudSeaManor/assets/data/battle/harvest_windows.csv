@@ -1,0 +1,9 @@
+Id,SpiritId,StartDay,EndDay,HarvestChance,BonusMultiplier,Description
+harvest_1,spirit_cloud_wisp,1,28,0.3,1.0,云雾灵全年可收割
+harvest_2,spirit_flame_imp,29,56,0.35,1.2,焰火魔夏季活跃
+harvest_3,spirit_water_sprite,1,28,0.3,1.0,水精灵全年可收割
+harvest_4,spirit_earth_golem,57,84,0.25,1.3,土岩傀儡秋季活跃
+harvest_5,spirit_wind_faerie,1,28,0.3,1.0,风妖精全年可收割
+harvest_6,spirit_void_shade,85,112,0.15,1.5,虚空暗影冬季活跃
+harvest_7,spirit_holy_guard,1,28,0.2,1.0,圣光守护全年可收割
+harvest_8,spirit_thunder_herald,29,56,0.15,1.5,雷霆使者夏季活跃

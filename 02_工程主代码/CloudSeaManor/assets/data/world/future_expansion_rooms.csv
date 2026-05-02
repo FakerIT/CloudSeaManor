@@ -1,0 +1,9 @@
+Id,Name,RequirementLevel,RoomType,Description
+room_cloud_teahouse,云雾茶室,5,Teahouse,供客人品茶的雅室
+room_herb_garden,药草园,8,HerbGarden,种植稀有药草的园子
+room_spirit_pet_house,灵兽小屋,10,PetHouse,灵兽居住的舒适居所
+room_meditation_chamber,冥想室,15,MeditationRoom,用于修行的静室
+room_brewery,酿造坊,12,Brewery,酿造灵酒的作坊
+room_forge_extension,铁匠铺扩建,20,Forge,扩大后的铁匠铺
+room_flower_greenhouse,花房,7,FlowerGarden,培育奇花异草的温室
+room_treasury,藏宝阁,25,Treasury,存放珍贵物品的地方

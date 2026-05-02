@@ -1,0 +1,33 @@
+# 观云镜每日运势数据表
+
+```csv
+Id,Season,Weather,TideType,FavorMin,FortuneTextZh,FortuneTextEn
+fortune_001,all,any,normal,0,今日宜：种植，新芽将茁壮成长。,Today is good for: Planting. New sprouts will thrive.
+fortune_002,all,any,normal,0,今日宜：浇水，茶树需要滋润。,Today is good for: Watering. Tea trees need care.
+fortune_003,all,any,normal,0,今日宜：送礼，与人结善缘。,Today is good for: Gifting. Build good relationships.
+fortune_004,all,any,normal,0,今日宜：探索，灵界等待你。,Today is good for: Exploration. The spirit realm awaits.
+fortune_005,all,any,tide,0,大潮将至！今日所有灵物效果翻倍！,The great tide approaches! All spirit effects are doubled!
+fortune_006,spring,any,normal,0,春茶初芽，今日采茶品质上佳。,Spring tea is sprouting. Great quality today.
+fortune_007,summer,any,normal,0,夏日炎炎，记得多喝水解暑。,Hot summer day. Remember to stay hydrated.
+fortune_008,autumn,any,normal,0,秋高气爽，适合在后山漫步。,Clear autumn sky. Perfect for walking in the hills.
+fortune_009,winter,any,normal,0,冬日静养，炉火旁品茶最佳。,Winter rest. Best time for tea by the fire.
+fortune_010,all,heavyRain,normal,0,雨润万物，今日适合整理茶园。,Rain nurtures all. Good day to tend the garden.
+fortune_011,all,lightMist,normal,0,薄雾缭绕，灵茶将吸收更多灵气。,Misty morning. Spirit tea will absorb more energy.
+fortune_012,all,heavyCloud,normal,0,浓云压顶，茶叶将更加醇厚。,Thick clouds overhead. Tea leaves will be richer.
+fortune_013,all,any,tide,0,大潮日！所有种植收益+50%！,Great Tide Day! All farming yields +50%!
+fortune_014,all,any,normal,50,有人记挂你，今天去见见朋友吧。,Someone is thinking of you. Go visit a friend today.
+fortune_015,all,any,normal,100,云海眷顾，今日诸事顺遂。,The cloud sea favors you. Everything goes well today.
+fortune_016,all,any,normal,200,心中有光，今日可尝试制作高品质茶。,Your heart shines. Try making high-quality tea today.
+fortune_017,all,any,normal,500,缘分将至，留意身边的邂逅。,Fate approaches. Watch for encounters.
+fortune_018,all,any,normal,800,心意相通，某人正在思念你。,Hearts align. Someone is thinking of you.
+fortune_019,spring,any,normal,0,春回大地，万物复苏，正是播种时。,Spring returns. All things revive. Time to plant.
+fortune_020,summer,any,normal,0,蝉鸣阵阵，作物生长迅猛。,Cicadas sing. Crops grow rapidly.
+fortune_021,autumn,any,normal,0,金风送爽，收获的季节来临。,Golden winds blow. Harvest season arrives.
+fortune_022,winter,any,normal,0,瑞雪兆丰年，冬眠也是修行。,Snow promises abundance. Rest is also cultivation.
+fortune_023,all,any,normal,0,宜静心品茶，不宜急躁行事。,Calm and enjoy your tea. Avoid rushing.
+fortune_024,all,any,normal,0,今日适合修缮建筑，整顿庄园。,Good day for building and organizing your manor.
+fortune_025,all,any,normal,0,远方有客来访，注意门前动静。,A visitor approaches. Watch the entrance.
+fortune_026,all,any,normal,0,云海波涛，预示着变化将至。,The cloud sea waves, changes are coming.
+fortune_027,all,any,normal,0,星辰闪烁，幸运女神眷顾。,Stars twinkle, luck is on your side.
+fortune_028,all,any,normal,0,宜学习新技能，提升自我。,Good day for learning new skills.
+```

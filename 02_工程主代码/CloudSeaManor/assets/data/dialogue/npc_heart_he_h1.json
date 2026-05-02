@@ -1,0 +1,80 @@
+{
+  "event_id": "he_h1",
+  "npc_id": "he",
+  "title": "码头上的渔夫",
+  "description": "在码头遇到渔夫河洛",
+  "nodes": [
+    {
+      "id": "he_h1_start",
+      "speaker": "河洛",
+      "text": "哟，新面孔啊。我是河洛，在这码头打了三十年鱼了。你是来钓鱼的？",
+      "choices": [
+        {
+          "id": "choice_1",
+          "text": "想学钓鱼，能教教我吗？",
+          "next_node_id": "he_h1_teach"
+        },
+        {
+          "id": "choice_2",
+          "text": "这海里有什么鱼？",
+          "next_node_id": "he_h1_fish"
+        }
+      ]
+    },
+    {
+      "id": "he_h1_teach",
+      "speaker": "河洛",
+      "text": "学钓鱼啊？好，有耐心就行。钓鱼最重要的不是技术，是心态。",
+      "choices": [
+        {
+          "id": "choice_patient",
+          "text": "我很有耐心。",
+          "next_node_id": "he_h1_patient"
+        }
+      ]
+    },
+    {
+      "id": "he_h1_fish",
+      "speaker": "河洛",
+      "text": "海里的鱼多了去了，不过要钓大鱼，得有耐心。大鱼不急，慢慢等。",
+      "choices": [
+        {
+          "id": "choice_big_fish",
+          "text": "大鱼有多大的？",
+          "next_node_id": "he_h1_big"
+        }
+      ]
+    },
+    {
+      "id": "he_h1_patient",
+      "speaker": "河洛",
+      "text": "好，年轻人有这份心就对了。钓鱼能养性子，急躁的人钓不到好鱼。",
+      "choices": [
+        {
+          "id": "choice_end",
+          "text": "谢谢河洛叔。",
+          "next_node_id": "he_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "he_h1_big",
+      "speaker": "河洛",
+      "text": "有我手臂这么长的。不过那种鱼，得等潮汐合适的时候才能钓上来。",
+      "choices": [
+        {
+          "id": "choice_tide",
+          "text": "那我等大潮的时候来。",
+          "next_node_id": "he_h1_end"
+        }
+      ]
+    },
+    {
+      "id": "he_h1_end",
+      "speaker": "河洛",
+      "text": "好，有空就来坐坐。我这老骨头，最喜欢年轻人了。",
+      "is_ending": true,
+      "reward_favor": 10
+    }
+  ]
+}

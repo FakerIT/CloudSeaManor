@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{33333333-3333-3333-3333-333333333331}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\CloudSeamanor">
+      <UniqueIdentifier>{33333333-3333-3333-3333-333333333332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{44444444-4444-4444-4444-444444444441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\app">
+      <UniqueIdentifier>{44444444-4444-4444-4444-444444444442}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{66666666-6666-6666-6666-666666666661}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\CloudSeamanor\GameApp.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CloudSeamanor\GameClock.hpp">
+      <Filter>include\CloudSeamanor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\app\main.cpp">
+      <Filter>src\app</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="docs\ARCHITECTURE.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="docs\CODEBASE_GUIDE.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include=".clang-format" />
+    <None Include=".editorconfig" />
+    <None Include=".gitignore" />
+  </ItemGroup>
+</Project>

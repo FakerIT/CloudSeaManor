@@ -1,0 +1,7 @@
+Id,Name,RequiredFavor,RequiredItems,Description,DialogueGroups
+party_lingxiao,灵霄的茶会,100,"tea_cloudx3;tea_firex2",与灵霄共品香茗,group_tea_party_lingxiao
+party_qingfeng,清风的山林行,80,"herb_healingx5;meat_freshx3",与清风一同巡山,group_hunt_party_qingfeng
+party_xiaoyao,逍遥的市集游,60,"goldx500",与逍遥逛市集,group_trade_party_xiaoyao
+party_meili,美黎的灵兽园,70,"pet_foodx10",与美黎一起照顾灵兽,group_pet_party_meili
+party_baizhu,白竹的药房行,90,"herb_rarex3;herb_commonx5",与白竹一同炼丹,group_herb_party_baizhu
+party_yueying,月影的月下舞,110,"flower_rarex3",月下共赏舞曲,group_dance_party_yueying

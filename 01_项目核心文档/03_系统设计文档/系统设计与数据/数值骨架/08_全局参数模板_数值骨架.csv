@@ -1,0 +1,14 @@
+﻿param_key,param_name,param_type,default_value,min_value,max_value,description
+time_day_minutes,游戏日时长,float,20,18,22,单日真实分钟
+time_speed_scale,时间倍率,float,1.0,0.5,3.0,设置中可调
+stamina_base,初始体力,int,100,50,300,角色基础体力
+stamina_recover_daily,日自然回复,float,0.8,0.5,1.0,非睡眠状态回复比例
+stamina_penalty_threshold,疲劳阈值,int,20,0,100,触发疲劳惩罚阈值
+money_bankrupt_protect,防破产开关,bool,true,false,true,保证可持续游玩
+aura_daily_base_gain,灵气日基础增长,int,5,0,30,山庄维护带来的增长
+aura_decay_offline,离线衰减系数,float,0.1,0.0,1.0,长期离线惩罚
+affection_daily_cap,好感日增长上限,int,40,10,80,限制单日刷好感
+affection_marriage_bonus,婚后全角色日增,int,15,0,30,婚后舒适补完
+crop_wither_rate,作物枯萎率,float,0.03,0.0,0.2,失败惩罚控制
+craft_success_cloud_bonus,浓云海制作成功率加成,float,0.3,0.0,1.0,工坊成功率修正
+craft_quality_cloud_bonus,浓云海品质概率加成,float,0.5,0.0,1.0,工坊品质修正

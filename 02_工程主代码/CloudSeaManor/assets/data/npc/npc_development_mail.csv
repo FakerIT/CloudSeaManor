@@ -1,0 +1,6 @@
+Id,NpcId,Stage,MailSubject,MailBody,AttachmentItem,AttachmentCount,Description
+mail_dev_1,lingxiao,Stage3,关于茶道,知己，我最近在研究新的制茶工艺，有空来茶室一起探讨吧。,,,深入学习茶道
+mail_dev_2,lingxiao,Stage5,重要的约定,挚友，明天云海大潮，我们一起去观看吧。这是我最珍贵的邀请。,,,共同观看云海大潮
+mail_dev_3,lingxiao,Stage6,我等你...,你一直都在我心里。明天傍晚，茶室见。有些话，我想亲口告诉你。,,,告白前夕
+mail_dev_1,qingfeng,Stage3,巡逻邀请,朋友，明天和我一起巡山吧。山林里有些异常的动静。,,,开始狩猎冒险
+mail_dev_2,qingfeng,Stage5,信任你,知己，你是我最信任的人。如果有一天我不在了，希望你能守护这片山林。,,,托付山林守护

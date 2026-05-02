@@ -1,0 +1,10 @@
+# 鱼类加工配方表
+
+```csv
+Id,NameZh,Ingredients,ResultId,ResultCount,StaminaGain,BuffType,BuffValue,DescriptionZh,UnlockCondition
+cook_cloud_carp,清蒸云鲤,cloudCarpx1,CookedCloudCarp,1,30,none,0,烤云鲤，肉质鲜嫩,+30体力,default
+cook_moon_petunia,月华鱼汤,MoonPetuniax1,MoonPetuniaSoup,1,50,luck,10,月华鱼汤，饮之好运连连,+50体力,+10幸运,rare_fish_cook
+cook_tide_koi,锦鲤炖汤,TideKoix1,KoiSoup,1,80,charm,5,锦鲤炖汤，美容养颜,+80体力,+5魅力,fishing_level>=2
+cook_primordial,太初鲲膳,PrimordialKunx1,PrimordialDish,1,200,all,20,太初鲲膳，天地灵气汇聚,+200体力,+20全属性,fishing_level>=4
+cook_spirit_wisp,灵虚鱼羹,SpiritWispx1,SpiritWispSoup,1,100,stamina,30,灵虚鱼羹，静心凝神,+100体力,+30%体力上限,fishing_level>=3
+```

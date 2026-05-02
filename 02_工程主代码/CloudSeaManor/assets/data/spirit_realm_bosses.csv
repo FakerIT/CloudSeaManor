@@ -1,0 +1,4 @@
+Id,Name,Layer,MinLevel,MaxPollution,Health,AttackDamage,AttackInterval,Speed,SizeRadius,ElementType,SpriteId,PhaseCount,SkillIds,RewardExp,RewardItems,DialogueOnSpawn
+boss_shadow,暗影君主,2,25,500.0,300.0,25.0,2.5,50.0,30.0,Dark,boss_shadow_sprite,3,"shadow_blade;dark_orb;annihilate","80.0","rare_shadow_essence×3;sacred_dust×1","「人类……竟敢踏入我的领域。」"
+boss_storm,风暴领主,2,28,600.0,400.0,30.0,2.0,70.0,35.0,Neutral,boss_storm_sprite,3,"storm_strike;lightning_chain;tornado","100.0","storm_essence×3;thunder_feather×1","「风暴将吞噬一切！」"
+boss_corrupt,腐化之心,2,30,800.0,500.0,35.0,1.8,40.0,40.0,Dark,boss_corrupt_sprite,4,"corruption_aura;plague_cloud;ultimate_decay","150.0","corruption_core×1;dark_crystal×3","「你的净化毫无意义，这片土地早已属于黑暗。」"

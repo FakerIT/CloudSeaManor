@@ -1,0 +1,16 @@
+Id,Title,Content,Date,Season,Weather,Mood,NpcId,Tags
+diary_1,云海初醒,今天是我来到山庄的第一天，云海的美景让我流连忘返。春,Sunny,Happy,,first_day;story_start
+diary_2,初次采茶,在灵霄的指导下，我学会了如何采摘云雾茶。虽然手法还很生疏，但心中满是成就感。夏,Cloudy,Content,lingxiao,skill_learned;tea
+diary_3,清风的信任,清风带我去巡山，这是他第一次邀请别人同行。看来他已经把我当作朋友了。春,Sunny,Peaceful,qingfeng,relationship_grow;friend
+diary_4,商队的货物,逍遥从外面带来了很多新鲜玩意，我买了一些灵草和种子。秋,Cloudy,Pleased,xiaoyao,trade;shopping
+diary_5,灵兽认主,今天美黎的灵兽"云绒"第一次主动靠近我，看来它接受了我。冬,Snow,Excited,meili,pet_bond;achievement
+diary_6,炼药初成,在白竹的帮助下，我成功炼制出了第一瓶回血药。虽然品质一般，但这是重要的进步。夏,Rainy,Triumphant,baizhu,alchemy;skill_upgrade
+diary_7,月下之舞,月影在广场上跳了一支舞，如同月光下盛开的花朵。美得让人忘记呼吸。秋,Clear,Nostalgic,yueying,culture;art
+diary_8,锻造心得,玄威教会了我如何保养武器。一把好刀需要主人的细心照料。冬,Cloudy,Focused,xuanwei,weapon_care;craft
+diary_9,道的领悟,云深道长带我冥想，虽然只有短短一刻，但我仿佛看到了云海的真谛。春,Clear,Transcendental,yunshen,meditation;wisdom
+diary_10,花园的清晨,莲花的花园在清晨格外美丽，她在照料花朵时的笑容，让我感受到了生活的美好。夏,Sunny,Warm,lianhua,gardening;peace
+diary_11,守护誓言,天羽说，只要他还在，就不会有敌人踏入山庄。守护者的誓言让我安心。秋,Windy,Grateful,tianyu,protection;safety
+diary_12,云海大潮,今天是云海大潮，整个山庄都沸腾了。我感受到了前所未有的灵气涌动。春,Cloudy,Exhilarated,,cloud_tide;festival
+diary_13,告白之日,今天，我鼓起勇气向灵霄告白了。她微笑着说，她也一直在等这一刻。秋,Sunny,InLove,lingxiao,confession;love
+diary_14,婚礼之日,在云海之上，在所有朋友的见证下，我们交换了誓言。这是我人生中最幸福的时刻。秋,Clear,Blissful,lingxiao,wedding;marriage
+diary_15,新的一年,又一年过去了，山庄里充满了欢声笑语。展望未来，我们还有很长的路要走。冬,Snow,Hopeful,,new_year;reflection

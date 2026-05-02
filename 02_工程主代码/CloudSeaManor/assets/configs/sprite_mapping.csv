@@ -1,0 +1,108 @@
+# =============================================================================
+# 美术资源映射表 (Sprite Mapping Table)
+# =============================================================================
+# 用途：解耦美术资源与游戏逻辑，通过此表统一管理所有图片资源
+# 使用方式：
+#   1. 将图片放入 assets/sprites/ 对应分类目录
+#   2. 在此表中注册 SpriteId 与 FilePath 的映射关系
+#   3. 游戏代码中通过 SpriteId 引用资源
+# 换皮流程：只需修改此表的 FilePath，无需改代码
+# =============================================================================
+
+SpriteId,Category,FilePath,FrameCount,FPS,Width,Height,Description,AtlasSource
+# =============================================================================
+# UI 按钮 (Tiny Dungeon 图集)
+# =============================================================================
+ui_btn_normal_0,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,48,32,按钮常态0,
+ui_btn_normal_1,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,48,32,按钮常态1,
+ui_btn_normal_2,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,48,32,按钮常态2,
+ui_btn_normal_3,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,48,32,按钮按下,
+
+# =============================================================================
+# UI 图标 (Tiny Dungeon 图集)
+# =============================================================================
+ui_icon_stamina,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,体力图标,
+ui_icon_coin,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,金币图标,
+ui_icon_spirit,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,灵气图标,
+ui_icon_cloud_clear,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,晴朗云图标,
+ui_icon_cloud_mist,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,薄雾图标,
+ui_icon_cloud_dense,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,浓云图标,
+ui_icon_cloud_tide,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,大潮图标,
+ui_icon_quest,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,任务图标,
+ui_icon_heart_full,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,红心满,
+ui_icon_heart_half,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,红心半,
+ui_icon_heart_empty,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,红心空,
+ui_icon_check,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,勾选图标,
+ui_icon_close,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,关闭图标,
+ui_icon_arrow_right,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,右箭头,
+ui_icon_arrow_left,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,左箭头,
+ui_icon_arrow_down,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,16,16,下箭头,
+
+# =============================================================================
+# UI 面板组件 (Tiny Dungeon 图集)
+# =============================================================================
+ui_panel_corner_tl,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,8,8,面板左上角,
+ui_panel_corner_tr,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,8,8,面板右上角,
+ui_panel_corner_bl,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,8,8,面板左下角,
+ui_panel_corner_br,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,8,8,面板右下角,
+ui_panel_edge_h,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,8,8,面板水平边,
+ui_panel_edge_v,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,8,8,面板垂直边,
+
+# =============================================================================
+# 物品槽 (Tiny Dungeon 图集)
+# =============================================================================
+ui_slot_empty,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,32,32,物品槽空,
+ui_slot_selected,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,32,32,物品槽选中,
+ui_slot_highlight,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,32,32,物品槽高亮,
+
+# =============================================================================
+# Tab 标签 (Tiny Dungeon 图集)
+# =============================================================================
+ui_tab_active,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,48,24,标签页激活,
+ui_tab_inactive,UI,third_party/kenney_tiny-dungeon/Tilemap/tilemap_packed.png,1,0,48,24,标签页未激活,
+
+# =============================================================================
+# 键盘图标 (Input Prompts Pixel 图集)
+# =============================================================================
+key_a,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 A,
+key_b,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 B,
+key_c,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 C,
+key_d,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 D,
+key_e,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 E,
+key_f,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 F,
+key_g,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 G,
+key_h,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 H,
+key_w,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 W,
+key_s,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,16,16,按键 S,
+key_space,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,48,16,空格键,
+key_enter,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,32,16,回车键,
+icon_wasd,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,32,32,WASD 图标,
+icon_arrows,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,32,32,方向键图标,
+icon_gamepad_a,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,32,32,手柄 A 键,
+icon_gamepad_b,Input,third_party/kenney_input-prompts-pixel/PNG/tilemap.png,1,0,32,32,手柄 B 键,
+
+# =============================================================================
+# 农场地形 (Farm Expansion 图集)
+# =============================================================================
+tile_dirt_1,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,泥土1,
+tile_dirt_2,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,泥土2,
+tile_water_1,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,水1,
+tile_water_2,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,水2,
+tile_water_3,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,水3,
+tile_grass_1,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,草地1,
+tile_grass_2,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,草地2,
+tile_path_stone,Terrain,third_party/kenney_pixel-platformer-farm-expansion/Tilemap/tilemap.png,1,0,16,16,石板路,
+
+# =============================================================================
+# 食物图标 (Food Expansion 图集)
+# =============================================================================
+food_apple,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,苹果,
+food_bread,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,面包,
+food_cheese,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,奶酪,
+food_meat,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,肉,
+food_fish,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,鱼,
+food_carrot,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,胡萝卜,
+food_mushroom,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,蘑菇,
+food_cake,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,蛋糕,
+food_pie,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,派,
+food_soup,Food,third_party/kenney_pixel-platformer-food-expansion/Tilemap/tilemap.png,1,0,32,32,汤,

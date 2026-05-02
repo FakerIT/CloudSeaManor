@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <ProjectGuid>{A1D84AC2-2E9F-4A54-9A4C-4E52A4D8A101}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>CloudSeamanor_core</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <Import Project="CloudSeamanor_common.props" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(SFMLRoot)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SFMLRoot)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics$(SFMLLibSuffix).lib;sfml-window$(SFMLLibSuffix).lib;sfml-system$(SFMLLibSuffix).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <!-- 领域层头文件 -->
+  <ItemGroup>
+    <ClInclude Include="include\CloudSeamanor\CloudSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\CropData.hpp" />
+    <ClInclude Include="include\CloudSeamanor\CloudGuardianContract.hpp" />
+    <ClInclude Include="include\CloudSeamanor\DynamicLifeSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\FestivalSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameClock.hpp" />
+    <ClInclude Include="include\CloudSeamanor\Interactable.hpp" />
+    <ClInclude Include="include\CloudSeamanor\Inventory.hpp" />
+    <ClInclude Include="include\CloudSeamanor\MainPlotSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\PickupDrop.hpp" />
+    <ClInclude Include="include\CloudSeamanor\Player.hpp" />
+    <ClInclude Include="include\CloudSeamanor\SkillSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\Stamina.hpp" />
+    <ClInclude Include="include\CloudSeamanor\WorkshopSystem.hpp" />
+  </ItemGroup>
+  <!-- 引擎层/应用层头文件 -->
+  <ItemGroup>
+    <ClInclude Include="include\CloudSeamanor\CloudSeaManor.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameApp.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppState.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppFarming.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppHud.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppNpc.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppRuntimeTypes.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppSave.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppScene.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppSpiritBeast.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppText.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameAppWeather.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameWorldState.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameWorldSystems.hpp" />
+    <ClInclude Include="include\CloudSeamanor\FarmingSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\PickupSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\GameRuntime.hpp" />
+    <ClInclude Include="include\CloudSeamanor\InteractionSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\LevelUpSystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\PlayerInteractRuntime.hpp" />
+    <ClInclude Include="include\CloudSeamanor\TargetHintRuntime.hpp" />
+    <ClInclude Include="include\CloudSeamanor\TextRenderUtils.hpp" />
+    <ClInclude Include="include\CloudSeamanor\InputManager.hpp" />
+    <ClInclude Include="include\CloudSeamanor\UISystem.hpp" />
+    <ClInclude Include="include\CloudSeamanor\DialogueEngine.hpp" />
+  </ItemGroup>
+  <!-- 基础设施层头文件 -->
+  <ItemGroup>
+    <ClInclude Include="include\CloudSeamanor\GameConfig.hpp" />
+    <ClInclude Include="include\CloudSeamanor\Logger.hpp" />
+    <ClInclude Include="include\CloudSeamanor\ResourceManager.hpp" />
+    <ClInclude Include="include\CloudSeamanor\TmxMap.hpp" />
+  </ItemGroup>
+  <!-- 领域层源文件 -->
+  <ItemGroup>
+    <ClCompile Include="src\domain\CloudSystem.cpp" />
+    <ClCompile Include="src\domain\CloudGuardianContract.cpp" />
+    <ClCompile Include="src\domain\CropData.cpp" />
+    <ClCompile Include="src\domain\DynamicLifeSystem.cpp" />
+    <ClCompile Include="src\domain\FestivalSystem.cpp" />
+    <ClCompile Include="src\domain\GameClock.cpp" />
+    <ClCompile Include="src\engine\Interactable.cpp" />
+    <ClCompile Include="src\domain\Inventory.cpp" />
+    <ClCompile Include="src\domain\MainPlotSystem.cpp" />
+    <ClCompile Include="src\engine\PickupDrop.cpp" />
+    <ClCompile Include="src\domain\Player.cpp" />
+    <ClCompile Include="src\domain\RecipeData.cpp" />
+    <ClCompile Include="src\domain\SkillSystem.cpp" />
+    <ClCompile Include="src\domain\Stamina.cpp" />
+    <ClCompile Include="src\domain\WorkshopSystem.cpp" />
+  </ItemGroup>
+  <!-- 引擎层源文件 -->
+  <ItemGroup>
+    <ClCompile Include="src\engine\EventBus.cpp" />
+    <ClCompile Include="src\engine\GameApp.cpp" />
+    <ClCompile Include="src\engine\GameAppFarming.cpp" />
+    <ClCompile Include="src\engine\GameAppHud.cpp" />
+    <ClCompile Include="src\engine\GameAppInput.cpp" />
+    <ClCompile Include="src\engine\GameAppNpc.cpp" />
+    <ClCompile Include="src\engine\GameAppSave.cpp" />
+    <ClCompile Include="src\engine\GameAppScene.cpp" />
+    <ClCompile Include="src\engine\GameAppSpiritBeast.cpp" />
+    <ClCompile Include="src\engine\GameAppText.cpp" />
+    <ClCompile Include="src\engine\GameAppWeather.cpp" />
+    <ClCompile Include="src\engine\GameWorldState.cpp" />
+    <ClCompile Include="src\engine\GameWorldSystems.cpp" />
+    <ClCompile Include="src\engine\FarmingSystem.cpp" />
+    <ClCompile Include="src\engine\PickupSystem.cpp" />
+    <ClCompile Include="src\engine\GameRuntime.cpp" />
+    <ClCompile Include="src\engine\InteractionSystem.cpp" />
+    <ClCompile Include="src\engine\LevelUpSystem.cpp" />
+    <ClCompile Include="src\engine\PixelArtStyle.cpp" />
+    <ClCompile Include="src\engine\PlayerInteractRuntime.cpp" />
+    <ClCompile Include="src\engine\TargetHintRuntime.cpp" />
+    <ClCompile Include="src\engine\TextRenderUtils.cpp" />
+    <ClCompile Include="src\engine\InputManager.cpp" />
+    <ClCompile Include="src\engine\UISystem.cpp" />
+    <ClCompile Include="src\engine\DialogueEngine.cpp" />
+    <ClCompile Include="src\engine\NpcDialogueManager.cpp" />
+    <ClCompile Include="src\engine\PixelFontRenderer.cpp" />
+    <ClCompile Include="src\engine\PixelUiPanel.cpp" />
+    <ClCompile Include="src\engine\PixelProgressBar.cpp" />
+    <ClCompile Include="src\engine\PixelToolbar.cpp" />
+    <ClCompile Include="src\engine\PixelDialogueBox.cpp" />
+    <ClCompile Include="src\engine\PixelInventoryGrid.cpp" />
+    <ClCompile Include="src\engine\PixelQuestMenu.cpp" />
+    <ClCompile Include="src\engine\PixelMinimap.cpp" />
+    <ClCompile Include="src\engine\PixelGameHud.cpp" />
+    <ClCompile Include="src\engine\PixelSettingsPanel.cpp" />
+    <ClCompile Include="src\engine\input\InputHandler.cpp" />
+    <ClCompile Include="src\engine\rendering\HudRenderer.cpp" />
+    <ClCompile Include="src\engine\rendering\UiPanelInitializer.cpp" />
+    <ClCompile Include="src\engine\rendering\WorldRenderer.cpp" />
+    <ClCompile Include="src\engine\systems\CropGrowthSystem.cpp" />
+    <ClCompile Include="src\engine\systems\NpcScheduleSystem.cpp" />
+    <ClCompile Include="src\engine\systems\PickupSystemRuntime.cpp" />
+    <ClCompile Include="src\engine\systems\PlayerMovementSystem.cpp" />
+    <ClCompile Include="src\engine\systems\SpiritBeastSystem.cpp" />
+    <ClCompile Include="src\engine\systems\TutorialSystem.cpp" />
+    <ClCompile Include="src\engine\systems\WorkshopSystemRuntime.cpp" />
+  </ItemGroup>
+  <!-- 基础设施层源文件 -->
+  <ItemGroup>
+    <ClCompile Include="src\infrastructure\GameConfig.cpp" />
+    <ClCompile Include="src\infrastructure\JsonValue.cpp" />
+    <ClCompile Include="src\infrastructure\Logger.cpp" />
+    <ClCompile Include="src\infrastructure\ResourceManager.cpp" />
+    <ClCompile Include="src\infrastructure\SaveSlotManager.cpp" />
+    <ClCompile Include="src\infrastructure\TmxMap.cpp" />
+    <ClCompile Include="src\infrastructure\UiLayoutConfig.cpp" />
+    <ClCompile Include="src\engine\RuntimeRenderCtorFix.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

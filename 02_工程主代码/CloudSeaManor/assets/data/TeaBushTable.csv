@@ -1,0 +1,7 @@
+Id,DisplayName,Element,Rarity,BaseGrowthDays,BaseYield,BaseQuality,Price,SellPrice,BuffTag,Description
+cloud_seed,云雾茶树苗,Cloud,Normal,7,3,60,50,30,cloud_boost,云属性茶树苗
+fire_seed,烈焰茶树苗,Fire,Rare,10,2,70,120,80,fire_boost,火属性茶树苗
+water_seed,清泉茶树苗,Water,Fine,6,4,65,80,50,water_boost,水属性茶树苗
+earth_seed,山土茶树苗,Earth,Rare,12,2,75,150,100,earth_boost,土属性茶树苗
+wind_seed,清风茶树苗,Wind,Fine,8,3,68,90,55,wind_boost,风属性茶树苗
+spirit_seed,灵芽茶树苗,Spirit,Spirit,14,1,85,300,200,spirit_boost,灵属性茶树苗
